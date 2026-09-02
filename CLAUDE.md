@@ -69,8 +69,14 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 - **Columnas de semestre justificadas**: los semestres 1–8 estiran sus materias (`.m` con
   `flex:1`) para quedar todos a la misma altura; los semestres 9 y 10 (≤3 materias) llevan la
   clase `.short` y quedan a su altura natural.
-- **Estética**: tema oscuro, cero emojis (solo el favicon del Artifact). Colores por componente
-  (B cian, C violeta, L rosa) y por estado (bloqueada / falta 1 / disponible / aprobada).
+- **Estética**: tema oscuro, cero emojis (solo el favicon del Artifact y el ✓ de aprobada).
+  - **Color de celda = agrupación** (el área de la malla oficial: Matemáticas azul, Hidráulica
+    cian, Estructuras gris, Geotecnia café, Construcción rosa, Vías naranja, etc.). El mapa está
+    en la constante `AGR` (`clave → [color, nombre, etiqueta corta]`) y cada materia trae `a:`.
+    Fondo = `color-mix(agr 20%, surface)` + franja izquierda `inset box-shadow` del color puro.
+  - **Estado = solo el borde**: bloqueada → borde rojo tenue + atenuada; falta 1 → borde ámbar;
+    disponible → borde claro (agr+blanco) con glow; aprobada → borde verde 2px + ✓, conserva el
+    color del área. Hay una leyenda de estados + una clave de colores de agrupación bajo el header.
 
 ## Pendiente
 

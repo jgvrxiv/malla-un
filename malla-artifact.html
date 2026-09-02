@@ -48,9 +48,13 @@
   #pct{font-family:var(--mono);font-size:.76rem;color:var(--dim);font-variant-numeric:tabular-nums}
 
   .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;padding:11px 13px;background:var(--surface2);
-    border:1px solid var(--line);border-radius:10px}
+    border:1px solid var(--line);border-radius:10px 10px 0 0;border-bottom:0}
   .legend span{display:flex;align-items:center;gap:7px;font-size:.71rem;color:var(--dim)}
   .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent;flex:none}
+  .agrkey{display:flex;flex-wrap:wrap;gap:6px 14px;padding:10px 13px 12px;background:var(--surface2);
+    border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px}
+  .agrkey span{display:flex;align-items:center;gap:6px;font-size:.66rem;color:var(--dim)}
+  .agrkey i{width:11px;height:11px;border-radius:3px;flex:none}
 
   .rail{display:flex;gap:14px;padding:20px 4px 30px;overflow-x:auto;align-items:stretch;
     scrollbar-width:thin;scrollbar-color:var(--line) transparent}
@@ -69,23 +73,33 @@
   .cat{font-family:var(--mono);font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;
     font-weight:500;border-bottom:1px solid var(--line);padding:9px 2px 4px}
 
-  .m{background:var(--surface);border:1.5px solid var(--line);border-radius:11px;padding:11px 12px 10px;
-    cursor:pointer;position:relative;transition:transform .14s,box-shadow .14s,border-color .14s,background .14s}
+  .m{--agr:#8891a5;
+    background:var(--surface);
+    background:color-mix(in srgb, var(--agr) 20%, var(--surface));
+    border:1.5px solid var(--line);border-radius:11px;padding:11px 12px 10px 14px;
+    box-shadow:inset 4px 0 0 var(--agr);
+    cursor:pointer;position:relative;transition:transform .14s,box-shadow .14s,border-color .14s,filter .14s}
   .m:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .m .nm{font-size:.82rem;font-weight:600;line-height:1.3;display:block;color:var(--text)}
-  .m .code{font-family:var(--mono);font-size:.63rem;color:var(--dim);letter-spacing:.02em;margin-top:3px;display:block}
+  .m .code{font-family:var(--mono);font-size:.62rem;color:var(--dim);letter-spacing:.02em;margin-top:3px;display:block}
+  .m .agrn{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--agr);font-weight:500;margin-top:4px;display:block;filter:brightness(1.15)}
   .m .meta{font-family:var(--mono);font-size:.66rem;color:var(--dim);display:flex;justify-content:space-between;
-    gap:6px;margin-top:6px;font-variant-numeric:tabular-nums}
-  .m .comp{font-weight:600}
-  .m .comp.B{color:var(--cB)} .m .comp.C{color:var(--cC)} .m .comp.L{color:var(--cL)}
+    gap:6px;margin-top:5px;font-variant-numeric:tabular-nums}
+  .m .comp{font-weight:600;color:var(--agr);filter:brightness(1.15)}
   .m.opt:not(.done){border-style:dashed}
-  .m.locked{background:#0e1626;border-color:#243349;cursor:not-allowed}
-  .m.locked .code,.m.locked .meta{opacity:.6}
-  .m.partial{border-color:var(--warn);background:rgba(246,167,35,.07)}
-  .m.ready{border-color:var(--accent);box-shadow:0 0 0 1px rgba(56,189,248,.25),0 0 16px rgba(56,189,248,.12)}
-  .m.done{background:var(--done);border-color:var(--done-line);color:var(--done-ink)}
-  .m.done .code,.m.done .meta,.m.done .comp{color:rgba(2,26,17,.82)}
-  .m.ready:hover,.m.partial:hover,.m.done:hover{transform:translateY(-3px);box-shadow:0 12px 22px rgba(0,0,0,.45)}
+  .m.locked{filter:saturate(.5) brightness(.82);opacity:.62;cursor:not-allowed;
+    border-color:rgba(224,90,80,.4);box-shadow:inset 4px 0 0 rgba(224,90,80,.5)}
+  .m.partial{border-color:var(--warn)}
+  .m.ready{border-color:color-mix(in srgb, var(--agr) 75%, #fff);
+    box-shadow:inset 4px 0 0 var(--agr), 0 0 0 1px color-mix(in srgb, var(--agr) 45%, transparent),
+      0 0 15px color-mix(in srgb, var(--agr) 24%, transparent)}
+  .m.done{border-color:var(--done);border-width:2px;
+    background:color-mix(in srgb, var(--agr) 20%, var(--surface));
+    box-shadow:inset 4px 0 0 var(--agr), inset 0 0 0 999px rgba(16,185,129,.12)}
+  .m.done::after{content:"✓";position:absolute;top:6px;right:9px;color:var(--done);font-weight:800;font-size:.82rem}
+  .m.ready:hover,.m.partial:hover,.m.done:hover{transform:translateY(-3px);
+    box-shadow:inset 4px 0 0 var(--agr), 0 12px 22px rgba(0,0,0,.5)}
 
   .tip{visibility:hidden;opacity:0;position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);
     width:214px;background:#060c18;color:#dbe6f5;border:1px solid var(--line);border-radius:9px;padding:9px 11px;
@@ -125,14 +139,13 @@
   <div class="pcont"><div class="pbar" id="pbar"></div></div>
   <div id="pct">0.0% completado</div>
   <div class="legend">
-    <span><i class="sw" style="border-color:var(--line)"></i>Bloqueada</span>
+    <span><i class="sw" style="border-color:rgba(224,90,80,.55)"></i>Bloqueada</span>
     <span><i class="sw" style="border-color:var(--warn)"></i>Falta 1 prerrequisito</span>
-    <span><i class="sw" style="border-color:var(--accent)"></i>Disponible</span>
-    <span><i class="sw" style="background:var(--done)"></i>Aprobada</span>
-    <span style="margin-left:auto"><i class="sw" style="background:var(--cB)"></i>B · Fundamentación</span>
-    <span><i class="sw" style="background:var(--cC)"></i>C · Disciplinar</span>
-    <span><i class="sw" style="background:var(--cL)"></i>L · Libre</span>
+    <span><i class="sw" style="border-color:#cfd6e0;box-shadow:0 0 6px rgba(207,214,224,.5)"></i>Disponible</span>
+    <span><i class="sw" style="border-color:var(--done);border-width:2px"></i>Aprobada&nbsp;✓</span>
+    <span style="color:var(--dim)">— el color de cada celda es su área (malla oficial)</span>
   </div>
+  <div class="agrkey" id="agrkey"></div>
 </header>
 
 <div class="rail" id="rail"></div>
@@ -145,71 +158,91 @@
 </div>
 
 <script>
+// a = agrupación (color, según la malla oficial)
 const SEMS = [
  {s:1, m:[
-   {id:"1000011", n:"Fundamentos de Ecología", c:3, comp:"B", r:[]},
-   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", r:[]},
-   {id:"1000024", n:"Principios de Química", c:3, comp:"B", r:[]},
-   {id:"2015711", n:"Dibujo Básico", c:3, comp:"B", r:[]},
-   {id:"2026186", n:"Introducción a la Ingeniería Civil", c:3, comp:"C", r:[]},
+   {id:"1000011", n:"Fundamentos de Ecología", c:3, comp:"B", a:"qb", r:[]},
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"1000024", n:"Principios de Química", c:3, comp:"B", a:"qb", r:[]},
+   {id:"2015711", n:"Dibujo Básico", c:3, comp:"B", a:"graf", r:[]},
+   {id:"2026186", n:"Introducción a la Ingeniería Civil", c:3, comp:"C", a:"bd", r:[]},
  ]},
  {s:2, m:[
-   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", r:["1000004"]},
-   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", r:["1000004"]},
-   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", r:["1000004"]},
-   {id:"OPTB_A", n:"Optativa de Herramientas de Ingeniería", c:3, comp:"B", opt:true, r:[]},
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000004"]},
+   {id:"OPTB_A", n:"Optativa de Herramientas de Ingeniería", c:3, comp:"B", a:"her", opt:true, r:[]},
  ]},
  {s:3, m:[
-   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", r:["1000005","1000003"]},
-   {id:"1000013", n:"Probabilidad y Estadística Fundamental", c:3, comp:"B", r:["1000004"]},
-   {id:"2026134", n:"Estática", c:3, comp:"C", r:["1000003","1000019"]},
-   {id:"2015958", n:"Geomática Básica", c:4, comp:"C", r:["2015711","2026186"]},
-   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", r:["1000005"]},
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000013", n:"Probabilidad y Estadística Fundamental", c:3, comp:"B", a:"mat", r:["1000004"]},
+   {id:"2026134", n:"Estática", c:3, comp:"C", a:"bd", r:["1000003","1000019"]},
+   {id:"2015958", n:"Geomática Básica", c:4, comp:"C", a:"bd", r:["2015711","2026186"]},
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", a:"eco", r:["1000005"]},
  ]},
  {s:4, m:[
-   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", r:["1000005","1000003"]},
-   {id:"2015948", n:"Dinámica", c:3, comp:"C", r:["2026134"]},
-   {id:"2015956", n:"Geología", c:3, comp:"C", r:["2015958"]},
-   {id:"2015957", n:"Geomática Aplicada", c:4, comp:"C", r:["2015958"]},
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"2015948", n:"Dinámica", c:3, comp:"C", a:"bd", r:["2026134"]},
+   {id:"2015956", n:"Geología", c:3, comp:"C", a:"bd", r:["2015958"]},
+   {id:"2015957", n:"Geomática Aplicada", c:4, comp:"C", a:"bd", r:["2015958"]},
  ]},
  {s:5, m:[
-   {id:"2015966", n:"Mecánica de Fluidos", c:4, comp:"C", r:["1000007","1000006","2026134"]},
-   {id:"2015968", n:"Mecánica de Sólidos", c:4, comp:"C", r:["2026134","1000006"]},
-   {id:"2015965", n:"Materiales para Construcción", c:4, comp:"C", r:["1000024","2015956"]},
-   {id:"OPTB_B", n:"Optativa de Herramientas de Ingeniería", c:3, comp:"B", opt:true, r:[]},
+   {id:"2015966", n:"Mecánica de Fluidos", c:4, comp:"C", a:"bd", r:["1000007","1000006","2026134"]},
+   {id:"2015968", n:"Mecánica de Sólidos", c:4, comp:"C", a:"bd", r:["2026134","1000006"]},
+   {id:"2015965", n:"Materiales para Construcción", c:4, comp:"C", a:"bd", r:["1000024","2015956"]},
+   {id:"OPTB_B", n:"Optativa de Herramientas de Ingeniería", c:3, comp:"B", a:"her", opt:true, r:[]},
  ]},
  {s:6, m:[
-   {id:"2015961", n:"Hidráulica Básica", c:4, comp:"C", r:["2015966"]},
-   {id:"2015978", n:"Hidrología", c:3, comp:"C", r:["2015966","1000013"]},
-   {id:"2015941", n:"Análisis Estructural Básico", c:3, comp:"C", r:["2015968"]},
-   {id:"2015969", n:"Mecánica de Suelos", c:3, comp:"C", r:["2015968"]},
-   {id:"2026138", n:"Ingeniería de Transporte", c:3, comp:"C", r:["1000003","2015703"]},
-   {id:"ELECTEC", n:"Electiva Técnica", c:3, comp:"C", opt:true, r:[{comp:"C",min:28}]},
+   {id:"2015961", n:"Hidráulica Básica", c:4, comp:"C", a:"hid", r:["2015966"]},
+   {id:"2015978", n:"Hidrología", c:3, comp:"C", a:"bd", r:["2015966","1000013"]},
+   {id:"2015941", n:"Análisis Estructural Básico", c:3, comp:"C", a:"est", r:["2015968"]},
+   {id:"2015969", n:"Mecánica de Suelos", c:3, comp:"C", a:"geo", r:["2015968"]},
+   {id:"2026138", n:"Ingeniería de Transporte", c:3, comp:"C", a:"via", r:["1000003","2015703"]},
+   {id:"ELECTEC", n:"Electiva Técnica", c:3, comp:"C", a:"etec", opt:true, r:[{comp:"C",min:28}]},
  ]},
  {s:7, m:[
-   {id:"2015954", n:"Estructuras Hidráulicas", c:3, comp:"C", r:["2015961"]},
-   {id:"2015938", n:"Acueductos", c:3, comp:"C", r:["2015961"]},
-   {id:"2015940", n:"Análisis Estructural Aplicado", c:3, comp:"C", r:["2015941","2015948"]},
-   {id:"2015959", n:"Geotecnia", c:3, comp:"C", r:["2015969"]},
-   {id:"2015963", n:"Ingeniería de Tránsito", c:3, comp:"C", r:["2026138"]},
+   {id:"2015954", n:"Estructuras Hidráulicas", c:3, comp:"C", a:"hid", r:["2015961"]},
+   {id:"2015938", n:"Acueductos", c:3, comp:"C", a:"san", r:["2015961"]},
+   {id:"2015940", n:"Análisis Estructural Aplicado", c:3, comp:"C", a:"est", r:["2015941","2015948"]},
+   {id:"2015959", n:"Geotecnia", c:3, comp:"C", a:"geo", r:["2015969"]},
+   {id:"2015963", n:"Ingeniería de Tránsito", c:3, comp:"C", a:"via", r:["2026138"]},
  ]},
  {s:8, m:[
-   {id:"2015973", n:"Saneamiento Ambiental", c:3, comp:"C", r:["1000011","2015938"]},
-   {id:"2015939", n:"Alcantarillados", c:3, comp:"C", r:["2015938","2015978"]},
-   {id:"2015950", n:"Diseño Estructural", c:3, comp:"C", r:["2015940","2015965"]},
-   {id:"2015971", n:"Pavimentos", c:3, comp:"C", r:["2015959"]},
-   {id:"2015949", n:"Diseño Geométrico de Vías", c:3, comp:"C", r:["2015957","2015963"]},
+   {id:"2015973", n:"Saneamiento Ambiental", c:3, comp:"C", a:"san", r:["1000011","2015938"]},
+   {id:"2015939", n:"Alcantarillados", c:3, comp:"C", a:"san", r:["2015938","2015978"]},
+   {id:"2015950", n:"Diseño Estructural", c:3, comp:"C", a:"est", r:["2015940","2015965"]},
+   {id:"2015971", n:"Pavimentos", c:3, comp:"C", a:"geo", r:["2015959"]},
+   {id:"2015949", n:"Diseño Geométrico de Vías", c:3, comp:"C", a:"via", r:["2015957","2015963"]},
  ]},
  {s:9, m:[
-   {id:"2015955", n:"Fundamentos de Construcción", c:3, comp:"C", r:[{comp:"C",min:67}]},
-   {id:"2026135", n:"Ingeniería Civil Sostenible", c:3, comp:"C", r:[{comp:"C",min:77}]},
-   {id:"2015972", n:"Preparación y Evaluación de Proyectos de Infraestructura", c:3, comp:"B", r:["2026138"]},
+   {id:"2015955", n:"Fundamentos de Construcción", c:3, comp:"C", a:"con", r:[{comp:"C",min:67}]},
+   {id:"2026135", n:"Ingeniería Civil Sostenible", c:3, comp:"C", a:"bd", r:[{comp:"C",min:77}]},
+   {id:"2015972", n:"Preparación y Evaluación de Proyectos de Infraestructura", c:3, comp:"B", a:"eco", r:["2026138"]},
  ]},
  {s:10, m:[
-   {id:"TG", n:"Trabajo de Grado", c:6, comp:"C", r:[{comp:"C",min:77}]},
-   {id:"CONSTROC", n:"Construcción de Obras Civiles", c:3, comp:"C", opt:true, r:["2015955"]},
+   {id:"TG", n:"Trabajo de Grado", c:6, comp:"C", a:"esp", r:[{comp:"C",min:77}]},
+   {id:"CONSTROC", n:"Construcción de Obras Civiles", c:3, comp:"C", a:"con", opt:true, r:["2015955"]},
  ]},
 ];
+
+// agrupación → [color, nombre, etiqueta corta] (paleta de la malla oficial, adaptada a fondo oscuro)
+const AGR = {
+  mat: ["#5aa9e6", "Matemáticas y Estadística", "Matemáticas"],
+  qb:  ["#e07aa4", "Química y Biología", "Química y Biología"],
+  fis: ["#e3b955", "Física", "Física"],
+  graf:["#e86a58", "Expresión Gráfica", "Expresión Gráfica"],
+  bd:  ["#8ec44e", "Ing. Civil Básica Disciplinar", "Básica Disciplinar"],
+  hid: ["#4fc7ea", "Hidráulica", "Hidráulica"],
+  san: ["#3fb277", "Saneamiento Básico", "Saneamiento"],
+  est: ["#9aa6b6", "Estructuras", "Estructuras"],
+  geo: ["#b0865f", "Geotecnia", "Geotecnia"],
+  con: ["#d38f8f", "Construcción", "Construcción"],
+  via: ["#f0a24a", "Vías y Transporte", "Vías y Transporte"],
+  her: ["#ac93da", "Herramientas de Ingeniería", "Herramientas"],
+  eco: ["#33ac9d", "Economía y Finanzas", "Economía"],
+  esp: ["#93a0e6", "Asignatura Especial", "Asignatura Especial"],
+  etec:["#c05248", "Electiva Técnica", "Electiva Técnica"],
+};
 
 const TARGET = 180;
 const ALL = {};
@@ -287,15 +320,18 @@ function card(m){
   const tip = done ? "Aprobada — clic para desmarcar"
             : p.st === "ready" ? "Disponible — clic para aprobar"
             : "<b>Falta:</b> " + p.miss.join(" · ");
+  const ag = AGR[m.a] || ["#8891a5", "", ""];
   const el = document.createElement("button");
   el.type = "button";
   el.className = "m " + st + (m.opt ? " opt" : "");
   el.style.cssText = "text-align:left;font:inherit;width:100%";
+  el.style.setProperty("--agr", ag[0]);
   el.setAttribute("aria-pressed", done ? "true" : "false");
   el.onclick = ()=>toggle(m.id);
-  const code = /^\d{7}$/.test(m.id) ? `<span class="code">${m.id}</span>` : "";
-  el.innerHTML = `<span class="nm">${m.n}</span>${code}
-    <span class="meta"><span>${m.c} créd.</span><span class="comp ${m.comp}">${m.comp}</span></span>
+  const codeTitle = /^\d{7}$/.test(m.id) ? `${ag[1]} · ${m.id}` : ag[1];
+  el.innerHTML = `<span class="nm">${m.n}</span>
+    <span class="agrn" title="${codeTitle}">${ag[2]}</span>
+    <span class="meta"><span>${m.c} créd.</span><span class="comp">${m.comp}</span></span>
     <span class="tip">${tip}</span>`;
   return el;
 }
@@ -367,6 +403,9 @@ resetBtn.addEventListener("click", ()=>{
   armed = 0; resetBtn.textContent = "Reiniciar"; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
   approved = []; elec = 0; save(); saveElec(); render();
 });
+
+document.getElementById("agrkey").innerHTML = Object.values(AGR)
+  .map(([c, n]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
 
 approved = approved.filter(id => ALL[id]);
 cascade();
