@@ -93,22 +93,19 @@
   .m:hover .tip,.m:focus-visible .tip{visibility:visible;opacity:1}
   .tip b{color:var(--warn)}
 
-  .elecbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;
-    background:var(--surface2);border:1px solid var(--line);border-radius:11px;border-left:3px solid var(--cL)}
-  .elecbar .elbl{font-weight:600;font-size:.82rem}
-  .elecbar .elbl small{display:block;font-family:var(--mono);font-size:.64rem;color:var(--dim);font-weight:400;letter-spacing:.04em}
-  .elctl{display:flex;align-items:center;gap:6px;margin-left:auto}
+  .elec{margin-top:4px;background:var(--surface2);border:1px dashed var(--cL);border-radius:11px;
+    padding:12px;display:flex;flex-direction:column;gap:9px;align-items:center;text-align:center}
+  .elec .elbl{font-size:.78rem;font-weight:600;line-height:1.25}
+  .elec .elbl small{display:block;font-family:var(--mono);font-size:.62rem;color:var(--dim);font-weight:400;margin-top:2px}
+  .elctl{display:flex;align-items:center;gap:6px}
   .elctl button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--bg);
-    color:var(--text);font-size:1.1rem;line-height:1;cursor:pointer;font-family:var(--mono)}
+    color:var(--text);font-size:1.15rem;line-height:1;cursor:pointer;font-family:var(--mono)}
   .elctl button:hover{border-color:var(--cL);color:var(--cL)}
   .elctl button:focus-visible{outline:2px solid var(--cL);outline-offset:2px}
-  .elctl input{width:58px;height:30px;background:var(--bg);color:var(--text);border:1px solid var(--line);
+  .elctl input{width:52px;height:30px;background:var(--bg);color:var(--text);border:1px solid var(--line);
     border-radius:8px;font-family:var(--mono);font-size:.95rem;text-align:center;font-variant-numeric:tabular-nums}
   .elctl input:focus-visible{outline:2px solid var(--cL);outline-offset:1px;border-color:var(--cL)}
-  .elctl .of{font-family:var(--mono);font-size:.78rem;color:var(--dim)}
-
-  .hint{max-width:1320px;margin:2px auto 0;color:var(--dim);font-size:.75rem;line-height:1.5}
-  .hint b{color:var(--text);font-weight:600}
+  .elec .of{font-family:var(--mono);font-size:.7rem;color:var(--dim)}
   footer{max-width:1320px;margin:34px auto 0;color:var(--dim);font-size:.72rem;line-height:1.55;
     border-top:1px solid var(--line);padding-top:14px}
   footer code{font-family:var(--mono);color:var(--text)}
@@ -127,15 +124,6 @@
   <div class="stats" id="stats"></div>
   <div class="pcont"><div class="pbar" id="pbar"></div></div>
   <div id="pct">0.0% completado</div>
-  <div class="elecbar">
-    <span class="elbl">Electivas — Libre Elección<small>se cuentan por crédito · pueden ser de otra facultad · no son materias fijas</small></span>
-    <div class="elctl">
-      <button type="button" id="elMinus" aria-label="Quitar un crédito de electivas">−</button>
-      <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="0" aria-label="Créditos de electivas cursados">
-      <button type="button" id="elPlus" aria-label="Sumar un crédito de electivas">+</button>
-      <span class="of">/ 36 créditos</span>
-    </div>
-  </div>
   <div class="legend">
     <span><i class="sw" style="border-color:var(--line)"></i>Bloqueada</span>
     <span><i class="sw" style="border-color:var(--warn)"></i>Falta 1 prerrequisito</span>
@@ -146,9 +134,6 @@
     <span><i class="sw" style="background:var(--cL)"></i>L · Libre</span>
   </div>
 </header>
-
-<p class="hint">Las <b>optativas</b> (estrictamente de la carrera) están como materias con borde punteado en su semestre.
-   Prerrequisitos y cortes de crédito verificados con un estudiante de la carrera.</p>
 
 <div class="rail" id="rail"></div>
 
@@ -248,7 +233,13 @@ function creditsBy(comp){
   return approved.reduce((s,id)=> s + ((ALL[id] && ALL[id].comp===comp) ? ALL[id].c : 0), 0);
 }
 function totalCredits(){ return approved.reduce((s,id)=> s + (ALL[id]?ALL[id].c:0), 0) + elec; }
-function setElec(v){ elec = Math.max(0, Math.min(LIBRE_META, Math.round(+v||0))); saveElec(); render(); }
+function setElec(v){
+  elec = Math.max(0, Math.min(LIBRE_META, Math.round(+v||0)));
+  saveElec();
+  syncTop();
+  const inp = document.getElementById("elInput");
+  if(inp && document.activeElement !== inp) inp.value = elec;
+}
 
 function reqMet(req){
   if(typeof req === "string") return approved.includes(req);
@@ -309,7 +300,7 @@ function card(m){
   return el;
 }
 
-function render(){
+function syncTop(){
   const t = totalCredits(), cC = creditsBy("C"), cB = creditsBy("B"), cL = creditsBy("L");
   const pct = Math.min(t / TARGET * 100, 100);
   document.getElementById("stats").innerHTML =
@@ -319,13 +310,30 @@ function render(){
     `<span class="badge l">Libre L <b>${cL}</b> / 36</span>`;
   document.getElementById("pbar").style.width = pct + "%";
   document.getElementById("pct").textContent = pct.toFixed(1) + "% completado";
+}
 
-  const elInput = document.getElementById("elInput");
-  if(document.activeElement !== elInput) elInput.value = elec;
+function elecWidget(){
+  const w = document.createElement("div");
+  w.className = "elec";
+  w.innerHTML = `<span class="elbl">Electivas · Libre Elección<small>se cuentan por créditos</small></span>
+    <div class="elctl">
+      <button type="button" data-d="-1" aria-label="Quitar un crédito de electivas">−</button>
+      <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="${elec}" aria-label="Créditos de electivas cursados">
+      <button type="button" data-d="1" aria-label="Sumar un crédito de electivas">+</button>
+    </div>
+    <span class="of">de 36 créditos (L)</span>`;
+  w.querySelectorAll("button").forEach(b => b.addEventListener("click", ()=> setElec(elec + (+b.dataset.d))));
+  const inp = w.querySelector("input");
+  inp.addEventListener("change", e => setElec(e.target.value));
+  inp.addEventListener("keydown", e => { if(e.key === "Enter") e.target.blur(); });
+  return w;
+}
 
+function render(){
+  syncTop();
   const rail = document.getElementById("rail");
   rail.innerHTML = "";
-  for(const sem of SEMS){
+  SEMS.forEach((sem, i)=>{
     const col = document.createElement("div");
     col.className = "col" + (sem.m.length <= 3 ? " short" : "");
     const cr = sem.m.reduce((s,m)=> s + (approved.includes(m.id) ? m.c : 0), 0);
@@ -342,8 +350,9 @@ function render(){
       }
       col.appendChild(card(m));
     }
+    if(i === SEMS.length - 1) col.appendChild(elecWidget());
     rail.appendChild(col);
-  }
+  });
 }
 
 const resetBtn = document.getElementById("resetBtn");
@@ -358,11 +367,6 @@ resetBtn.addEventListener("click", ()=>{
   armed = 0; resetBtn.textContent = "Reiniciar"; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
   approved = []; elec = 0; save(); saveElec(); render();
 });
-
-document.getElementById("elMinus").addEventListener("click", ()=> setElec(elec - 1));
-document.getElementById("elPlus").addEventListener("click", ()=> setElec(elec + 1));
-document.getElementById("elInput").addEventListener("change", e => setElec(e.target.value));
-document.getElementById("elInput").addEventListener("keydown", e => { if(e.key === "Enter") e.target.blur(); });
 
 approved = approved.filter(id => ALL[id]);
 cascade();

@@ -72,21 +72,19 @@
   .m:hover .tip{visibility:visible;opacity:1}
   .tip b{color:var(--warning)}
 
-  .hint{max-width:1300px;margin:0 auto 4px;color:var(--dim);font-size:.76rem;line-height:1.5}
-  .hint b{color:var(--text);font-weight:600}
-  .elecbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;
-    background:var(--surface2);border:1px solid var(--border);border-radius:11px;border-left:3px solid var(--compL)}
-  .elecbar .elbl{font-weight:700;font-size:.82rem}
-  .elecbar .elbl small{display:block;font-size:.66rem;color:var(--dim);font-weight:400}
-  .elctl{display:flex;align-items:center;gap:6px;margin-left:auto}
+  .elec{margin-top:3px;background:var(--surface2);border:1px dashed var(--compL);border-radius:10px;
+    padding:12px;display:flex;flex-direction:column;gap:9px;align-items:center;text-align:center}
+  .elec .elbl{font-size:.78rem;font-weight:700;line-height:1.25}
+  .elec .elbl small{display:block;font-size:.63rem;color:var(--dim);font-weight:400;margin-top:2px}
+  .elctl{display:flex;align-items:center;gap:6px}
   .elctl button{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--bg);
-    color:var(--text);font-size:1.1rem;line-height:1;cursor:pointer}
+    color:var(--text);font-size:1.15rem;line-height:1;cursor:pointer}
   .elctl button:hover{border-color:var(--compL);color:var(--compL)}
   .elctl button:focus-visible{outline:2px solid var(--compL);outline-offset:2px}
-  .elctl input{width:58px;height:30px;background:var(--bg);color:var(--text);border:1px solid var(--border);
+  .elctl input{width:52px;height:30px;background:var(--bg);color:var(--text);border:1px solid var(--border);
     border-radius:8px;font:inherit;font-size:.95rem;text-align:center}
   .elctl input:focus-visible{outline:2px solid var(--compL);outline-offset:1px}
-  .elctl .of{font-size:.78rem;color:var(--dim)}
+  .elec .of{font-size:.7rem;color:var(--dim)}
 </style>
 </head>
 <body>
@@ -102,15 +100,6 @@
   <div class="stats" id="stats"></div>
   <div class="pcont"><div class="pbar" id="pbar"></div></div>
   <div class="sub" id="pct">0% completado</div>
-  <div class="elecbar">
-    <span class="elbl">Electivas — Libre Elección<small>se cuentan por crédito · pueden ser de otra facultad · no son materias fijas</small></span>
-    <div class="elctl">
-      <button type="button" id="elMinus" aria-label="Quitar un crédito de electivas">−</button>
-      <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="0" aria-label="Créditos de electivas cursados">
-      <button type="button" id="elPlus" aria-label="Sumar un crédito de electivas">+</button>
-      <span class="of">/ 36 créditos</span>
-    </div>
-  </div>
   <div class="legend">
     <span><i class="sw" style="border-color:#334155;opacity:.5"></i>Bloqueada</span>
     <span><i class="sw" style="border-color:var(--warning)"></i>Falta 1 prerrequisito</span>
@@ -121,8 +110,6 @@
       &nbsp;&nbsp;<i class="sw" style="background:var(--compL)"></i>L · Libre</span>
   </div>
 </header>
-
-<p class="hint">Las <b>optativas</b> (estrictamente de la carrera) están como materias con borde punteado en su semestre.</p>
 
 <div class="malla" id="malla"></div>
 
@@ -211,7 +198,12 @@ function loadElec(){
   return Math.max(0, Math.min(LIBRE_META, Math.round(v)));
 }
 function saveElec(){ try{ localStorage.setItem("malla_civil_elec", JSON.stringify(elec)); }catch(e){} }
-function setElec(v){ elec = Math.max(0, Math.min(LIBRE_META, Math.round(+v||0))); saveElec(); render(); }
+function setElec(v){
+  elec = Math.max(0, Math.min(LIBRE_META, Math.round(+v||0)));
+  saveElec(); syncTop();
+  const inp = document.getElementById("elInput");
+  if(inp && document.activeElement !== inp) inp.value = elec;
+}
 
 function creditsBy(comp){
   if(comp === "L") return elec;
@@ -282,8 +274,7 @@ function card(m){
   return el;
 }
 
-function render(){
-  // stats
+function syncTop(){
   const t = totalCredits(), cC = creditsBy("C"), cB = creditsBy("B"), cL = creditsBy("L");
   const pct = Math.min(t/TARGET*100, 100);
   document.getElementById("stats").innerHTML =
@@ -293,13 +284,30 @@ function render(){
     `<span class="badge l">Libre L: ${cL} / 36</span>`;
   document.getElementById("pbar").style.width = pct + "%";
   document.getElementById("pct").textContent = pct.toFixed(1) + "% completado";
+}
 
-  const elInput = document.getElementById("elInput");
-  if(document.activeElement !== elInput) elInput.value = elec;
+function elecWidget(){
+  const w = document.createElement("div");
+  w.className = "elec";
+  w.innerHTML = `<span class="elbl">Electivas · Libre Elección<small>se cuentan por créditos</small></span>
+    <div class="elctl">
+      <button type="button" data-d="-1" aria-label="Quitar un crédito de electivas">−</button>
+      <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="${elec}" aria-label="Créditos de electivas cursados">
+      <button type="button" data-d="1" aria-label="Sumar un crédito de electivas">+</button>
+    </div>
+    <span class="of">de 36 créditos (L)</span>`;
+  w.querySelectorAll("button").forEach(b => b.addEventListener("click", ()=> setElec(elec + (+b.dataset.d))));
+  const inp = w.querySelector("input");
+  inp.addEventListener("change", e => setElec(e.target.value));
+  inp.addEventListener("keydown", e => { if(e.key === "Enter") e.target.blur(); });
+  return w;
+}
 
+function render(){
+  syncTop();
   const malla = document.getElementById("malla");
   malla.innerHTML = "";
-  for(const sem of SEMS){
+  SEMS.forEach((sem, i)=>{
     const col = document.createElement("div");
     col.className = "col" + (sem.m.length <= 3 ? " short" : "");
     const cr = sem.m.reduce((s,m)=> s + (approved.includes(m.id)?m.c:0), 0);
@@ -316,8 +324,9 @@ function render(){
       }
       col.appendChild(card(m));
     }
+    if(i === SEMS.length - 1) col.appendChild(elecWidget());
     malla.appendChild(col);
-  }
+  });
 }
 
 const resetBtn = document.getElementById("resetBtn");
@@ -333,11 +342,6 @@ resetBtn.addEventListener("click", ()=>{
   armed = 0; resetBtn.textContent = resetBtn.dataset.label; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
   approved = []; elec = 0; save(); saveElec(); render();
 });
-
-document.getElementById("elMinus").addEventListener("click", ()=> setElec(elec - 1));
-document.getElementById("elPlus").addEventListener("click", ()=> setElec(elec + 1));
-document.getElementById("elInput").addEventListener("change", e => setElec(e.target.value));
-document.getElementById("elInput").addEventListener("keydown", e => { if(e.key === "Enter") e.target.blur(); });
 
 // limpia ids viejos y estados inconsistentes al cargar
 approved = approved.filter(id=>ALL[id]);
