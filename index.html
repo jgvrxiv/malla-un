@@ -87,6 +87,7 @@
   .m:hover .tip{visibility:visible;opacity:1}
   .tip b{color:var(--warning)}
 
+  .elec.done{border-color:var(--success)}
   .elec{background:color-mix(in srgb, var(--compL) 15%, var(--surface));border:3px solid var(--border);
     border-radius:10px;padding:9px 12px 8px 12px;display:flex;flex-direction:column;cursor:default}
   .elec .etop{font-size:.71rem;font-weight:600;color:var(--text);line-height:1.3}
@@ -237,6 +238,8 @@ function setElec(v){
   if(inp && document.activeElement !== inp) inp.value = elec;
   const cnt = document.getElementById("elCount");
   if(cnt) cnt.textContent = elec + " / 36 créd.";
+  const wrap = document.querySelector(".elec");
+  if(wrap) wrap.classList.toggle("done", elec >= LIBRE_META);
 }
 
 function creditsBy(comp){
@@ -326,8 +329,8 @@ function syncTop(){
 
 function elecWidget(){
   const w = document.createElement("div");
-  w.className = "elec";
-  w.innerHTML = `<span class="etop">Se suman por crédito, no por materia</span>
+  w.className = "elec" + (elec >= LIBRE_META ? " done" : "");
+  w.innerHTML = `<span class="etop">Se suman por créditos, no por materia</span>
     <div class="ecenter"><div class="elctl">
       <button type="button" data-d="-1" aria-label="Quitar un crédito de electivas">−</button>
       <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="${elec}" aria-label="Créditos de electivas cursados">
