@@ -38,7 +38,11 @@
   .legend span{display:flex;align-items:center;gap:7px;font-size:.72rem;color:var(--dim)}
   .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent}
 
-  .malla{display:flex;gap:16px;padding:18px 4px 30px;overflow-x:auto;align-items:stretch}
+  .malla{display:flex;gap:16px;padding:18px 4px 32px;overflow-x:auto;align-items:stretch;
+    scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+  .malla::-webkit-scrollbar{height:10px}
+  .malla::-webkit-scrollbar-track{background:transparent}
+  .malla::-webkit-scrollbar-thumb{background:var(--border);border-radius:999px}
   .col{min-width:212px;max-width:212px;display:flex;flex-direction:column;gap:9px}
   .col.short{align-self:flex-start}
   .col:not(.short) .m{flex:1 1 0;min-height:64px;display:flex;flex-direction:column;justify-content:center}
@@ -99,7 +103,7 @@
   <div class="pcont"><div class="pbar" id="pbar"></div></div>
   <div class="sub" id="pct">0% completado</div>
   <div class="elecbar">
-    <span class="elbl">Electivas — Libre Elección<small>se cuentan por crédito · las viste cuando quieras · pueden ser de otra facultad</small></span>
+    <span class="elbl">Electivas — Libre Elección<small>se cuentan por crédito · pueden ser de otra facultad · no son materias fijas</small></span>
     <div class="elctl">
       <button type="button" id="elMinus" aria-label="Quitar un crédito de electivas">−</button>
       <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="0" aria-label="Créditos de electivas cursados">

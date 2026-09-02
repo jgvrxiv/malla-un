@@ -52,7 +52,12 @@
   .legend span{display:flex;align-items:center;gap:7px;font-size:.71rem;color:var(--dim)}
   .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent;flex:none}
 
-  .rail{display:flex;gap:14px;padding:20px 4px 8px;overflow-x:auto;align-items:stretch;scrollbar-width:thin}
+  .rail{display:flex;gap:14px;padding:20px 4px 30px;overflow-x:auto;align-items:stretch;
+    scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .rail::-webkit-scrollbar{height:10px}
+  .rail::-webkit-scrollbar-track{background:transparent}
+  .rail::-webkit-scrollbar-thumb{background:var(--line);border-radius:999px}
+  .rail::-webkit-scrollbar-thumb:hover{background:#3a4d70}
   .col{min-width:214px;max-width:214px;display:flex;flex-direction:column;gap:8px}
   .col.short{align-self:flex-start}
   .col:not(.short) .m{flex:1 1 0;min-height:66px;display:flex;flex-direction:column;justify-content:center}
@@ -123,7 +128,7 @@
   <div class="pcont"><div class="pbar" id="pbar"></div></div>
   <div id="pct">0.0% completado</div>
   <div class="elecbar">
-    <span class="elbl">Electivas — Libre Elección<small>se cuentan por crédito · las viste cuando quieras · pueden ser de otra facultad</small></span>
+    <span class="elbl">Electivas — Libre Elección<small>se cuentan por crédito · pueden ser de otra facultad · no son materias fijas</small></span>
     <div class="elctl">
       <button type="button" id="elMinus" aria-label="Quitar un crédito de electivas">−</button>
       <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="0" aria-label="Créditos de electivas cursados">
@@ -150,7 +155,7 @@
 <footer>
   Prerrequisitos y cortes de crédito reconstruidos de la malla oficial y verificados con un estudiante de la carrera.
   Cortes: <code>67</code> créditos C → Fundamentos de Construcción · <code>77</code> créditos C → Ing. Civil Sostenible y
-  Trabajo de Grado · <code>28</code> créditos C → Electiva Técnica. Herramienta no oficial; ante la duda, consultá el SIA.
+  Trabajo de Grado · <code>28</code> créditos C → Electiva Técnica. Herramienta no oficial; ante la duda, consulta el SIA.
 </footer>
 </div>
 

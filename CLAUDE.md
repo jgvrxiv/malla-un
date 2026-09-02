@@ -1,9 +1,13 @@
 # Malla Ingeniería Civil — UNAL
 
 App web de una sola página para seguir el avance en el pensum de **Ingeniería Civil de la
-Universidad Nacional de Colombia** (plan flexible 180 créditos, Acuerdo 26 de 2015). Hacés clic
-en una materia para aprobarla; se van desbloqueando las que dependen de ella. El progreso se
-guarda en `localStorage`. Inspirada en https://mallaiq.netlify.app.
+Universidad Nacional de Colombia (Sede Bogotá)** — plan flexible 180 créditos, Acuerdo 26 de
+2015. Se hace clic en una materia para aprobarla; se van desbloqueando las que dependen de ella.
+El progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.app.
+
+> **Idioma:** el usuario es colombiano (Bogotá). Todo el texto de la app, docs, comentarios y
+> mensajes de commit va en español neutro/colombiano — **sin voseo** ("haces", no "hacés";
+> "revisa", no "revisá").
 
 ## Cómo correrlo
 
@@ -17,9 +21,11 @@ subir `index.html`.
 
 ## Estructura
 
-- `index.html` — toda la app. Los datos del pensum están en la constante `SEMS` (obligatorias por
-  semestre) y `FLEX` (optativas/electivas). Cada materia: `{id, n, c, comp, r}` donde
-  `comp` ∈ B/C/L y `r` es la lista de prerrequisitos.
+- `index.html` — versión local de la app. Los datos del pensum están en la constante `SEMS`
+  (materias obligatorias + optativas, por semestre). Cada materia: `{id, n, c, comp, r, opt?}`
+  donde `comp` ∈ B/C/L y `r` es la lista de prerrequisitos.
+- `malla-artifact.html` — misma app con diseño más trabajado (fuentes Archivo + IBM Plex Mono,
+  fondo tipo plano). Es la que se publica como Artifact. Mantener las dos en sync.
 - `PENSUM_BORRADOR.md` — extracción cruda del PDF + notas de qué se verificó con el usuario.
 - `PLAN_ING (2).pdf` — la malla oficial (infografía de una página).
 - `serve.mjs` — servidor estático dev.
@@ -45,21 +51,26 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 - **Invalidación en cascada** (`cascade()`): al desmarcar una materia, se desmarca
   automáticamente todo lo que quede sin prerrequisitos válidos, en bucle hasta estabilizar.
   Es la mejora principal sobre mallaiq, que dejaba estados inconsistentes.
-- **Solo las electivas (Libre Elección, componente L) van aparte**, en la sección "Electivas"
-  bajo la malla — 12 cupos de 3 cr. Se cursan a menudo en otras facultades, no son fijas.
-- **Las optativas van en su semestre** (a pedido del usuario), con `opt:true` y borde punteado:
-  Optativa de Herramientas de Ingeniería en sem 2 y 5 (comp B), Electiva Técnica en sem 6
-  (comp C, corte 28 C), Construcción de Obras Civiles en sem 10 (comp C, prereq Fundamentos de
-  Construcción). No se elige la materia concreta salvo por el nombre del cupo.
-- Con esto el total definido en la app da exactamente **180 cr**.
-- **Barra de progreso** sobre 180 (meta oficial), `min(x/180, 100)`. Los cupos flexibles suman
-  ~186 en total porque el reparto exacto de optativos/electivos del plan es aproximado.
+- **Las electivas (Libre Elección, componente L) son un contador global**, no materias. Un
+  control `− / número / +` en el encabezado, sobre 36 créditos. No se registra en qué semestre
+  se cursaron (no tienen prerrequisito ni cupo por semestre). Se guarda como un número en
+  `localStorage` (`malla_civil_elec`); migra automáticamente sumando el formato viejo (array por
+  semestre). Decisión del usuario tras descartar: campo por semestre, y tarjetas de 3 cr fijas.
+- **Las optativas van en su semestre** como materias con `opt:true` y borde punteado: Optativa
+  de Herramientas de Ingeniería en sem 2 y 5 (comp B), Electiva Técnica en sem 6 (comp C, corte
+  28 C), Construcción de Obras Civiles en sem 10 (comp C, prereq Fundamentos de Construcción).
+  No se elige la materia concreta salvo por el nombre del cupo.
+- **Total definido = 180 cr exactos** (126 obligatorias + TG 6 + 6 opt B + 6 opt C + 36 L).
+  Barra de progreso `min(x/180, 100)`.
 - **Prerrequisitos**: verificados uno por uno con el usuario contra su experiencia en la carrera
   (ver historial). Un par quedaron distintos a lo que sugería el diagrama del PDF (p. ej.
   Mecánica de Sólidos depende de Estática + Cálculo en Varias Variables, no de Dinámica;
   Dinámica abre Análisis Estructural Aplicado).
-- **Estética**: tema oscuro, cero emojis, fuente Inter. Colores por componente y por estado
-  (bloqueada / falta 1 / disponible / aprobada).
+- **Columnas de semestre justificadas**: los semestres 1–8 estiran sus materias (`.m` con
+  `flex:1`) para quedar todos a la misma altura; los semestres 9 y 10 (≤3 materias) llevan la
+  clase `.short` y quedan a su altura natural.
+- **Estética**: tema oscuro, cero emojis (solo el favicon del Artifact). Colores por componente
+  (B cian, C violeta, L rosa) y por estado (bloqueada / falta 1 / disponible / aprobada).
 
 ## Pendiente
 
