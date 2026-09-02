@@ -105,7 +105,9 @@
   .tip b{color:var(--warn)}
 
   .elec{background:color-mix(in srgb, var(--cL) 15%, var(--surface));border:3px solid var(--line);
-    border-radius:11px;padding:12px 12px 11px;display:flex;flex-direction:column;gap:9px;align-items:center;text-align:center}
+    border-radius:11px;padding:11px 12px 10px 12px;display:flex;flex-direction:column;cursor:default}
+  .elec .etop{font-size:.71rem;font-weight:600;color:var(--text);line-height:1.3}
+  .elec .ecenter{flex:1;display:flex;align-items:center;justify-content:center;padding:10px 0}
   .elctl{display:flex;align-items:center;gap:7px}
   .elctl button{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--bg);
     color:var(--text);font-size:1.2rem;line-height:1;cursor:pointer}
@@ -114,7 +116,9 @@
   .elctl input{width:54px;height:32px;background:var(--bg);color:var(--text);border:1px solid var(--line);
     border-radius:8px;font:inherit;font-size:.98rem;font-weight:600;text-align:center;font-variant-numeric:tabular-nums}
   .elctl input:focus-visible{outline:2px solid var(--cL);outline-offset:1px;border-color:var(--cL)}
-  .elec .of{font-size:.66rem;color:var(--dim);line-height:1.35}
+  .elec .emeta{display:flex;justify-content:space-between;gap:6px;font-size:.66rem;color:var(--dim);
+    font-weight:600;font-variant-numeric:tabular-nums}
+  .elec .emeta .lc{color:var(--cL)}
   footer{max-width:1320px;margin:34px auto 0;color:var(--dim);font-size:.72rem;line-height:1.55;
     border-top:1px solid var(--line);padding-top:14px}
   footer code{font-family:var(--mono);color:var(--text)}
@@ -266,6 +270,8 @@ function setElec(v){
   syncTop();
   const inp = document.getElementById("elInput");
   if(inp && document.activeElement !== inp) inp.value = elec;
+  const cnt = document.getElementById("elCount");
+  if(cnt) cnt.textContent = elec + " / 36 créd.";
 }
 
 function reqMet(req){
@@ -345,12 +351,13 @@ function syncTop(){
 function elecWidget(){
   const w = document.createElement("div");
   w.className = "elec";
-  w.innerHTML = `<div class="elctl">
+  w.innerHTML = `<span class="etop">Se suman por crédito, no por materia</span>
+    <div class="ecenter"><div class="elctl">
       <button type="button" data-d="-1" aria-label="Quitar un crédito de electivas">−</button>
       <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="${elec}" aria-label="Créditos de electivas cursados">
       <button type="button" data-d="1" aria-label="Sumar un crédito de electivas">+</button>
-    </div>
-    <span class="of">créditos cursados · se cuentan sueltos, no&nbsp;por&nbsp;materia · meta&nbsp;36</span>`;
+    </div></div>
+    <span class="emeta"><span id="elCount">${elec} / 36 créd.</span><span class="lc">L</span></span>`;
   w.querySelectorAll("button").forEach(b => b.addEventListener("click", ()=> setElec(elec + (+b.dataset.d))));
   const inp = w.querySelector("input");
   inp.addEventListener("change", e => setElec(e.target.value));
