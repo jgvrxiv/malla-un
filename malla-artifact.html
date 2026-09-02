@@ -104,19 +104,17 @@
   .m:hover .tip,.m:focus-visible .tip{visibility:visible;opacity:1}
   .tip b{color:var(--warn)}
 
-  .elec{background:var(--surface2);border:1px solid var(--line);border-left:3px solid var(--cL);border-radius:11px;
-    padding:12px;display:flex;flex-direction:column;gap:9px;align-items:center;text-align:center}
-  .elec .elbl{font-size:.78rem;font-weight:600;line-height:1.25}
-  .elec .elbl small{display:block;font-family:var(--mono);font-size:.62rem;color:var(--dim);font-weight:400;margin-top:2px}
-  .elctl{display:flex;align-items:center;gap:6px}
-  .elctl button{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--bg);
-    color:var(--text);font-size:1.15rem;line-height:1;cursor:pointer;font-family:var(--mono)}
+  .elec{background:color-mix(in srgb, var(--cL) 15%, var(--surface));border:3px solid var(--line);
+    border-radius:11px;padding:12px 12px 11px;display:flex;flex-direction:column;gap:9px;align-items:center;text-align:center}
+  .elctl{display:flex;align-items:center;gap:7px}
+  .elctl button{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--bg);
+    color:var(--text);font-size:1.2rem;line-height:1;cursor:pointer}
   .elctl button:hover{border-color:var(--cL);color:var(--cL)}
   .elctl button:focus-visible{outline:2px solid var(--cL);outline-offset:2px}
-  .elctl input{width:52px;height:30px;background:var(--bg);color:var(--text);border:1px solid var(--line);
-    border-radius:8px;font-family:var(--mono);font-size:.95rem;text-align:center;font-variant-numeric:tabular-nums}
+  .elctl input{width:54px;height:32px;background:var(--bg);color:var(--text);border:1px solid var(--line);
+    border-radius:8px;font:inherit;font-size:.98rem;font-weight:600;text-align:center;font-variant-numeric:tabular-nums}
   .elctl input:focus-visible{outline:2px solid var(--cL);outline-offset:1px;border-color:var(--cL)}
-  .elec .of{font-family:var(--mono);font-size:.7rem;color:var(--dim)}
+  .elec .of{font-size:.66rem;color:var(--dim);line-height:1.35}
   footer{max-width:1320px;margin:34px auto 0;color:var(--dim);font-size:.72rem;line-height:1.55;
     border-top:1px solid var(--line);padding-top:14px}
   footer code{font-family:var(--mono);color:var(--text)}
@@ -347,13 +345,12 @@ function syncTop(){
 function elecWidget(){
   const w = document.createElement("div");
   w.className = "elec";
-  w.innerHTML = `<span class="elbl">Electivas · Libre Elección<small>se cuentan por créditos</small></span>
-    <div class="elctl">
+  w.innerHTML = `<div class="elctl">
       <button type="button" data-d="-1" aria-label="Quitar un crédito de electivas">−</button>
       <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="${elec}" aria-label="Créditos de electivas cursados">
       <button type="button" data-d="1" aria-label="Sumar un crédito de electivas">+</button>
     </div>
-    <span class="of">de 36 créditos (L)</span>`;
+    <span class="of">créditos cursados · se cuentan sueltos, no&nbsp;por&nbsp;materia · meta&nbsp;36</span>`;
   w.querySelectorAll("button").forEach(b => b.addEventListener("click", ()=> setElec(elec + (+b.dataset.d))));
   const inp = w.querySelector("input");
   inp.addEventListener("change", e => setElec(e.target.value));
@@ -391,7 +388,11 @@ function render(){
       }
       col.appendChild(card(m));
     }
-    if(i === SEMS.length - 1) col.appendChild(elecWidget());
+    if(i === SEMS.length - 1){
+      const c = document.createElement("div"); c.className = "cat"; c.textContent = "Libre Elección";
+      col.appendChild(c);
+      col.appendChild(elecWidget());
+    }
 
     if(i >= SEMS.length - 2){          // semestres 9 y 10: columna especial con la clave debajo
       if(!tailcols){
