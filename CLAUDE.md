@@ -80,7 +80,9 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
     → verde + ✓, conservando el color del área.
   - En el header solo la leyenda de estados. La **clave de colores de agrupación** (`agrkeyEl()`)
     se mete en un `.tailgroup` junto a los semestres 9 y 10, llenando el espacio libre de esas
-    columnas cortas. El contador de electivas queda alineado con la última materia del semestre 9.
+    columnas cortas. En el `.tailcols` los semestres 9 y 10 se estiran a la misma altura y sus
+    últimos elementos (última materia del sem 9 / contador de electivas del sem 10) se empujan
+    con `margin-top:auto` para que **queden alineados abajo**, a ras del panel de la clave.
   - Sin fondo cuadriculado (solo un glow suave arriba).
 
 ## Pendiente

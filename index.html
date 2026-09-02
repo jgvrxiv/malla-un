@@ -39,8 +39,10 @@
   .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent}
 
   .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
-  .tailcols{display:flex;gap:16px;align-items:flex-start}
-  .tailgroup .col{align-self:flex-start}
+  .tailcols{display:flex;gap:16px;align-items:stretch}
+  .tailcols .col.short{align-self:stretch}
+  .tailgroup .elec{margin-top:auto}
+  .tailcols .col.short > .cat:has(+ .m:last-child){margin-top:auto}
   .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
     background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:13px 15px}
   .agrkey .kh{width:100%;font-size:.6rem;letter-spacing:.9px;text-transform:uppercase;color:var(--dim);
