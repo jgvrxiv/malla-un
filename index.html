@@ -39,11 +39,22 @@
   .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent}
 
   .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
-  .tailcols{display:flex;gap:16px;align-items:stretch}
-  .tailcols .col.short{align-self:stretch}
-  .tailcols .col.short .m{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center}
-  .tailcols .col.short .m.grow{flex:1 0 auto}
-  .tailgroup .elec{flex:0 0 auto}
+  /* sem 9 y 10 comparten una grilla: misma estructura (encabezado·rótulo·materia·materia·
+     rótulo·materia|contador). Las filas de las dos materias de arriba van a partes iguales
+     (1fr); la última fila toma la altura natural de Preparación / el contador. Al compartir
+     las pistas, cada renglón de un semestre queda a la misma altura que el del otro. */
+  .tailcols{flex:1 1 auto;display:grid;grid-template-columns:1fr 1fr;
+    grid-template-rows:auto auto 1fr 1fr auto auto;gap:12px 16px;align-items:stretch;min-height:0}
+  .tailcols .col{display:contents}
+  .tailcols .col:first-child > *{grid-column:1}
+  .tailcols .col:last-child > *{grid-column:2}
+  .tailcols .col > *:nth-child(1){grid-row:1}
+  .tailcols .col > *:nth-child(2){grid-row:2}
+  .tailcols .col > *:nth-child(3){grid-row:3}
+  .tailcols .col > *:nth-child(4){grid-row:4}
+  .tailcols .col > *:nth-child(5){grid-row:5}
+  .tailcols .col > *:nth-child(6){grid-row:6}
+  .tailcols .col .m{min-height:0}
   .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
     background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:13px 15px}
   .agrkey .kh{width:100%;font-size:.6rem;letter-spacing:.9px;text-transform:uppercase;color:var(--dim);
@@ -191,7 +202,7 @@ const SEMS = [
    {id:"2015972", n:"Preparación y Evaluación de Proyectos de Infraestructura", c:3, comp:"B", a:"eco", r:["2026138"]},
  ]},
  {s:10, m:[
-   {id:"TG", n:"Trabajo de Grado", c:6, comp:"C", a:"esp", r:[{comp:"C",min:77}]},
+   {id:"TG", n:"Trabajo de Grado", c:6, comp:"C", a:"esp", opt:true, r:[{comp:"C",min:77}]},
    {id:"CONSTROC", n:"Construcción de Obras Civiles", c:3, comp:"C", a:"con", opt:true, r:["2015955"]},
  ]},
 ];
@@ -375,16 +386,6 @@ function render(){
       const c = document.createElement("div"); c.className="cat"; c.textContent="Libre Elección";
       col.appendChild(c);
       col.appendChild(elecWidget());
-      if(cats[1]) cats[1].classList.add("pin");
-    }
-    if(i === SEMS.length - 2){
-      const ms = col.querySelectorAll(".m");
-      if(ms.length >= 2) ms[ms.length - 2].classList.add("pin");
-    }
-    if(i >= SEMS.length - 2){
-      const kids = [...col.children];
-      const pinIdx = kids.findIndex(k => k.classList.contains("pin"));
-      if(pinIdx > 0) kids.slice(0, pinIdx).forEach(k => k.classList.contains("m") && k.classList.add("grow"));
     }
 
     if(i >= SEMS.length - 2){

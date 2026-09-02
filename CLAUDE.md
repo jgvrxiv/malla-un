@@ -69,7 +69,16 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   Dinámica abre Análisis Estructural Aplicado).
 - **Columnas de semestre justificadas**: los semestres 1–8 estiran sus materias (`.m` con
   `flex:1`) para quedar todos a la misma altura; los semestres 9 y 10 (≤3 materias) llevan la
-  clase `.short` y quedan a su altura natural.
+  clase `.short`.
+- **Semestres 9 y 10 comparten una grilla** (`.tailcols` = `display:grid`, 2 columnas). Cada
+  `.col` es `display:contents` y sus 6 hijos (encabezado · rótulo · materia · materia · rótulo ·
+  Preparación|contador) se asignan a las filas 1–6 por `nth-child`. Filas de las dos materias de
+  arriba = `1fr` (mismo tamaño en ambos semestres); última fila = `auto` (altura de Preparación
+  / del contador). Así los renglones de un semestre quedan alineados con los del otro sin trucos
+  de flex. Para que la estructura sea simétrica, **Trabajo de Grado lleva `opt:true`** (sem 10 =
+  OPTATIVA×2 + LIBRE ELECCIÓN, igual que sem 9 = DISCIPLINAR×2 + FUNDAMENTACIÓN). El contador de
+  electivas (`.elec`) va en la fila 6 del sem 10 con su propio rótulo "Libre Elección". Debajo
+  de la grilla va la clave de colores de agrupación (`.agrkey`), aprovechando el espacio libre.
 - **Estética**: tema oscuro, cero emojis (solo el favicon del Artifact y el ✓ de aprobada).
   - **Color de celda = agrupación** (el área de la malla oficial: Matemáticas azul, Hidráulica
     cian, Estructuras gris, Geotecnia café, Construcción rosa, Vías naranja, etc.). El mapa está

@@ -51,15 +51,23 @@
   .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent;flex:none}
 
   .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
-  .tailcols{display:flex;gap:14px;align-items:stretch}
-  .tailcols .col.short{align-self:stretch}
-  .tailcols .col.short .m{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center}
-  .tailcols .col.short .m.grow{flex:1 0 auto}   /* materias sobre el bloque final: llenan el hueco */
-  .tailgroup .elec{flex:0 0 auto}
-  /* el bloque final de cada columna corta (materia + rótulo + materia/electivas) se ancla abajo;
-     con las alturas emparejadas quedan alineados "Sostenible"↔"Construcción",
-     "Fundamentación"↔"Libre Elección" y "Preparación"↔contador */
-  .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
+  /* sem 9 y 10 comparten una grilla: misma estructura (encabezado·rótulo·materia·materia·
+     rótulo·materia|contador). Las filas de las dos materias de arriba van a partes iguales
+     (1fr); la última fila toma la altura natural de Preparación / el contador. Al compartir
+     las pistas, cada renglón de un semestre queda a la misma altura que el del otro. */
+  .tailcols{flex:1 1 auto;display:grid;grid-template-columns:1fr 1fr;
+    grid-template-rows:auto auto 1fr 1fr auto auto;gap:12px 14px;align-items:stretch;min-height:0}
+  .tailcols .col{display:contents}
+  .tailcols .col:first-child > *{grid-column:1}
+  .tailcols .col:last-child > *{grid-column:2}
+  .tailcols .col > *:nth-child(1){grid-row:1}
+  .tailcols .col > *:nth-child(2){grid-row:2}
+  .tailcols .col > *:nth-child(3){grid-row:3}
+  .tailcols .col > *:nth-child(4){grid-row:4}
+  .tailcols .col > *:nth-child(5){grid-row:5}
+  .tailcols .col > *:nth-child(6){grid-row:6}
+  .tailcols .col .m{min-height:0}
+  .agrkey{flex:0 0 auto;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
     background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
   .agrkey .kh{width:100%;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
     color:var(--dim);margin-bottom:2px}
@@ -109,7 +117,7 @@
   .tip b{color:var(--warn)}
 
   .elec{background:color-mix(in srgb, var(--cL) 15%, var(--surface));border:3px solid var(--line);
-    border-radius:11px;padding:9px 12px 8px 12px;display:flex;flex-direction:column;cursor:default}
+    border-radius:11px;padding:10px 12px 9px;display:flex;flex-direction:column;cursor:default}
   .elec .etop{font-size:.71rem;font-weight:600;color:var(--text);line-height:1.3}
   .elec .ecenter{flex:1;display:flex;align-items:center;justify-content:center;padding:9px 0}
   .elctl{display:flex;align-items:center;gap:7px}
@@ -222,7 +230,7 @@ const SEMS = [
    {id:"2015972", n:"Preparación y Evaluación de Proyectos de Infraestructura", c:3, comp:"B", a:"eco", r:["2026138"]},
  ]},
  {s:10, m:[
-   {id:"TG", n:"Trabajo de Grado", c:6, comp:"C", a:"esp", r:[{comp:"C",min:77}]},
+   {id:"TG", n:"Trabajo de Grado", c:6, comp:"C", a:"esp", opt:true, r:[{comp:"C",min:77}]},
    {id:"CONSTROC", n:"Construcción de Obras Civiles", c:3, comp:"C", a:"con", opt:true, r:["2015955"]},
  ]},
 ];
@@ -390,12 +398,12 @@ function render(){
     h.className = "colh";
     h.innerHTML = `Semestre ${sem.s}<small>${cr} créditos</small>`;
     col.appendChild(h);
-    let lastCat = null, cats = [];
+    let lastCat = null;
     for(const m of sem.m){
       const cat = m.opt ? "Optativa" : m.comp === "B" ? "Fundamentación" : m.comp === "C" ? "Disciplinar" : "Libre";
       if(cat !== lastCat){
         const c = document.createElement("div"); c.className = "cat"; c.textContent = cat;
-        col.appendChild(c); lastCat = cat; cats.push(c);
+        col.appendChild(c); lastCat = cat;
       }
       col.appendChild(card(m));
     }
@@ -403,17 +411,6 @@ function render(){
       const c = document.createElement("div"); c.className = "cat"; c.textContent = "Libre Elección";
       col.appendChild(c);
       col.appendChild(elecWidget());
-      if(cats[1]) cats[1].classList.add("pin");   // bloque final = Optativa + Construcción + Libre Elección + contador
-    }
-    if(i === SEMS.length - 2){
-      const ms = col.querySelectorAll(".m");
-      if(ms.length >= 2) ms[ms.length - 2].classList.add("pin");   // bloque final = últ. disciplinar + Fundamentación + Preparación
-    }
-    if(i >= SEMS.length - 2){
-      // las materias por encima del bloque final crecen para no dejar hueco
-      const kids = [...col.children];
-      const pinIdx = kids.findIndex(k => k.classList.contains("pin"));
-      if(pinIdx > 0) kids.slice(0, pinIdx).forEach(k => k.classList.contains("m") && k.classList.add("grow"));
     }
 
     if(i >= SEMS.length - 2){          // semestres 9 y 10: columna especial con la clave debajo
