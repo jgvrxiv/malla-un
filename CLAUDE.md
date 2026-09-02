@@ -81,8 +81,10 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   - En el header solo la leyenda de estados. La **clave de colores de agrupación** (`agrkeyEl()`)
     se mete en un `.tailgroup` junto a los semestres 9 y 10, llenando el espacio libre de esas
     columnas cortas. En el `.tailcols` los semestres 9 y 10 se estiran a la misma altura y sus
-    materias llevan `flex:1` (como en 1–8) para repartirse el alto sin huecos; el contador de
-    electivas queda a la misma línea base que la última materia del sem 9.
+    materias llevan `flex:1` para repartirse el alto; el contador de electivas queda a la misma
+    línea base que la última materia del sem 9. El sem 9 tiene un rótulo de categoría menos que
+    el 10, así que render inserta un `.tspacer` (40px) antes de su 2º rótulo para que
+    "Fundamentación" y "Libre Elección" queden a la misma altura.
   - Sin fondo cuadriculado (solo un glow suave arriba). Tipografía: **Montserrat** (una sola
     familia para todo; el usuario descartó Inter/Archivo por "olor a IA").
 

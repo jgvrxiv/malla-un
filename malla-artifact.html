@@ -55,6 +55,9 @@
   .tailcols .col.short{align-self:stretch}
   .tailcols .col.short .m{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
   .tailgroup .elec{flex:0 0 auto}
+  /* el sem 9 tiene un rótulo de categoría menos que el sem 10 antes del último; el spacer
+     compensa la diferencia para que "Fundamentación" y "Libre Elección" queden a la misma altura */
+  .tspacer{flex:0 0 40px}
   .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
     background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
   .agrkey .kh{width:100%;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
@@ -105,9 +108,9 @@
   .tip b{color:var(--warn)}
 
   .elec{background:color-mix(in srgb, var(--cL) 15%, var(--surface));border:3px solid var(--line);
-    border-radius:11px;padding:11px 12px 10px 12px;display:flex;flex-direction:column;cursor:default}
+    border-radius:11px;padding:9px 12px 8px 12px;display:flex;flex-direction:column;cursor:default}
   .elec .etop{font-size:.71rem;font-weight:600;color:var(--text);line-height:1.3}
-  .elec .ecenter{flex:1;display:flex;align-items:center;justify-content:center;padding:10px 0}
+  .elec .ecenter{flex:1;display:flex;align-items:center;justify-content:center;padding:9px 0}
   .elctl{display:flex;align-items:center;gap:7px}
   .elctl button{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--bg);
     color:var(--text);font-size:1.2rem;line-height:1;cursor:pointer}
@@ -390,6 +393,10 @@ function render(){
     for(const m of sem.m){
       const cat = m.opt ? "Optativa" : m.comp === "B" ? "Fundamentación" : m.comp === "C" ? "Disciplinar" : "Libre";
       if(cat !== lastCat){
+        // sem 9: hueco antes del 2º rótulo para alinearlo con "Libre Elección" del sem 10
+        if(i === SEMS.length - 2 && lastCat !== null){
+          const sp = document.createElement("div"); sp.className = "tspacer"; col.appendChild(sp);
+        }
         const c = document.createElement("div"); c.className = "cat"; c.textContent = cat;
         col.appendChild(c); lastCat = cat;
       }
