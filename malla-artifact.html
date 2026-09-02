@@ -65,14 +65,15 @@
   .m{background:var(--surface);border:1.5px solid var(--line);border-radius:11px;padding:11px 12px 10px;
     cursor:pointer;position:relative;transition:transform .14s,box-shadow .14s,border-color .14s,background .14s}
   .m:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-  .m .nm{font-size:.82rem;font-weight:600;line-height:1.3;display:block}
+  .m .nm{font-size:.82rem;font-weight:600;line-height:1.3;display:block;color:var(--text)}
   .m .code{font-family:var(--mono);font-size:.63rem;color:var(--dim);letter-spacing:.02em;margin-top:3px;display:block}
   .m .meta{font-family:var(--mono);font-size:.66rem;color:var(--dim);display:flex;justify-content:space-between;
     gap:6px;margin-top:6px;font-variant-numeric:tabular-nums}
   .m .comp{font-weight:600}
   .m .comp.B{color:var(--cB)} .m .comp.C{color:var(--cC)} .m .comp.L{color:var(--cL)}
   .m.opt:not(.done){border-style:dashed}
-  .m.locked{opacity:.55}
+  .m.locked{background:#0e1626;border-color:#243349;cursor:not-allowed}
+  .m.locked .code,.m.locked .meta{opacity:.6}
   .m.partial{border-color:var(--warn);background:rgba(246,167,35,.07)}
   .m.ready{border-color:var(--accent);box-shadow:0 0 0 1px rgba(56,189,248,.25),0 0 16px rgba(56,189,248,.12)}
   .m.done{background:var(--done);border-color:var(--done-line);color:var(--done-ink)}
@@ -105,7 +106,7 @@
       <h1>Malla curricular — Ingeniería Civil</h1>
       <div class="sub">Plan flexible · 180 créditos · Acuerdo 26 de 2015. Tu avance se guarda en este navegador.</div>
     </div>
-    <button class="reset" onclick="reset()">Reiniciar</button>
+    <button class="reset" id="resetBtn" type="button">Reiniciar</button>
   </div>
   <div class="stats" id="stats"></div>
   <div class="pcont"><div class="pbar" id="pbar"></div></div>
@@ -325,9 +326,18 @@ function render(){
   }
 }
 
-function reset(){
-  if(confirm("¿Borrar todo el progreso guardado en este navegador?")){ approved = []; save(); render(); }
-}
+const resetBtn = document.getElementById("resetBtn");
+let armed = 0;
+resetBtn.addEventListener("click", ()=>{
+  if(!armed){
+    armed = 1; resetBtn.textContent = "¿Seguro? Confirmar";
+    resetBtn.style.color = "#fb7185"; resetBtn.style.borderColor = "#fb7185";
+    setTimeout(()=>{ armed = 0; resetBtn.textContent = "Reiniciar"; resetBtn.style.color = ""; resetBtn.style.borderColor = ""; }, 3500);
+    return;
+  }
+  armed = 0; resetBtn.textContent = "Reiniciar"; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
+  approved = []; save(); render();
+});
 
 approved = approved.filter(id => ALL[id]);
 cascade();

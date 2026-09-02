@@ -48,12 +48,13 @@
 
   .m{background:var(--surface);border:2px solid var(--border);border-radius:10px;padding:11px 12px;
     cursor:pointer;position:relative;transition:transform .15s,box-shadow .15s,border-color .15s}
-  .m .nm{font-size:.82rem;font-weight:600;line-height:1.28;display:block;margin-bottom:3px}
+  .m .nm{font-size:.82rem;font-weight:600;line-height:1.28;display:block;margin-bottom:3px;color:var(--text)}
   .m .meta{font-size:.68rem;color:var(--dim);display:flex;justify-content:space-between;gap:6px}
   .m .comp{font-weight:700}
   .m .comp.B{color:var(--compB)} .m .comp.C{color:var(--compC)} .m .comp.L{color:var(--compL)}
   .m.opt:not(.done){border-style:dashed}
-  .m.locked{opacity:.55}
+  .m.locked{background:#141d2f;border-color:#2b3a52;cursor:not-allowed}
+  .m.locked .meta{opacity:.6}
   .m.partial{border-color:var(--warning);background:rgba(245,158,11,.06)}
   .m.ready{border-color:var(--primary);box-shadow:0 0 12px rgba(56,189,248,.12)}
   .m.done{background:var(--success);border-color:#059669;color:#04211a;opacity:1}
@@ -82,7 +83,7 @@
       <h1>Malla curricular — Ingeniería Civil</h1>
       <div class="sub">Universidad Nacional de Colombia · Plan flexible 180 créditos (Acuerdo 26 de 2015)</div>
     </div>
-    <button class="reset" onclick="reset()">Reiniciar malla</button>
+    <button class="reset" id="resetBtn" type="button">Reiniciar malla</button>
   </div>
   <div class="stats" id="stats"></div>
   <div class="pcont"><div class="pbar" id="pbar"></div></div>
@@ -306,9 +307,19 @@ function render(){
   }
 }
 
-function reset(){
-  if(confirm("¿Borrar todo el progreso?")){ approved = []; save(); render(); }
-}
+const resetBtn = document.getElementById("resetBtn");
+let armed = 0;
+resetBtn.addEventListener("click", ()=>{
+  if(!armed){
+    armed = 1; resetBtn.dataset.label = resetBtn.textContent;
+    resetBtn.textContent = "¿Seguro? Confirmar";
+    resetBtn.style.color = "#fb7185"; resetBtn.style.borderColor = "#fb7185";
+    setTimeout(()=>{ armed = 0; resetBtn.textContent = resetBtn.dataset.label; resetBtn.style.color = ""; resetBtn.style.borderColor = ""; }, 3500);
+    return;
+  }
+  armed = 0; resetBtn.textContent = resetBtn.dataset.label; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
+  approved = []; save(); render();
+});
 
 // limpia ids viejos y estados inconsistentes al cargar
 approved = approved.filter(id=>ALL[id]);
