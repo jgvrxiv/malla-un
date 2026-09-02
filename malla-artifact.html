@@ -393,14 +393,18 @@ function render(){
     for(const m of sem.m){
       const cat = m.opt ? "Optativa" : m.comp === "B" ? "Fundamentación" : m.comp === "C" ? "Disciplinar" : "Libre";
       if(cat !== lastCat){
-        // sem 9: hueco antes del 2º rótulo para alinearlo con "Libre Elección" del sem 10
-        if(i === SEMS.length - 2 && lastCat !== null){
-          const sp = document.createElement("div"); sp.className = "tspacer"; col.appendChild(sp);
-        }
         const c = document.createElement("div"); c.className = "cat"; c.textContent = cat;
         col.appendChild(c); lastCat = cat;
       }
       col.appendChild(card(m));
+    }
+    if(i === SEMS.length - 2){
+      // sem 9: agrandar las dos casillas del bloque "Disciplinar" para que "Ingeniería Civil
+      // Sostenible" quede a la misma altura que "Construcción de Obras Civiles" del sem 10, y
+      // "Fundamentación" a la misma altura que "Libre Elección" (antes lo hacía un .tspacer).
+      const ms = col.querySelectorAll(".m");
+      if(ms[0]) ms[0].style.minHeight = "124px";
+      if(ms[1]) ms[1].style.minHeight = "105px";
     }
     if(i === SEMS.length - 1){
       const c = document.createElement("div"); c.className = "cat"; c.textContent = "Libre Elección";
