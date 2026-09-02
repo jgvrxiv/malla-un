@@ -52,11 +52,11 @@
 
   .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
   /* sem 9 y 10 comparten una grilla: misma estructura (encabezado·rótulo·materia·materia·
-     rótulo·materia|contador). Las filas de las dos materias de arriba van a partes iguales
-     (1fr); la última fila toma la altura natural de Preparación / el contador. Al compartir
-     las pistas, cada renglón de un semestre queda a la misma altura que el del otro. */
-  .tailcols{flex:1 1 auto;display:grid;grid-template-columns:1fr 1fr;
-    grid-template-rows:auto auto 1fr 1fr auto auto;gap:12px 14px;align-items:stretch;min-height:0}
+     rótulo·materia|contador). Todas las filas a su altura natural; al compartir las pistas,
+     cada renglón de un semestre queda a la misma altura que el del otro. No se estira: el
+     hueco que queda debajo lo llena la clave de colores (.agrkey). */
+  .tailcols{flex:0 0 auto;display:grid;grid-template-columns:1fr 1fr;
+    grid-auto-rows:auto;gap:12px 14px;align-content:start}
   .tailcols .col{display:contents}
   .tailcols .col:first-child > *{grid-column:1}
   .tailcols .col:last-child > *{grid-column:2}
@@ -66,8 +66,7 @@
   .tailcols .col > *:nth-child(4){grid-row:4}
   .tailcols .col > *:nth-child(5){grid-row:5}
   .tailcols .col > *:nth-child(6){grid-row:6}
-  .tailcols .col .m{min-height:0}
-  .agrkey{flex:0 0 auto;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
+  .agrkey{flex:1 1 auto;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
     background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
   .agrkey .kh{width:100%;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
     color:var(--dim);margin-bottom:2px}
