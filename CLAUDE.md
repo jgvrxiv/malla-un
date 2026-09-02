@@ -69,16 +69,7 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   Dinámica abre Análisis Estructural Aplicado).
 - **Columnas de semestre justificadas**: los semestres 1–8 estiran sus materias (`.m` con
   `flex:1`) para quedar todos a la misma altura; los semestres 9 y 10 (≤3 materias) llevan la
-  clase `.short`.
-- **Semestres 9 y 10 comparten una grilla** (`.tailcols` = `display:grid`, 2 columnas). Cada
-  `.col` es `display:contents` y sus 6 hijos (encabezado · rótulo · materia · materia · rótulo ·
-  Preparación|contador) se asignan a las filas 1–6 por `nth-child`. Filas de las dos materias de
-  arriba = `1fr` (mismo tamaño en ambos semestres); última fila = `auto` (altura de Preparación
-  / del contador). Así los renglones de un semestre quedan alineados con los del otro sin trucos
-  de flex. Para que la estructura sea simétrica, **Trabajo de Grado lleva `opt:true`** (sem 10 =
-  OPTATIVA×2 + LIBRE ELECCIÓN, igual que sem 9 = DISCIPLINAR×2 + FUNDAMENTACIÓN). El contador de
-  electivas (`.elec`) va en la fila 6 del sem 10 con su propio rótulo "Libre Elección". Debajo
-  de la grilla va la clave de colores de agrupación (`.agrkey`), aprovechando el espacio libre.
+  clase `.short` y quedan a su altura natural.
 - **Estética**: tema oscuro, cero emojis (solo el favicon del Artifact y el ✓ de aprobada).
   - **Color de celda = agrupación** (el área de la malla oficial: Matemáticas azul, Hidráulica
     cian, Estructuras gris, Geotecnia café, Construcción rosa, Vías naranja, etc.). El mapa está
@@ -89,12 +80,11 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
     → verde + ✓, conservando el color del área.
   - En el header solo la leyenda de estados. La **clave de colores de agrupación** (`agrkeyEl()`)
     se mete en un `.tailgroup` junto a los semestres 9 y 10, llenando el espacio libre de esas
-    columnas cortas. En el `.tailcols` los semestres 9 y 10 se estiran a la misma altura. El
-    "bloque final" de cada uno (última materia disciplinar + rótulo + última materia/contador)
-    se ancla abajo marcando `.pin` en su primer elemento y dándole `.grow` (`flex:1`) a las
-    materias que van por encima, que se estiran para llenar el hueco. Con la altura del contador
-    de electivas emparejada a la de la última materia del sem 9, quedan alineados los 3 renglones:
-    Sostenible↔Construcción, Fundamentación↔Libre Elección y Preparación↔contador.
+    columnas cortas. En el `.tailcols` los semestres 9 y 10 se estiran a la misma altura y sus
+    materias llevan `flex:1` para repartirse el alto; el contador de electivas queda a la misma
+    línea base que la última materia del sem 9. El sem 9 tiene un rótulo de categoría menos que
+    el 10, así que render inserta un `.tspacer` (40px) antes de su 2º rótulo para que
+    "Fundamentación" y "Libre Elección" queden a la misma altura.
   - Sin fondo cuadriculado (solo un glow suave arriba). Tipografía: **Montserrat** (una sola
     familia para todo; el usuario descartó Inter/Archivo por "olor a IA").
 
