@@ -56,6 +56,8 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   se cursaron (no tienen prerrequisito ni cupo por semestre). Se guarda como un número en
   `localStorage` (`malla_civil_elec`); migra automáticamente sumando el formato viejo (array por
   semestre). Decisión del usuario tras descartar: campo por semestre, y tarjetas de 3 cr fijas.
+  El recuadro (`.elec`) toma el borde verde (`.elec.done`) al llegar a 36, igual que una materia
+  aprobada; `setElec()` y `elecWidget()` alternan la clase.
 - **Las optativas van en su semestre** como materias con `opt:true` (solo se distinguen por el
   encabezado de categoría "OPTATIVA"): Optativa de Herramientas de Ingeniería en sem 2 y 5
   (comp B), Electiva Técnica en sem 6 (comp C, corte 28 C), Construcción de Obras Civiles en
@@ -82,9 +84,14 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
     se mete en un `.tailgroup` junto a los semestres 9 y 10, llenando el espacio libre de esas
     columnas cortas. En el `.tailcols` los semestres 9 y 10 se estiran a la misma altura y sus
     materias llevan `flex:1` para repartirse el alto; el contador de electivas queda a la misma
-    línea base que la última materia del sem 9. El sem 9 tiene un rótulo de categoría menos que
-    el 10, así que render inserta un `.tspacer` (40px) antes de su 2º rótulo para que
-    "Fundamentación" y "Libre Elección" queden a la misma altura.
+    línea base que la última materia del sem 9.
+  - **Alineación renglón a renglón de sem 9 y 10**: en render, solo para el sem 9 (`i ===
+    SEMS.length - 2`), se le pone `min-height` a las dos casillas del bloque Disciplinar
+    (`ms[0]` Fundamentos ≈124px artifact / 118px index, `ms[1]` Ingeniería Civil Sostenible
+    105px) para que Sostenible quede enfrente de "Construcción de Obras Civiles" del sem 10.
+    Al crecer Fundamentos, "Fundamentación" cae sola a la altura de "Libre Elección" — ya **no
+    se usa el `.tspacer`** de antes. No se toca el ancho ni el sem 10. Valores a ojo, medidos en
+    el navegador; si algún cambio de tipografía los descuadra, reajustar esos dos números.
   - Sin fondo cuadriculado (solo un glow suave arriba). Tipografía: **Montserrat** (una sola
     familia para todo; el usuario descartó Inter/Archivo por "olor a IA").
 
