@@ -52,8 +52,10 @@
   .legend span{display:flex;align-items:center;gap:7px;font-size:.71rem;color:var(--dim)}
   .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent;flex:none}
 
-  .rail{display:flex;gap:14px;padding:20px 4px 8px;overflow-x:auto;align-items:flex-start;scrollbar-width:thin}
+  .rail{display:flex;gap:14px;padding:20px 4px 8px;overflow-x:auto;align-items:stretch;scrollbar-width:thin}
   .col{min-width:214px;max-width:214px;display:flex;flex-direction:column;gap:8px}
+  .col.short{align-self:flex-start}
+  .col:not(.short) .m{flex:1 1 0;min-height:66px;display:flex;flex-direction:column;justify-content:center}
   .colh{background:linear-gradient(180deg,#3fc4fb,#2aa8e6);color:var(--accent-ink);text-align:center;
     padding:9px 8px;border-radius:9px;font-family:var(--disp);font-weight:800;font-size:.8rem;
     text-transform:uppercase;letter-spacing:.06em}
@@ -320,7 +322,7 @@ function render(){
   rail.innerHTML = "";
   for(const sem of SEMS){
     const col = document.createElement("div");
-    col.className = "col";
+    col.className = "col" + (sem.m.length <= 3 ? " short" : "");
     const cr = sem.m.reduce((s,m)=> s + (approved.includes(m.id) ? m.c : 0), 0);
     const h = document.createElement("div");
     h.className = "colh";
