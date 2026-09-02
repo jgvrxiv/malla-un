@@ -1,0 +1,335 @@
+<title>Malla Ingeniería Civil UNAL</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#0b1220; --surface:#152036; --surface2:#101a2d; --line:#2a3a57;
+    --text:#eef2f8; --dim:#9fb2cd;
+    --accent:#38bdf8; --accent-ink:#04222f;
+    --done:#10b981; --done-line:#0b845e; --done-ink:#04231a;
+    --warn:#f6a723;
+    --cB:#22d3ee; --cC:#a78bfa; --cL:#fb7185;
+    --shadow:0 6px 28px rgba(0,0,0,.45);
+    --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --disp:'Archivo','Inter',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);
+    margin:0;padding:20px 18px 60px;line-height:1.5;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:52px 52px;background-position:-1px -1px}
+  body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 80% 55% at 50% -10%,rgba(56,189,248,.10),transparent 70%);pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  header{max-width:1320px;margin:0 auto 20px;background:var(--surface);border:1px solid var(--line);
+    border-radius:18px;padding:22px 24px;box-shadow:var(--shadow)}
+  .row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+  h1{font-family:var(--disp);font-weight:800;font-size:1.5rem;letter-spacing:-.01em;margin:0 0 3px;text-wrap:balance}
+  .eyebrow{font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:8px}
+  .sub{color:var(--dim);font-size:.82rem}
+  button.reset{background:transparent;color:var(--dim);border:1px solid var(--line);border-radius:9px;
+    padding:9px 15px;font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;cursor:pointer;transition:.15s;white-space:nowrap}
+  button.reset:hover{color:#fb7185;border-color:#fb7185}
+  button.reset:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .stats{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0 12px}
+  .badge{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.78rem;font-weight:500;
+    border-radius:999px;padding:6px 13px;border:1px solid;background:rgba(56,189,248,.08);
+    color:var(--accent);border-color:rgba(56,189,248,.32)}
+  .badge b{font-weight:600}
+  .badge.c{color:var(--cC);border-color:rgba(167,139,250,.34);background:rgba(167,139,250,.09)}
+  .badge.b{color:var(--cB);border-color:rgba(34,211,238,.34);background:rgba(34,211,238,.09)}
+  .badge.l{color:var(--cL);border-color:rgba(251,113,133,.34);background:rgba(251,113,133,.09)}
+  .pcont{width:100%;max-width:580px;height:12px;background:var(--surface2);border:1px solid var(--line);
+    border-radius:10px;overflow:hidden;margin:8px 0 6px}
+  .pbar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--done));border-radius:10px;
+    transition:width .55s cubic-bezier(.4,0,.2,1)}
+  #pct{font-family:var(--mono);font-size:.76rem;color:var(--dim);font-variant-numeric:tabular-nums}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;padding:11px 13px;background:var(--surface2);
+    border:1px solid var(--line);border-radius:10px}
+  .legend span{display:flex;align-items:center;gap:7px;font-size:.71rem;color:var(--dim)}
+  .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent;flex:none}
+
+  .rail{display:flex;gap:14px;padding:20px 4px 8px;overflow-x:auto;align-items:flex-start;scrollbar-width:thin}
+  .col{min-width:214px;max-width:214px;display:flex;flex-direction:column;gap:8px}
+  .colh{background:linear-gradient(180deg,#3fc4fb,#2aa8e6);color:var(--accent-ink);text-align:center;
+    padding:9px 8px;border-radius:9px;font-family:var(--disp);font-weight:800;font-size:.8rem;
+    text-transform:uppercase;letter-spacing:.06em}
+  .colh small{display:block;font-family:var(--mono);font-weight:500;font-size:.66rem;letter-spacing:0;
+    color:rgba(4,34,47,.82);font-variant-numeric:tabular-nums;margin-top:1px}
+  .cat{font-family:var(--mono);font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;
+    font-weight:500;border-bottom:1px solid var(--line);padding:9px 2px 4px}
+
+  .m{background:var(--surface);border:1.5px solid var(--line);border-radius:11px;padding:11px 12px 10px;
+    cursor:pointer;position:relative;transition:transform .14s,box-shadow .14s,border-color .14s,background .14s}
+  .m:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .m .nm{font-size:.82rem;font-weight:600;line-height:1.3;display:block}
+  .m .code{font-family:var(--mono);font-size:.63rem;color:var(--dim);letter-spacing:.02em;margin-top:3px;display:block}
+  .m .meta{font-family:var(--mono);font-size:.66rem;color:var(--dim);display:flex;justify-content:space-between;
+    gap:6px;margin-top:6px;font-variant-numeric:tabular-nums}
+  .m .comp{font-weight:600}
+  .m .comp.B{color:var(--cB)} .m .comp.C{color:var(--cC)} .m .comp.L{color:var(--cL)}
+  .m.opt:not(.done){border-style:dashed}
+  .m.locked{opacity:.55}
+  .m.partial{border-color:var(--warn);background:rgba(246,167,35,.07)}
+  .m.ready{border-color:var(--accent);box-shadow:0 0 0 1px rgba(56,189,248,.25),0 0 16px rgba(56,189,248,.12)}
+  .m.done{background:var(--done);border-color:var(--done-line);color:var(--done-ink)}
+  .m.done .code,.m.done .meta,.m.done .comp{color:rgba(2,26,17,.82)}
+  .m.ready:hover,.m.partial:hover,.m.done:hover{transform:translateY(-3px);box-shadow:0 12px 22px rgba(0,0,0,.45)}
+
+  .tip{visibility:hidden;opacity:0;position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);
+    width:214px;background:#060c18;color:#dbe6f5;border:1px solid var(--line);border-radius:9px;padding:9px 11px;
+    font-size:.7rem;line-height:1.4;z-index:60;transition:opacity .12s;pointer-events:none;font-weight:500;box-shadow:var(--shadow)}
+  .m:hover .tip,.m:focus-visible .tip{visibility:visible;opacity:1}
+  .tip b{color:var(--warn)}
+
+  .flex-sec{max-width:1320px;margin:26px auto 0}
+  .flex-sec h2{font-family:var(--disp);font-weight:700;font-size:1rem;letter-spacing:-.005em;margin:0 0 4px}
+  .flex-sec p.h{color:var(--dim);font-size:.76rem;margin:0 0 16px;max-width:60ch}
+  .fgroup>h3{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);
+    font-weight:500;border-bottom:1px solid var(--line);padding-bottom:5px;margin:0 0 12px}
+  .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:9px}
+
+  footer{max-width:1320px;margin:34px auto 0;color:var(--dim);font-size:.72rem;line-height:1.55;
+    border-top:1px solid var(--line);padding-top:14px}
+  footer code{font-family:var(--mono);color:var(--text)}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="row">
+    <div>
+      <div class="eyebrow">Universidad Nacional de Colombia · Sede Bogotá</div>
+      <h1>Malla curricular — Ingeniería Civil</h1>
+      <div class="sub">Plan flexible · 180 créditos · Acuerdo 26 de 2015. Tu avance se guarda en este navegador.</div>
+    </div>
+    <button class="reset" onclick="reset()">Reiniciar</button>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="pcont"><div class="pbar" id="pbar"></div></div>
+  <div id="pct">0.0% completado</div>
+  <div class="legend">
+    <span><i class="sw" style="border-color:var(--line)"></i>Bloqueada</span>
+    <span><i class="sw" style="border-color:var(--warn)"></i>Falta 1 prerrequisito</span>
+    <span><i class="sw" style="border-color:var(--accent)"></i>Disponible</span>
+    <span><i class="sw" style="background:var(--done)"></i>Aprobada</span>
+    <span style="margin-left:auto"><i class="sw" style="background:var(--cB)"></i>B · Fundamentación</span>
+    <span><i class="sw" style="background:var(--cC)"></i>C · Disciplinar</span>
+    <span><i class="sw" style="background:var(--cL)"></i>L · Libre</span>
+  </div>
+</header>
+
+<div class="rail" id="rail"></div>
+
+<div class="flex-sec">
+  <h2>Electivas — Libre Elección</h2>
+  <p class="h">36 créditos de libre elección: se cursan a menudo en otras facultades o cátedras de sede y no son
+     materias fijas. Las optativas (estrictamente de la carrera) están repartidas en sus semestres, con borde punteado.</p>
+  <div id="flex"></div>
+</div>
+
+<footer>
+  Prerrequisitos y cortes de crédito reconstruidos de la malla oficial y verificados con un estudiante de la carrera.
+  Cortes: <code>67</code> créditos C → Fundamentos de Construcción · <code>77</code> créditos C → Ing. Civil Sostenible y
+  Trabajo de Grado · <code>28</code> créditos C → Electiva Técnica. Herramienta no oficial; ante la duda, consultá el SIA.
+</footer>
+</div>
+
+<script>
+const SEMS = [
+ {s:1, m:[
+   {id:"1000011", n:"Fundamentos de Ecología", c:3, comp:"B", r:[]},
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", r:[]},
+   {id:"1000024", n:"Principios de Química", c:3, comp:"B", r:[]},
+   {id:"2015711", n:"Dibujo Básico", c:3, comp:"B", r:[]},
+   {id:"2026186", n:"Introducción a la Ingeniería Civil", c:3, comp:"C", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", r:["1000004"]},
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", r:["1000004"]},
+   {id:"OPTB_A", n:"Optativa de Herramientas de Ingeniería", c:3, comp:"B", opt:true, r:[]},
+ ]},
+ {s:3, m:[
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", r:["1000005","1000003"]},
+   {id:"1000013", n:"Probabilidad y Estadística Fundamental", c:3, comp:"B", r:["1000004"]},
+   {id:"2026134", n:"Estática", c:3, comp:"C", r:["1000003","1000019"]},
+   {id:"2015958", n:"Geomática Básica", c:4, comp:"C", r:["2015711","2026186"]},
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", r:["1000005"]},
+ ]},
+ {s:4, m:[
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", r:["1000005","1000003"]},
+   {id:"2015948", n:"Dinámica", c:3, comp:"C", r:["2026134"]},
+   {id:"2015956", n:"Geología", c:3, comp:"C", r:["2015958"]},
+   {id:"2015957", n:"Geomática Aplicada", c:4, comp:"C", r:["2015958"]},
+ ]},
+ {s:5, m:[
+   {id:"2015966", n:"Mecánica de Fluidos", c:4, comp:"C", r:["1000007","1000006","2026134"]},
+   {id:"2015968", n:"Mecánica de Sólidos", c:4, comp:"C", r:["2026134","1000006"]},
+   {id:"2015965", n:"Materiales para Construcción", c:4, comp:"C", r:["1000024","2015956"]},
+   {id:"OPTB_B", n:"Optativa de Herramientas de Ingeniería", c:3, comp:"B", opt:true, r:[]},
+ ]},
+ {s:6, m:[
+   {id:"2015961", n:"Hidráulica Básica", c:4, comp:"C", r:["2015966"]},
+   {id:"2015978", n:"Hidrología", c:3, comp:"C", r:["2015966","1000013"]},
+   {id:"2015941", n:"Análisis Estructural Básico", c:3, comp:"C", r:["2015968"]},
+   {id:"2015969", n:"Mecánica de Suelos", c:3, comp:"C", r:["2015968"]},
+   {id:"2026138", n:"Ingeniería de Transporte", c:3, comp:"C", r:["1000003","2015703"]},
+   {id:"ELECTEC", n:"Electiva Técnica", c:3, comp:"C", opt:true, r:[{comp:"C",min:28}]},
+ ]},
+ {s:7, m:[
+   {id:"2015954", n:"Estructuras Hidráulicas", c:3, comp:"C", r:["2015961"]},
+   {id:"2015938", n:"Acueductos", c:3, comp:"C", r:["2015961"]},
+   {id:"2015940", n:"Análisis Estructural Aplicado", c:3, comp:"C", r:["2015941","2015948"]},
+   {id:"2015959", n:"Geotecnia", c:3, comp:"C", r:["2015969"]},
+   {id:"2015963", n:"Ingeniería de Tránsito", c:3, comp:"C", r:["2026138"]},
+ ]},
+ {s:8, m:[
+   {id:"2015973", n:"Saneamiento Ambiental", c:3, comp:"C", r:["1000011","2015938"]},
+   {id:"2015939", n:"Alcantarillados", c:3, comp:"C", r:["2015938","2015978"]},
+   {id:"2015950", n:"Diseño Estructural", c:3, comp:"C", r:["2015940","2015965"]},
+   {id:"2015971", n:"Pavimentos", c:3, comp:"C", r:["2015959"]},
+   {id:"2015949", n:"Diseño Geométrico de Vías", c:3, comp:"C", r:["2015957","2015963"]},
+ ]},
+ {s:9, m:[
+   {id:"2015955", n:"Fundamentos de Construcción", c:3, comp:"C", r:[{comp:"C",min:67}]},
+   {id:"2026135", n:"Ingeniería Civil Sostenible", c:3, comp:"C", r:[{comp:"C",min:77}]},
+   {id:"2015972", n:"Preparación y Evaluación de Proyectos de Infraestructura", c:3, comp:"B", r:["2026138"]},
+ ]},
+ {s:10, m:[
+   {id:"TG", n:"Trabajo de Grado", c:6, comp:"C", r:[{comp:"C",min:77}]},
+   {id:"CONSTROC", n:"Construcción de Obras Civiles", c:3, comp:"C", opt:true, r:["2015955"]},
+ ]},
+];
+
+const FLEX = [
+ {g:"Libre Elección (L) — 36 créditos", m:
+   Array.from({length:12},(_,i)=>({id:"LIB"+(i+1), n:"Libre Elección", c:3, comp:"L", r:[]}))
+ },
+];
+
+const TARGET = 180;
+const ALL = {};
+[...SEMS.flatMap(s=>s.m), ...FLEX.flatMap(g=>g.m)].forEach(m=>ALL[m.id]=m);
+
+let approved = load();
+function load(){ try{ return JSON.parse(localStorage.getItem("malla_civil_unal")) || []; }catch(e){ return []; } }
+function save(){ try{ localStorage.setItem("malla_civil_unal", JSON.stringify(approved)); }catch(e){} }
+
+function creditsBy(comp){ return approved.reduce((s,id)=> s + ((ALL[id] && ALL[id].comp===comp) ? ALL[id].c : 0), 0); }
+function totalCredits(){ return approved.reduce((s,id)=> s + (ALL[id]?ALL[id].c:0), 0); }
+
+function reqMet(req){
+  if(typeof req === "string") return approved.includes(req);
+  return creditsBy(req.comp) >= req.min;
+}
+function progress(m){
+  if(!m.r.length) return {st:"ready", miss:[]};
+  const miss = []; let met = 0;
+  for(const req of m.r){
+    if(reqMet(req)) met++;
+    else if(typeof req === "string") miss.push(ALL[req] ? ALL[req].n : req);
+    else miss.push(`${req.min} créditos ${req.comp} (faltan ${Math.max(0, req.min - creditsBy(req.comp))})`);
+  }
+  if(met === m.r.length) return {st:"ready", miss:[]};
+  if(met > 0) return {st:"partial", miss};
+  return {st:"locked", miss};
+}
+
+function cascade(){
+  let changed = true;
+  while(changed){
+    changed = false;
+    for(const id of [...approved]){
+      const m = ALL[id]; if(!m) continue;
+      const saved = approved;
+      approved = approved.filter(x=>x!==id);
+      const ok = m.r.every(reqMet);
+      approved = saved;
+      if(!ok){ approved = approved.filter(x=>x!==id); changed = true; }
+    }
+  }
+}
+
+function toggle(id){
+  const m = ALL[id];
+  if(approved.includes(id)){ approved = approved.filter(x=>x!==id); cascade(); }
+  else { if(progress(m).st !== "ready") return; approved.push(id); }
+  save(); render();
+}
+
+function card(m){
+  const done = approved.includes(m.id);
+  const p = progress(m);
+  const st = done ? "done" : p.st;
+  const tip = done ? "Aprobada — clic para desmarcar"
+            : p.st === "ready" ? "Disponible — clic para aprobar"
+            : "<b>Falta:</b> " + p.miss.join(" · ");
+  const el = document.createElement("button");
+  el.type = "button";
+  el.className = "m " + st + (m.opt ? " opt" : "");
+  el.style.cssText = "text-align:left;font:inherit;width:100%";
+  el.setAttribute("aria-pressed", done ? "true" : "false");
+  el.onclick = ()=>toggle(m.id);
+  const code = /^\d{7}$/.test(m.id) ? `<span class="code">${m.id}</span>` : "";
+  el.innerHTML = `<span class="nm">${m.n}</span>${code}
+    <span class="meta"><span>${m.c} créd.</span><span class="comp ${m.comp}">${m.comp}</span></span>
+    <span class="tip">${tip}</span>`;
+  return el;
+}
+
+function render(){
+  const t = totalCredits(), cC = creditsBy("C"), cB = creditsBy("B"), cL = creditsBy("L");
+  const pct = Math.min(t / TARGET * 100, 100);
+  document.getElementById("stats").innerHTML =
+    `<span class="badge">Total <b>${t}</b> / 180</span>`+
+    `<span class="badge c">Disciplinar C <b>${cC}</b> / 96</span>`+
+    `<span class="badge b">Fundamentación B <b>${cB}</b> / 48</span>`+
+    `<span class="badge l">Libre L <b>${cL}</b> / 36</span>`;
+  document.getElementById("pbar").style.width = pct + "%";
+  document.getElementById("pct").textContent = pct.toFixed(1) + "% completado";
+
+  const rail = document.getElementById("rail");
+  rail.innerHTML = "";
+  for(const sem of SEMS){
+    const col = document.createElement("div");
+    col.className = "col";
+    const cr = sem.m.reduce((s,m)=> s + (approved.includes(m.id) ? m.c : 0), 0);
+    const tot = sem.m.reduce((s,m)=> s + m.c, 0);
+    const h = document.createElement("div");
+    h.className = "colh";
+    h.innerHTML = `Semestre ${sem.s}<small>${cr} / ${tot} créditos</small>`;
+    col.appendChild(h);
+    let lastCat = null;
+    for(const m of sem.m){
+      const cat = m.opt ? "Optativa" : m.comp === "B" ? "Fundamentación" : m.comp === "C" ? "Disciplinar" : "Libre";
+      if(cat !== lastCat){
+        const c = document.createElement("div"); c.className = "cat"; c.textContent = cat;
+        col.appendChild(c); lastCat = cat;
+      }
+      col.appendChild(card(m));
+    }
+    rail.appendChild(col);
+  }
+
+  const flex = document.getElementById("flex");
+  flex.innerHTML = "";
+  for(const grp of FLEX){
+    const g = document.createElement("div"); g.className = "fgroup";
+    const h = document.createElement("h3"); h.textContent = grp.g; g.appendChild(h);
+    const grid = document.createElement("div"); grid.className = "fgrid";
+    grp.m.forEach(m => grid.appendChild(card(m)));
+    g.appendChild(grid); flex.appendChild(g);
+  }
+}
+
+function reset(){
+  if(confirm("¿Borrar todo el progreso guardado en este navegador?")){ approved = []; save(); render(); }
+}
+
+approved = approved.filter(id => ALL[id]);
+cascade();
+render();
+</script>
