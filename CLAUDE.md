@@ -24,8 +24,8 @@ subir `index.html`.
 - `index.html` — versión local de la app. Los datos del pensum están en la constante `SEMS`
   (materias obligatorias + optativas, por semestre). Cada materia: `{id, n, c, comp, r, opt?}`
   donde `comp` ∈ B/C/L y `r` es la lista de prerrequisitos.
-- `malla-artifact.html` — misma app con diseño más trabajado (fuentes Archivo + IBM Plex Mono,
-  fondo tipo plano). Es la que se publica como Artifact. Mantener las dos en sync.
+- `malla-artifact.html` — misma app con diseño más trabajado. Es la que se publica como
+  Artifact. Mantener las dos en sync.
 - `PENSUM_BORRADOR.md` — extracción cruda del PDF + notas de qué se verificó con el usuario.
 - `PLAN_ING (2).pdf` — la malla oficial (infografía de una página).
 - `serve.mjs` — servidor estático dev.
@@ -83,7 +83,8 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
     columnas cortas. En el `.tailcols` los semestres 9 y 10 se estiran a la misma altura y sus
     materias llevan `flex:1` (como en 1–8) para repartirse el alto sin huecos; el contador de
     electivas queda a la misma línea base que la última materia del sem 9.
-  - Sin fondo cuadriculado (solo un glow suave arriba).
+  - Sin fondo cuadriculado (solo un glow suave arriba). Tipografía: **Montserrat** (una sola
+    familia para todo; el usuario descartó Inter/Archivo por "olor a IA").
 
 ## Pendiente
 
