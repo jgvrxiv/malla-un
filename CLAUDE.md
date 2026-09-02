@@ -77,8 +77,11 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
     Fondo = `color-mix(agr 24%, surface)`, sin franja ni adornos (solo el color).
   - **Estado = solo el color del borde** (grueso, 3px): bloqueada → rojo tenue + atenuada;
     falta 1 → ámbar; disponible → **blanco** (no un verde que se confunde con aprobada); aprobada
-    → verde + ✓, conservando el color del área. Leyenda de estados + clave de colores de
-    agrupación bajo el header. Sin fondo cuadriculado (solo un glow suave arriba).
+    → verde + ✓, conservando el color del área.
+  - En el header solo la leyenda de estados. La **clave de colores de agrupación** (`agrkeyEl()`)
+    se mete en un `.tailgroup` junto a los semestres 9 y 10, llenando el espacio libre de esas
+    columnas cortas. El contador de electivas queda alineado con la última materia del semestre 9.
+  - Sin fondo cuadriculado (solo un glow suave arriba).
 
 ## Pendiente
 

@@ -34,12 +34,18 @@
     padding:8px 14px;font-family:inherit;font-size:.8rem;cursor:pointer}
   button.reset:hover{color:var(--danger);border-color:var(--danger)}
   .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;padding:10px 12px;background:var(--surface2);
-    border-radius:8px 8px 0 0}
+    border-radius:8px}
   .legend span{display:flex;align-items:center;gap:7px;font-size:.72rem;color:var(--dim)}
   .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent}
-  .agrkey{display:flex;flex-wrap:wrap;gap:6px 14px;padding:9px 12px 11px;background:var(--surface2);
-    border-radius:0 0 8px 8px;border-top:1px solid var(--border)}
-  .agrkey span{display:flex;align-items:center;gap:6px;font-size:.66rem;color:var(--dim)}
+
+  .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
+  .tailcols{display:flex;gap:16px;align-items:flex-start}
+  .tailgroup .col{align-self:flex-start}
+  .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
+    background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:13px 15px}
+  .agrkey .kh{width:100%;font-size:.6rem;letter-spacing:.9px;text-transform:uppercase;color:var(--dim);
+    font-weight:700;margin-bottom:2px}
+  .agrkey span{display:flex;align-items:center;gap:6px;font-size:.68rem;color:var(--dim)}
   .agrkey i{width:11px;height:11px;border-radius:3px;flex:none}
 
   .malla{display:flex;gap:16px;padding:18px 4px 32px;overflow-x:auto;align-items:stretch;
@@ -78,7 +84,7 @@
   .m:hover .tip{visibility:visible;opacity:1}
   .tip b{color:var(--warning)}
 
-  .elec{margin-top:3px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--compL);border-radius:10px;
+  .elec{background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--compL);border-radius:10px;
     padding:12px;display:flex;flex-direction:column;gap:9px;align-items:center;text-align:center}
   .elec .elbl{font-size:.78rem;font-weight:700;line-height:1.25}
   .elec .elbl small{display:block;font-size:.63rem;color:var(--dim);font-weight:400;margin-top:2px}
@@ -111,9 +117,8 @@
     <span><i class="sw" style="border-color:var(--warning)"></i>Falta 1 prerrequisito</span>
     <span><i class="sw" style="border-color:#f1f5f9;box-shadow:0 0 6px rgba(241,245,249,.5)"></i>Disponible</span>
     <span><i class="sw" style="border-color:var(--success);border-width:2px"></i>Aprobada&nbsp;✓</span>
-    <span style="color:var(--dim)">— el color de cada celda es su área (malla oficial)</span>
+    <span style="color:var(--dim)">— el fondo de cada celda es su área (ver clave abajo)</span>
   </div>
-  <div class="agrkey" id="agrkey"></div>
 </header>
 
 <div class="malla" id="malla"></div>
@@ -330,10 +335,19 @@ function elecWidget(){
   return w;
 }
 
+function agrkeyEl(){
+  const k = document.createElement("div");
+  k.className = "agrkey";
+  k.innerHTML = `<div class="kh">Color de cada celda = área de la malla</div>` +
+    Object.values(AGR).map(([c, n]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
+  return k;
+}
+
 function render(){
   syncTop();
   const malla = document.getElementById("malla");
   malla.innerHTML = "";
+  let tailcols = null;
   SEMS.forEach((sem, i)=>{
     const col = document.createElement("div");
     col.className = "col" + (sem.m.length <= 3 ? " short" : "");
@@ -352,7 +366,19 @@ function render(){
       col.appendChild(card(m));
     }
     if(i === SEMS.length - 1) col.appendChild(elecWidget());
-    malla.appendChild(col);
+
+    if(i >= SEMS.length - 2){
+      if(!tailcols){
+        const tg = document.createElement("div"); tg.className = "tailgroup";
+        tailcols = document.createElement("div"); tailcols.className = "tailcols";
+        tg.appendChild(tailcols);
+        tg.appendChild(agrkeyEl());
+        malla.appendChild(tg);
+      }
+      tailcols.appendChild(col);
+    } else {
+      malla.appendChild(col);
+    }
   });
 }
 
@@ -369,9 +395,6 @@ resetBtn.addEventListener("click", ()=>{
   armed = 0; resetBtn.textContent = resetBtn.dataset.label; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
   approved = []; elec = 0; save(); saveElec(); render();
 });
-
-document.getElementById("agrkey").innerHTML = Object.values(AGR)
-  .map(([c, n]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
 
 // limpia ids viejos y estados inconsistentes al cargar
 approved = approved.filter(id=>ALL[id]);

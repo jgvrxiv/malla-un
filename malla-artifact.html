@@ -46,12 +46,18 @@
   #pct{font-family:var(--mono);font-size:.76rem;color:var(--dim);font-variant-numeric:tabular-nums}
 
   .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;padding:11px 13px;background:var(--surface2);
-    border:1px solid var(--line);border-radius:10px 10px 0 0;border-bottom:0}
+    border:1px solid var(--line);border-radius:10px}
   .legend span{display:flex;align-items:center;gap:7px;font-size:.71rem;color:var(--dim)}
   .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent;flex:none}
-  .agrkey{display:flex;flex-wrap:wrap;gap:6px 14px;padding:10px 13px 12px;background:var(--surface2);
-    border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px}
-  .agrkey span{display:flex;align-items:center;gap:6px;font-size:.66rem;color:var(--dim)}
+
+  .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
+  .tailcols{display:flex;gap:14px;align-items:flex-start}
+  .tailgroup .col{align-self:flex-start}
+  .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
+    background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+  .agrkey .kh{width:100%;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--dim);margin-bottom:2px}
+  .agrkey span{display:flex;align-items:center;gap:6px;font-size:.68rem;color:var(--dim)}
   .agrkey i{width:11px;height:11px;border-radius:3px;flex:none}
 
   .rail{display:flex;gap:14px;padding:20px 4px 30px;overflow-x:auto;align-items:stretch;
@@ -96,7 +102,7 @@
   .m:hover .tip,.m:focus-visible .tip{visibility:visible;opacity:1}
   .tip b{color:var(--warn)}
 
-  .elec{margin-top:4px;background:var(--surface2);border:1px solid var(--line);border-left:3px solid var(--cL);border-radius:11px;
+  .elec{background:var(--surface2);border:1px solid var(--line);border-left:3px solid var(--cL);border-radius:11px;
     padding:12px;display:flex;flex-direction:column;gap:9px;align-items:center;text-align:center}
   .elec .elbl{font-size:.78rem;font-weight:600;line-height:1.25}
   .elec .elbl small{display:block;font-family:var(--mono);font-size:.62rem;color:var(--dim);font-weight:400;margin-top:2px}
@@ -132,9 +138,8 @@
     <span><i class="sw" style="border-color:var(--warn)"></i>Falta 1 prerrequisito</span>
     <span><i class="sw" style="border-color:#f1f5f9;box-shadow:0 0 6px rgba(241,245,249,.5)"></i>Disponible</span>
     <span><i class="sw" style="border-color:var(--done);border-width:2px"></i>Aprobada&nbsp;✓</span>
-    <span style="color:var(--dim)">— el color de cada celda es su área (malla oficial)</span>
+    <span style="color:var(--dim)">— el fondo de cada celda es su área (ver clave abajo)</span>
   </div>
-  <div class="agrkey" id="agrkey"></div>
 </header>
 
 <div class="rail" id="rail"></div>
@@ -354,10 +359,19 @@ function elecWidget(){
   return w;
 }
 
+function agrkeyEl(){
+  const k = document.createElement("div");
+  k.className = "agrkey";
+  k.innerHTML = `<div class="kh">Color de cada celda = área de la malla</div>` +
+    Object.values(AGR).map(([c, n]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
+  return k;
+}
+
 function render(){
   syncTop();
   const rail = document.getElementById("rail");
   rail.innerHTML = "";
+  let tailcols = null;
   SEMS.forEach((sem, i)=>{
     const col = document.createElement("div");
     col.className = "col" + (sem.m.length <= 3 ? " short" : "");
@@ -376,7 +390,19 @@ function render(){
       col.appendChild(card(m));
     }
     if(i === SEMS.length - 1) col.appendChild(elecWidget());
-    rail.appendChild(col);
+
+    if(i >= SEMS.length - 2){          // semestres 9 y 10: columna especial con la clave debajo
+      if(!tailcols){
+        const tg = document.createElement("div"); tg.className = "tailgroup";
+        tailcols = document.createElement("div"); tailcols.className = "tailcols";
+        tg.appendChild(tailcols);
+        tg.appendChild(agrkeyEl());
+        rail.appendChild(tg);
+      }
+      tailcols.appendChild(col);
+    } else {
+      rail.appendChild(col);
+    }
   });
 }
 
@@ -392,9 +418,6 @@ resetBtn.addEventListener("click", ()=>{
   armed = 0; resetBtn.textContent = "Reiniciar"; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
   approved = []; elec = 0; save(); saveElec(); render();
 });
-
-document.getElementById("agrkey").innerHTML = Object.values(AGR)
-  .map(([c, n]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
 
 approved = approved.filter(id => ALL[id]);
 cascade();
