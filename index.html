@@ -66,13 +66,16 @@
   .m:hover .tip{visibility:visible;opacity:1}
   .tip b{color:var(--warning)}
 
-  .flex-sec{max-width:1300px;margin:8px auto 40px}
-  .flex-sec h2{font-size:.95rem;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin:24px 0 4px}
-  .flex-sec p.h{color:var(--dim);font-size:.74rem;margin:0 0 14px}
-  .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:9px}
-  .fgroup{margin-bottom:18px}
-  .fgroup > h3{font-size:.75rem;text-transform:uppercase;letter-spacing:.8px;color:var(--text);
-    border-bottom:1px solid var(--border);padding-bottom:4px;margin:0 0 10px;font-weight:700}
+  .hint{max-width:1300px;margin:0 auto 4px;color:var(--dim);font-size:.78rem;line-height:1.5}
+  .hint b{color:var(--text);font-weight:600}
+  .elec{margin-top:3px;background:var(--surface2);border:1px dashed var(--compL);border-radius:10px;
+    padding:9px 11px;display:flex;flex-direction:column;gap:6px}
+  .elec .lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.9px;color:var(--compL);font-weight:700}
+  .elec .box{display:flex;align-items:center;gap:7px}
+  .elec input{width:52px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:7px;
+    padding:5px 7px;font:inherit;font-size:.82rem;text-align:center}
+  .elec input:focus-visible{outline:2px solid var(--compL);outline-offset:1px}
+  .elec .box span{font-size:.7rem;color:var(--dim)}
 </style>
 </head>
 <body>
@@ -99,15 +102,11 @@
   </div>
 </header>
 
-<div class="malla" id="malla"></div>
+<p class="hint">Las <b>electivas</b> (Libre Elección, L) se cuentan por créditos, no por materia: en cada semestre
+   escribí cuántos créditos de electivas cursaste (meta: 36). Las <b>optativas</b> (estrictamente de la carrera)
+   están como materias con borde punteado en su semestre.</p>
 
-<div class="flex-sec">
-  <h2>Electivas — Libre Elección</h2>
-  <p class="h">36 créditos de libre elección. Muchas veces se cursan en otras facultades o cátedras de sede;
-     no son materias fijas. Las optativas (estrictamente de la carrera) están repartidas en sus semestres,
-     con borde punteado.</p>
-  <div id="flex"></div>
-</div>
+<div class="malla" id="malla"></div>
 
 <script>
 // ============ DATOS ============
@@ -178,25 +177,27 @@ const SEMS = [
  ]},
 ];
 
-// Solo el componente de electivas (libre elección) va aparte.
-const FLEX = [
- {g:"Libre Elección (L) — 36 créditos", m:
-   Array.from({length:12},(_,i)=>({id:"LIB"+(i+1), n:"Libre Elección", c:3, comp:"L", r:[]}))
- },
-];
-
 const TARGET = 180;
 const ALL = {};
-[...SEMS.flatMap(s=>s.m), ...FLEX.flatMap(g=>g.m)].forEach(m=>ALL[m.id]=m);
+SEMS.flatMap(s=>s.m).forEach(m=>ALL[m.id]=m);
 
 let approved = load();
+let elec = loadElec();   // créditos de electivas (L) escritos por semestre
 function load(){ try{ return JSON.parse(localStorage.getItem("malla_civil_unal")) || []; }catch(e){ return []; } }
 function save(){ try{ localStorage.setItem("malla_civil_unal", JSON.stringify(approved)); }catch(e){} }
+function loadElec(){
+  try{ const a = JSON.parse(localStorage.getItem("malla_civil_elec"));
+    if(Array.isArray(a)) return SEMS.map((_,i)=> Math.max(0, Math.min(24, Math.round(+a[i]||0)))); }catch(e){}
+  return SEMS.map(()=>0);
+}
+function saveElec(){ try{ localStorage.setItem("malla_civil_elec", JSON.stringify(elec)); }catch(e){} }
+function elecTotal(){ return elec.reduce((a,b)=>a+b,0); }
 
 function creditsBy(comp){
+  if(comp === "L") return elecTotal();
   return approved.reduce((s,id)=> s + ((ALL[id] && ALL[id].comp===comp) ? ALL[id].c : 0), 0);
 }
-function totalCredits(){ return approved.reduce((s,id)=> s + (ALL[id]?ALL[id].c:0), 0); }
+function totalCredits(){ return approved.reduce((s,id)=> s + (ALL[id]?ALL[id].c:0), 0) + elecTotal(); }
 
 // evalúa un requisito contra el estado actual
 function reqMet(req){
@@ -275,14 +276,13 @@ function render(){
 
   const malla = document.getElementById("malla");
   malla.innerHTML = "";
-  for(const sem of SEMS){
+  SEMS.forEach((sem, i)=>{
     const col = document.createElement("div");
     col.className = "col";
-    const cr = sem.m.reduce((s,m)=> s + (approved.includes(m.id)?m.c:0), 0);
-    const tot = sem.m.reduce((s,m)=>s+m.c,0);
+    const cr = sem.m.reduce((s,m)=> s + (approved.includes(m.id)?m.c:0), 0) + elec[i];
     const h = document.createElement("div");
     h.className = "colh";
-    h.innerHTML = `Semestre ${sem.s}<small>${cr} / ${tot} créd.</small>`;
+    h.innerHTML = `Semestre ${sem.s}<small>${cr} créd. cursados</small>`;
     col.appendChild(h);
     let lastCat = null;
     for(const m of sem.m){
@@ -293,18 +293,20 @@ function render(){
       }
       col.appendChild(card(m));
     }
+    const e = document.createElement("div");
+    e.className = "elec";
+    e.innerHTML = `<span class="lbl">Electivas cursadas</span>
+      <span class="box"><input type="number" inputmode="numeric" min="0" max="24" step="1"
+        value="${elec[i]}" aria-label="Créditos de electivas del semestre ${sem.s}"><span>créditos (L)</span></span>`;
+    const inp = e.querySelector("input");
+    inp.addEventListener("change", ()=>{
+      elec[i] = Math.max(0, Math.min(24, Math.round(+inp.value||0)));
+      saveElec(); render();
+    });
+    inp.addEventListener("keydown", ev=>{ if(ev.key === "Enter") inp.blur(); });
+    col.appendChild(e);
     malla.appendChild(col);
-  }
-
-  const flex = document.getElementById("flex");
-  flex.innerHTML = "";
-  for(const grp of FLEX){
-    const g = document.createElement("div"); g.className="fgroup";
-    const h = document.createElement("h3"); h.textContent = grp.g; g.appendChild(h);
-    const grid = document.createElement("div"); grid.className="fgrid";
-    grp.m.forEach(m=>grid.appendChild(card(m)));
-    g.appendChild(grid); flex.appendChild(g);
-  }
+  });
 }
 
 const resetBtn = document.getElementById("resetBtn");
@@ -318,7 +320,7 @@ resetBtn.addEventListener("click", ()=>{
     return;
   }
   armed = 0; resetBtn.textContent = resetBtn.dataset.label; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
-  approved = []; save(); render();
+  approved = []; elec = SEMS.map(()=>0); save(); saveElec(); render();
 });
 
 // limpia ids viejos y estados inconsistentes al cargar
