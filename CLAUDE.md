@@ -74,10 +74,10 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   - **Color de celda = agrupación** (el área de la malla oficial: Matemáticas azul, Hidráulica
     cian, Estructuras gris, Geotecnia café, Construcción rosa, Vías naranja, etc.). El mapa está
     en la constante `AGR` (`clave → [color, nombre, etiqueta corta]`) y cada materia trae `a:`.
-    Fondo = `color-mix(agr 20%, surface)` + franja izquierda `inset box-shadow` del color puro.
-  - **Estado = solo el borde** (grueso, 2.5px; aprobada 3px): bloqueada → borde rojo tenue +
-    atenuada; falta 1 → borde ámbar; disponible → borde claro (agr+blanco) con glow; aprobada →
-    borde verde + ✓, conserva el color del área. Leyenda de estados + clave de colores de
+    Fondo = `color-mix(agr 24%, surface)`, sin franja ni adornos (solo el color).
+  - **Estado = solo el color del borde** (grueso, 3px): bloqueada → rojo tenue + atenuada;
+    falta 1 → ámbar; disponible → **blanco** (no un verde que se confunde con aprobada); aprobada
+    → verde + ✓, conservando el color del área. Leyenda de estados + clave de colores de
     agrupación bajo el header. Sin fondo cuadriculado (solo un glow suave arriba).
 
 ## Pendiente
