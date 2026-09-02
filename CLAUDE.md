@@ -80,11 +80,12 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
     → verde + ✓, conservando el color del área.
   - En el header solo la leyenda de estados. La **clave de colores de agrupación** (`agrkeyEl()`)
     se mete en un `.tailgroup` junto a los semestres 9 y 10, llenando el espacio libre de esas
-    columnas cortas. En el `.tailcols` los semestres 9 y 10 se estiran a la misma altura y sus
-    materias llevan `flex:1` para repartirse el alto; el contador de electivas queda a la misma
-    línea base que la última materia del sem 9. El sem 9 tiene un rótulo de categoría menos que
-    el 10, así que render inserta un `.tspacer` (40px) antes de su 2º rótulo para que
-    "Fundamentación" y "Libre Elección" queden a la misma altura.
+    columnas cortas. En el `.tailcols` los semestres 9 y 10 se estiran a la misma altura. El
+    "bloque final" de cada uno (última materia disciplinar + rótulo + última materia/contador)
+    se ancla abajo marcando `.pin` en su primer elemento y dándole `.grow` (`flex:1`) a las
+    materias que van por encima, que se estiran para llenar el hueco. Con la altura del contador
+    de electivas emparejada a la de la última materia del sem 9, quedan alineados los 3 renglones:
+    Sostenible↔Construcción, Fundamentación↔Libre Elección y Preparación↔contador.
   - Sin fondo cuadriculado (solo un glow suave arriba). Tipografía: **Montserrat** (una sola
     familia para todo; el usuario descartó Inter/Archivo por "olor a IA").
 

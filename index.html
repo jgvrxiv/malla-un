@@ -41,9 +41,9 @@
   .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
   .tailcols{display:flex;gap:16px;align-items:stretch}
   .tailcols .col.short{align-self:stretch}
-  .tailcols .col.short .m{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
+  .tailcols .col.short .m{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center}
+  .tailcols .col.short .m.grow{flex:1 0 auto}
   .tailgroup .elec{flex:0 0 auto}
-  .tspacer{flex:0 0 40px}
   .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
     background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:13px 15px}
   .agrkey .kh{width:100%;font-size:.6rem;letter-spacing:.9px;text-transform:uppercase;color:var(--dim);
@@ -90,7 +90,7 @@
   .elec{background:color-mix(in srgb, var(--compL) 15%, var(--surface));border:3px solid var(--border);
     border-radius:10px;padding:9px 12px 8px 12px;display:flex;flex-direction:column;cursor:default}
   .elec .etop{font-size:.71rem;font-weight:600;color:var(--text);line-height:1.3}
-  .elec .ecenter{flex:1;display:flex;align-items:center;justify-content:center;padding:9px 0}
+  .elec .ecenter{flex:1;display:flex;align-items:center;justify-content:center;padding:7px 0}
   .elctl{display:flex;align-items:center;gap:7px}
   .elctl button{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg);
     color:var(--text);font-size:1.2rem;line-height:1;cursor:pointer}
@@ -362,15 +362,12 @@ function render(){
     h.className = "colh";
     h.innerHTML = `Semestre ${sem.s}<small>${cr} créd.</small>`;
     col.appendChild(h);
-    let lastCat = null;
+    let lastCat = null, cats = [];
     for(const m of sem.m){
       const cat = m.opt ? "Optativa" : m.comp==="B" ? "Fundamentación" : m.comp==="C" ? "Disciplinar" : "Libre";
       if(cat !== lastCat){
-        if(i === SEMS.length - 2 && lastCat !== null){
-          const sp = document.createElement("div"); sp.className="tspacer"; col.appendChild(sp);
-        }
         const c = document.createElement("div"); c.className="cat"; c.textContent=cat;
-        col.appendChild(c); lastCat = cat;
+        col.appendChild(c); lastCat = cat; cats.push(c);
       }
       col.appendChild(card(m));
     }
@@ -378,6 +375,16 @@ function render(){
       const c = document.createElement("div"); c.className="cat"; c.textContent="Libre Elección";
       col.appendChild(c);
       col.appendChild(elecWidget());
+      if(cats[1]) cats[1].classList.add("pin");
+    }
+    if(i === SEMS.length - 2){
+      const ms = col.querySelectorAll(".m");
+      if(ms.length >= 2) ms[ms.length - 2].classList.add("pin");
+    }
+    if(i >= SEMS.length - 2){
+      const kids = [...col.children];
+      const pinIdx = kids.findIndex(k => k.classList.contains("pin"));
+      if(pinIdx > 0) kids.slice(0, pinIdx).forEach(k => k.classList.contains("m") && k.classList.add("grow"));
     }
 
     if(i >= SEMS.length - 2){

@@ -53,11 +53,12 @@
   .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
   .tailcols{display:flex;gap:14px;align-items:stretch}
   .tailcols .col.short{align-self:stretch}
-  .tailcols .col.short .m{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
+  .tailcols .col.short .m{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center}
+  .tailcols .col.short .m.grow{flex:1 0 auto}   /* materias sobre el bloque final: llenan el hueco */
   .tailgroup .elec{flex:0 0 auto}
-  /* el sem 9 tiene un rótulo de categoría menos que el sem 10 antes del último; el spacer
-     compensa la diferencia para que "Fundamentación" y "Libre Elección" queden a la misma altura */
-  .tspacer{flex:0 0 40px}
+  /* el bloque final de cada columna corta (materia + rótulo + materia/electivas) se ancla abajo;
+     con las alturas emparejadas quedan alineados "Sostenible"↔"Construcción",
+     "Fundamentación"↔"Libre Elección" y "Preparación"↔contador */
   .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
     background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
   .agrkey .kh{width:100%;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
@@ -389,16 +390,12 @@ function render(){
     h.className = "colh";
     h.innerHTML = `Semestre ${sem.s}<small>${cr} créditos</small>`;
     col.appendChild(h);
-    let lastCat = null;
+    let lastCat = null, cats = [];
     for(const m of sem.m){
       const cat = m.opt ? "Optativa" : m.comp === "B" ? "Fundamentación" : m.comp === "C" ? "Disciplinar" : "Libre";
       if(cat !== lastCat){
-        // sem 9: hueco antes del 2º rótulo para alinearlo con "Libre Elección" del sem 10
-        if(i === SEMS.length - 2 && lastCat !== null){
-          const sp = document.createElement("div"); sp.className = "tspacer"; col.appendChild(sp);
-        }
         const c = document.createElement("div"); c.className = "cat"; c.textContent = cat;
-        col.appendChild(c); lastCat = cat;
+        col.appendChild(c); lastCat = cat; cats.push(c);
       }
       col.appendChild(card(m));
     }
@@ -406,6 +403,17 @@ function render(){
       const c = document.createElement("div"); c.className = "cat"; c.textContent = "Libre Elección";
       col.appendChild(c);
       col.appendChild(elecWidget());
+      if(cats[1]) cats[1].classList.add("pin");   // bloque final = Optativa + Construcción + Libre Elección + contador
+    }
+    if(i === SEMS.length - 2){
+      const ms = col.querySelectorAll(".m");
+      if(ms.length >= 2) ms[ms.length - 2].classList.add("pin");   // bloque final = últ. disciplinar + Fundamentación + Preparación
+    }
+    if(i >= SEMS.length - 2){
+      // las materias por encima del bloque final crecen para no dejar hueco
+      const kids = [...col.children];
+      const pinIdx = kids.findIndex(k => k.classList.contains("pin"));
+      if(pinIdx > 0) kids.slice(0, pinIdx).forEach(k => k.classList.contains("m") && k.classList.add("grow"));
     }
 
     if(i >= SEMS.length - 2){          // semestres 9 y 10: columna especial con la clave debajo
