@@ -56,10 +56,11 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   se cursaron (no tienen prerrequisito ni cupo por semestre). Se guarda como un número en
   `localStorage` (`malla_civil_elec`); migra automáticamente sumando el formato viejo (array por
   semestre). Decisión del usuario tras descartar: campo por semestre, y tarjetas de 3 cr fijas.
-- **Las optativas van en su semestre** como materias con `opt:true` y borde punteado: Optativa
-  de Herramientas de Ingeniería en sem 2 y 5 (comp B), Electiva Técnica en sem 6 (comp C, corte
-  28 C), Construcción de Obras Civiles en sem 10 (comp C, prereq Fundamentos de Construcción).
-  No se elige la materia concreta salvo por el nombre del cupo.
+- **Las optativas van en su semestre** como materias con `opt:true` (solo se distinguen por el
+  encabezado de categoría "OPTATIVA"): Optativa de Herramientas de Ingeniería en sem 2 y 5
+  (comp B), Electiva Técnica en sem 6 (comp C, corte 28 C), Construcción de Obras Civiles en
+  sem 10 (comp C, prereq Fundamentos de Construcción). No se elige la materia concreta salvo
+  por el nombre del cupo.
 - **Total definido = 180 cr exactos** (126 obligatorias + TG 6 + 6 opt B + 6 opt C + 36 L).
   Barra de progreso `min(x/180, 100)`.
 - **Prerrequisitos**: verificados uno por uno con el usuario contra su experiencia en la carrera
@@ -74,9 +75,10 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
     cian, Estructuras gris, Geotecnia café, Construcción rosa, Vías naranja, etc.). El mapa está
     en la constante `AGR` (`clave → [color, nombre, etiqueta corta]`) y cada materia trae `a:`.
     Fondo = `color-mix(agr 20%, surface)` + franja izquierda `inset box-shadow` del color puro.
-  - **Estado = solo el borde**: bloqueada → borde rojo tenue + atenuada; falta 1 → borde ámbar;
-    disponible → borde claro (agr+blanco) con glow; aprobada → borde verde 2px + ✓, conserva el
-    color del área. Hay una leyenda de estados + una clave de colores de agrupación bajo el header.
+  - **Estado = solo el borde** (grueso, 2.5px; aprobada 3px): bloqueada → borde rojo tenue +
+    atenuada; falta 1 → borde ámbar; disponible → borde claro (agr+blanco) con glow; aprobada →
+    borde verde + ✓, conserva el color del área. Leyenda de estados + clave de colores de
+    agrupación bajo el header. Sin fondo cuadriculado (solo un glow suave arriba).
 
 ## Pendiente
 
