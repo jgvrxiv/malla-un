@@ -7,32 +7,83 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
+    /* tema oscuro (por defecto) */
     --bg:#0f172a; --surface:#1e293b; --surface2:#172033;
     --primary:#38bdf8; --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
     --text:#f1f5f9; --dim:#9fb2cd; --border:#334155;
     --compB:#22d3ee; --compC:#a78bfa; --compL:#f472b6;
+    --ready:#f1f5f9;                 /* borde de "disponible" */
+    --locked:#e05a50;               /* borde de "bloqueada" */
+    --tint:24%;                     /* cuánto color de área lleva el fondo de cada celda */
+    --agr-filter:brightness(1.2);   /* realce del color de área en los textos chicos */
+    --coffee:#e8b45e; --coffee-ink:#3a2c07;
+    --glow:rgba(56,189,248,.06);
+    --shadow:0 6px 26px rgba(0,0,0,.4);
+  }
+  :root.theme-light{
+    /* tema claro: se redefinen solo los tokens */
+    --bg:#f3f6fc; --surface:#ffffff; --surface2:#eef2f8;
+    --primary:#0284c7; --text:#1b2536; --dim:#586a86; --border:#d5deec;
+    --compB:#0891b2; --compC:#7c3aed; --compL:#e11d48;
+    --ready:#475569;
+    --locked:#dc4c43;
+    --tint:16%;
+    --agr-filter:saturate(1.1) brightness(.62);
+    --coffee:#f0c877;
+    --glow:rgba(2,132,199,.05);
+    --shadow:0 8px 26px rgba(20,32,60,.12);
   }
   *{box-sizing:border-box}
-  body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--text);margin:0;padding:18px}
+  html{background:var(--bg)}
+  body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--text);margin:0;padding:18px;
+    position:relative}
+  body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -15%,var(--glow),transparent 70%);pointer-events:none;z-index:0}
+  body>*{position:relative;z-index:1}
   h1{font-size:1.2rem;margin:0 0 2px}
   .sub{color:var(--dim);font-size:.8rem;margin-bottom:16px}
 
+  /* barra superior fija */
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:14px;
+    margin:-18px -18px 18px;padding:10px 18px;border-bottom:1px solid var(--border);
+    background:color-mix(in srgb, var(--surface) 88%, transparent);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+  .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text)}
+  .brand svg{width:21px;height:21px;flex:none;color:var(--primary)}
+  .brand b{font-weight:800;font-size:.92rem;letter-spacing:-.01em;line-height:1}
+  .brand small{display:block;font-size:.58rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--dim);margin-top:2px}
+  .bar-actions{display:flex;align-items:center;gap:8px}
+  .coffee{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:9px;border:1px solid transparent;
+    background:var(--coffee);color:var(--coffee-ink);font-weight:700;font-size:.73rem;text-decoration:none;
+    white-space:nowrap;cursor:pointer;transition:.15s}
+  .coffee:hover{filter:brightness(1.06);transform:translateY(-1px)}
+  .coffee svg{width:15px;height:15px}
+  .iconbtn{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;
+    border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:.15s}
+  .iconbtn:hover{color:var(--text);border-color:var(--dim)}
+  .iconbtn svg{width:17px;height:17px}
+  .theme-toggle .i-moon{display:none}
+  :root.theme-light .theme-toggle .i-sun{display:none}
+  :root.theme-light .theme-toggle .i-moon{display:block}
+  .coffee:focus-visible,.iconbtn:focus-visible,.brand:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+  @media (max-width:600px){ .brand small{display:none} .coffee span{display:none} .coffee{padding:8px} }
+
   header{max-width:1300px;margin:0 auto 18px;background:var(--surface);border:1px solid var(--border);
-    border-radius:16px;padding:20px 22px;box-shadow:0 4px 24px rgba(0,0,0,.35)}
+    border-radius:16px;padding:20px 22px;box-shadow:var(--shadow)}
   .stats{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 10px}
-  .badge{background:rgba(56,189,248,.1);color:var(--primary);border:1px solid rgba(56,189,248,.3);
+  .badge{color:var(--primary);border:1px solid;border-color:color-mix(in srgb,var(--primary) 32%,transparent);
+    background:color-mix(in srgb,var(--primary) 12%,var(--surface));
     border-radius:999px;padding:6px 14px;font-weight:700;font-size:.82rem}
-  .badge.c{background:rgba(167,139,250,.12);color:var(--compC);border-color:rgba(167,139,250,.35)}
-  .badge.b{background:rgba(34,211,238,.12);color:var(--compB);border-color:rgba(34,211,238,.35)}
-  .badge.l{background:rgba(244,114,182,.12);color:var(--compL);border-color:rgba(244,114,182,.35)}
-  .pcont{width:100%;max-width:560px;height:12px;background:#334155;border:1px solid var(--border);
+  .badge.c{color:var(--compC);border-color:color-mix(in srgb,var(--compC) 34%,transparent);background:color-mix(in srgb,var(--compC) 12%,var(--surface))}
+  .badge.b{color:var(--compB);border-color:color-mix(in srgb,var(--compB) 34%,transparent);background:color-mix(in srgb,var(--compB) 12%,var(--surface))}
+  .badge.l{color:var(--compL);border-color:color-mix(in srgb,var(--compL) 34%,transparent);background:color-mix(in srgb,var(--compL) 12%,var(--surface))}
+  .pcont{width:100%;max-width:560px;height:12px;background:var(--surface2);border:1px solid var(--border);
     border-radius:10px;overflow:hidden;margin:6px 0 4px}
   .pbar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--success));
     border-radius:10px;transition:width .5s ease-out}
-  .row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
-  button.reset{background:transparent;color:var(--dim);border:1px solid var(--border);border-radius:8px;
-    padding:8px 14px;font-family:inherit;font-size:.8rem;cursor:pointer}
+  button.reset{background:transparent;color:var(--dim);border:1px solid var(--border);border-radius:9px;
+    padding:8px 13px;font-family:inherit;font-size:.72rem;letter-spacing:.02em;cursor:pointer;white-space:nowrap;transition:.15s}
   button.reset:hover{color:var(--danger);border-color:var(--danger)}
+  button.reset:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
   .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;padding:10px 12px;background:var(--surface2);
     border-radius:8px}
   .legend span{display:flex;align-items:center;gap:7px;font-size:.72rem;color:var(--dim)}
@@ -58,7 +109,7 @@
   .col{min-width:212px;max-width:212px;display:flex;flex-direction:column;gap:9px}
   .col.short{align-self:flex-start}
   .col:not(.short) .m{flex:1 1 0;min-height:64px;display:flex;flex-direction:column;justify-content:center}
-  .colh{background:var(--primary);color:#04263a;text-align:center;padding:8px;border-radius:8px;
+  .colh{background:#2ea6e0;color:#04263a;text-align:center;padding:8px;border-radius:8px;
     font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
   .colh small{display:block;font-weight:600;font-size:.66rem;opacity:.8;letter-spacing:0}
   .cat{font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.9px;font-weight:700;
@@ -66,17 +117,18 @@
 
   .m{--agr:#8891a5;
     background:var(--surface);
-    background:color-mix(in srgb, var(--agr) 24%, var(--surface));
+    background:color-mix(in srgb, var(--agr) var(--tint), var(--surface));
     border:3px solid var(--border);border-radius:10px;padding:11px 13px 10px;
     cursor:pointer;position:relative;transition:transform .15s,box-shadow .15s,border-color .15s,filter .15s}
   .m .nm{font-size:.82rem;font-weight:600;line-height:1.28;display:block;color:var(--text)}
   .m .agrn{font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--agr);
-    font-weight:700;margin-top:4px;display:block;filter:brightness(1.2)}
+    font-weight:700;margin-top:4px;display:block;filter:var(--agr-filter)}
   .m .meta{font-size:.68rem;color:var(--dim);display:flex;justify-content:space-between;gap:6px;margin-top:5px}
-  .m .comp{font-weight:700;color:var(--agr);filter:brightness(1.2)}
-  .m.locked{filter:saturate(.45) brightness(.8);opacity:.6;cursor:not-allowed;border-color:rgba(224,90,80,.5)}
+  .m .comp{font-weight:700;color:var(--agr);filter:var(--agr-filter)}
+  .m.locked{filter:saturate(.45) brightness(.8);opacity:.6;cursor:not-allowed;border-color:color-mix(in srgb, var(--locked) 55%, transparent)}
+  :root.theme-light .m.locked{filter:saturate(.55) brightness(.98);opacity:.72}
   .m.partial{border-color:var(--warning)}
-  .m.ready{border-color:#f1f5f9;box-shadow:0 0 14px rgba(241,245,249,.16)}
+  .m.ready{border-color:var(--ready);box-shadow:0 0 14px color-mix(in srgb, var(--ready) 16%, transparent)}
   .m.done{border-color:var(--success)}
   .m.done::after{content:"✓";position:absolute;top:6px;right:9px;color:var(--success);font-weight:800;font-size:.82rem}
   .m.ready:hover,.m.done:hover,.m.partial:hover{transform:translateY(-3px);box-shadow:0 10px 18px rgba(0,0,0,.45)}
@@ -102,24 +154,60 @@
   .elec .emeta{display:flex;justify-content:space-between;gap:6px;font-size:.66rem;color:var(--dim);font-weight:600}
   .elec .emeta .lc{color:var(--compL)}
 </style>
+  <script>
+    /* fija el tema antes de pintar para que no parpadee */
+    (function(){
+      try{
+        var t = localStorage.getItem("malla_tema");
+        if(t !== "light" && t !== "dark")
+          t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        if(t === "light") document.documentElement.classList.add("theme-light");
+      }catch(e){}
+    })();
+  </script>
 </head>
 <body>
 
-<header>
-  <div class="row">
-    <div>
-      <h1>Malla curricular — Ingeniería Civil</h1>
-      <div class="sub">Universidad Nacional de Colombia · Plan flexible 180 créditos (Acuerdo 26 de 2015)</div>
-    </div>
+<div class="topbar">
+  <a class="brand" href="./" aria-label="Malla curricular — inicio">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+      <rect x="3" y="14" width="7" height="7" rx="1.5"></rect><path d="M14 17.5h7M17.5 14v7"></path>
+    </svg>
+    <span><b>Malla curricular</b><small>Ing. Civil · U. Nacional</small></span>
+  </a>
+  <div class="bar-actions">
+    <!-- TODO: cambia esta URL por tu página real de Buy Me a Coffee / Ko-fi / Nequi -->
+    <a class="coffee" href="https://www.buymeacoffee.com/" target="_blank" rel="noopener" aria-label="Invítame un café">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"></path>
+        <path d="M17 9h2.5a2.5 2.5 0 0 1 0 5H17"></path><path d="M7 2v2M11 2v2M15 2v2"></path>
+      </svg>
+      <span>Invítame un café</span>
+    </a>
+    <button class="iconbtn theme-toggle" id="temaBtn" type="button" aria-label="Cambiar el tema">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+      </svg>
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+      </svg>
+    </button>
     <button class="reset" id="resetBtn" type="button">Reiniciar malla</button>
   </div>
+</div>
+
+<header>
+  <h1>Malla curricular — Ingeniería Civil</h1>
+  <div class="sub">Universidad Nacional de Colombia · Plan flexible 180 créditos (Acuerdo 26 de 2015)</div>
   <div class="stats" id="stats"></div>
   <div class="pcont"><div class="pbar" id="pbar"></div></div>
   <div class="sub" id="pct">0% completado</div>
   <div class="legend">
-    <span><i class="sw" style="border-color:rgba(224,90,80,.55)"></i>Bloqueada</span>
+    <span><i class="sw" style="border-color:var(--locked)"></i>Bloqueada</span>
     <span><i class="sw" style="border-color:var(--warning)"></i>Falta 1 prerrequisito</span>
-    <span><i class="sw" style="border-color:#f1f5f9;box-shadow:0 0 6px rgba(241,245,249,.5)"></i>Disponible</span>
+    <span><i class="sw" style="border-color:var(--ready);box-shadow:0 0 6px color-mix(in srgb, var(--ready) 45%, transparent)"></i>Disponible</span>
     <span><i class="sw" style="border-color:var(--success);border-width:2px"></i>Aprobada&nbsp;✓</span>
     <span style="color:var(--dim)">— el fondo de cada celda es su área (ver clave abajo)</span>
   </div>
@@ -402,13 +490,26 @@ function render(){
   });
 }
 
+// ---- tema claro / oscuro ----
+const temaBtn = document.getElementById("temaBtn");
+function temaActual(){ return document.documentElement.classList.contains("theme-light") ? "light" : "dark"; }
+function aplicarTema(t){
+  document.documentElement.classList.toggle("theme-light", t === "light");
+  try{ localStorage.setItem("malla_tema", t); }catch(e){}
+  const txt = t === "light" ? "Cambiar a modo oscuro" : "Cambiar a modo claro";
+  temaBtn.setAttribute("aria-label", txt);
+  temaBtn.title = txt;
+}
+aplicarTema(temaActual());
+temaBtn.addEventListener("click", ()=> aplicarTema(temaActual() === "light" ? "dark" : "light"));
+
 const resetBtn = document.getElementById("resetBtn");
 let armed = 0;
 resetBtn.addEventListener("click", ()=>{
   if(!armed){
     armed = 1; resetBtn.dataset.label = resetBtn.textContent;
     resetBtn.textContent = "¿Seguro? Confirmar";
-    resetBtn.style.color = "#fb7185"; resetBtn.style.borderColor = "#fb7185";
+    resetBtn.style.color = "var(--compL)"; resetBtn.style.borderColor = "var(--compL)";
     setTimeout(()=>{ armed = 0; resetBtn.textContent = resetBtn.dataset.label; resetBtn.style.color = ""; resetBtn.style.borderColor = ""; }, 3500);
     return;
   }

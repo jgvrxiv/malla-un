@@ -12,7 +12,7 @@ El progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.ap
 ## Cómo correrlo
 
 ```bash
-node serve.mjs      # sirve la carpeta en http://localhost:4178
+node serve.mjs      # sirve la carpeta en http://localhost:4179
 ```
 
 No hay build. `index.html` es autocontenido (HTML + CSS + JS vanilla, sin framework). `serve.mjs`
@@ -72,7 +72,25 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 - **Columnas de semestre justificadas**: los semestres 1–8 estiran sus materias (`.m` con
   `flex:1`) para quedar todos a la misma altura; los semestres 9 y 10 (≤3 materias) llevan la
   clase `.short` y quedan a su altura natural.
-- **Estética**: tema oscuro, cero emojis (solo el favicon del Artifact y el ✓ de aprobada).
+- **Barra superior (`.topbar`)**: fija arriba, con marca a la izquierda (glifo SVG + "Malla
+  curricular" / "Ing. Civil · U. Nacional") y a la derecha: botón **"Invítame un café"**
+  (`.coffee`, pill color café), **alternador de tema** (`#temaBtn`, iconos sol/luna en SVG) y
+  **"Reiniciar"** (antes estaba en el `<header>`). El `href` del café es un **placeholder**
+  (`buymeacoffee.com/`) — hay un `<!-- TODO -->` al lado; cambiarlo por la URL real (BMC / Ko-fi /
+  Nequi). Sin librerías de iconos: todos los SVG van inline.
+- **Tema claro / oscuro**: todo el color sale de tokens en `:root` (oscuro por defecto). El tema
+  claro solo redefine esos tokens en `:root.theme-light`. Un `<script>` chico en el `<head>`
+  (antes del `<body>` / del contenido) fija la clase `theme-light` en `document.documentElement`
+  **antes de pintar**, según `localStorage["malla_tema"]` o, si no hay, `prefers-color-scheme`.
+  `aplicarTema()` alterna la clase y persiste. Tokens que se agregaron para poder tematizar:
+  `--ready` (borde "disponible"), `--locked` (borde "bloqueada"), `--tint` (mezcla del color de
+  área en el fondo de la celda), `--agr-filter` (realce del color de área en textos), `--coffee`,
+  `--glow`, `--shadow`. Las `.badge` y varios bordes pasaron de `rgba()` fijos a
+  `color-mix(... var(--token) ...)`. El `.colh` (encabezado de semestre) es azul fijo en los dos
+  temas. `index.html` usa nombres de token distintos (`--primary/--border/--compX/--success…`)
+  pero la misma mecánica.
+- **Estética**: oscuro por defecto (con alternador a claro), cero emojis (solo el favicon del
+  Artifact y el ✓ de aprobada).
   - **Color de celda = agrupación** (el área de la malla oficial: Matemáticas azul, Hidráulica
     cian, Estructuras gris, Geotecnia café, Construcción rosa, Vías naranja, etc.). El mapa está
     en la constante `AGR` (`clave → [color, nombre, etiqueta corta]`) y cada materia trae `a:`.
@@ -97,6 +115,9 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 
 ## Pendiente
 
+- **Poner la URL real del botón "Invítame un café"** (hoy es `buymeacoffee.com/` placeholder).
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
 - ¿Modelar Prácticas / Electivas de Profundización con su corte de 108 / 126 créditos totales?
 - Publicar (Netlify / GitHub Pages).
+- Idea a futuro: convertir esto en una página con marca propia y varias carreras (modelo tipo
+  losestudiantes: independiente, sin logos oficiales, pensa aportados por estudiantes).
