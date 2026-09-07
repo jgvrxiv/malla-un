@@ -27,8 +27,8 @@
     --compB:#0891b2; --compC:#7c3aed; --compL:#e11d48;
     --ready:#475569;
     --locked:#dc4c43;
-    --tint:16%;
-    --agr-filter:saturate(1.1) brightness(.62);
+    --tint:62%;                     /* fichas menos pastel: bastante color de área sobre el blanco */
+    --agr-filter:saturate(1.2) brightness(.45);
     --coffee:#f0c877;
     --glow:rgba(2,132,199,.05);
     --shadow:0 8px 26px rgba(20,32,60,.12);
@@ -126,7 +126,8 @@
   .m .meta{font-size:.68rem;color:var(--dim);display:flex;justify-content:space-between;gap:6px;margin-top:5px}
   .m .comp{font-weight:700;color:var(--agr);filter:var(--agr-filter)}
   .m.locked{filter:saturate(.45) brightness(.8);opacity:.6;cursor:not-allowed;border-color:color-mix(in srgb, var(--locked) 55%, transparent)}
-  :root.theme-light .m.locked{filter:saturate(.55) brightness(.98);opacity:.72}
+  :root.theme-light .m.locked{filter:saturate(.5) brightness(.99);opacity:.7}
+  :root.theme-light .m{--dim:#455468}   /* "X créd." un poco más oscuro sobre el color de la ficha */
   .m.partial{border-color:var(--warning)}
   .m.ready{border-color:var(--ready);box-shadow:0 0 14px color-mix(in srgb, var(--ready) 16%, transparent)}
   .m.done{border-color:var(--success)}
