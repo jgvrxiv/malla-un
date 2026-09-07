@@ -83,12 +83,15 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   (antes del `<body>` / del contenido) fija la clase `theme-light` en `document.documentElement`
   **antes de pintar**, según `localStorage["malla_tema"]` o, si no hay, `prefers-color-scheme`.
   `aplicarTema()` alterna la clase y persiste. Tokens que se agregaron para poder tematizar:
-  `--ready` (borde "disponible"), `--locked` (borde "bloqueada"), `--tint` (46→62% en claro: mezcla del color de
-  área en el fondo de la celda), `--agr-filter` (realce del color de área en textos), `--coffee`,
-  `--glow`, `--shadow`. Las `.badge` y varios bordes pasaron de `rgba()` fijos a
-  `color-mix(... var(--token) ...)`. El `.colh` (encabezado de semestre) es azul fijo en los dos
-  temas. `index.html` usa nombres de token distintos (`--primary/--border/--compX/--success…`)
-  pero la misma mecánica.
+  `--ready` (borde "disponible"), `--locked` (borde "bloqueada"), `--tint` (24% oscuro / **45%**
+  claro: cuánto color de área lleva el fondo de la celda; en claro el usuario lo quiso más
+  cargado que un pastel pero sin romper el texto oscuro), `--agr-filter` (realce del color de
+  área en textos), `--coffee`, `--glow`, `--shadow`. Las `.badge` y varios bordes pasaron de
+  `rgba()` fijos a `color-mix(... var(--token) ...)`. El **`.colh`** (encabezado de semestre) ya
+  **no es la caja azul fuerte** (chocaba con el resto en los dos temas): ahora es una caja con
+  `--surface2` + borde `--line`, "SEMESTRE N" en `--text` y los créditos en `--dim`.
+  `index.html` usa nombres de token distintos (`--primary/--border/--compX/--success…`) pero la
+  misma mecánica.
 - **Estética**: oscuro por defecto (con alternador a claro), cero emojis (solo el favicon del
   Artifact y el ✓ de aprobada).
   - **Color de celda = agrupación** (el área de la malla oficial: Matemáticas azul, Hidráulica
