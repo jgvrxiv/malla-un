@@ -27,8 +27,8 @@
     --compB:#0891b2; --compC:#7c3aed; --compL:#e11d48;
     --ready:#475569;
     --locked:#dc4c43;
-    --tint:62%;                     /* fichas menos pastel: bastante color de área sobre el blanco */
-    --agr-filter:saturate(1.2) brightness(.45);
+    --tint:45%;                     /* fichas menos pastel: algo de color de área sobre el blanco */
+    --agr-filter:saturate(1.15) brightness(.5);
     --coffee:#f0c877;
     --glow:rgba(2,132,199,.05);
     --shadow:0 8px 26px rgba(20,32,60,.12);
@@ -109,9 +109,10 @@
   .col{min-width:212px;max-width:212px;display:flex;flex-direction:column;gap:9px}
   .col.short{align-self:flex-start}
   .col:not(.short) .m{flex:1 1 0;min-height:64px;display:flex;flex-direction:column;justify-content:center}
-  .colh{background:#2ea6e0;color:#04263a;text-align:center;padding:8px;border-radius:8px;
-    font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
-  .colh small{display:block;font-weight:600;font-size:.66rem;opacity:.8;letter-spacing:0}
+  .colh{background:var(--surface2);border:1px solid var(--border);border-radius:9px;text-align:center;
+    padding:9px 8px;color:var(--text);font-weight:800;font-size:.76rem;text-transform:uppercase;letter-spacing:.05em}
+  .colh small{display:block;font-weight:600;font-size:.64rem;opacity:1;color:var(--dim);
+    letter-spacing:.02em;margin-top:2px;text-transform:none}
   .cat{font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.9px;font-weight:700;
     border-bottom:1px solid var(--border);padding:8px 2px 3px}
 
