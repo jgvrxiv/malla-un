@@ -78,19 +78,17 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   **"Reiniciar"** (antes estaba en el `<header>`). El `href` del café es un **placeholder**
   (`buymeacoffee.com/`) — hay un `<!-- TODO -->` al lado; cambiarlo por la URL real (BMC / Ko-fi /
   Nequi). Sin librerías de iconos: todos los SVG van inline.
-- **Tema claro / oscuro**: por decisión del usuario, el **"tema claro" es el mismo tema oscuro
-  con el fondo de la página (`--bg`) en azul muy claro** (`#d8e4f6`) — las celdas, el header y la
-  barra quedan idénticas al oscuro ("mantén las materias tal cual"). Por eso `:root.theme-light`
-  solo cambia `--bg`; aparte, un par de reglas suben el contraste de lo que queda sobre ese
-  fondo: `:root.theme-light .cat{color:#54657f;...}` (los rótulos entre celdas) y el `footer`.
-  Un `<script>` chico en el `<head>` (antes del contenido) fija la clase `theme-light` en
-  `document.documentElement` **antes de pintar**, según `localStorage["malla_tema"]` o, si no
-  hay, `prefers-color-scheme`. `aplicarTema()` alterna la clase y persiste. Tokens que se
-  agregaron al refactor (se usan igual en los dos temas): `--ready` (borde "disponible"),
-  `--locked` (borde "bloqueada"), `--tint`, `--agr-filter`, `--coffee`, `--glow`, `--shadow`.
-  Las `.badge` y varios bordes pasaron de `rgba()` fijos a `color-mix(... var(--token) ...)`.
-  El `.colh` es azul fijo. `index.html` usa nombres de token distintos
-  (`--primary/--border/--compX/--success…`) pero la misma mecánica.
+- **Tema claro / oscuro**: todo el color sale de tokens en `:root` (oscuro por defecto). El tema
+  claro solo redefine esos tokens en `:root.theme-light`. Un `<script>` chico en el `<head>`
+  (antes del `<body>` / del contenido) fija la clase `theme-light` en `document.documentElement`
+  **antes de pintar**, según `localStorage["malla_tema"]` o, si no hay, `prefers-color-scheme`.
+  `aplicarTema()` alterna la clase y persiste. Tokens que se agregaron para poder tematizar:
+  `--ready` (borde "disponible"), `--locked` (borde "bloqueada"), `--tint` (mezcla del color de
+  área en el fondo de la celda), `--agr-filter` (realce del color de área en textos), `--coffee`,
+  `--glow`, `--shadow`. Las `.badge` y varios bordes pasaron de `rgba()` fijos a
+  `color-mix(... var(--token) ...)`. El `.colh` (encabezado de semestre) es azul fijo en los dos
+  temas. `index.html` usa nombres de token distintos (`--primary/--border/--compX/--success…`)
+  pero la misma mecánica.
 - **Estética**: oscuro por defecto (con alternador a claro), cero emojis (solo el favicon del
   Artifact y el ✓ de aprobada).
   - **Color de celda = agrupación** (el área de la malla oficial: Matemáticas azul, Hidráulica

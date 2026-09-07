@@ -21,11 +21,18 @@
     --shadow:0 6px 26px rgba(0,0,0,.4);
   }
   :root.theme-light{
-    /* "tema claro" = el MISMO tema oscuro, solo que el fondo de la página va en azul muy claro.
-       Las celdas, el header y la barra quedan idénticos al oscuro (así lo pidió el usuario). */
-    --bg:#d8e4f6;
+    /* tema claro: se redefinen solo los tokens */
+    --bg:#f3f6fc; --surface:#ffffff; --surface2:#eef2f8;
+    --primary:#0284c7; --text:#1b2536; --dim:#586a86; --border:#d5deec;
+    --compB:#0891b2; --compC:#7c3aed; --compL:#e11d48;
+    --ready:#475569;
+    --locked:#dc4c43;
+    --tint:16%;
+    --agr-filter:saturate(1.1) brightness(.62);
+    --coffee:#f0c877;
+    --glow:rgba(2,132,199,.05);
+    --shadow:0 8px 26px rgba(20,32,60,.12);
   }
-  :root.theme-light .cat{color:#54657f;border-bottom-color:#c6d3e6}
   *{box-sizing:border-box}
   html{background:var(--bg)}
   body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--text);margin:0;padding:18px;
@@ -119,6 +126,7 @@
   .m .meta{font-size:.68rem;color:var(--dim);display:flex;justify-content:space-between;gap:6px;margin-top:5px}
   .m .comp{font-weight:700;color:var(--agr);filter:var(--agr-filter)}
   .m.locked{filter:saturate(.45) brightness(.8);opacity:.6;cursor:not-allowed;border-color:color-mix(in srgb, var(--locked) 55%, transparent)}
+  :root.theme-light .m.locked{filter:saturate(.55) brightness(.98);opacity:.72}
   .m.partial{border-color:var(--warning)}
   .m.ready{border-color:var(--ready);box-shadow:0 0 14px color-mix(in srgb, var(--ready) 16%, transparent)}
   .m.done{border-color:var(--success)}
@@ -136,11 +144,11 @@
   .elec .etop{font-size:.71rem;font-weight:600;color:var(--text);line-height:1.3}
   .elec .ecenter{flex:1;display:flex;align-items:center;justify-content:center;padding:9px 0}
   .elctl{display:flex;align-items:center;gap:7px}
-  .elctl button{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);
+  .elctl button{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg);
     color:var(--text);font-size:1.2rem;line-height:1;cursor:pointer}
   .elctl button:hover{border-color:var(--compL);color:var(--compL)}
   .elctl button:focus-visible{outline:2px solid var(--compL);outline-offset:2px}
-  .elctl input{width:54px;height:32px;background:var(--surface2);color:var(--text);border:1px solid var(--border);
+  .elctl input{width:54px;height:32px;background:var(--bg);color:var(--text);border:1px solid var(--border);
     border-radius:8px;font:inherit;font-size:.98rem;font-weight:600;text-align:center}
   .elctl input:focus-visible{outline:2px solid var(--compL);outline-offset:1px}
   .elec .emeta{display:flex;justify-content:space-between;gap:6px;font-size:.66rem;color:var(--dim);font-weight:600}
