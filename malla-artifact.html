@@ -147,7 +147,7 @@
   .legend span{display:flex;align-items:center;gap:7px;font-size:.71rem;color:var(--dim)}
   .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent;flex:none}
 
-  .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:flex-start}
+  .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
   .tailcols{display:flex;gap:14px;align-items:stretch}
   .tailcols .col.short{align-self:stretch}
   .tailcols .col.short .m{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
@@ -159,8 +159,7 @@
   .agrkey span{display:flex;align-items:center;gap:6px;font-size:.68rem;color:var(--dim)}
   .agrkey i{width:11px;height:11px;border-radius:3px;flex:none}
 
-  /* cada columna a su propia altura: un nombre largo en un semestre no estira los demás */
-  .rail{display:flex;gap:14px;padding:20px 4px 30px;overflow-x:auto;align-items:flex-start;
+  .rail{display:flex;gap:14px;padding:20px 4px 30px;overflow-x:auto;align-items:stretch;
     scrollbar-width:thin;scrollbar-color:var(--line) transparent}
   .rail::-webkit-scrollbar{height:10px}
   .rail::-webkit-scrollbar-track{background:transparent}
