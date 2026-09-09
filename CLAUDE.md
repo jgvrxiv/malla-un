@@ -1,9 +1,10 @@
-# Malla Ingeniería Civil — UNAL
+# Malla curricular — UNAL
 
-App web de una sola página para seguir el avance en el pensum de **Ingeniería Civil de la
-Universidad Nacional de Colombia (Sede Bogotá)** — plan flexible 180 créditos, Acuerdo 26 de
-2015. Se hace clic en una materia para aprobarla; se van desbloqueando las que dependen de ella.
-El progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.app.
+App web de una sola página para seguir el avance en los pensa de la **Universidad Nacional de
+Colombia (Sede Bogotá)**. Empezó con **Ingeniería Civil** (plan flexible 180 créditos, Acuerdo 26
+de 2015) y hoy tiene 6 carreras (Civil, Química, Agrícola, Industrial, Sistemas, Eléctrica). Se
+hace clic en una materia para aprobarla; se van desbloqueando las que dependen de ella. El
+progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.app.
 
 > **Idioma:** el usuario es colombiano (Bogotá). Todo el texto de la app, docs, comentarios y
 > mensajes de commit va en español neutro/colombiano — **sin voseo** ("haces", no "hacés";
@@ -25,19 +26,37 @@ sube la carpeta entera.
 existe sólo porque es el que se publica como Artifact). Un solo archivo autocontenido con **dos
 vistas** y un router por hash:
 
-- `#inicio` (por defecto) — **página de inicio**: hero, grilla de carreras (Civil y Química
-  activas; el resto "Próximamente"), "cómo funciona", "¿falta tu carrera?" y footer con el
-  descargo de *proyecto estudiantil independiente*. Café y correo son **placeholders**
-  (`<!-- TODO -->`).
-- `#civil` / `#quimica` / `#agricola` — **una sola vista** `#view-malla` que muestra la carrera del hash.
+- `#inicio` (por defecto) — **página de inicio**: hero, grilla de carreras (6 activas: Civil,
+  Química, Agrícola, Industrial, Sistemas, Eléctrica; el resto "Próximamente"), "cómo funciona",
+  "¿falta tu carrera?" y footer con el descargo de *proyecto estudiantil independiente*. Café y
+  correo son **placeholders** (`<!-- TODO -->`).
+- `#civil` / `#quimica` / `#agricola` / `#industrial` / `#sistemas` / `#electrica` — **una sola
+  vista** `#view-malla` que muestra la carrera del hash.
 
-**Registro `MALLAS = { civil, quimica, agricola }`.** Cada entrada trae `sems`, `agr`,
-`store`/`elecStore` (claves de `localStorage`), `meta` (denominadores de las badges por
-componente), `sem9fix` y `foot` (HTML del pie). `SEMS_<X>`/`AGR_<X>` son las constantes de datos. `setMalla(key)` cambia los `let` activos (`SEMS`, `AGR`, `ALL`, `META`, `STORE`,
-`ELEC_STORE`, `SEM9FIX`) y relee `approved`/`elec` del navegador. **El motor no cambió**: las
-funciones (`progress`, `cascade`, `toggle`, `card`, `render`…) son las mismas, solo leen esos
+**Registro `MALLAS = { civil, quimica, agricola, industrial, sistemas, electrica }`.** Cada
+entrada trae `sems`, `agr`, `store`/`elecStore` (claves de `localStorage`), `meta` (denominadores
+de las badges por componente), `sem9fix`, `compact`, `target`/`libreMeta` (opcionales, por
+defecto 180/36) y `foot` (HTML del pie). `SEMS_<X>`/`AGR_<X>` son las constantes de datos.
+`setMalla(key)` cambia los `let` activos (`TARGET`, `LIBRE_META`, `SEMS`, `AGR`, `ALL`, `META`,
+`STORE`, `ELEC_STORE`, `SEM9FIX`) y relee `approved`/`elec` del navegador. **El motor no cambió**:
+las funciones (`progress`, `cascade`, `toggle`, `card`, `render`…) son las mismas, solo leen esos
 `let` en vez de constantes. `render()` aplica el apaño de altura del sem 9 **solo si `SEM9FIX`**
 (true solo para civil).
+
+- **`TARGET` / `LIBRE_META` por carrera**: eran `const 180/36`; ahora son `let` que `setMalla()`
+  fija desde `M.target` / `M.libreMeta` (Civil/Química/Agrícola 180/36 · Industrial 168/34 ·
+  Sistemas 165/33 · Eléctrica 167/33).
+- **`.short` = solo los dos últimos semestres** (`i >= SEMS.length - 2`), no por conteo de
+  materias. Antes era `sem.m.length <= 3`, lo que desjustificaba carreras con un semestre corto
+  en medio (Eléctrica sem 2 y 8 tienen 3 materias). Los semestres 1–8 SIEMPRE se estiran a la
+  misma altura.
+- **Semestre 100% libre elección** (`sem.m` vacío — Sistemas e Industrial sem 9): `render()` le
+  pone un encabezado "Libre Elección" + una nota (`.semnote`) en vez de fichas.
+- **`compact`** (`compact:true` en `MALLAS`): fichas más chicas, mismo diseño justificado.
+  Lo usan Agrícola, Industrial, Sistemas y Eléctrica. La clase `#view-malla.compact` la pone el
+  router. Además el router pone `#view-malla.malla-<key>` para reglas propias de una carrera
+  (el ajuste fino de sem 9/10 de Agrícola — celdas a 96/118 px — está scopeado a
+  `.malla-agricola`, no a `.compact`).
 
 El router (`route()` + `hashchange`) alterna `#view-inicio` / `#view-malla` con `[hidden]`,
 llama `setMalla` + `render`, rellena `#m-h1` / `#m-sub` / `#m-foot`, muestra/oculta "Reiniciar",
@@ -56,9 +75,28 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   Cortes solo `{comp:"C",min:40/65/68}` (Electrotecnia / Taller Interdisciplinario / Trabajo de
   Grado). Códigos reales del PDF. PDF descargado y rasterizado con `mupdf`+`sharp` en el
   scratchpad para leer el diagrama.
-- **Alturas de sem 9/10**: en carreras sin `sem9fix` (Química, Agrícola) el `.tailgroup` lleva
-  la clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a `flex:0 0 auto` (la clave de
-  colores no queda con espacio sobrante). Civil conserva su ajuste fino.
+- **Industrial**: nombres, códigos, créditos, componentes y agrupaciones de la malla oficial
+  (Acuerdo 024 de 2014); **prerrequisitos reconstruidos del diagrama** (nodos con letras) —
+  faltan verificar. Metas B 42 / C 92 / L 34 = 168 (cuadran con los totales de componente del
+  PDF: Fund. 22 oblig + 20 opt; Discipl. 52 oblig + 40 opt; Libre 34). Sem 9 = 100% libre.
+  Corte `{comp:"C",min:70}` → Trabajo de Grado.
+- **Sistemas y Computación**: plan 2A74, Acuerdo 033 de 2007. Metas B 51 / C 81 / L 33 = 165
+  (cuadran con el PDF: Matemáticas 16, Prob/Est 3, Cs. Computación 18, Física 8, Cs. Econ. 6 = B;
+  Métodos y Tec. Software 21, Infraestructura 30, Comp. Visual 3, Sist. Inteligentes 3, SMOS 12,
+  Contexto 6, TG 6 = C). Sem 9 = 100% libre. `{comp:"C",min:55}` (Taller de Proyectos
+  Interdisciplinarios) y `{comp:"C",min:60}` (Trabajo de Grado — id `TG_SIS`, el PDF no da el
+  código) son **estimados** (el PDF los marca con `*` sin número). Prerrequisitos reconstruidos
+  del diagrama de flechas numeradas.
+- **Eléctrica**: plan de estudios 2544. Metas B 63 / C 71 / L 33 = 167 (cuadran con el PDF:
+  Fund. 51 oblig + 12 opt; Discipl. 63 oblig + 8 opt; Libre 33). La Nivelación y la Lengua
+  Extranjera no se incluyen. Cortes `{comp:"T",min:121}` (70% del programa → Taller de Proyectos
+  Interdisciplinarios) y `{comp:"C",min:63}` (80% disciplinar → Trabajo de Grado). Prerrequisitos
+  reconstruidos del diagrama (nodos con letras).
+- **Alturas de sem 9/10**: en carreras sin `sem9fix` (Química, Agrícola, Industrial, Sistemas,
+  Eléctrica) el `.tailgroup` lleva la clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a
+  `flex:0 0 auto` (la clave de colores no queda con espacio sobrante). Civil conserva su ajuste
+  fino. El apaño de Agrícola (celdas de sem 9/10 a 96/118 px exactos) está scopeado a
+  `#view-malla.malla-agricola`.
 - `PENSUM_BORRADOR.md` — extracción cruda del PDF de Civil + notas de verificación.
 - `PLAN_ING (2).pdf` — malla oficial de Civil.
 - `serve.mjs` — servidor estático dev (:4179).

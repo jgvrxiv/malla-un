@@ -212,10 +212,15 @@
   #view-malla.compact .col:not(.short) .m{min-height:46px}
   #view-malla.compact .cat{padding:5px 2px 3px}
   #view-malla.compact .colh{padding:7px 8px}
-  /* sem 9 y 10: todas las celdas (izquierda y derecha) exactamente del mismo alto */
-  #view-malla.compact .tailcols .col .m{flex:0 0 auto;min-height:96px}
+  /* Agrícola: sem 9 y 10 con 2–3 materias por columna — se igualan todas las celdas (izq. y der.)
+     al mismo alto; solo aplica a esta carrera (las demás usan el estirado normal de .tg-fill) */
+  #view-malla.malla-agricola .tailcols .col .m{flex:0 0 auto;min-height:96px}
   /* la última celda del sem 9 (optativa) iguala al recuadro de Libre Elección del sem 10 */
-  #view-malla.compact .tailcols .col:first-child .m:last-of-type{min-height:118px}
+  #view-malla.malla-agricola .tailcols .col:first-child .m:last-of-type{min-height:118px}
+
+  /* semestre dedicado por completo a Libre Elección (Sistemas / Industrial: sem 9) */
+  .semnote{margin:0;padding:11px 4px;font-size:.72rem;color:var(--dim);line-height:1.45}
+  .tailcols .col.short .semnote{flex:1 0 auto;display:flex;align-items:center;justify-content:center;text-align:center}
 
   .tip{visibility:hidden;opacity:0;position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);
     width:214px;background:#060c18;color:#dbe6f5;border:1px solid var(--line);border-radius:9px;padding:9px 11px;
@@ -300,7 +305,7 @@
 
     <div class="sec-h">
       <h2>Carreras</h2>
-      <span>3 disponibles · más en camino</span>
+      <span>6 disponibles · más en camino</span>
     </div>
 
     <div class="cards">
@@ -328,8 +333,30 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </span>
       </a>
-      <div class="carrera soon" style="--c:#5aa9e6"><span class="tag">Próximamente</span><span class="cn">Ingeniería de Sistemas y Computación</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-      <div class="carrera soon" style="--c:#e3b955"><span class="tag">Próximamente</span><span class="cn">Ingeniería Eléctrica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <a class="carrera" href="#industrial" style="--c:#e08a4e">
+        <span class="tag live">Disponible</span>
+        <span class="cn">Ingeniería Industrial</span>
+        <span class="cm">Acuerdo 024 de 2014 · 168 créditos</span>
+        <span class="go">Abrir malla
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
+      <a class="carrera" href="#sistemas" style="--c:#5aa9e6">
+        <span class="tag live">Disponible</span>
+        <span class="cn">Ingeniería de Sistemas y Computación</span>
+        <span class="cm">Plan 2A74 · Acuerdo 033 de 2007 · 165 créditos</span>
+        <span class="go">Abrir malla
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
+      <a class="carrera" href="#electrica" style="--c:#e3b955">
+        <span class="tag live">Disponible</span>
+        <span class="cn">Ingeniería Eléctrica</span>
+        <span class="cm">Plan de estudios 2544 · 167 créditos</span>
+        <span class="go">Abrir malla
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
       <div class="carrera soon" style="--c:#ac93da"><span class="tag">Próximamente</span><span class="cn">Ingeniería Electrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#9aa6b6"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecánica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#f0a24a"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecatrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
@@ -352,7 +379,9 @@
 
     <div class="site-foot">
       <span>Proyecto estudiantil independiente · no afiliado a la Universidad Nacional. Ante la duda, consulta el SIA.</span>
-      <span><a data-go="#civil">Civil</a> verificada con un estudiante · <a data-go="#quimica">Química</a> y <a data-go="#agricola">Agrícola</a> reconstruidas de las mallas oficiales (falta verificar prerrequisitos).</span>
+      <span><a data-go="#civil">Civil</a> verificada con un estudiante · <a data-go="#quimica">Química</a>, <a data-go="#agricola">Agrícola</a>,
+        <a data-go="#industrial">Industrial</a>, <a data-go="#sistemas">Sistemas</a> y <a data-go="#electrica">Eléctrica</a> reconstruidas de las mallas
+        oficiales (falta verificar prerrequisitos).</span>
     </div>
   </div>
 </div>
@@ -638,6 +667,245 @@ const AGR_AGRICOLA = {
   bd:   ["#7f8a9e", "Disciplinar (sin agrupación)", "Disciplinar"],
 };
 
+// Ingeniería Industrial — malla oficial Acuerdo 024 de 2014 (Fac. de Ingeniería, Sede Bogotá).
+// Nombres, códigos, créditos, componentes y agrupaciones del PDF oficial; prerrequisitos leídos del
+// diagrama (letras/flechas) — faltan verificar contra el SIA. El semestre 9 es de libre elección.
+const SEMS_INDUSTRIAL = [
+ {s:1, m:[
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"2015811", n:"Sociología Especial: Industrial y del Trabajo", c:3, comp:"C", a:"sh", r:[]},
+   {id:"2026805", n:"Introducción a la Ingeniería Industrial", c:3, comp:"C", a:"ctx", r:[]},
+   {id:"2015734", n:"Programación de Computadores", c:3, comp:"B", a:"prog", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"2016615", n:"Taller de Invención y Creatividad", c:3, comp:"C", a:"sh", r:["2026805"]},
+   {id:"2016375", n:"Programación Orientada a Objetos", c:3, comp:"B", a:"prog", r:["2015734"]},
+ ]},
+ {s:3, m:[
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000005"]},
+   {id:"OPT_ECOGEN_I", n:"Optativa - Economía General", c:3, comp:"C", a:"eco", opt:true, r:[]},
+   {id:"2026488", n:"Taller de Herramientas y Problemas en Ingeniería Industrial", c:3, comp:"C", a:"ctx", r:["2026805","2016615"]},
+   {id:"2027877", n:"Probabilidad Fundamental", c:4, comp:"B", a:"est", r:["1000005"]},
+ ]},
+ {s:4, m:[
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000017", n:"Fundamentos de Electricidad y Magnetismo", c:4, comp:"B", a:"fis", r:["1000019","1000006"]},
+   {id:"OPT_COSTOS_I", n:"Optativa - Sistema de Costos", c:4, comp:"C", a:"eco", opt:true, r:[]},
+   {id:"OPT_GESTEMP_I", n:"Optativa - Gestión Empresarial", c:3, comp:"C", a:"ag", opt:true, r:["2016615"]},
+   {id:"2025993", n:"Taller de Ciencia y Tecnología de Materiales", c:4, comp:"C", a:"mp", r:["1000019"]},
+   {id:"2027878", n:"Inferencia Estadística Fundamental", c:4, comp:"B", a:"est", r:["2027877"]},
+ ]},
+ {s:5, m:[
+   {id:"OPT_MODSIM_I", n:"Optativa - Modelos y Simulación", c:3, comp:"C", a:"smos", opt:true, r:["2027877"]},
+   {id:"OPT_OPTIM_I", n:"Optativa - Optimización", c:3, comp:"C", a:"smos", opt:true, r:["1000003","2027877"]},
+   {id:"2025986", n:"Ingeniería Económica y Análisis de Riesgo", c:3, comp:"C", a:"eco", r:["1000005","2027877"]},
+   {id:"2016619", n:"Taller de Procesos Químicos y Biotecnológicos", c:3, comp:"C", a:"mp", r:["2025993"]},
+   {id:"2016618", n:"Taller de Procesos Metalmecánicos", c:3, comp:"C", a:"mp", r:["2025993"]},
+   {id:"OPT_CGC_I", n:"Optativa - Control y Gestión de Calidad", c:3, comp:"C", a:"prod", opt:true, r:["2027878"]},
+ ]},
+ {s:6, m:[
+   {id:"2025987", n:"Modelos Estocásticos para Procesos de Manufactura y Sistemas de Servicio", c:3, comp:"C", a:"smos", r:["2027878"]},
+   {id:"OPT_GGP_I", n:"Optativa - Gerencia y Gestión de Proyectos", c:3, comp:"C", a:"ag", opt:true, r:["2025986"]},
+   {id:"OPT_FIN_I", n:"Optativa - Finanzas", c:3, comp:"C", a:"eco", opt:true, r:["2025986"]},
+   {id:"2016613", n:"Taller de Ergonomía e Ingeniería de Métodos", c:4, comp:"C", a:"prod", r:["2026488"]},
+ ]},
+ {s:7, m:[
+   {id:"2025988", n:"Taller de Simulación de Procesos de Manufactura y Sistemas de Servicios", c:3, comp:"C", a:"smos", r:["2025987"]},
+   {id:"OPT_SI_I", n:"Optativa - Sistemas de Información", c:3, comp:"C", a:"si", opt:true, r:["2016375"]},
+   {id:"2016609", n:"Seguridad Industrial", c:3, comp:"C", a:"prod", r:["2016613"]},
+   {id:"2016614", n:"Taller de Ingeniería de la Producción", c:4, comp:"C", a:"prod", r:["2025987"]},
+   {id:"2016616", n:"Taller de Metodología de la Investigación", c:3, comp:"C", a:"sh", r:["2016615"]},
+ ]},
+ {s:8, m:[
+   {id:"2016605", n:"Logística", c:3, comp:"C", a:"prod", r:["2016614"]},
+   {id:"OPT_GT_I", n:"Optativa - Gestión Tecnológica", c:3, comp:"C", a:"ag", opt:true, r:["2025986"]},
+   {id:"OPT_GRH_I", n:"Optativa - Gerencia de Recursos Humanos", c:3, comp:"C", a:"ag", opt:true, r:[]},
+   {id:"2016612", n:"Taller de Diseño de Plantas", c:4, comp:"C", a:"prod", r:["2016614"]},
+ ]},
+ {s:9, m:[]},
+ {s:10, m:[
+   {id:"2025990", n:"Trabajo de Grado", c:6, comp:"C", a:"tg", r:[{comp:"C",min:70}]},
+ ]},
+];
+const AGR_INDUSTRIAL = {
+  mat:  ["#5aa9e6", "Matemáticas", "Matemáticas"],
+  fis:  ["#e3b955", "Física", "Física"],
+  est:  ["#6f9bd8", "Probabilidad y Estadística", "Prob. y Estadística"],
+  prog: ["#c56bd0", "Programación", "Programación"],
+  sh:   ["#e07aa4", "Sociohumanística", "Sociohumanística"],
+  mp:   ["#b0865f", "Materiales y Procesos", "Materiales y Procesos"],
+  smos: ["#9aa6b6", "Sistemas, Modelos, Optimización y Simulación", "Modelos y Optimización"],
+  ag:   ["#33ac9d", "Administración y Gestión", "Administración y Gestión"],
+  prod: ["#f0a24a", "Producción y Operaciones", "Producción y Operaciones"],
+  eco:  ["#3fb277", "Economía y Finanzas", "Economía y Finanzas"],
+  si:   ["#4fc7ea", "Sistemas de Información", "Sistemas de Información"],
+  ctx:  ["#7f8a9e", "Contexto Profesional y Proyectos de Ingeniería", "Contexto Profesional"],
+  tg:   ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Ingeniería de Sistemas y Computación — plan 2A74 (Acuerdo 033 de 2007 del CSU).
+// Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial; prerrequisitos
+// reconstruidos del diagrama de flechas — faltan verificar contra el SIA. El semestre 9 es libre.
+const SEMS_SISTEMAS = [
+ {s:1, m:[
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"2025975", n:"Introducción a la Ingeniería de Sistemas y Computación", c:3, comp:"C", a:"ctx", r:[]},
+   {id:"2015734", n:"Programación de Computadores", c:3, comp:"C", a:"mts", r:[]},
+   {id:"2016703", n:"Pensamiento Sistémico", c:3, comp:"C", a:"smos", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000004"]},
+   {id:"2016375", n:"Programación Orientada a Objetos", c:3, comp:"C", a:"mts", r:["2015734"]},
+ ]},
+ {s:3, m:[
+   {id:"1000017", n:"Fundamentos de Electricidad y Magnetismo", c:4, comp:"B", a:"fis", r:["1000005","1000019"]},
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"2025963", n:"Matemáticas Discretas I", c:4, comp:"B", a:"cc", r:["1000003"]},
+   {id:"2016698", n:"Elementos de Computadores", c:3, comp:"C", a:"infra", r:["2015734"]},
+   {id:"2016353", n:"Bases de Datos", c:3, comp:"C", a:"infra", r:["2016375"]},
+ ]},
+ {s:4, m:[
+   {id:"1000013", n:"Probabilidad y Estadística Fundamental", c:3, comp:"B", a:"est", r:["1000006"]},
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", a:"eco", r:["1000005"]},
+   {id:"2025964", n:"Matemáticas Discretas II", c:4, comp:"B", a:"cc", r:["2025963"]},
+   {id:"2016699", n:"Estructuras de Datos", c:3, comp:"C", a:"mts", r:["2016375","2025963"]},
+   {id:"2016697", n:"Arquitectura de Computadores", c:3, comp:"C", a:"infra", r:["2016698"]},
+ ]},
+ {s:5, m:[
+   {id:"2025970", n:"Modelos y Simulación", c:3, comp:"C", a:"smos", r:["1000013","2016375","1000006"]},
+   {id:"2015702", n:"Gerencia y Gestión de Proyectos", c:3, comp:"B", a:"eco", r:["2015703"]},
+   {id:"2025967", n:"Redes de Computadores", c:3, comp:"C", a:"infra", r:["1000017","2016697","2025964"]},
+   {id:"2016701", n:"Ingeniería de Software I", c:3, comp:"C", a:"mts", r:["2016703","2016699"]},
+   {id:"2015174", n:"Introducción a la Teoría de la Computación", c:4, comp:"B", a:"cc", r:["2025963"]},
+ ]},
+ {s:6, m:[
+   {id:"2025971", n:"Optimización", c:3, comp:"C", a:"smos", r:["2025970"]},
+   {id:"2025982", n:"Sistemas de Información", c:3, comp:"C", a:"infra", r:["2016703","2016353"]},
+   {id:"2015970", n:"Métodos Numéricos", c:3, comp:"B", a:"cc", r:["1000006","2015734"]},
+   {id:"2016702", n:"Ingeniería de Software II", c:3, comp:"C", a:"mts", r:["2016701"]},
+   {id:"2016696", n:"Algoritmos", c:3, comp:"B", a:"cc", r:["2016699","2015174"]},
+   {id:"2016707", n:"Sistemas Operativos", c:3, comp:"C", a:"infra", r:["2016697"]},
+ ]},
+ {s:7, m:[
+   {id:"2025969", n:"Modelos Estocásticos y Simulación en Computación y Comunicaciones", c:3, comp:"C", a:"smos", r:["2025970","2025967"]},
+   {id:"2025983", n:"Arquitectura de Infraestructura y Gobierno de TICs", c:3, comp:"C", a:"infra", r:["2016702","2025982"]},
+   {id:"2025994", n:"Teoría de la Información y Sistemas de Comunicaciones", c:3, comp:"C", a:"infra", r:["1000013","2025967"]},
+   {id:"2016716", n:"Arquitectura de Software", c:3, comp:"C", a:"mts", r:["2016702"]},
+   {id:"2025995", n:"Introducción a los Sistemas Inteligentes", c:3, comp:"C", a:"si", r:["2016696"]},
+   {id:"2025966", n:"Lenguajes de Programación", c:3, comp:"C", a:"mts", r:["2016699","2015174"]},
+ ]},
+ {s:8, m:[
+   {id:"2024045", n:"Taller de Proyectos Interdisciplinarios", c:3, comp:"C", a:"ctx", r:[{comp:"C",min:55}]},
+   {id:"2025968", n:"Computación Paralela y Distribuida", c:3, comp:"C", a:"infra", r:["2016707"]},
+   {id:"2025972", n:"Introducción a la Criptografía y a la Seguridad de la Información", c:3, comp:"C", a:"infra", r:["2016707"]},
+   {id:"2025960", n:"Computación Visual", c:3, comp:"C", a:"cv", r:["2016696"]},
+ ]},
+ {s:9, m:[]},
+ {s:10, m:[
+   {id:"TG_SIS", n:"Trabajo de Grado", c:6, comp:"C", a:"tg", r:[{comp:"C",min:60}]},
+ ]},
+];
+const AGR_SISTEMAS = {
+  mat:  ["#5aa9e6", "Matemáticas", "Matemáticas"],
+  est:  ["#6f9bd8", "Probabilidad y Estadística", "Prob. y Estadística"],
+  cc:   ["#7f8a9e", "Ciencias de la Computación", "Cs. de la Computación"],
+  fis:  ["#e3b955", "Física", "Física"],
+  eco:  ["#33ac9d", "Ciencias Económicas y Administrativas", "Económico-Admin."],
+  mts:  ["#8ec44e", "Métodos y Tecnologías de Software", "Métodos y Tec. de Software"],
+  infra:["#4fc7ea", "Infraestructura Computacional, de Comunicaciones y de Información", "Infraestructura Comput."],
+  cv:   ["#e07aa4", "Computación Visual", "Computación Visual"],
+  si:   ["#c56bd0", "Sistemas Inteligentes", "Sistemas Inteligentes"],
+  smos: ["#f0a24a", "Sistemas, Modelos, Optimización y Simulación", "Modelos y Optimización"],
+  ctx:  ["#b0865f", "Contexto Profesional y Proyectos de Ingeniería", "Contexto Profesional"],
+  tg:   ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Ingeniería Eléctrica — plan de estudios 2544 (Fac. de Ingeniería, Sede Bogotá).
+// Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial; prerrequisitos
+// reconstruidos del diagrama de flechas — faltan verificar contra el SIA. La Nivelación y la
+// Lengua Extranjera no se incluyen (no cuentan en los 167 créditos).
+const SEMS_ELECTRICA = [
+ {s:1, m:[
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"2015734", n:"Programación de Computadores", c:3, comp:"B", a:"info", r:[]},
+   {id:"2016856", n:"Introducción a la Ingeniería Eléctrica", c:5, comp:"C", a:"ctx", r:[]},
+   {id:"2016862", n:"Taller de Ingeniería Eléctrica", c:2, comp:"C", a:"ctx", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000004"]},
+ ]},
+ {s:3, m:[
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000017", n:"Fundamentos de Electricidad y Magnetismo", c:4, comp:"B", a:"fis", r:["1000005","1000019"]},
+   {id:"1000040", n:"Introducción a la Ciencia de Materiales", c:3, comp:"B", a:"cmat", r:["1000019"]},
+   {id:"2016489", n:"Circuitos Eléctricos I", c:3, comp:"C", a:"cyc", r:["1000003","1000017"]},
+ ]},
+ {s:4, m:[
+   {id:"2015159", n:"Variable Compleja", c:4, comp:"B", a:"mat", r:["1000007"]},
+   {id:"1000021", n:"Fundamentos de Mecánica de Fluidos y Termodinámica", c:3, comp:"B", a:"fis", r:["1000019"]},
+   {id:"2016487", n:"Campos Electromagnéticos", c:4, comp:"C", a:"cyc", r:["1000017","1000006"]},
+   {id:"2016495", n:"Electrónica Análoga I", c:4, comp:"C", a:"elnica", r:["2016489"]},
+ ]},
+ {s:5, m:[
+   {id:"1000013", n:"Optativa de Probabilidad y Estadística", c:3, comp:"B", a:"mat", opt:true, r:["1000005"]},
+   {id:"1000020", n:"Fundamentos de Oscilaciones, Ondas y Óptica", c:4, comp:"B", a:"fis", r:["1000007","1000019"]},
+   {id:"2016506", n:"Señales y Sistemas I", c:3, comp:"C", a:"ssc", r:["2016489","1000007"]},
+   {id:"2016490", n:"Circuitos Eléctricos II", c:4, comp:"C", a:"cyc", r:["2016489","1000007"]},
+   {id:"2016498", n:"Electrónica Digital I", c:4, comp:"C", a:"elnica", r:["2016495"]},
+ ]},
+ {s:6, m:[
+   {id:"OPT_HER_E", n:"Asignatura Optativa (Herramientas de Ingeniería)", c:3, comp:"B", a:"her", opt:true, r:["2015734","1000007"]},
+   {id:"2016507", n:"Señales y Sistemas II", c:3, comp:"C", a:"ssc", r:["2016506","2015159"]},
+   {id:"2016494", n:"Conversión Electromagnética", c:3, comp:"C", a:"electro", r:["2016487","2016490"]},
+   {id:"2016865", n:"Trasmisión y Distribución", c:3, comp:"C", a:"pot", r:["2016490"]},
+   {id:"2016845", n:"Mecánica para Ingeniería", c:3, comp:"B", a:"her", r:["1000019","1000003"]},
+ ]},
+ {s:7, m:[
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", a:"eco", r:["1000005"]},
+   {id:"2016493", n:"Control", c:4, comp:"C", a:"ssc", r:["2016507"]},
+   {id:"2016861", n:"Introducción a Sistemas de Energía Eléctrica", c:3, comp:"C", a:"pot", r:["2016865","2016494"]},
+   {id:"2017003", n:"Instalaciones Eléctricas", c:3, comp:"C", a:"pot", r:["2016865"]},
+   {id:"2016863", n:"Taller de Ingeniería", c:3, comp:"C", a:"ctx", r:["2016845"]},
+ ]},
+ {s:8, m:[
+   {id:"OPT_ADM_E1", n:"Optativa de Administración", c:3, comp:"B", a:"eco", opt:true, r:["2015703"]},
+   {id:"OPT_DISC_E1", n:"Asignatura Optativa (Disciplinar)", c:3, comp:"C", a:"electro", opt:true, r:["2016494"]},
+   {id:"2016851", n:"Análisis de Sistemas de Potencia", c:3, comp:"C", a:"pot", r:["2016861"]},
+ ]},
+ {s:9, m:[
+   {id:"OPT_ADM_E2", n:"Optativa de Administración", c:3, comp:"B", a:"eco", opt:true, r:["2015703"]},
+   {id:"OPT_DISC_E2", n:"Asignatura Optativa (Disciplinar)", c:3, comp:"C", a:"ctx", opt:true, r:[{comp:"C",min:45}]},
+   {id:"OPT_DISC_E3", n:"Asignatura Optativa (Disciplinar)", c:2, comp:"C", a:"pot", opt:true, r:[{comp:"C",min:45}]},
+   {id:"2016864", n:"Taller de Proyectos Interdisciplinarios", c:3, comp:"C", a:"ctx", r:[{comp:"T",min:121}]},
+ ]},
+ {s:10, m:[
+   {id:"2016866", n:"Trabajo de Grado", c:6, comp:"C", a:"tg", r:[{comp:"C",min:63}]},
+ ]},
+];
+const AGR_ELECTRICA = {
+  mat:    ["#5aa9e6", "Matemáticas, Probabilidad y Estadística", "Matemáticas"],
+  fis:    ["#e3b955", "Física", "Física"],
+  cmat:   ["#b0865f", "Ciencia de los Materiales", "Ciencia de Materiales"],
+  info:   ["#c56bd0", "Informática", "Informática"],
+  her:    ["#ac93da", "Herramientas de Ingeniería", "Herramientas"],
+  eco:    ["#33ac9d", "Ciencias Económicas y Administrativas", "Económico-Admin."],
+  cyc:    ["#8ec44e", "Circuitos y Campos", "Circuitos y Campos"],
+  ssc:    ["#e07aa4", "Señales, Sistemas y Control", "Señales y Control"],
+  electro:["#9aa6b6", "Electrotecnia", "Electrotecnia"],
+  elnica: ["#4fc7ea", "Electrónica", "Electrónica"],
+  pot:    ["#f0a24a", "Sistemas de Potencia", "Sistemas de Potencia"],
+  ctx:    ["#7f8a9e", "Contexto Profesional, Innovación e Investigación", "Contexto Profesional"],
+  tg:     ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -672,9 +940,46 @@ const MALLAS = {
       <code>65</code> créditos C → Taller de Proyectos Interdisciplinarios · <code>68</code> créditos C → Trabajo de Grado.
       Herramienta no oficial.`,
   },
+  industrial: {
+    nombre: "Ingeniería Industrial",
+    plan: "Acuerdo 024 de 2014 · 168 créditos",
+    sems: SEMS_INDUSTRIAL, agr: AGR_INDUSTRIAL,
+    store: "malla_industrial_unal", elecStore: "malla_industrial_elec",
+    meta: { C: 92, B: 42, L: 34 }, sem9fix: false, compact: true,
+    target: 168, libreMeta: 34,
+    foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 024 de 2014); los prerrequisitos
+      se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. El semestre 9 es de libre elección. Corte:
+      <code>70</code> créditos del componente disciplinar → Trabajo de Grado. Herramienta no oficial.`,
+  },
+  sistemas: {
+    nombre: "Ingeniería de Sistemas y Computación",
+    plan: "Plan 2A74 · Acuerdo 033 de 2007 · 165 créditos",
+    sems: SEMS_SISTEMAS, agr: AGR_SISTEMAS,
+    store: "malla_sistemas_unal", elecStore: "malla_sistemas_elec",
+    meta: { C: 81, B: 51, L: 33 }, sem9fix: false, compact: true,
+    target: 165, libreMeta: 33,
+    foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (plan 2A74, Acuerdo 033 de 2007); los
+      prerrequisitos se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. El semestre 9 es de libre elección.
+      Taller de Proyectos Interdisciplinarios y Trabajo de Grado tienen requisitos especiales por créditos aprobados.
+      Herramienta no oficial.`,
+  },
+  electrica: {
+    nombre: "Ingeniería Eléctrica",
+    plan: "Plan de estudios 2544 · 167 créditos",
+    sems: SEMS_ELECTRICA, agr: AGR_ELECTRICA,
+    store: "malla_electrica_unal", elecStore: "malla_electrica_elec",
+    meta: { C: 71, B: 63, L: 33 }, sem9fix: false, compact: true,
+    target: 167, libreMeta: 33,
+    foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (plan de estudios 2544); los prerrequisitos
+      se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>121</code> créditos totales
+      (70% del programa) → Taller de Proyectos Interdisciplinarios · <code>63</code> créditos del componente disciplinar (80%) →
+      Trabajo de Grado. La Nivelación y la Lengua Extranjera no se incluyen. Herramienta no oficial.`,
+  },
 };
 
-const TARGET = 180, LIBRE_META = 36;
+// metas globales del plan activo (varían por carrera: Civil/Química/Agrícola 180/36, Sistemas
+// 165/33, Eléctrica 167/33, Industrial 168/34). setMalla() las reajusta al cambiar de carrera.
+let TARGET = 180, LIBRE_META = 36;
 let SEMS = SEMS_CIVIL, AGR = AGR_CIVIL, ALL = {};
 let META = MALLAS.civil.meta, STORE = MALLAS.civil.store, ELEC_STORE = MALLAS.civil.elecStore, SEM9FIX = true;
 let approved = [], elec = 0;
@@ -682,6 +987,7 @@ let approved = [], elec = 0;
 // carga una carrera: cambia el pensum activo y relee su progreso del navegador
 function setMalla(key){
   const M = MALLAS[key];
+  TARGET = M.target || 180; LIBRE_META = M.libreMeta || 36;
   SEMS = M.sems; AGR = M.agr; META = M.meta;
   STORE = M.store; ELEC_STORE = M.elecStore; SEM9FIX = !!M.sem9fix;
   ALL = {};
@@ -825,7 +1131,11 @@ function render(){
   let tailcols = null;
   SEMS.forEach((sem, i)=>{
     const col = document.createElement("div");
-    col.className = "col" + (sem.m.length <= 3 ? " short" : "");
+    // "short" = solo los dos últimos semestres (9 y 10), que van en el bloque .tailcols con la
+    // clave de colores. Los semestres 1–8 SIEMPRE se estiran a la misma altura, tengan las
+    // materias que tengan (antes se marcaba por conteo ≤3, pero eso desjustificaba carreras con
+    // un semestre corto en medio, p. ej. Eléctrica).
+    col.className = "col" + (i >= SEMS.length - 2 ? " short" : "");
     const cr = sem.m.reduce((s,m)=> s + (approved.includes(m.id) ? m.c : 0), 0);
     const h = document.createElement("div");
     h.className = "colh";
@@ -839,6 +1149,14 @@ function render(){
         col.appendChild(c); lastCat = cat;
       }
       col.appendChild(card(m));
+    }
+    if(!sem.m.length){
+      // semestre 100% libre elección (Sistemas / Industrial: sem 9)
+      const c = document.createElement("div"); c.className = "cat"; c.textContent = "Libre Elección";
+      col.appendChild(c);
+      const n = document.createElement("p"); n.className = "semnote";
+      n.textContent = "Semestre dedicado a créditos de libre elección.";
+      col.appendChild(n);
     }
     if(i === SEMS.length - 2 && SEM9FIX){
       // solo civil: agrandar las dos casillas del bloque "Disciplinar" del sem 9 para alinear
@@ -901,8 +1219,10 @@ function route(){
   const key = location.hash.slice(1);
   const M = MALLAS[key];
   document.getElementById("view-inicio").hidden = !!M;
-  document.getElementById("view-malla").hidden = !M;
-  document.getElementById("view-malla").classList.toggle("compact", !!(M && M.compact));
+  const vm = document.getElementById("view-malla");
+  vm.hidden = !M;
+  vm.classList.toggle("compact", !!(M && M.compact));
+  Object.keys(MALLAS).forEach(k => vm.classList.toggle("malla-" + k, !!M && key === k));
   resetBtn.hidden = !M;
   if(M){
     setMalla(key);
