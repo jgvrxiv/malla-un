@@ -286,7 +286,7 @@
 
     <div class="sec-h">
       <h2>Carreras</h2>
-      <span>2 disponibles · más en camino</span>
+      <span>3 disponibles · más en camino</span>
     </div>
 
     <div class="cards">
@@ -306,12 +306,19 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </span>
       </a>
+      <a class="carrera" href="#agricola" style="--c:#3fb277">
+        <span class="tag live">Disponible</span>
+        <span class="cn">Ingeniería Agrícola</span>
+        <span class="cm">Plan flexible · 180 créditos</span>
+        <span class="go">Abrir malla
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
       <div class="carrera soon" style="--c:#5aa9e6"><span class="tag">Próximamente</span><span class="cn">Ingeniería de Sistemas y Computación</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#e3b955"><span class="tag">Próximamente</span><span class="cn">Ingeniería Eléctrica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#ac93da"><span class="tag">Próximamente</span><span class="cn">Ingeniería Electrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#9aa6b6"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecánica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#f0a24a"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecatrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-      <div class="carrera soon" style="--c:#3fb277"><span class="tag">Próximamente</span><span class="cn">Ingeniería Agrícola</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
     </div>
 
     <div class="sec-h"><h2>Cómo funciona</h2></div>
@@ -331,7 +338,7 @@
 
     <div class="site-foot">
       <span>Proyecto estudiantil independiente · no afiliado a la Universidad Nacional. Ante la duda, consulta el SIA.</span>
-      <span><a data-go="#civil">Ingeniería Civil</a> verificada con un estudiante · <a data-go="#quimica">Ingeniería Química</a> a partir de <a href="https://mallaiq.netlify.app/" target="_blank" rel="noopener">mallaiq</a> y la malla oficial.</span>
+      <span><a data-go="#civil">Civil</a> verificada con un estudiante · <a data-go="#quimica">Química</a> y <a data-go="#agricola">Agrícola</a> reconstruidas de las mallas oficiales (falta verificar prerrequisitos).</span>
     </div>
   </div>
 </div>
@@ -532,6 +539,91 @@ const AGR_QUIMICA = {
   ctx:  ["#8ec44e", "Contexto Profesional", "Contexto Profesional"],
 };
 
+// Ingeniería Agrícola — malla oficial Acuerdo 30 de 2016 (Fac. de Ingeniería).
+// Nombres, créditos, componentes y agrupaciones del PDF oficial; prerrequisitos leídos del
+// diagrama (letras/flechas) — faltan verificar contra el SIA.
+const SEMS_AGRICOLA = [
+ {s:1, m:[
+   {id:"2016635", n:"Introducción a la Ingeniería Agrícola", c:3, comp:"C", a:"bd", r:[]},
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"1000024", n:"Principios de Química", c:3, comp:"B", a:"qb", r:[]},
+   {id:"1000009", n:"Biología General", c:3, comp:"B", a:"qb", r:[]},
+   {id:"2015711", n:"Dibujo Básico", c:3, comp:"B", a:"graf", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000004"]},
+   {id:"2015734", n:"Programación de Computadores", c:3, comp:"B", a:"her", r:[]},
+ ]},
+ {s:3, m:[
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000003","1000005"]},
+   {id:"1000013", n:"Probabilidad y Estadística Fundamental", c:3, comp:"B", a:"mat", r:["1000005","1000004"]},
+   {id:"2026134", n:"Estática", c:3, comp:"C", a:"bd", r:["1000003","1000019"]},
+   {id:"2015958", n:"Geomática Básica", c:4, comp:"C", a:"bd", r:["2016635","2015711"]},
+ ]},
+ {s:4, m:[
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", a:"mat", r:["1000003","1000005"]},
+   {id:"2017538", n:"Fisiología Vegetal", c:4, comp:"B", a:"qb", r:["1000024","1000009"]},
+   {id:"2016632", n:"Suelos Agrícolas", c:3, comp:"C", a:"bd", r:["1000024","1000009"]},
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", a:"eco", r:["1000005"]},
+ ]},
+ {s:5, m:[
+   {id:"2015966", n:"Mecánica de Fluidos", c:4, comp:"C", a:"bd", r:["1000006","2026134"]},
+   {id:"OPT_FIS_AGR", n:"Optativa de Física", c:4, comp:"B", a:"fis", opt:true, r:["1000019","1000005"]},
+   {id:"2015968", n:"Mecánica de Sólidos", c:4, comp:"C", a:"bd", r:["1000006","2026134"]},
+   {id:"2015741", n:"Termodinámica", c:3, comp:"C", a:"bd", r:["1000005","1000019"]},
+   {id:"OPT_HER_AGR", n:"Optativa de Herramientas Informáticas y Métodos Numéricos", c:3, comp:"B", a:"her", opt:true, r:["1000007","2015734"]},
+ ]},
+ {s:6, m:[
+   {id:"2015961", n:"Hidráulica Básica", c:4, comp:"C", a:"bd", r:["2015966"]},
+   {id:"2015969", n:"Mecánica de Suelos", c:3, comp:"C", a:"bd", r:["2016632","2015968"]},
+   {id:"2015941", n:"Análisis Estructural Básico", c:3, comp:"C", a:"cons", r:["2015968"]},
+   {id:"2016631", n:"Elementos de Máquinas Agrícolas", c:3, comp:"C", a:"maq", r:["2015741","2015968"]},
+   {id:"2016643", n:"Transferencia de Calor y Masa", c:3, comp:"C", a:"pos", r:["2015741"]},
+ ]},
+ {s:7, m:[
+   {id:"2016634", n:"Ingeniería de Riegos", c:3, comp:"C", a:"rieg", r:["2016632","2015961"]},
+   {id:"2015978", n:"Hidrología", c:3, comp:"C", a:"bd", r:["1000013","2015966"]},
+   {id:"2016627", n:"Diseño de Estructuras en Concreto", c:3, comp:"C", a:"cons", r:["2015941"]},
+   {id:"2016633", n:"Fuentes de Potencia en la Agricultura", c:3, comp:"C", a:"maq", r:["2016631"]},
+   {id:"2016638", n:"Poscosecha de Frutas y Hortalizas", c:3, comp:"C", a:"pos", r:["2017538","2016643"]},
+ ]},
+ {s:8, m:[
+   {id:"2016628", n:"Diseño de Sistemas de Riego", c:3, comp:"C", a:"rieg", r:["2016634"]},
+   {id:"2016629", n:"Drenaje de Tierras Agrícolas", c:3, comp:"C", a:"rieg", r:["2016634"]},
+   {id:"OPT_CONS_AGR", n:"Optativa de Construcciones Rurales", c:3, comp:"C", a:"cons", opt:true, r:["2016627"]},
+   {id:"2016636", n:"Máquinas Agrícolas", c:3, comp:"C", a:"maq", r:["2016633"]},
+   {id:"2016639", n:"Poscosecha de Granos y Semillas", c:3, comp:"C", a:"pos", r:["2016638"]},
+   {id:"2015702", n:"Gerencia y Gestión de Proyectos", c:3, comp:"B", a:"eco", r:["2015703"]},
+ ]},
+ {s:9, m:[
+   {id:"2016630", n:"Electrotecnia", c:3, comp:"C", a:"bd", r:[{comp:"C",min:40}]},
+   {id:"2024045", n:"Taller de Proyectos Interdisciplinarios", c:3, comp:"C", a:"tall", r:[{comp:"C",min:65}]},
+   {id:"OPT_ECON_AGR", n:"Optativa de Ciencias Económicas y Administrativas", c:3, comp:"B", a:"eco", opt:true, r:["2015702"]},
+ ]},
+ {s:10, m:[
+   {id:"2016626", n:"Control en Biosistemas", c:3, comp:"C", a:"ctrl", r:["2016630"]},
+   {id:"2015372", n:"Trabajo de Grado", c:6, comp:"C", a:"esp", r:[{comp:"C",min:68}]},
+ ]},
+];
+const AGR_AGRICOLA = {
+  mat:  ["#5aa9e6", "Matemáticas, Probabilidad y Estadística", "Matemáticas"],
+  qb:   ["#e07aa4", "Química y Biología", "Química y Biología"],
+  fis:  ["#e3b955", "Física", "Física"],
+  graf: ["#e86a58", "Expresión Gráfica", "Expresión Gráfica"],
+  her:  ["#ac93da", "Herramientas Informáticas y Métodos Numéricos", "Herramientas"],
+  eco:  ["#33ac9d", "Ciencias Económicas y Administrativas", "Económico-Admin."],
+  rieg: ["#4fc7ea", "Ingeniería de Riego y Drenaje", "Riego y Drenaje"],
+  cons: ["#9aa6b6", "Construcciones Rurales", "Construcciones Rurales"],
+  pos:  ["#8ec44e", "Poscosecha de Productos Agropecuarios", "Poscosecha"],
+  maq:  ["#f0a24a", "Maquinaria Agrícola y Mecanización", "Maquinaria Agrícola"],
+  ctrl: ["#6f9bd8", "Automatización y Control", "Automatización y Control"],
+  tall: ["#c56bd0", "Taller de Proyectos de Ingeniería", "Taller de Proyectos"],
+  esp:  ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+  bd:   ["#7f8a9e", "Disciplinar (sin agrupación)", "Disciplinar"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -554,6 +646,17 @@ const MALLAS = {
       <code>mallaiq.netlify.app</code> — <b>falta verificarlos contra el SIA</b>. Cortes: <code>108</code> créditos totales →
       Optativa de Materiales · <code>53</code> créditos C → Taller de Proyectos Interdisciplinarios · <code>60</code> créditos C →
       Trabajo de Grado. Herramienta no oficial.`,
+  },
+  agricola: {
+    nombre: "Ingeniería Agrícola",
+    plan: "Plan flexible · 180 créditos · Acuerdo 30 de 2016",
+    sems: SEMS_AGRICOLA, agr: AGR_AGRICOLA,
+    store: "malla_agricola_unal", elecStore: "malla_agricola_elec",
+    meta: { C: 85, B: 59, L: 36 }, sem9fix: false,
+    foot: `Nombres, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 30 de 2016); los prerrequisitos se
+      leyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>40</code> créditos C → Electrotecnia ·
+      <code>65</code> créditos C → Taller de Proyectos Interdisciplinarios · <code>68</code> créditos C → Trabajo de Grado.
+      Herramienta no oficial.`,
   },
 };
 

@@ -29,12 +29,11 @@ vistas** y un router por hash:
   activas; el resto "Próximamente"), "cómo funciona", "¿falta tu carrera?" y footer con el
   descargo de *proyecto estudiantil independiente*. Café y correo son **placeholders**
   (`<!-- TODO -->`).
-- `#civil` / `#quimica` — **una sola vista** `#view-malla` que muestra la carrera del hash.
+- `#civil` / `#quimica` / `#agricola` — **una sola vista** `#view-malla` que muestra la carrera del hash.
 
-**Registro `MALLAS = { civil, quimica }`.** Cada entrada trae `sems`, `agr`, `store`/`elecStore`
-(claves de `localStorage`), `meta` (denominadores de las badges por componente), `sem9fix` y
-`foot` (HTML del pie). `SEMS_CIVIL`/`AGR_CIVIL` y `SEMS_QUIMICA`/`AGR_QUIMICA` son las constantes
-de datos. `setMalla(key)` cambia los `let` activos (`SEMS`, `AGR`, `ALL`, `META`, `STORE`,
+**Registro `MALLAS = { civil, quimica, agricola }`.** Cada entrada trae `sems`, `agr`,
+`store`/`elecStore` (claves de `localStorage`), `meta` (denominadores de las badges por
+componente), `sem9fix` y `foot` (HTML del pie). `SEMS_<X>`/`AGR_<X>` son las constantes de datos. `setMalla(key)` cambia los `let` activos (`SEMS`, `AGR`, `ALL`, `META`, `STORE`,
 `ELEC_STORE`, `SEM9FIX`) y relee `approved`/`elec` del navegador. **El motor no cambió**: las
 funciones (`progress`, `cascade`, `toggle`, `card`, `render`…) son las mismas, solo leen esos
 `let` en vez de constantes. `render()` aplica el apaño de altura del sem 9 **solo si `SEM9FIX`**
@@ -51,6 +50,15 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   `{comp:"C",min:53}` (Taller de Proyectos Interdisciplinarios), `{comp:"C",min:60}` (Trabajo de
   Grado). **Falta verificar los prerrequisitos con el SIA / un estudiante** — así lo dice el pie.
   Se agregó `if(comp==="T") return totalCredits()` a `creditsBy` para el corte por total.
+- **Agrícola**: nombres, créditos, componentes y **agrupaciones** de la malla oficial (Acuerdo 30
+  de 2016); los **prerrequisitos se leyeron del diagrama** del PDF (letras A–R = flechas) — hay
+  varios a ojo, **faltan verificar**. Metas B 59 / C 85 / L 36 = 180 (cuadran con el PDF).
+  Cortes solo `{comp:"C",min:40/65/68}` (Electrotecnia / Taller Interdisciplinario / Trabajo de
+  Grado). Códigos reales del PDF. PDF descargado y rasterizado con `mupdf`+`sharp` en el
+  scratchpad para leer el diagrama.
+- **Alturas de sem 9/10**: en carreras sin `sem9fix` (Química, Agrícola) el `.tailgroup` lleva
+  la clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a `flex:0 0 auto` (la clave de
+  colores no queda con espacio sobrante). Civil conserva su ajuste fino.
 - `PENSUM_BORRADOR.md` — extracción cruda del PDF de Civil + notas de verificación.
 - `PLAN_ING (2).pdf` — malla oficial de Civil.
 - `serve.mjs` — servidor estático dev (:4179).
@@ -151,10 +159,10 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 - **Placeholders por reemplazar**: URL del botón "Invítame un café" y el `mailto:` de "¿falta
   tu carrera?" (los dos en `malla-artifact.html` / `index.html`).
 - **Nombre/marca**: hoy la marca es sólo "Malla" — el usuario aún no eligió nombre definitivo.
-- **Verificar los prerrequisitos de Química** contra el SIA o con un estudiante (hoy salen de
-  mallaiq; el pie de la vista lo avisa). Ojo con `1000010` (Lab. principios de orgánica, hoy
-  depende solo de `1000024`) y los códigos que no vienen limpios del PDF (p. ej. Biología
-  molecular usa el id `IQ_BIO`).
+- **Verificar los prerrequisitos de Química y Agrícola** contra el SIA o con estudiantes (hoy
+  salen de mallaiq / del diagrama del PDF; el pie de cada vista lo avisa). En Química ojo con
+  `1000010` (Lab. principios de orgánica) y `IQ_BIO` (Biología molecular, sin código limpio).
+  En Agrícola varios prereqs son "a ojo" (Estática, Termodinámica, Fisiología Vegetal, etc.).
 - Sumar más carreras (`SEMS_<X>`/`AGR_<X>` + entrada en `MALLAS` + tarjeta en el inicio).
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
 - ¿Modelar Prácticas / Electivas de Profundización con su corte de 108 / 126 créditos totales?
