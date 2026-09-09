@@ -212,6 +212,8 @@
   #view-malla.compact .col:not(.short) .m{min-height:46px}
   #view-malla.compact .cat{padding:5px 2px 3px}
   #view-malla.compact .colh{padding:7px 8px}
+  /* sem 9 y 10: todas las celdas (izquierda y derecha) exactamente del mismo alto */
+  #view-malla.compact .tailcols .col .m{flex:0 0 auto;min-height:96px}
 
   .tip{visibility:hidden;opacity:0;position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);
     width:214px;background:#060c18;color:#dbe6f5;border:1px solid var(--line);border-radius:9px;padding:9px 11px;
