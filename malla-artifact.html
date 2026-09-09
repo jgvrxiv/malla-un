@@ -152,6 +152,10 @@
   .tailcols .col.short{align-self:stretch}
   .tailcols .col.short .m{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
   .tailgroup .elec{flex:0 0 auto}
+  /* carreras sin el ajuste fino de civil (SEM9FIX): las materias de sem 9/10 se estiran para
+     llenar el alto y la clave de colores ocupa solo lo que necesita */
+  .tailgroup.tg-fill .tailcols{flex:1 1 auto}
+  .tailgroup.tg-fill .agrkey{flex:0 0 auto}
   .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
     background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
   .agrkey .kh{width:100%;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
@@ -735,7 +739,7 @@ function render(){
 
     if(i >= SEMS.length - 2){          // semestres 9 y 10: columna especial con la clave debajo
       if(!tailcols){
-        const tg = document.createElement("div"); tg.className = "tailgroup";
+        const tg = document.createElement("div"); tg.className = "tailgroup" + (SEM9FIX ? "" : " tg-fill");
         tailcols = document.createElement("div"); tailcols.className = "tailcols";
         tg.appendChild(tailcols);
         tg.appendChild(agrkeyEl());
