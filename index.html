@@ -171,9 +171,9 @@
   .rail::-webkit-scrollbar-thumb:hover{background:#3a4d70}
   .col{min-width:214px;max-width:214px;display:flex;flex-direction:column;gap:8px}
   .col.short{align-self:flex-start}
-  /* las celdas van a la altura de su contenido (mínimo 66px) y no se estiran para llenar la
-     columna: así un semestre con nombres cortos no infla las tarjetas de todos */
-  .col:not(.short) .m{flex:0 0 auto;min-height:66px;display:flex;flex-direction:column;justify-content:center}
+  /* las celdas se reparten el alto de la columna, pero nunca se encogen por debajo de su
+     contenido: los nombres largos (labs de Química) alargan la celda en vez de desbordarse */
+  .col:not(.short) .m{flex:1 0 auto;min-height:66px;display:flex;flex-direction:column;justify-content:center}
   .colh{background:var(--surface2);border:1px solid var(--line);border-radius:10px;text-align:center;
     padding:9px 8px;color:var(--text);font-family:var(--disp);font-weight:800;font-size:.78rem;
     text-transform:uppercase;letter-spacing:.05em}
@@ -202,6 +202,16 @@
   .m.done{border-color:var(--done)}
   .m.done::after{content:"✓";position:absolute;top:6px;right:9px;color:var(--done);font-weight:800;font-size:.82rem}
   .m.ready:hover,.m.partial:hover,.m.done:hover{transform:translateY(-3px);box-shadow:0 12px 22px rgba(0,0,0,.5)}
+
+  /* modo compacto (solo carreras con compact:true, p. ej. Agrícola): fichas más chicas — mismo
+     diseño justificado, solo baja el tamaño base de cada celda de forma pareja */
+  #view-malla.compact .m{padding:7px 11px 6px}
+  #view-malla.compact .m .nm{line-height:1.2;font-size:.78rem}
+  #view-malla.compact .m .agrn{margin-top:2px;font-size:.55rem}
+  #view-malla.compact .m .meta{margin-top:2px;font-size:.63rem}
+  #view-malla.compact .col:not(.short) .m{min-height:46px}
+  #view-malla.compact .cat{padding:5px 2px 3px}
+  #view-malla.compact .colh{padding:7px 8px}
 
   .tip{visibility:hidden;opacity:0;position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);
     width:214px;background:#060c18;color:#dbe6f5;border:1px solid var(--line);border-radius:9px;padding:9px 11px;
@@ -652,7 +662,7 @@ const MALLAS = {
     plan: "Plan flexible · 180 créditos · Acuerdo 30 de 2016",
     sems: SEMS_AGRICOLA, agr: AGR_AGRICOLA,
     store: "malla_agricola_unal", elecStore: "malla_agricola_elec",
-    meta: { C: 85, B: 59, L: 36 }, sem9fix: false,
+    meta: { C: 85, B: 59, L: 36 }, sem9fix: false, compact: true,
     foot: `Nombres, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 30 de 2016); los prerrequisitos se
       leyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>40</code> créditos C → Electrotecnia ·
       <code>65</code> créditos C → Taller de Proyectos Interdisciplinarios · <code>68</code> créditos C → Trabajo de Grado.
@@ -888,6 +898,7 @@ function route(){
   const M = MALLAS[key];
   document.getElementById("view-inicio").hidden = !!M;
   document.getElementById("view-malla").hidden = !M;
+  document.getElementById("view-malla").classList.toggle("compact", !!(M && M.compact));
   resetBtn.hidden = !M;
   if(M){
     setMalla(key);
