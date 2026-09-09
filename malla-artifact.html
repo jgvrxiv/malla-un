@@ -171,9 +171,9 @@
   .rail::-webkit-scrollbar-thumb:hover{background:#3a4d70}
   .col{min-width:214px;max-width:214px;display:flex;flex-direction:column;gap:8px}
   .col.short{align-self:flex-start}
-  /* las celdas se reparten el alto de la columna, pero nunca se encogen por debajo de su
-     contenido: los nombres largos (labs de Química) alargan la celda en vez de desbordarse */
-  .col:not(.short) .m{flex:1 0 auto;min-height:66px;display:flex;flex-direction:column;justify-content:center}
+  /* las celdas van a la altura de su contenido (mínimo 66px) y no se estiran para llenar la
+     columna: así un semestre con nombres cortos no infla las tarjetas de todos */
+  .col:not(.short) .m{flex:0 0 auto;min-height:66px;display:flex;flex-direction:column;justify-content:center}
   .colh{background:var(--surface2);border:1px solid var(--line);border-radius:10px;text-align:center;
     padding:9px 8px;color:var(--text);font-family:var(--disp);font-weight:800;font-size:.78rem;
     text-transform:uppercase;letter-spacing:.05em}
