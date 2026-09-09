@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malla Ingeniería Civil — UNAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* tema oscuro (por defecto) */
+    --bg:#0f172a; --surface:#1e293b; --surface2:#172033;
+    --primary:#38bdf8; --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
+    --text:#f1f5f9; --dim:#9fb2cd; --border:#334155;
+    --compB:#22d3ee; --compC:#a78bfa; --compL:#f472b6;
+    --ready:#f1f5f9;                 /* borde de "disponible" */
+    --locked:#e05a50;               /* borde de "bloqueada" */
+    --tint:24%;                     /* cuánto color de área lleva el fondo de cada celda */
+    --agr-filter:brightness(1.2);   /* realce del color de área en los textos chicos */
+    --coffee:#e8b45e; --coffee-ink:#3a2c07;
+    --glow:rgba(56,189,248,.06);
+    --shadow:0 6px 26px rgba(0,0,0,.4);
+  }
+  :root.theme-light{
+    /* tema claro: se redefinen solo los tokens */
+    --bg:#f3f6fc; --surface:#ffffff; --surface2:#eef2f8;
+    --primary:#0284c7; --text:#1b2536; --dim:#586a86; --border:#d5deec;
+    --compB:#0891b2; --compC:#7c3aed; --compL:#e11d48;
+    --ready:#475569;
+    --locked:#dc4c43;
+    --tint:45%;                     /* fichas menos pastel: algo de color de área sobre el blanco */
+    --agr-filter:saturate(1.15) brightness(.5);
+    --coffee:#f0c877;
+    --glow:rgba(2,132,199,.05);
+    --shadow:0 8px 26px rgba(20,32,60,.12);
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--text);margin:0;padding:18px;
+    position:relative}
+  body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -15%,var(--glow),transparent 70%);pointer-events:none;z-index:0}
+  body>*{position:relative;z-index:1}
+  h1{font-size:1.2rem;margin:0 0 2px}
+  .sub{color:var(--dim);font-size:.8rem;margin-bottom:16px}
+
+  /* barra superior fija */
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:14px;
+    margin:-18px -18px 18px;padding:10px 18px;border-bottom:1px solid var(--border);
+    background:color-mix(in srgb, var(--surface) 88%, transparent);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+  .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text)}
+  .brand svg{width:21px;height:21px;flex:none;color:var(--primary)}
+  .brand b{font-weight:800;font-size:.92rem;letter-spacing:-.01em;line-height:1}
+  .brand small{display:block;font-size:.58rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--dim);margin-top:2px}
+  .bar-actions{display:flex;align-items:center;gap:8px}
+  .coffee{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:9px;border:1px solid transparent;
+    background:var(--coffee);color:var(--coffee-ink);font-weight:700;font-size:.73rem;text-decoration:none;
+    white-space:nowrap;cursor:pointer;transition:.15s}
+  .coffee:hover{filter:brightness(1.06);transform:translateY(-1px)}
+  .coffee svg{width:15px;height:15px}
+  .iconbtn{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;
+    border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:.15s}
+  .iconbtn:hover{color:var(--text);border-color:var(--dim)}
+  .iconbtn svg{width:17px;height:17px}
+  .theme-toggle .i-moon{display:none}
+  :root.theme-light .theme-toggle .i-sun{display:none}
+  :root.theme-light .theme-toggle .i-moon{display:block}
+  .coffee:focus-visible,.iconbtn:focus-visible,.brand:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+  @media (max-width:600px){ .brand small{display:none} .coffee span{display:none} .coffee{padding:8px} }
+
+  header{max-width:1300px;margin:0 auto 18px;background:var(--surface);border:1px solid var(--border);
+    border-radius:16px;padding:20px 22px;box-shadow:var(--shadow)}
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 10px}
+  .badge{color:var(--primary);border:1px solid;border-color:color-mix(in srgb,var(--primary) 32%,transparent);
+    background:color-mix(in srgb,var(--primary) 12%,var(--surface));
+    border-radius:999px;padding:6px 14px;font-weight:700;font-size:.82rem}
+  .badge.c{color:var(--compC);border-color:color-mix(in srgb,var(--compC) 34%,transparent);background:color-mix(in srgb,var(--compC) 12%,var(--surface))}
+  .badge.b{color:var(--compB);border-color:color-mix(in srgb,var(--compB) 34%,transparent);background:color-mix(in srgb,var(--compB) 12%,var(--surface))}
+  .badge.l{color:var(--compL);border-color:color-mix(in srgb,var(--compL) 34%,transparent);background:color-mix(in srgb,var(--compL) 12%,var(--surface))}
+  .pcont{width:100%;max-width:560px;height:12px;background:var(--surface2);border:1px solid var(--border);
+    border-radius:10px;overflow:hidden;margin:6px 0 4px}
+  .pbar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--success));
+    border-radius:10px;transition:width .5s ease-out}
+  button.reset{background:transparent;color:var(--dim);border:1px solid var(--border);border-radius:9px;
+    padding:8px 13px;font-family:inherit;font-size:.72rem;letter-spacing:.02em;cursor:pointer;white-space:nowrap;transition:.15s}
+  button.reset:hover{color:var(--danger);border-color:var(--danger)}
+  button.reset:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:14px;padding:10px 12px;background:var(--surface2);
+    border-radius:8px}
+  .legend span{display:flex;align-items:center;gap:7px;font-size:.72rem;color:var(--dim)}
+  .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent}
+
+  .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
+  .tailcols{display:flex;gap:16px;align-items:stretch}
+  .tailcols .col.short{align-self:stretch}
+  .tailcols .col.short .m{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
+  .tailgroup .elec{flex:0 0 auto}
+  .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
+    background:var(--surface2);border:1px solid var(--border);border-radius:11px;padding:13px 15px}
+  .agrkey .kh{width:100%;font-size:.6rem;letter-spacing:.9px;text-transform:uppercase;color:var(--dim);
+    font-weight:700;margin-bottom:2px}
+  .agrkey span{display:flex;align-items:center;gap:6px;font-size:.68rem;color:var(--dim)}
+  .agrkey i{width:11px;height:11px;border-radius:3px;flex:none}
+
+  .malla{display:flex;gap:16px;padding:18px 4px 32px;overflow-x:auto;align-items:stretch;
+    scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+  .malla::-webkit-scrollbar{height:10px}
+  .malla::-webkit-scrollbar-track{background:transparent}
+  .malla::-webkit-scrollbar-thumb{background:var(--border);border-radius:999px}
+  .col{min-width:212px;max-width:212px;display:flex;flex-direction:column;gap:9px}
+  .col.short{align-self:flex-start}
+  .col:not(.short) .m{flex:1 1 0;min-height:64px;display:flex;flex-direction:column;justify-content:center}
+  .colh{background:var(--surface2);border:1px solid var(--border);border-radius:9px;text-align:center;
+    padding:9px 8px;color:var(--text);font-weight:800;font-size:.76rem;text-transform:uppercase;letter-spacing:.05em}
+  .colh small{display:block;font-weight:600;font-size:.64rem;opacity:1;color:var(--dim);
+    letter-spacing:.02em;margin-top:2px;text-transform:none}
+  .cat{font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.9px;font-weight:700;
+    border-bottom:1px solid var(--border);padding:8px 2px 3px}
+
+  .m{--agr:#8891a5;
+    background:var(--surface);
+    background:color-mix(in srgb, var(--agr) var(--tint), var(--surface));
+    border:3px solid var(--border);border-radius:10px;padding:11px 13px 10px;
+    cursor:pointer;position:relative;transition:transform .15s,box-shadow .15s,border-color .15s,filter .15s}
+  .m .nm{font-size:.82rem;font-weight:600;line-height:1.28;display:block;color:var(--text)}
+  .m .agrn{font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--agr);
+    font-weight:700;margin-top:4px;display:block;filter:var(--agr-filter)}
+  .m .meta{font-size:.68rem;color:var(--dim);display:flex;justify-content:space-between;gap:6px;margin-top:5px}
+  .m .comp{font-weight:700;color:var(--agr);filter:var(--agr-filter)}
+  .m.locked{filter:saturate(.45) brightness(.8);opacity:.6;cursor:not-allowed;border-color:color-mix(in srgb, var(--locked) 55%, transparent)}
+  :root.theme-light .m.locked{filter:saturate(.5) brightness(.99);opacity:.7}
+  :root.theme-light .m{--dim:#455468}   /* "X créd." un poco más oscuro sobre el color de la ficha */
+  .m.partial{border-color:var(--warning)}
+  .m.ready{border-color:var(--ready);box-shadow:0 0 14px color-mix(in srgb, var(--ready) 16%, transparent)}
+  .m.done{border-color:var(--success)}
+  .m.done::after{content:"✓";position:absolute;top:6px;right:9px;color:var(--success);font-weight:800;font-size:.82rem}
+  .m.ready:hover,.m.done:hover,.m.partial:hover{transform:translateY(-3px);box-shadow:0 10px 18px rgba(0,0,0,.45)}
+  .tip{visibility:hidden;opacity:0;position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);
+    width:210px;background:#020617;color:#e2e8f0;border:1px solid var(--border);border-radius:8px;padding:9px 10px;
+    font-size:.7rem;line-height:1.35;z-index:50;transition:opacity .12s;pointer-events:none;font-weight:500}
+  .m:hover .tip{visibility:visible;opacity:1}
+  .tip b{color:var(--warning)}
+
+  .elec.done{border-color:var(--success)}
+  .elec{background:color-mix(in srgb, var(--compL) 15%, var(--surface));border:3px solid var(--border);
+    border-radius:10px;padding:9px 12px 8px 12px;display:flex;flex-direction:column;cursor:default}
+  .elec .etop{font-size:.71rem;font-weight:600;color:var(--text);line-height:1.3}
+  .elec .ecenter{flex:1;display:flex;align-items:center;justify-content:center;padding:9px 0}
+  .elctl{display:flex;align-items:center;gap:7px}
+  .elctl button{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg);
+    color:var(--text);font-size:1.2rem;line-height:1;cursor:pointer}
+  .elctl button:hover{border-color:var(--compL);color:var(--compL)}
+  .elctl button:focus-visible{outline:2px solid var(--compL);outline-offset:2px}
+  .elctl input{width:54px;height:32px;background:var(--bg);color:var(--text);border:1px solid var(--border);
+    border-radius:8px;font:inherit;font-size:.98rem;font-weight:600;text-align:center}
+  .elctl input:focus-visible{outline:2px solid var(--compL);outline-offset:1px}
+  .elec .emeta{display:flex;justify-content:space-between;gap:6px;font-size:.66rem;color:var(--dim);font-weight:600}
+  .elec .emeta .lc{color:var(--compL)}
+</style>
+  <script>
+    /* fija el tema antes de pintar para que no parpadee */
+    (function(){
+      try{
+        var t = localStorage.getItem("malla_tema");
+        if(t !== "light" && t !== "dark")
+          t = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        if(t === "light") document.documentElement.classList.add("theme-light");
+      }catch(e){}
+    })();
+  </script>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="brand" href="./" aria-label="Volver a todas las carreras">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+      <rect x="3" y="14" width="7" height="7" rx="1.5"></rect><path d="M14 17.5h7M17.5 14v7"></path>
+    </svg>
+    <span><b>Malla</b><small>Ingeniería Civil · UNAL</small></span>
+  </a>
+  <div class="bar-actions">
+    <!-- TODO: cambia esta URL por tu página real de Buy Me a Coffee / Ko-fi / Nequi -->
+    <a class="coffee" href="https://www.buymeacoffee.com/" target="_blank" rel="noopener" aria-label="Invítame un café">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"></path>
+        <path d="M17 9h2.5a2.5 2.5 0 0 1 0 5H17"></path><path d="M7 2v2M11 2v2M15 2v2"></path>
+      </svg>
+      <span>Invítame un café</span>
+    </a>
+    <button class="iconbtn theme-toggle" id="temaBtn" type="button" aria-label="Cambiar el tema">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+      </svg>
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+      </svg>
+    </button>
+    <button class="reset" id="resetBtn" type="button">Reiniciar malla</button>
+  </div>
+</div>
+
+<header>
+  <h1>Malla curricular — Ingeniería Civil</h1>
+  <div class="sub">Universidad Nacional de Colombia · Plan flexible 180 créditos (Acuerdo 26 de 2015)</div>
+  <div class="stats" id="stats"></div>
+  <div class="pcont"><div class="pbar" id="pbar"></div></div>
+  <div class="sub" id="pct">0% completado</div>
+  <div class="legend">
+    <span><i class="sw" style="border-color:var(--locked)"></i>Bloqueada</span>
+    <span><i class="sw" style="border-color:var(--warning)"></i>Falta 1 prerrequisito</span>
+    <span><i class="sw" style="border-color:var(--ready);box-shadow:0 0 6px color-mix(in srgb, var(--ready) 45%, transparent)"></i>Disponible</span>
+    <span><i class="sw" style="border-color:var(--success);border-width:2px"></i>Aprobada&nbsp;✓</span>
+    <span style="color:var(--dim)">— el fondo de cada celda es su área (ver clave abajo)</span>
+  </div>
+</header>
+
+<div class="malla" id="malla"></div>
+
+<script>
+// ============ DATOS ============
+// m: id, n(ombre), c(réditos), comp(B|C|L), a(grupación → color), r(equisitos): id | {comp,min}
+const SEMS = [
+ {s:1, m:[
+   {id:"1000011", n:"Fundamentos de Ecología", c:3, comp:"B", a:"qb", r:[]},
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"1000024", n:"Principios de Química", c:3, comp:"B", a:"qb", r:[]},
+   {id:"2015711", n:"Dibujo Básico", c:3, comp:"B", a:"graf", r:[]},
+   {id:"2026186", n:"Introducción a la Ingeniería Civil", c:3, comp:"C", a:"bd", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000004"]},
+   {id:"OPTB_A", n:"Optativa de Herramientas de Ingeniería", c:3, comp:"B", a:"her", opt:true, r:[]},
+ ]},
+ {s:3, m:[
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000013", n:"Probabilidad y Estadística Fundamental", c:3, comp:"B", a:"mat", r:["1000004"]},
+   {id:"2026134", n:"Estática", c:3, comp:"C", a:"bd", r:["1000003","1000019"]},
+   {id:"2015958", n:"Geomática Básica", c:4, comp:"C", a:"bd", r:["2015711","2026186"]},
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", a:"eco", r:["1000005"]},
+ ]},
+ {s:4, m:[
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"2015948", n:"Dinámica", c:3, comp:"C", a:"bd", r:["2026134"]},
+   {id:"2015956", n:"Geología", c:3, comp:"C", a:"bd", r:["2015958"]},
+   {id:"2015957", n:"Geomática Aplicada", c:4, comp:"C", a:"bd", r:["2015958"]},
+ ]},
+ {s:5, m:[
+   {id:"2015966", n:"Mecánica de Fluidos", c:4, comp:"C", a:"bd", r:["1000007","1000006","2026134"]},
+   {id:"2015968", n:"Mecánica de Sólidos", c:4, comp:"C", a:"bd", r:["2026134","1000006"]},
+   {id:"2015965", n:"Materiales para Construcción", c:4, comp:"C", a:"bd", r:["1000024","2015956"]},
+   {id:"OPTB_B", n:"Optativa de Herramientas de Ingeniería", c:3, comp:"B", a:"her", opt:true, r:[]},
+ ]},
+ {s:6, m:[
+   {id:"2015961", n:"Hidráulica Básica", c:4, comp:"C", a:"hid", r:["2015966"]},
+   {id:"2015978", n:"Hidrología", c:3, comp:"C", a:"bd", r:["2015966","1000013"]},
+   {id:"2015941", n:"Análisis Estructural Básico", c:3, comp:"C", a:"est", r:["2015968"]},
+   {id:"2015969", n:"Mecánica de Suelos", c:3, comp:"C", a:"geo", r:["2015968"]},
+   {id:"2026138", n:"Ingeniería de Transporte", c:3, comp:"C", a:"via", r:["1000003","2015703"]},
+   {id:"ELECTEC", n:"Electiva Técnica", c:3, comp:"C", a:"etec", opt:true, r:[{comp:"C",min:28}]},
+ ]},
+ {s:7, m:[
+   {id:"2015954", n:"Estructuras Hidráulicas", c:3, comp:"C", a:"hid", r:["2015961"]},
+   {id:"2015938", n:"Acueductos", c:3, comp:"C", a:"san", r:["2015961"]},
+   {id:"2015940", n:"Análisis Estructural Aplicado", c:3, comp:"C", a:"est", r:["2015941","2015948"]},
+   {id:"2015959", n:"Geotecnia", c:3, comp:"C", a:"geo", r:["2015969"]},
+   {id:"2015963", n:"Ingeniería de Tránsito", c:3, comp:"C", a:"via", r:["2026138"]},
+ ]},
+ {s:8, m:[
+   {id:"2015973", n:"Saneamiento Ambiental", c:3, comp:"C", a:"san", r:["1000011","2015938"]},
+   {id:"2015939", n:"Alcantarillados", c:3, comp:"C", a:"san", r:["2015938","2015978"]},
+   {id:"2015950", n:"Diseño Estructural", c:3, comp:"C", a:"est", r:["2015940","2015965"]},
+   {id:"2015971", n:"Pavimentos", c:3, comp:"C", a:"geo", r:["2015959"]},
+   {id:"2015949", n:"Diseño Geométrico de Vías", c:3, comp:"C", a:"via", r:["2015957","2015963"]},
+ ]},
+ {s:9, m:[
+   {id:"2015955", n:"Fundamentos de Construcción", c:3, comp:"C", a:"con", r:[{comp:"C",min:67}]},
+   {id:"2026135", n:"Ingeniería Civil Sostenible", c:3, comp:"C", a:"bd", r:[{comp:"C",min:77}]},
+   {id:"2015972", n:"Preparación y Evaluación de Proyectos de Infraestructura", c:3, comp:"B", a:"eco", r:["2026138"]},
+ ]},
+ {s:10, m:[
+   {id:"TG", n:"Trabajo de Grado", c:6, comp:"C", a:"esp", r:[{comp:"C",min:77}]},
+   {id:"CONSTROC", n:"Construcción de Obras Civiles", c:3, comp:"C", a:"con", opt:true, r:["2015955"]},
+ ]},
+];
+
+const AGR = {
+  mat: ["#5aa9e6", "Matemáticas y Estadística", "Matemáticas"],
+  qb:  ["#e07aa4", "Química y Biología", "Química y Biología"],
+  fis: ["#e3b955", "Física", "Física"],
+  graf:["#e86a58", "Expresión Gráfica", "Expresión Gráfica"],
+  bd:  ["#8ec44e", "Ing. Civil Básica Disciplinar", "Básica Disciplinar"],
+  hid: ["#4fc7ea", "Hidráulica", "Hidráulica"],
+  san: ["#3fb277", "Saneamiento Básico", "Saneamiento"],
+  est: ["#9aa6b6", "Estructuras", "Estructuras"],
+  geo: ["#b0865f", "Geotecnia", "Geotecnia"],
+  con: ["#d38f8f", "Construcción", "Construcción"],
+  via: ["#f0a24a", "Vías y Transporte", "Vías y Transporte"],
+  her: ["#ac93da", "Herramientas de Ingeniería", "Herramientas"],
+  eco: ["#33ac9d", "Economía y Finanzas", "Economía"],
+  esp: ["#93a0e6", "Asignatura Especial", "Asignatura Especial"],
+  etec:["#c05248", "Electiva Técnica", "Electiva Técnica"],
+};
+
+const TARGET = 180;
+const ALL = {};
+SEMS.flatMap(s=>s.m).forEach(m=>ALL[m.id]=m);
+
+const LIBRE_META = 36;
+let approved = load();
+let elec = loadElec();   // créditos de electivas (Libre Elección), total único
+function load(){ try{ return JSON.parse(localStorage.getItem("malla_civil_unal")) || []; }catch(e){ return []; } }
+function save(){ try{ localStorage.setItem("malla_civil_unal", JSON.stringify(approved)); }catch(e){} }
+function loadElec(){
+  let v = 0;
+  try{ const raw = JSON.parse(localStorage.getItem("malla_civil_elec"));
+    v = Array.isArray(raw) ? raw.reduce((a,b)=>a+(+b||0),0) : (+raw||0); }catch(e){}
+  return Math.max(0, Math.min(LIBRE_META, Math.round(v)));
+}
+function saveElec(){ try{ localStorage.setItem("malla_civil_elec", JSON.stringify(elec)); }catch(e){} }
+function setElec(v){
+  elec = Math.max(0, Math.min(LIBRE_META, Math.round(+v||0)));
+  saveElec(); syncTop();
+  const inp = document.getElementById("elInput");
+  if(inp && document.activeElement !== inp) inp.value = elec;
+  const cnt = document.getElementById("elCount");
+  if(cnt) cnt.textContent = elec + " / 36 créd.";
+  const wrap = document.querySelector(".elec");
+  if(wrap) wrap.classList.toggle("done", elec >= LIBRE_META);
+}
+
+function creditsBy(comp){
+  if(comp === "L") return elec;
+  return approved.reduce((s,id)=> s + ((ALL[id] && ALL[id].comp===comp) ? ALL[id].c : 0), 0);
+}
+function totalCredits(){ return approved.reduce((s,id)=> s + (ALL[id]?ALL[id].c:0), 0) + elec; }
+
+// evalúa un requisito contra el estado actual
+function reqMet(req){
+  if(typeof req === "string") return approved.includes(req);
+  return creditsBy(req.comp) >= req.min;
+}
+function progress(m){
+  if(!m.r.length) return {st:"ready", miss:[]};
+  const miss = [];
+  let met = 0;
+  for(const req of m.r){
+    if(reqMet(req)) met++;
+    else if(typeof req === "string") miss.push(ALL[req] ? ALL[req].n : req);
+    else miss.push(`${req.min} créditos ${req.comp} (te faltan ${Math.max(0, req.min - creditsBy(req.comp))})`);
+  }
+  if(met === m.r.length) return {st:"ready", miss:[]};
+  if(met > 0) return {st:"partial", miss};
+  return {st:"locked", miss};
+}
+
+// quita en cascada lo que quedó sin prerrequisitos válidos
+function cascade(){
+  let changed = true;
+  while(changed){
+    changed = false;
+    for(const id of [...approved]){
+      const m = ALL[id]; if(!m) continue;
+      const others = approved.filter(x=>x!==id);
+      const saved = approved; approved = others;
+      const ok = m.r.every(reqMet);
+      approved = saved;
+      if(!ok){ approved = approved.filter(x=>x!==id); changed = true; }
+    }
+  }
+}
+
+function toggle(id){
+  const m = ALL[id];
+  if(approved.includes(id)){
+    approved = approved.filter(x=>x!==id);
+    cascade();
+  } else {
+    if(progress(m).st !== "ready") return;
+    approved.push(id);
+  }
+  save(); render();
+}
+
+function card(m){
+  const done = approved.includes(m.id);
+  const p = progress(m);
+  const st = done ? "done" : p.st;
+  const tip = done ? "Aprobada — clic para desmarcar"
+            : p.st==="ready" ? "Disponible — clic para aprobar"
+            : "<b>Falta:</b> " + p.miss.join(" · ");
+  const ag = AGR[m.a] || ["#8891a5", "", ""];
+  const el = document.createElement("div");
+  el.className = "m " + st + (m.opt ? " opt" : "");
+  el.style.setProperty("--agr", ag[0]);
+  el.onclick = ()=>toggle(m.id);
+  const codeTitle = /^\d{7}$/.test(m.id) ? `${ag[1]} · ${m.id}` : ag[1];
+  el.innerHTML = `<span class="nm">${m.n}</span>
+    <span class="agrn" title="${codeTitle}">${ag[2]}</span>
+    <span class="meta"><span>${m.c} créd.</span><span class="comp">${m.comp}</span></span>
+    <span class="tip">${tip}</span>`;
+  return el;
+}
+
+function syncTop(){
+  const t = totalCredits(), cC = creditsBy("C"), cB = creditsBy("B"), cL = creditsBy("L");
+  const pct = Math.min(t/TARGET*100, 100);
+  document.getElementById("stats").innerHTML =
+    `<span class="badge">Total: ${t} / ${TARGET}</span>`+
+    `<span class="badge c">Disciplinar C: ${cC} / 96</span>`+
+    `<span class="badge b">Fundamentación B: ${cB} / 48</span>`+
+    `<span class="badge l">Libre L: ${cL} / 36</span>`;
+  document.getElementById("pbar").style.width = pct + "%";
+  document.getElementById("pct").textContent = pct.toFixed(1) + "% completado";
+}
+
+function elecWidget(){
+  const w = document.createElement("div");
+  w.className = "elec" + (elec >= LIBRE_META ? " done" : "");
+  w.innerHTML = `<span class="etop">Se suman por créditos, no por materia</span>
+    <div class="ecenter"><div class="elctl">
+      <button type="button" data-d="-1" aria-label="Quitar un crédito de electivas">−</button>
+      <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="${elec}" aria-label="Créditos de electivas cursados">
+      <button type="button" data-d="1" aria-label="Sumar un crédito de electivas">+</button>
+    </div></div>
+    <span class="emeta"><span id="elCount">${elec} / 36 créd.</span><span class="lc">L</span></span>`;
+  w.querySelectorAll("button").forEach(b => b.addEventListener("click", ()=> setElec(elec + (+b.dataset.d))));
+  const inp = w.querySelector("input");
+  inp.addEventListener("change", e => setElec(e.target.value));
+  inp.addEventListener("keydown", e => { if(e.key === "Enter") e.target.blur(); });
+  return w;
+}
+
+function agrkeyEl(){
+  const k = document.createElement("div");
+  k.className = "agrkey";
+  k.innerHTML = `<div class="kh">Color de cada celda = área de la malla</div>` +
+    Object.values(AGR).map(([c, n]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
+  return k;
+}
+
+function render(){
+  syncTop();
+  const malla = document.getElementById("malla");
+  malla.innerHTML = "";
+  let tailcols = null;
+  SEMS.forEach((sem, i)=>{
+    const col = document.createElement("div");
+    col.className = "col" + (sem.m.length <= 3 ? " short" : "");
+    const cr = sem.m.reduce((s,m)=> s + (approved.includes(m.id)?m.c:0), 0);
+    const h = document.createElement("div");
+    h.className = "colh";
+    h.innerHTML = `Semestre ${sem.s}<small>${cr} créd.</small>`;
+    col.appendChild(h);
+    let lastCat = null;
+    for(const m of sem.m){
+      const cat = m.opt ? "Optativa" : m.comp==="B" ? "Fundamentación" : m.comp==="C" ? "Disciplinar" : "Libre";
+      if(cat !== lastCat){
+        const c = document.createElement("div"); c.className="cat"; c.textContent=cat;
+        col.appendChild(c); lastCat = cat;
+      }
+      col.appendChild(card(m));
+    }
+    if(i === SEMS.length - 2){
+      // sem 9: agrandar las dos casillas del bloque "Disciplinar" para que "Ingeniería Civil
+      // Sostenible" quede a la misma altura que "Construcción de Obras Civiles" del sem 10, y
+      // "Fundamentación" a la misma altura que "Libre Elección" (antes lo hacía un .tspacer).
+      const ms = col.querySelectorAll(".m");
+      if(ms[0]) ms[0].style.minHeight = "118px";
+      if(ms[1]) ms[1].style.minHeight = "105px";
+    }
+    if(i === SEMS.length - 1){
+      const c = document.createElement("div"); c.className="cat"; c.textContent="Libre Elección";
+      col.appendChild(c);
+      col.appendChild(elecWidget());
+    }
+
+    if(i >= SEMS.length - 2){
+      if(!tailcols){
+        const tg = document.createElement("div"); tg.className = "tailgroup";
+        tailcols = document.createElement("div"); tailcols.className = "tailcols";
+        tg.appendChild(tailcols);
+        tg.appendChild(agrkeyEl());
+        malla.appendChild(tg);
+      }
+      tailcols.appendChild(col);
+    } else {
+      malla.appendChild(col);
+    }
+  });
+}
+
+// ---- tema claro / oscuro ----
+const temaBtn = document.getElementById("temaBtn");
+function temaActual(){ return document.documentElement.classList.contains("theme-light") ? "light" : "dark"; }
+function aplicarTema(t){
+  document.documentElement.classList.toggle("theme-light", t === "light");
+  try{ localStorage.setItem("malla_tema", t); }catch(e){}
+  const txt = t === "light" ? "Cambiar a modo oscuro" : "Cambiar a modo claro";
+  temaBtn.setAttribute("aria-label", txt);
+  temaBtn.title = txt;
+}
+aplicarTema(temaActual());
+temaBtn.addEventListener("click", ()=> aplicarTema(temaActual() === "light" ? "dark" : "light"));
+
+const resetBtn = document.getElementById("resetBtn");
+let armed = 0;
+resetBtn.addEventListener("click", ()=>{
+  if(!armed){
+    armed = 1; resetBtn.dataset.label = resetBtn.textContent;
+    resetBtn.textContent = "¿Seguro? Confirmar";
+    resetBtn.style.color = "var(--compL)"; resetBtn.style.borderColor = "var(--compL)";
+    setTimeout(()=>{ armed = 0; resetBtn.textContent = resetBtn.dataset.label; resetBtn.style.color = ""; resetBtn.style.borderColor = ""; }, 3500);
+    return;
+  }
+  armed = 0; resetBtn.textContent = resetBtn.dataset.label; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
+  approved = []; elec = 0; save(); saveElec(); render();
+});
+
+// limpia ids viejos y estados inconsistentes al cargar
+approved = approved.filter(id=>ALL[id]);
+cascade();
+render();
+</script>
+</body>
+</html>

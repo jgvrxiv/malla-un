@@ -15,20 +15,30 @@ El progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.ap
 node serve.mjs      # sirve la carpeta en http://localhost:4179
 ```
 
-No hay build. `index.html` es autocontenido (HTML + CSS + JS vanilla, sin framework). `serve.mjs`
-es solo un servidor estático para desarrollo. Para publicar (Netlify, GitHub Pages, itch.io) basta
-subir `index.html`.
+No hay build. Cada `.html` es autocontenido (HTML + CSS + JS vanilla, sin framework). `serve.mjs`
+es solo un servidor estático para desarrollo. Para publicar (Netlify, GitHub Pages, itch.io) se
+sube la carpeta entera.
 
 ## Estructura
 
-- `index.html` — versión local de la app. Los datos del pensum están en la constante `SEMS`
-  (materias obligatorias + optativas, por semestre). Cada materia: `{id, n, c, comp, r, opt?}`
-  donde `comp` ∈ B/C/L y `r` es la lista de prerrequisitos.
-- `malla-artifact.html` — misma app con diseño más trabajado. Es la que se publica como
-  Artifact. Mantener las dos en sync.
+El sitio ya es multi-página (preámbulo para meter más carreras):
+
+- `index.html` — **página de inicio**: hero + grilla de carreras (Ingeniería Civil activa →
+  `civil.html`; el resto como "Próximamente") + "cómo funciona" + "¿falta tu carrera?" + footer
+  con el descargo de "proyecto estudiantil independiente". Comparte tokens, `.topbar` y el
+  script de tema con las mallas. Sin librerías de iconos (SVG inline). Café y correo son
+  **placeholders** (`<!-- TODO -->`).
+- `civil.html` — la malla de **Ingeniería Civil** (antes era `index.html`). Datos del pensum en
+  la constante `SEMS` por semestre; cada materia `{id, n, c, comp, r, opt?}` con `comp` ∈ B/C/L
+  y `r` la lista de prerrequisitos. El logo de la barra (`href="./"`) vuelve al inicio.
+- `malla-artifact.html` — la misma malla de Civil con diseño más trabajado; es la que se publica
+  como Artifact. **Mantenerla en sync con `civil.html`.** (Todavía no hay artifact del inicio.)
 - `PENSUM_BORRADOR.md` — extracción cruda del PDF + notas de qué se verificó con el usuario.
 - `PLAN_ING (2).pdf` — la malla oficial (infografía de una página).
-- `serve.mjs` — servidor estático dev.
+- `serve.mjs` — servidor estático dev (:4179).
+
+Para una carrera nueva: duplicar `civil.html` → `<carrera>.html`, cambiar `SEMS`/`AGR`/título/
+claves de `localStorage`, y activar su tarjeta en `index.html`.
 
 ## Modelo de prerrequisitos
 
@@ -118,9 +128,12 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 
 ## Pendiente
 
-- **Poner la URL real del botón "Invítame un café"** (hoy es `buymeacoffee.com/` placeholder).
+- **Placeholders por reemplazar**: URL del botón "Invítame un café" (todo `index.html`,
+  `civil.html`, `malla-artifact.html`) y el `mailto:` de "¿falta tu carrera?" en `index.html`.
+- **Nombre/marca**: hoy la marca es sólo "Malla" — el usuario aún no eligió nombre definitivo.
+- Sumar carreras reales (duplicar `civil.html`, activar su tarjeta en `index.html`). Modelo
+  crowdsourced: pensa aportados por estudiantes de cada carrera.
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
 - ¿Modelar Prácticas / Electivas de Profundización con su corte de 108 / 126 créditos totales?
-- Publicar (Netlify / GitHub Pages).
-- Idea a futuro: convertir esto en una página con marca propia y varias carreras (modelo tipo
-  losestudiantes: independiente, sin logos oficiales, pensa aportados por estudiantes).
+- Publicar (Netlify / GitHub Pages) — ya es la carpeta entera, no un archivo suelto.
+- ¿Publicar también `index.html` como Artifact? (hoy sólo se publica `malla-artifact.html`).

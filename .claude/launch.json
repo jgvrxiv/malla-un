@@ -5,7 +5,7 @@
       "name": "malla",
       "runtimeExecutable": "node",
       "runtimeArgs": ["serve.mjs"],
-      "port": 4178
+      "port": 4179
     }
   ]
 }
