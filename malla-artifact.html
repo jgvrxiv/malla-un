@@ -1,4 +1,4 @@
-<title>Malla Ingeniería Civil UNAL</title>
+<title>Malla — pensums de la Universidad Nacional</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
 <style>
   :root{
@@ -34,6 +34,7 @@
     --shadow:0 8px 26px rgba(20,32,60,.12);
   }
   *{box-sizing:border-box}
+  [hidden]{display:none!important}
   html{background:var(--bg)}
   body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--text);
     margin:0;padding:20px 18px 60px;line-height:1.5}
@@ -63,13 +64,58 @@
   .theme-toggle .i-moon{display:none}
   :root.theme-light .theme-toggle .i-sun{display:none}
   :root.theme-light .theme-toggle .i-moon{display:block}
-  .coffee:focus-visible,.iconbtn:focus-visible,.brand:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .coffee:focus-visible,.iconbtn:focus-visible,.brand:focus-visible,.cta:focus-visible,.carrera:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   @media (max-width:600px){
     .brand small{display:none}
     .coffee span{display:none}
     .coffee{padding:8px}
   }
 
+  /* ---------- página de inicio ---------- */
+  .lwrap{max-width:1000px;margin:0 auto}
+  .hero{padding:34px 4px 26px;text-align:center}
+  .hero .eyebrow{margin-bottom:12px}
+  .hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(1.7rem,4.6vw,2.5rem);letter-spacing:-.02em;
+    line-height:1.12;margin:0 auto 14px;max-width:16ch;text-wrap:balance}
+  .hero p{color:var(--dim);font-size:1rem;max-width:52ch;margin:0 auto}
+  .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:36px 0 14px;flex-wrap:wrap}
+  .sec-h h2{font-family:var(--disp);font-size:1.15rem;font-weight:800;margin:0}
+  .sec-h span{font-family:var(--mono);font-size:.76rem;color:var(--dim)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
+  .carrera{--c:#8891a5;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--text);
+    background:color-mix(in srgb, var(--c) var(--tint), var(--surface));
+    border:1px solid var(--line);border-radius:13px;padding:15px 16px 14px;
+    transition:transform .14s,box-shadow .14s,border-color .14s}
+  a.carrera:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--c) 60%,var(--line))}
+  .carrera .cn{font-weight:700;font-size:.95rem;line-height:1.25}
+  .carrera .cm{font-family:var(--mono);font-size:.72rem;color:var(--dim);font-variant-numeric:tabular-nums}
+  .carrera .go{margin-top:auto;padding-top:6px;font-family:var(--mono);font-size:.74rem;font-weight:700;
+    color:var(--c);filter:var(--agr-filter);display:flex;align-items:center;gap:5px}
+  .carrera .go svg{width:13px;height:13px}
+  .carrera.soon{opacity:.6;cursor:default}
+  .carrera.soon .go{color:var(--dim);filter:none;font-weight:600}
+  .tag{align-self:flex-start;font-family:var(--mono);font-size:.57rem;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--dim)}
+  .tag.live{color:var(--done);border-color:color-mix(in srgb,var(--done) 45%,transparent)}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px}
+  .step b{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;
+    background:color-mix(in srgb,var(--accent) 16%,var(--surface));color:var(--accent);
+    font-family:var(--disp);font-size:.82rem;margin-bottom:9px}
+  .step p{margin:0;font-size:.86rem;color:var(--dim)}
+  .step p strong{color:var(--text);font-weight:700}
+  .aporta{margin-top:36px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;text-align:center}
+  .aporta h2{font-family:var(--disp);margin:0 0 8px;font-size:1.1rem}
+  .aporta p{margin:0 auto 16px;color:var(--dim);font-size:.9rem;max-width:46ch}
+  .cta{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;
+    background:var(--accent);color:var(--bg);font-family:var(--mono);font-weight:700;font-size:.82rem;
+    text-decoration:none;transition:.15s}
+  .cta:hover{filter:brightness(1.06);transform:translateY(-1px)}
+  .site-foot{max-width:1000px;margin:36px auto 0;border-top:1px solid var(--line);padding-top:16px;
+    color:var(--dim);font-size:.74rem;line-height:1.6;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .site-foot a{color:var(--accent);text-decoration:none;cursor:pointer}
+
+  /* ---------- vista de una malla ---------- */
   header{max-width:1320px;margin:0 auto 20px;background:var(--surface);border:1px solid var(--line);
     border-radius:18px;padding:22px 24px;box-shadow:var(--shadow)}
   h1{font-family:var(--disp);font-weight:800;font-size:1.5rem;letter-spacing:-.01em;margin:0 0 3px;text-wrap:balance}
@@ -163,11 +209,11 @@
   .elec .etop{font-size:.71rem;font-weight:600;color:var(--text);line-height:1.3}
   .elec .ecenter{flex:1;display:flex;align-items:center;justify-content:center;padding:9px 0}
   .elctl{display:flex;align-items:center;gap:7px}
-  .elctl button{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--bg);
+  .elctl button{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--surface2);
     color:var(--text);font-size:1.2rem;line-height:1;cursor:pointer}
   .elctl button:hover{border-color:var(--cL);color:var(--cL)}
   .elctl button:focus-visible{outline:2px solid var(--cL);outline-offset:2px}
-  .elctl input{width:54px;height:32px;background:var(--bg);color:var(--text);border:1px solid var(--line);
+  .elctl input{width:54px;height:32px;background:var(--surface2);color:var(--text);border:1px solid var(--line);
     border-radius:8px;font:inherit;font-size:.98rem;font-weight:600;text-align:center;font-variant-numeric:tabular-nums}
   .elctl input:focus-visible{outline:2px solid var(--cL);outline-offset:1px;border-color:var(--cL)}
   .elec .emeta{display:flex;justify-content:space-between;gap:6px;font-size:.66rem;color:var(--dim);
@@ -193,17 +239,16 @@
 <div class="wrap">
 
 <div class="topbar">
-  <a class="brand" href="./" aria-label="Malla curricular — inicio">
+  <a class="brand" href="#inicio" aria-label="Malla — inicio">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
       <rect x="3" y="14" width="7" height="7" rx="1.5"></rect><path d="M14 17.5h7M17.5 14v7"></path>
     </svg>
-    <span><b>Malla curricular</b><small>Ing. Civil · U. Nacional</small></span>
+    <span><b>Malla</b><small>Pensums · U. Nacional</small></span>
   </a>
   <div class="bar-actions">
     <!-- TODO: cambia esta URL por tu página real de Buy Me a Coffee / Ko-fi / Nequi -->
-    <a class="coffee" href="https://www.buymeacoffee.com/" target="_blank" rel="noopener"
-       aria-label="Invítame un café">
+    <a class="coffee" href="https://www.buymeacoffee.com/" target="_blank" rel="noopener" aria-label="Invítame un café">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"></path>
         <path d="M17 9h2.5a2.5 2.5 0 0 1 0 5H17"></path><path d="M7 2v2M11 2v2M15 2v2"></path>
@@ -219,33 +264,91 @@
         <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
       </svg>
     </button>
-    <button class="reset" id="resetBtn" type="button">Reiniciar</button>
+    <button class="reset" id="resetBtn" type="button" hidden>Reiniciar</button>
   </div>
 </div>
 
-<header>
-  <div class="eyebrow">Universidad Nacional de Colombia · Sede Bogotá</div>
-  <h1>Malla curricular — Ingeniería Civil</h1>
-  <div class="sub">Plan flexible · 180 créditos · Acuerdo 26 de 2015. Tu avance se guarda en este navegador.</div>
-  <div class="stats" id="stats"></div>
-  <div class="pcont"><div class="pbar" id="pbar"></div></div>
-  <div id="pct">0.0% completado</div>
-  <div class="legend">
-    <span><i class="sw" style="border-color:var(--locked)"></i>Bloqueada</span>
-    <span><i class="sw" style="border-color:var(--warn)"></i>Falta 1 prerrequisito</span>
-    <span><i class="sw" style="border-color:var(--ready);box-shadow:0 0 6px color-mix(in srgb, var(--ready) 45%, transparent)"></i>Disponible</span>
-    <span><i class="sw" style="border-color:var(--done);border-width:2px"></i>Aprobada&nbsp;✓</span>
-    <span style="color:var(--dim)">— el fondo de cada celda es su área (ver clave abajo)</span>
+<!-- ============ VISTA: INICIO ============ -->
+<div id="view-inicio">
+  <div class="lwrap">
+    <section class="hero">
+      <div class="eyebrow">Universidad Nacional de Colombia · Sede Bogotá</div>
+      <h1>Tu carrera, materia por materia</h1>
+      <p>Marca lo que ya aprobaste y mira qué se te desbloquea: prerrequisitos, cortes de créditos
+         y avance por componente, en una sola página. Todo se guarda en tu navegador.</p>
+    </section>
+
+    <div class="sec-h">
+      <h2>Carreras</h2>
+      <span>1 disponible · más en camino</span>
+    </div>
+
+    <div class="cards">
+      <a class="carrera" href="#civil" style="--c:#8ec44e">
+        <span class="tag live">Disponible</span>
+        <span class="cn">Ingeniería Civil</span>
+        <span class="cm">Plan flexible 2015 · 180 créditos</span>
+        <span class="go">Abrir malla
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
+      <div class="carrera soon" style="--c:#5aa9e6"><span class="tag">Próximamente</span><span class="cn">Ingeniería de Sistemas y Computación</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#e3b955"><span class="tag">Próximamente</span><span class="cn">Ingeniería Eléctrica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#ac93da"><span class="tag">Próximamente</span><span class="cn">Ingeniería Electrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#9aa6b6"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecánica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#f0a24a"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecatrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#e07aa4"><span class="tag">Próximamente</span><span class="cn">Ingeniería Química</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#3fb277"><span class="tag">Próximamente</span><span class="cn">Ingeniería Agrícola</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+    </div>
+
+    <div class="sec-h"><h2>Cómo funciona</h2></div>
+    <div class="steps">
+      <div class="step"><b>1</b><p>Cada celda es una materia, con su <strong>color de área</strong> y sus créditos. Las bloqueadas se ven atenuadas.</p></div>
+      <div class="step"><b>2</b><p>Haces clic en una materia <strong>disponible</strong> para aprobarla. Se recalculan los prerrequisitos y se desbloquea lo que siga.</p></div>
+      <div class="step"><b>3</b><p>El avance se guarda solo en <strong>tu navegador</strong>. No hay cuentas ni servidor; si cambias de equipo, empiezas de cero.</p></div>
+    </div>
+
+    <div class="aporta">
+      <h2>¿Falta tu carrera?</h2>
+      <p>Esto lo arma un estudiante, carrera por carrera. Si tienes el pensum de la tuya con
+         códigos y prerrequisitos, se puede montar más rápido.</p>
+      <!-- TODO: pon tu correo o un formulario real -->
+      <a class="cta" href="mailto:tu-correo@ejemplo.com?subject=Pensum%20para%20la%20malla">Escríbeme con el pensum</a>
+    </div>
+
+    <div class="site-foot">
+      <span>Proyecto estudiantil independiente · no afiliado a la Universidad Nacional. Ante la duda, consulta el SIA.</span>
+      <span>Datos de <a data-go="#civil">Ingeniería Civil</a> reconstruidos de la malla oficial 2015.</span>
+    </div>
   </div>
-</header>
+</div>
 
-<div class="rail" id="rail"></div>
+<!-- ============ VISTA: MALLA DE INGENIERÍA CIVIL ============ -->
+<div id="view-civil" hidden>
+  <header>
+    <div class="eyebrow">Universidad Nacional de Colombia · Sede Bogotá</div>
+    <h1>Malla curricular — Ingeniería Civil</h1>
+    <div class="sub">Plan flexible · 180 créditos · Acuerdo 26 de 2015. Tu avance se guarda en este navegador.</div>
+    <div class="stats" id="stats"></div>
+    <div class="pcont"><div class="pbar" id="pbar"></div></div>
+    <div id="pct">0.0% completado</div>
+    <div class="legend">
+      <span><i class="sw" style="border-color:var(--locked)"></i>Bloqueada</span>
+      <span><i class="sw" style="border-color:var(--warn)"></i>Falta 1 prerrequisito</span>
+      <span><i class="sw" style="border-color:var(--ready);box-shadow:0 0 6px color-mix(in srgb, var(--ready) 45%, transparent)"></i>Disponible</span>
+      <span><i class="sw" style="border-color:var(--done);border-width:2px"></i>Aprobada&nbsp;✓</span>
+      <span style="color:var(--dim)">— el fondo de cada celda es su área (ver clave abajo)</span>
+    </div>
+  </header>
 
-<footer>
-  Prerrequisitos y cortes de crédito reconstruidos de la malla oficial y verificados con un estudiante de la carrera.
-  Cortes: <code>67</code> créditos C → Fundamentos de Construcción · <code>77</code> créditos C → Ing. Civil Sostenible y
-  Trabajo de Grado · <code>28</code> créditos C → Electiva Técnica. Herramienta no oficial; ante la duda, consulta el SIA.
-</footer>
+  <div class="rail" id="rail"></div>
+
+  <footer>
+    Prerrequisitos y cortes de crédito reconstruidos de la malla oficial y verificados con un estudiante de la carrera.
+    Cortes: <code>67</code> créditos C → Fundamentos de Construcción · <code>77</code> créditos C → Ing. Civil Sostenible y
+    Trabajo de Grado · <code>28</code> créditos C → Electiva Técnica. Herramienta no oficial; ante la duda, consulta el SIA.
+  </footer>
+</div>
 </div>
 
 <script>
@@ -532,6 +635,7 @@ function aplicarTema(t){
 aplicarTema(temaActual());
 temaBtn.addEventListener("click", ()=> aplicarTema(temaActual() === "light" ? "dark" : "light"));
 
+// ---- botón Reiniciar (solo en la vista de la malla) ----
 const resetBtn = document.getElementById("resetBtn");
 let armed = 0;
 resetBtn.addEventListener("click", ()=>{
@@ -545,7 +649,26 @@ resetBtn.addEventListener("click", ()=>{
   approved = []; elec = 0; save(); saveElec(); render();
 });
 
-approved = approved.filter(id => ALL[id]);
-cascade();
-render();
+// ---- router de vistas (#inicio / #civil) ----
+let civilListo = false;
+function route(){
+  const civil = location.hash === "#civil";
+  document.getElementById("view-inicio").hidden = civil;
+  document.getElementById("view-civil").hidden = !civil;
+  resetBtn.hidden = !civil;
+  document.title = civil ? "Malla Ingeniería Civil — UNAL" : "Malla — pensums de la Universidad Nacional";
+  if(civil && !civilListo){
+    approved = approved.filter(id => ALL[id]);
+    cascade();
+    render();
+    civilListo = true;
+  }
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+document.querySelectorAll("[data-go]").forEach(el=>{
+  el.style.cursor = "pointer";
+  el.addEventListener("click", ()=> { location.hash = el.dataset.go; });
+});
+route();
 </script>

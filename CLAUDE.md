@@ -21,24 +21,31 @@ sube la carpeta entera.
 
 ## Estructura
 
-El sitio ya es multi-página (preámbulo para meter más carreras):
+**`index.html` y `malla-artifact.html` son el MISMO archivo** (idénticos byte a byte; el segundo
+existe sólo porque es el que se publica como Artifact). Un solo archivo autocontenido con **dos
+vistas** y un router por hash:
 
-- `index.html` — **página de inicio**: hero + grilla de carreras (Ingeniería Civil activa →
-  `civil.html`; el resto como "Próximamente") + "cómo funciona" + "¿falta tu carrera?" + footer
-  con el descargo de "proyecto estudiantil independiente". Comparte tokens, `.topbar` y el
-  script de tema con las mallas. Sin librerías de iconos (SVG inline). Café y correo son
-  **placeholders** (`<!-- TODO -->`).
-- `civil.html` — la malla de **Ingeniería Civil** (antes era `index.html`). Datos del pensum en
-  la constante `SEMS` por semestre; cada materia `{id, n, c, comp, r, opt?}` con `comp` ∈ B/C/L
-  y `r` la lista de prerrequisitos. El logo de la barra (`href="./"`) vuelve al inicio.
-- `malla-artifact.html` — la misma malla de Civil con diseño más trabajado; es la que se publica
-  como Artifact. **Mantenerla en sync con `civil.html`.** (Todavía no hay artifact del inicio.)
+- `#inicio` (por defecto) — **página de inicio**: hero, grilla de carreras (Ingeniería Civil
+  activa → `#civil`; el resto "Próximamente"), "cómo funciona", "¿falta tu carrera?" y footer
+  con el descargo de *proyecto estudiantil independiente*. Café y correo son **placeholders**
+  (`<!-- TODO -->`).
+- `#civil` — la **malla de Ingeniería Civil**. Datos del pensum en la constante `SEMS` por
+  semestre; cada materia `{id, n, c, comp, r, opt?}` con `comp` ∈ B/C/L y `r` la lista de
+  prerrequisitos.
+
+El router (`route()` + `hashchange`) alterna `#view-inicio` / `#view-civil` con `[hidden]`,
+muestra/oculta el botón "Reiniciar", ajusta `document.title` y hace scroll arriba. La malla se
+renderiza **perezosamente** la primera vez que se entra a `#civil` (`civilListo`). El logo de la
+barra apunta a `#inicio`.
+
 - `PENSUM_BORRADOR.md` — extracción cruda del PDF + notas de qué se verificó con el usuario.
 - `PLAN_ING (2).pdf` — la malla oficial (infografía de una página).
 - `serve.mjs` — servidor estático dev (:4179).
 
-Para una carrera nueva: duplicar `civil.html` → `<carrera>.html`, cambiar `SEMS`/`AGR`/título/
-claves de `localStorage`, y activar su tarjeta en `index.html`.
+Para una carrera nueva: agregar su `SEMS`/`AGR` y una vista `#view-<carrera>` (o factorizar los
+datos a un objeto por carrera), activar su tarjeta en la grilla del inicio, y sumar el caso al
+router. Tras cualquier cambio, `cp malla-artifact.html index.html` (o al revés) para no
+desincronizar.
 
 ## Modelo de prerrequisitos
 
@@ -89,8 +96,8 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   (`buymeacoffee.com/`) — hay un `<!-- TODO -->` al lado; cambiarlo por la URL real (BMC / Ko-fi /
   Nequi). Sin librerías de iconos: todos los SVG van inline.
 - **Tema claro / oscuro**: todo el color sale de tokens en `:root` (oscuro por defecto). El tema
-  claro solo redefine esos tokens en `:root.theme-light`. Un `<script>` chico en el `<head>`
-  (antes del `<body>` / del contenido) fija la clase `theme-light` en `document.documentElement`
+  claro solo redefine esos tokens en `:root.theme-light`. Un `<script>` chico justo después del
+  `</style>` (antes del contenido) fija la clase `theme-light` en `document.documentElement`
   **antes de pintar**, según `localStorage["malla_tema"]` o, si no hay, `prefers-color-scheme`.
   `aplicarTema()` alterna la clase y persiste. Tokens que se agregaron para poder tematizar:
   `--ready` (borde "disponible"), `--locked` (borde "bloqueada"), `--tint` (24% oscuro / **45%**

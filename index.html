@@ -1,115 +1,227 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Malla — pensums de la Universidad Nacional</title>
-<meta name="description" content="Seguimiento interactivo de pensums de la Universidad Nacional de Colombia. Marca las materias que apruebas y mira qué se te desbloquea.">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
 <style>
   :root{
-    /* tema oscuro (por defecto) — mismos tokens que las mallas */
-    --bg:#0f172a; --surface:#1e293b; --surface2:#172033;
-    --primary:#38bdf8; --success:#10b981; --warning:#f59e0b; --danger:#ef4444;
-    --text:#f1f5f9; --dim:#9fb2cd; --border:#334155;
-    --tint:24%;                     /* color de área sobre el fondo de la tarjeta */
-    --agr-filter:brightness(1.2);
+    /* tema oscuro (por defecto) */
+    --bg:#0b1220; --surface:#152036; --surface2:#101a2d; --line:#2a3a57;
+    --text:#eef2f8; --dim:#9fb2cd;
+    --accent:#38bdf8; --accent-ink:#04222f;
+    --done:#10b981; --done-line:#0b845e; --done-ink:#04231a;
+    --warn:#f6a723;
+    --cB:#22d3ee; --cC:#a78bfa; --cL:#fb7185;
+    --ready:#f1f5f9;                 /* borde de "disponible" */
+    --locked:#e05a50;               /* borde de "bloqueada" */
+    --tint:24%;                     /* cuánto color de área lleva el fondo de cada celda */
+    --agr-filter:brightness(1.2);   /* realce del color de área en los textos chicos */
     --coffee:#e8b45e; --coffee-ink:#3a2c07;
-    --glow:rgba(56,189,248,.06);
-    --shadow:0 6px 26px rgba(0,0,0,.4);
+    --glow:rgba(56,189,248,.07);
+    --shadow:0 6px 28px rgba(0,0,0,.45);
+    --mono:'Montserrat',system-ui,sans-serif;
+    --disp:'Montserrat',system-ui,sans-serif;
   }
   :root.theme-light{
-    --bg:#f3f6fc; --surface:#ffffff; --surface2:#eef2f8;
-    --primary:#0284c7; --text:#1b2536; --dim:#586a86; --border:#d5deec;
-    --tint:45%;
+    /* tema claro: se redefinen solo los tokens, todo lo demás sale de ahí */
+    --bg:#f3f6fc; --surface:#ffffff; --surface2:#eef2f8; --line:#d5deec;
+    --text:#1b2536; --dim:#586a86;
+    --accent:#0284c7;
+    --cB:#0891b2; --cC:#7c3aed; --cL:#e11d48;
+    --ready:#475569;
+    --locked:#dc4c43;
+    --tint:45%;                     /* fichas menos pastel: algo de color de área sobre el blanco */
     --agr-filter:saturate(1.15) brightness(.5);
     --coffee:#f0c877;
     --glow:rgba(2,132,199,.05);
     --shadow:0 8px 26px rgba(20,32,60,.12);
   }
   *{box-sizing:border-box}
+  [hidden]{display:none!important}
   html{background:var(--bg)}
-  body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--text);margin:0;padding:18px;
-    position:relative;line-height:1.5}
-  body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -12%,var(--glow),transparent 70%);pointer-events:none;z-index:0}
-  body>*{position:relative;z-index:1}
-  a{color:inherit}
+  body{font-family:'Montserrat',system-ui,sans-serif;background:var(--bg);color:var(--text);
+    margin:0;padding:20px 18px 60px;line-height:1.5}
+  body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -15%,var(--glow),transparent 70%);pointer-events:none;z-index:0}
+  .wrap{position:relative;z-index:1}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
-  /* barra superior fija — igual que en las mallas */
+  /* barra superior fija */
   .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:14px;
-    margin:-18px -18px 18px;padding:10px 18px;border-bottom:1px solid var(--border);
+    margin:-20px -18px 20px;padding:10px 18px;border-bottom:1px solid var(--line);
     background:color-mix(in srgb, var(--surface) 88%, transparent);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
   .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text)}
-  .brand svg{width:21px;height:21px;flex:none;color:var(--primary)}
-  .brand b{font-weight:800;font-size:.92rem;letter-spacing:-.01em;line-height:1}
-  .brand small{display:block;font-size:.58rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;
-    color:var(--dim);margin-top:2px}
+  .brand svg{width:21px;height:21px;flex:none;color:var(--accent)}
+  .brand b{font-family:var(--disp);font-weight:800;font-size:.92rem;letter-spacing:-.01em;line-height:1}
+  .brand small{display:block;font-family:var(--mono);font-weight:500;font-size:.58rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim);margin-top:2px}
   .bar-actions{display:flex;align-items:center;gap:8px}
   .coffee{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:9px;border:1px solid transparent;
-    background:var(--coffee);color:var(--coffee-ink);font-weight:700;font-size:.73rem;text-decoration:none;
-    white-space:nowrap;cursor:pointer;transition:.15s}
+    background:var(--coffee);color:var(--coffee-ink);font-family:var(--mono);font-weight:700;font-size:.73rem;
+    letter-spacing:.01em;text-decoration:none;white-space:nowrap;cursor:pointer;transition:.15s}
   .coffee:hover{filter:brightness(1.06);transform:translateY(-1px)}
   .coffee svg{width:15px;height:15px}
   .iconbtn{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;
-    border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer;transition:.15s}
+    border:1px solid var(--line);background:transparent;color:var(--dim);cursor:pointer;transition:.15s}
   .iconbtn:hover{color:var(--text);border-color:var(--dim)}
   .iconbtn svg{width:17px;height:17px}
   .theme-toggle .i-moon{display:none}
   :root.theme-light .theme-toggle .i-sun{display:none}
   :root.theme-light .theme-toggle .i-moon{display:block}
-  .coffee:focus-visible,.iconbtn:focus-visible,.brand:focus-visible,.cta:focus-visible,.carrera:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
-  @media (max-width:600px){ .brand small{display:none} .coffee span{display:none} .coffee{padding:8px} }
+  .coffee:focus-visible,.iconbtn:focus-visible,.brand:focus-visible,.cta:focus-visible,.carrera:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media (max-width:600px){
+    .brand small{display:none}
+    .coffee span{display:none}
+    .coffee{padding:8px}
+  }
 
-  .wrap{max-width:1000px;margin:0 auto}
-
-  /* hero */
-  .hero{padding:36px 4px 30px;text-align:center}
-  .eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--primary);margin-bottom:12px}
-  .hero h1{font-size:clamp(1.7rem,4.6vw,2.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.12;margin:0 auto 14px;max-width:16ch;text-wrap:balance}
+  /* ---------- página de inicio ---------- */
+  .lwrap{max-width:1000px;margin:0 auto}
+  .hero{padding:34px 4px 26px;text-align:center}
+  .hero .eyebrow{margin-bottom:12px}
+  .hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(1.7rem,4.6vw,2.5rem);letter-spacing:-.02em;
+    line-height:1.12;margin:0 auto 14px;max-width:16ch;text-wrap:balance}
   .hero p{color:var(--dim);font-size:1rem;max-width:52ch;margin:0 auto}
-
-  /* grilla de carreras */
-  .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:38px 0 14px;flex-wrap:wrap}
-  .sec-h h2{font-size:1.15rem;font-weight:800;margin:0}
-  .sec-h span{font-size:.78rem;color:var(--dim)}
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-
+  .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:36px 0 14px;flex-wrap:wrap}
+  .sec-h h2{font-family:var(--disp);font-size:1.15rem;font-weight:800;margin:0}
+  .sec-h span{font-family:var(--mono);font-size:.76rem;color:var(--dim)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
   .carrera{--c:#8891a5;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--text);
     background:color-mix(in srgb, var(--c) var(--tint), var(--surface));
-    border:1px solid var(--border);border-radius:13px;padding:15px 16px 14px;transition:transform .14s,box-shadow .14s,border-color .14s}
-  a.carrera:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--c) 60%,var(--border))}
+    border:1px solid var(--line);border-radius:13px;padding:15px 16px 14px;
+    transition:transform .14s,box-shadow .14s,border-color .14s}
+  a.carrera:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--c) 60%,var(--line))}
   .carrera .cn{font-weight:700;font-size:.95rem;line-height:1.25}
-  .carrera .cm{font-size:.72rem;color:var(--dim);font-variant-numeric:tabular-nums}
-  .carrera .go{margin-top:auto;padding-top:6px;font-size:.74rem;font-weight:700;color:var(--c);filter:var(--agr-filter);
-    display:flex;align-items:center;gap:5px}
+  .carrera .cm{font-family:var(--mono);font-size:.72rem;color:var(--dim);font-variant-numeric:tabular-nums}
+  .carrera .go{margin-top:auto;padding-top:6px;font-family:var(--mono);font-size:.74rem;font-weight:700;
+    color:var(--c);filter:var(--agr-filter);display:flex;align-items:center;gap:5px}
   .carrera .go svg{width:13px;height:13px}
-  .carrera.soon{opacity:.62;cursor:default}
+  .carrera.soon{opacity:.6;cursor:default}
   .carrera.soon .go{color:var(--dim);filter:none;font-weight:600}
-  .tag{align-self:flex-start;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-    padding:3px 8px;border-radius:999px;border:1px solid var(--border);color:var(--dim)}
-  .tag.live{color:var(--success);border-color:color-mix(in srgb,var(--success) 45%,transparent)}
-
-  /* cómo funciona */
+  .tag{align-self:flex-start;font-family:var(--mono);font-size:.57rem;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--dim)}
+  .tag.live{color:var(--done);border-color:color-mix(in srgb,var(--done) 45%,transparent)}
   .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
-  .step{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:16px}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px}
   .step b{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;
-    background:color-mix(in srgb,var(--primary) 16%,var(--surface));color:var(--primary);font-size:.82rem;margin-bottom:9px}
+    background:color-mix(in srgb,var(--accent) 16%,var(--surface));color:var(--accent);
+    font-family:var(--disp);font-size:.82rem;margin-bottom:9px}
   .step p{margin:0;font-size:.86rem;color:var(--dim)}
   .step p strong{color:var(--text);font-weight:700}
-
-  /* aportar */
-  .aporta{margin-top:38px;background:var(--surface);border:1px solid var(--border);border-radius:16px;
-    padding:24px;text-align:center}
-  .aporta h2{margin:0 0 8px;font-size:1.1rem}
+  .aporta{margin-top:36px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;text-align:center}
+  .aporta h2{font-family:var(--disp);margin:0 0 8px;font-size:1.1rem}
   .aporta p{margin:0 auto 16px;color:var(--dim);font-size:.9rem;max-width:46ch}
   .cta{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;
-    background:var(--primary);color:#04263a;font-weight:700;font-size:.82rem;text-decoration:none;transition:.15s}
-  :root.theme-light .cta{color:#f0f9ff}
+    background:var(--accent);color:var(--bg);font-family:var(--mono);font-weight:700;font-size:.82rem;
+    text-decoration:none;transition:.15s}
   .cta:hover{filter:brightness(1.06);transform:translateY(-1px)}
-
-  footer{max-width:1000px;margin:40px auto 8px;border-top:1px solid var(--border);padding-top:16px;
+  .site-foot{max-width:1000px;margin:36px auto 0;border-top:1px solid var(--line);padding-top:16px;
     color:var(--dim);font-size:.74rem;line-height:1.6;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-  footer a{color:var(--primary);text-decoration:none}
+  .site-foot a{color:var(--accent);text-decoration:none;cursor:pointer}
+
+  /* ---------- vista de una malla ---------- */
+  header{max-width:1320px;margin:0 auto 20px;background:var(--surface);border:1px solid var(--line);
+    border-radius:18px;padding:22px 24px;box-shadow:var(--shadow)}
+  h1{font-family:var(--disp);font-weight:800;font-size:1.5rem;letter-spacing:-.01em;margin:0 0 3px;text-wrap:balance}
+  .eyebrow{font-family:var(--mono);font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:8px}
+  .sub{color:var(--dim);font-size:.82rem}
+  button.reset{background:transparent;color:var(--dim);border:1px solid var(--line);border-radius:9px;
+    padding:9px 14px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;cursor:pointer;transition:.15s;white-space:nowrap}
+  button.reset:hover{color:var(--cL);border-color:var(--cL)}
+  button.reset:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .stats{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0 12px}
+  .badge{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.78rem;font-weight:500;
+    border-radius:999px;padding:6px 13px;border:1px solid;
+    color:var(--accent);border-color:color-mix(in srgb, var(--accent) 34%, transparent);
+    background:color-mix(in srgb, var(--accent) 12%, var(--surface))}
+  .badge b{font-weight:600}
+  .badge.c{color:var(--cC);border-color:color-mix(in srgb,var(--cC) 34%,transparent);background:color-mix(in srgb,var(--cC) 12%,var(--surface))}
+  .badge.b{color:var(--cB);border-color:color-mix(in srgb,var(--cB) 34%,transparent);background:color-mix(in srgb,var(--cB) 12%,var(--surface))}
+  .badge.l{color:var(--cL);border-color:color-mix(in srgb,var(--cL) 34%,transparent);background:color-mix(in srgb,var(--cL) 12%,var(--surface))}
+  .pcont{width:100%;max-width:580px;height:12px;background:var(--surface2);border:1px solid var(--line);
+    border-radius:10px;overflow:hidden;margin:8px 0 6px}
+  .pbar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--done));border-radius:10px;
+    transition:width .55s cubic-bezier(.4,0,.2,1)}
+  #pct{font-family:var(--mono);font-size:.76rem;color:var(--dim);font-variant-numeric:tabular-nums}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;padding:11px 13px;background:var(--surface2);
+    border:1px solid var(--line);border-radius:10px}
+  .legend span{display:flex;align-items:center;gap:7px;font-size:.71rem;color:var(--dim)}
+  .sw{width:13px;height:13px;border-radius:3px;border:2px solid transparent;flex:none}
+
+  .tailgroup{display:flex;flex-direction:column;gap:12px;align-self:stretch}
+  .tailcols{display:flex;gap:14px;align-items:stretch}
+  .tailcols .col.short{align-self:stretch}
+  .tailcols .col.short .m{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
+  .tailgroup .elec{flex:0 0 auto}
+  .agrkey{flex:1;display:flex;flex-wrap:wrap;align-content:flex-start;gap:9px 16px;
+    background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
+  .agrkey .kh{width:100%;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--dim);margin-bottom:2px}
+  .agrkey span{display:flex;align-items:center;gap:6px;font-size:.68rem;color:var(--dim)}
+  .agrkey i{width:11px;height:11px;border-radius:3px;flex:none}
+
+  .rail{display:flex;gap:14px;padding:20px 4px 30px;overflow-x:auto;align-items:stretch;
+    scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .rail::-webkit-scrollbar{height:10px}
+  .rail::-webkit-scrollbar-track{background:transparent}
+  .rail::-webkit-scrollbar-thumb{background:var(--line);border-radius:999px}
+  .rail::-webkit-scrollbar-thumb:hover{background:#3a4d70}
+  .col{min-width:214px;max-width:214px;display:flex;flex-direction:column;gap:8px}
+  .col.short{align-self:flex-start}
+  .col:not(.short) .m{flex:1 1 0;min-height:66px;display:flex;flex-direction:column;justify-content:center}
+  .colh{background:var(--surface2);border:1px solid var(--line);border-radius:10px;text-align:center;
+    padding:9px 8px;color:var(--text);font-family:var(--disp);font-weight:800;font-size:.78rem;
+    text-transform:uppercase;letter-spacing:.05em}
+  .colh small{display:block;font-family:var(--mono);font-weight:600;font-size:.64rem;letter-spacing:.02em;
+    color:var(--dim);font-variant-numeric:tabular-nums;margin-top:2px;text-transform:none}
+  .cat{font-family:var(--mono);font-size:.6rem;color:var(--dim);text-transform:uppercase;letter-spacing:.14em;
+    font-weight:500;border-bottom:1px solid var(--line);padding:9px 2px 4px}
+
+  .m{--agr:#8891a5;
+    background:var(--surface);
+    background:color-mix(in srgb, var(--agr) var(--tint), var(--surface));
+    border:3px solid var(--line);border-radius:11px;padding:11px 13px 10px;
+    cursor:pointer;position:relative;transition:transform .14s,box-shadow .14s,border-color .14s,filter .14s}
+  .m:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .m .nm{font-size:.82rem;font-weight:600;line-height:1.3;display:block;color:var(--text)}
+  .m .agrn{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;
+    color:var(--agr);font-weight:500;margin-top:4px;display:block;filter:var(--agr-filter)}
+  .m .meta{font-family:var(--mono);font-size:.66rem;color:var(--dim);display:flex;justify-content:space-between;
+    gap:6px;margin-top:5px;font-variant-numeric:tabular-nums}
+  .m .comp{font-weight:600;color:var(--agr);filter:var(--agr-filter)}
+  .m.locked{filter:saturate(.45) brightness(.8);opacity:.6;cursor:not-allowed;border-color:color-mix(in srgb, var(--locked) 55%, transparent)}
+  :root.theme-light .m.locked{filter:saturate(.5) brightness(.99);opacity:.7}
+  :root.theme-light .m{--dim:#455468}   /* "X créd." un poco más oscuro sobre el color de la ficha */
+  .m.partial{border-color:var(--warn)}
+  .m.ready{border-color:var(--ready);box-shadow:0 0 14px color-mix(in srgb, var(--ready) 16%, transparent)}
+  .m.done{border-color:var(--done)}
+  .m.done::after{content:"✓";position:absolute;top:6px;right:9px;color:var(--done);font-weight:800;font-size:.82rem}
+  .m.ready:hover,.m.partial:hover,.m.done:hover{transform:translateY(-3px);box-shadow:0 12px 22px rgba(0,0,0,.5)}
+
+  .tip{visibility:hidden;opacity:0;position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);
+    width:214px;background:#060c18;color:#dbe6f5;border:1px solid var(--line);border-radius:9px;padding:9px 11px;
+    font-size:.7rem;line-height:1.4;z-index:60;transition:opacity .12s;pointer-events:none;font-weight:500;box-shadow:var(--shadow)}
+  .m:hover .tip,.m:focus-visible .tip{visibility:visible;opacity:1}
+  .tip b{color:var(--warn)}
+
+  .elec.done{border-color:var(--done)}
+  .elec{background:color-mix(in srgb, var(--cL) 15%, var(--surface));border:3px solid var(--line);
+    border-radius:11px;padding:9px 12px 8px 12px;display:flex;flex-direction:column;cursor:default}
+  .elec .etop{font-size:.71rem;font-weight:600;color:var(--text);line-height:1.3}
+  .elec .ecenter{flex:1;display:flex;align-items:center;justify-content:center;padding:9px 0}
+  .elctl{display:flex;align-items:center;gap:7px}
+  .elctl button{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--surface2);
+    color:var(--text);font-size:1.2rem;line-height:1;cursor:pointer}
+  .elctl button:hover{border-color:var(--cL);color:var(--cL)}
+  .elctl button:focus-visible{outline:2px solid var(--cL);outline-offset:2px}
+  .elctl input{width:54px;height:32px;background:var(--surface2);color:var(--text);border:1px solid var(--line);
+    border-radius:8px;font:inherit;font-size:.98rem;font-weight:600;text-align:center;font-variant-numeric:tabular-nums}
+  .elctl input:focus-visible{outline:2px solid var(--cL);outline-offset:1px;border-color:var(--cL)}
+  .elec .emeta{display:flex;justify-content:space-between;gap:6px;font-size:.66rem;color:var(--dim);
+    font-weight:600;font-variant-numeric:tabular-nums}
+  .elec .emeta .lc{color:var(--cL)}
+  footer{max-width:1320px;margin:34px auto 0;color:var(--dim);font-size:.72rem;line-height:1.55;
+    border-top:1px solid var(--line);padding-top:14px}
+  footer code{font-family:var(--mono);color:var(--text)}
 </style>
 
 <script>
@@ -123,11 +235,11 @@
     }catch(e){}
   })();
 </script>
-</head>
-<body>
+
+<div class="wrap">
 
 <div class="topbar">
-  <a class="brand" href="./" aria-label="Malla — inicio">
+  <a class="brand" href="#inicio" aria-label="Malla — inicio">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
       <rect x="3" y="14" width="7" height="7" rx="1.5"></rect><path d="M14 17.5h7M17.5 14v7"></path>
@@ -152,80 +264,411 @@
         <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
       </svg>
     </button>
+    <button class="reset" id="resetBtn" type="button" hidden>Reiniciar</button>
   </div>
 </div>
 
-<div class="wrap">
+<!-- ============ VISTA: INICIO ============ -->
+<div id="view-inicio">
+  <div class="lwrap">
+    <section class="hero">
+      <div class="eyebrow">Universidad Nacional de Colombia · Sede Bogotá</div>
+      <h1>Tu carrera, materia por materia</h1>
+      <p>Marca lo que ya aprobaste y mira qué se te desbloquea: prerrequisitos, cortes de créditos
+         y avance por componente, en una sola página. Todo se guarda en tu navegador.</p>
+    </section>
 
-  <section class="hero">
+    <div class="sec-h">
+      <h2>Carreras</h2>
+      <span>1 disponible · más en camino</span>
+    </div>
+
+    <div class="cards">
+      <a class="carrera" href="#civil" style="--c:#8ec44e">
+        <span class="tag live">Disponible</span>
+        <span class="cn">Ingeniería Civil</span>
+        <span class="cm">Plan flexible 2015 · 180 créditos</span>
+        <span class="go">Abrir malla
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
+      <div class="carrera soon" style="--c:#5aa9e6"><span class="tag">Próximamente</span><span class="cn">Ingeniería de Sistemas y Computación</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#e3b955"><span class="tag">Próximamente</span><span class="cn">Ingeniería Eléctrica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#ac93da"><span class="tag">Próximamente</span><span class="cn">Ingeniería Electrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#9aa6b6"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecánica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#f0a24a"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecatrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#e07aa4"><span class="tag">Próximamente</span><span class="cn">Ingeniería Química</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <div class="carrera soon" style="--c:#3fb277"><span class="tag">Próximamente</span><span class="cn">Ingeniería Agrícola</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+    </div>
+
+    <div class="sec-h"><h2>Cómo funciona</h2></div>
+    <div class="steps">
+      <div class="step"><b>1</b><p>Cada celda es una materia, con su <strong>color de área</strong> y sus créditos. Las bloqueadas se ven atenuadas.</p></div>
+      <div class="step"><b>2</b><p>Haces clic en una materia <strong>disponible</strong> para aprobarla. Se recalculan los prerrequisitos y se desbloquea lo que siga.</p></div>
+      <div class="step"><b>3</b><p>El avance se guarda solo en <strong>tu navegador</strong>. No hay cuentas ni servidor; si cambias de equipo, empiezas de cero.</p></div>
+    </div>
+
+    <div class="aporta">
+      <h2>¿Falta tu carrera?</h2>
+      <p>Esto lo arma un estudiante, carrera por carrera. Si tienes el pensum de la tuya con
+         códigos y prerrequisitos, se puede montar más rápido.</p>
+      <!-- TODO: pon tu correo o un formulario real -->
+      <a class="cta" href="mailto:tu-correo@ejemplo.com?subject=Pensum%20para%20la%20malla">Escríbeme con el pensum</a>
+    </div>
+
+    <div class="site-foot">
+      <span>Proyecto estudiantil independiente · no afiliado a la Universidad Nacional. Ante la duda, consulta el SIA.</span>
+      <span>Datos de <a data-go="#civil">Ingeniería Civil</a> reconstruidos de la malla oficial 2015.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VISTA: MALLA DE INGENIERÍA CIVIL ============ -->
+<div id="view-civil" hidden>
+  <header>
     <div class="eyebrow">Universidad Nacional de Colombia · Sede Bogotá</div>
-    <h1>Tu carrera, materia por materia</h1>
-    <p>Marca lo que ya aprobaste y mira qué se te desbloquea: prerrequisitos, cortes de créditos
-       y avance por componente, en una sola página. Todo se guarda en tu navegador.</p>
-  </section>
+    <h1>Malla curricular — Ingeniería Civil</h1>
+    <div class="sub">Plan flexible · 180 créditos · Acuerdo 26 de 2015. Tu avance se guarda en este navegador.</div>
+    <div class="stats" id="stats"></div>
+    <div class="pcont"><div class="pbar" id="pbar"></div></div>
+    <div id="pct">0.0% completado</div>
+    <div class="legend">
+      <span><i class="sw" style="border-color:var(--locked)"></i>Bloqueada</span>
+      <span><i class="sw" style="border-color:var(--warn)"></i>Falta 1 prerrequisito</span>
+      <span><i class="sw" style="border-color:var(--ready);box-shadow:0 0 6px color-mix(in srgb, var(--ready) 45%, transparent)"></i>Disponible</span>
+      <span><i class="sw" style="border-color:var(--done);border-width:2px"></i>Aprobada&nbsp;✓</span>
+      <span style="color:var(--dim)">— el fondo de cada celda es su área (ver clave abajo)</span>
+    </div>
+  </header>
 
-  <div class="sec-h">
-    <h2>Carreras</h2>
-    <span>1 disponible · más en camino</span>
-  </div>
+  <div class="rail" id="rail"></div>
 
-  <div class="cards">
-    <a class="carrera" href="civil.html" style="--c:#8ec44e">
-      <span class="tag live">Disponible</span>
-      <span class="cn">Ingeniería Civil</span>
-      <span class="cm">Plan flexible 2015 · 180 créditos</span>
-      <span class="go">Abrir malla
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-      </span>
-    </a>
-
-    <div class="carrera soon" style="--c:#5aa9e6"><span class="tag">Próximamente</span><span class="cn">Ingeniería de Sistemas y Computación</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-    <div class="carrera soon" style="--c:#e3b955"><span class="tag">Próximamente</span><span class="cn">Ingeniería Eléctrica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-    <div class="carrera soon" style="--c:#ac93da"><span class="tag">Próximamente</span><span class="cn">Ingeniería Electrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-    <div class="carrera soon" style="--c:#9aa6b6"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecánica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-    <div class="carrera soon" style="--c:#f0a24a"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecatrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-    <div class="carrera soon" style="--c:#e07aa4"><span class="tag">Próximamente</span><span class="cn">Ingeniería Química</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-    <div class="carrera soon" style="--c:#3fb277"><span class="tag">Próximamente</span><span class="cn">Ingeniería Agrícola</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-  </div>
-
-  <div class="sec-h"><h2>Cómo funciona</h2></div>
-  <div class="steps">
-    <div class="step"><b>1</b><p>Cada celda es una materia, con su <strong>color de área</strong> y sus créditos. Las bloqueadas se ven atenuadas.</p></div>
-    <div class="step"><b>2</b><p>Haces clic en una materia <strong>disponible</strong> para aprobarla. Se recalculan los prerrequisitos y se desbloquea lo que siga.</p></div>
-    <div class="step"><b>3</b><p>El avance se guarda solo en <strong>tu navegador</strong>. No hay cuentas ni servidor; si cambias de equipo, empiezas de cero.</p></div>
-  </div>
-
-  <div class="aporta">
-    <h2>¿Falta tu carrera?</h2>
-    <p>Esto lo arma un estudiante, carrera por carrera. Si tienes el pensum de la tuya con
-       códigos y prerrequisitos, se puede montar más rápido.</p>
-    <!-- TODO: pon tu correo o un formulario real -->
-    <a class="cta" href="mailto:tu-correo@ejemplo.com?subject=Pensum%20para%20la%20malla">
-      Escríbeme con el pensum
-    </a>
-  </div>
-
+  <footer>
+    Prerrequisitos y cortes de crédito reconstruidos de la malla oficial y verificados con un estudiante de la carrera.
+    Cortes: <code>67</code> créditos C → Fundamentos de Construcción · <code>77</code> créditos C → Ing. Civil Sostenible y
+    Trabajo de Grado · <code>28</code> créditos C → Electiva Técnica. Herramienta no oficial; ante la duda, consulta el SIA.
+  </footer>
 </div>
-
-<footer>
-  <span>Proyecto estudiantil independiente · no afiliado a la Universidad Nacional. Ante la duda, consulta el SIA.</span>
-  <span>Datos de <a href="civil.html">Ingeniería Civil</a> reconstruidos de la malla oficial 2015.</span>
-</footer>
+</div>
 
 <script>
-  // ---- tema claro / oscuro ----
-  const temaBtn = document.getElementById("temaBtn");
-  function temaActual(){ return document.documentElement.classList.contains("theme-light") ? "light" : "dark"; }
-  function aplicarTema(t){
-    document.documentElement.classList.toggle("theme-light", t === "light");
-    try{ localStorage.setItem("malla_tema", t); }catch(e){}
-    const txt = t === "light" ? "Cambiar a modo oscuro" : "Cambiar a modo claro";
-    temaBtn.setAttribute("aria-label", txt);
-    temaBtn.title = txt;
-  }
-  aplicarTema(temaActual());
-  temaBtn.addEventListener("click", ()=> aplicarTema(temaActual() === "light" ? "dark" : "light"));
-</script>
+// a = agrupación (color, según la malla oficial)
+const SEMS = [
+ {s:1, m:[
+   {id:"1000011", n:"Fundamentos de Ecología", c:3, comp:"B", a:"qb", r:[]},
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"1000024", n:"Principios de Química", c:3, comp:"B", a:"qb", r:[]},
+   {id:"2015711", n:"Dibujo Básico", c:3, comp:"B", a:"graf", r:[]},
+   {id:"2026186", n:"Introducción a la Ingeniería Civil", c:3, comp:"C", a:"bd", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000004"]},
+   {id:"OPTB_A", n:"Optativa de Herramientas de Ingeniería", c:3, comp:"B", a:"her", opt:true, r:[]},
+ ]},
+ {s:3, m:[
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000013", n:"Probabilidad y Estadística Fundamental", c:3, comp:"B", a:"mat", r:["1000004"]},
+   {id:"2026134", n:"Estática", c:3, comp:"C", a:"bd", r:["1000003","1000019"]},
+   {id:"2015958", n:"Geomática Básica", c:4, comp:"C", a:"bd", r:["2015711","2026186"]},
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", a:"eco", r:["1000005"]},
+ ]},
+ {s:4, m:[
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"2015948", n:"Dinámica", c:3, comp:"C", a:"bd", r:["2026134"]},
+   {id:"2015956", n:"Geología", c:3, comp:"C", a:"bd", r:["2015958"]},
+   {id:"2015957", n:"Geomática Aplicada", c:4, comp:"C", a:"bd", r:["2015958"]},
+ ]},
+ {s:5, m:[
+   {id:"2015966", n:"Mecánica de Fluidos", c:4, comp:"C", a:"bd", r:["1000007","1000006","2026134"]},
+   {id:"2015968", n:"Mecánica de Sólidos", c:4, comp:"C", a:"bd", r:["2026134","1000006"]},
+   {id:"2015965", n:"Materiales para Construcción", c:4, comp:"C", a:"bd", r:["1000024","2015956"]},
+   {id:"OPTB_B", n:"Optativa de Herramientas de Ingeniería", c:3, comp:"B", a:"her", opt:true, r:[]},
+ ]},
+ {s:6, m:[
+   {id:"2015961", n:"Hidráulica Básica", c:4, comp:"C", a:"hid", r:["2015966"]},
+   {id:"2015978", n:"Hidrología", c:3, comp:"C", a:"bd", r:["2015966","1000013"]},
+   {id:"2015941", n:"Análisis Estructural Básico", c:3, comp:"C", a:"est", r:["2015968"]},
+   {id:"2015969", n:"Mecánica de Suelos", c:3, comp:"C", a:"geo", r:["2015968"]},
+   {id:"2026138", n:"Ingeniería de Transporte", c:3, comp:"C", a:"via", r:["1000003","2015703"]},
+   {id:"ELECTEC", n:"Electiva Técnica", c:3, comp:"C", a:"etec", opt:true, r:[{comp:"C",min:28}]},
+ ]},
+ {s:7, m:[
+   {id:"2015954", n:"Estructuras Hidráulicas", c:3, comp:"C", a:"hid", r:["2015961"]},
+   {id:"2015938", n:"Acueductos", c:3, comp:"C", a:"san", r:["2015961"]},
+   {id:"2015940", n:"Análisis Estructural Aplicado", c:3, comp:"C", a:"est", r:["2015941","2015948"]},
+   {id:"2015959", n:"Geotecnia", c:3, comp:"C", a:"geo", r:["2015969"]},
+   {id:"2015963", n:"Ingeniería de Tránsito", c:3, comp:"C", a:"via", r:["2026138"]},
+ ]},
+ {s:8, m:[
+   {id:"2015973", n:"Saneamiento Ambiental", c:3, comp:"C", a:"san", r:["1000011","2015938"]},
+   {id:"2015939", n:"Alcantarillados", c:3, comp:"C", a:"san", r:["2015938","2015978"]},
+   {id:"2015950", n:"Diseño Estructural", c:3, comp:"C", a:"est", r:["2015940","2015965"]},
+   {id:"2015971", n:"Pavimentos", c:3, comp:"C", a:"geo", r:["2015959"]},
+   {id:"2015949", n:"Diseño Geométrico de Vías", c:3, comp:"C", a:"via", r:["2015957","2015963"]},
+ ]},
+ {s:9, m:[
+   {id:"2015955", n:"Fundamentos de Construcción", c:3, comp:"C", a:"con", r:[{comp:"C",min:67}]},
+   {id:"2026135", n:"Ingeniería Civil Sostenible", c:3, comp:"C", a:"bd", r:[{comp:"C",min:77}]},
+   {id:"2015972", n:"Preparación y Evaluación de Proyectos de Infraestructura", c:3, comp:"B", a:"eco", r:["2026138"]},
+ ]},
+ {s:10, m:[
+   {id:"TG", n:"Trabajo de Grado", c:6, comp:"C", a:"esp", r:[{comp:"C",min:77}]},
+   {id:"CONSTROC", n:"Construcción de Obras Civiles", c:3, comp:"C", a:"con", opt:true, r:["2015955"]},
+ ]},
+];
 
-</body>
-</html>
+// agrupación → [color, nombre, etiqueta corta] (paleta de la malla oficial, adaptada a fondo oscuro)
+const AGR = {
+  mat: ["#5aa9e6", "Matemáticas y Estadística", "Matemáticas"],
+  qb:  ["#e07aa4", "Química y Biología", "Química y Biología"],
+  fis: ["#e3b955", "Física", "Física"],
+  graf:["#e86a58", "Expresión Gráfica", "Expresión Gráfica"],
+  bd:  ["#8ec44e", "Ing. Civil Básica Disciplinar", "Básica Disciplinar"],
+  hid: ["#4fc7ea", "Hidráulica", "Hidráulica"],
+  san: ["#3fb277", "Saneamiento Básico", "Saneamiento"],
+  est: ["#9aa6b6", "Estructuras", "Estructuras"],
+  geo: ["#b0865f", "Geotecnia", "Geotecnia"],
+  con: ["#d38f8f", "Construcción", "Construcción"],
+  via: ["#f0a24a", "Vías y Transporte", "Vías y Transporte"],
+  her: ["#ac93da", "Herramientas de Ingeniería", "Herramientas"],
+  eco: ["#33ac9d", "Economía y Finanzas", "Economía"],
+  esp: ["#93a0e6", "Asignatura Especial", "Asignatura Especial"],
+  etec:["#c05248", "Electiva Técnica", "Electiva Técnica"],
+};
+
+const TARGET = 180;
+const ALL = {};
+SEMS.flatMap(s=>s.m).forEach(m=>ALL[m.id]=m);
+
+const LIBRE_META = 36;
+let approved = load();
+let elec = loadElec();          // créditos de electivas (Libre Elección), total único
+function load(){ try{ return JSON.parse(localStorage.getItem("malla_civil_unal")) || []; }catch(e){ return []; } }
+function save(){ try{ localStorage.setItem("malla_civil_unal", JSON.stringify(approved)); }catch(e){} }
+function loadElec(){
+  let v = 0;
+  try{ const raw = JSON.parse(localStorage.getItem("malla_civil_elec"));
+    v = Array.isArray(raw) ? raw.reduce((a,b)=>a+(+b||0),0) : (+raw||0); }catch(e){}
+  return Math.max(0, Math.min(LIBRE_META, Math.round(v)));
+}
+function saveElec(){ try{ localStorage.setItem("malla_civil_elec", JSON.stringify(elec)); }catch(e){} }
+
+function creditsBy(comp){
+  if(comp === "L") return elec;
+  return approved.reduce((s,id)=> s + ((ALL[id] && ALL[id].comp===comp) ? ALL[id].c : 0), 0);
+}
+function totalCredits(){ return approved.reduce((s,id)=> s + (ALL[id]?ALL[id].c:0), 0) + elec; }
+function setElec(v){
+  elec = Math.max(0, Math.min(LIBRE_META, Math.round(+v||0)));
+  saveElec();
+  syncTop();
+  const inp = document.getElementById("elInput");
+  if(inp && document.activeElement !== inp) inp.value = elec;
+  const cnt = document.getElementById("elCount");
+  if(cnt) cnt.textContent = elec + " / 36 créd.";
+  const wrap = document.querySelector(".elec");
+  if(wrap) wrap.classList.toggle("done", elec >= LIBRE_META);
+}
+
+function reqMet(req){
+  if(typeof req === "string") return approved.includes(req);
+  return creditsBy(req.comp) >= req.min;
+}
+function progress(m){
+  if(!m.r.length) return {st:"ready", miss:[]};
+  const miss = []; let met = 0;
+  for(const req of m.r){
+    if(reqMet(req)) met++;
+    else if(typeof req === "string") miss.push(ALL[req] ? ALL[req].n : req);
+    else miss.push(`${req.min} créditos ${req.comp} (faltan ${Math.max(0, req.min - creditsBy(req.comp))})`);
+  }
+  if(met === m.r.length) return {st:"ready", miss:[]};
+  if(met > 0) return {st:"partial", miss};
+  return {st:"locked", miss};
+}
+
+function cascade(){
+  let changed = true;
+  while(changed){
+    changed = false;
+    for(const id of [...approved]){
+      const m = ALL[id]; if(!m) continue;
+      const saved = approved;
+      approved = approved.filter(x=>x!==id);
+      const ok = m.r.every(reqMet);
+      approved = saved;
+      if(!ok){ approved = approved.filter(x=>x!==id); changed = true; }
+    }
+  }
+}
+
+function toggle(id){
+  const m = ALL[id];
+  if(approved.includes(id)){ approved = approved.filter(x=>x!==id); cascade(); }
+  else { if(progress(m).st !== "ready") return; approved.push(id); }
+  save(); render();
+}
+
+function card(m){
+  const done = approved.includes(m.id);
+  const p = progress(m);
+  const st = done ? "done" : p.st;
+  const tip = done ? "Aprobada — clic para desmarcar"
+            : p.st === "ready" ? "Disponible — clic para aprobar"
+            : "<b>Falta:</b> " + p.miss.join(" · ");
+  const ag = AGR[m.a] || ["#8891a5", "", ""];
+  const el = document.createElement("button");
+  el.type = "button";
+  el.className = "m " + st + (m.opt ? " opt" : "");
+  el.style.cssText = "text-align:left;font:inherit;width:100%";
+  el.style.setProperty("--agr", ag[0]);
+  el.setAttribute("aria-pressed", done ? "true" : "false");
+  el.onclick = ()=>toggle(m.id);
+  const codeTitle = /^\d{7}$/.test(m.id) ? `${ag[1]} · ${m.id}` : ag[1];
+  el.innerHTML = `<span class="nm">${m.n}</span>
+    <span class="agrn" title="${codeTitle}">${ag[2]}</span>
+    <span class="meta"><span>${m.c} créd.</span><span class="comp">${m.comp}</span></span>
+    <span class="tip">${tip}</span>`;
+  return el;
+}
+
+function syncTop(){
+  const t = totalCredits(), cC = creditsBy("C"), cB = creditsBy("B"), cL = creditsBy("L");
+  const pct = Math.min(t / TARGET * 100, 100);
+  document.getElementById("stats").innerHTML =
+    `<span class="badge">Total <b>${t}</b> / 180</span>`+
+    `<span class="badge c">Disciplinar C <b>${cC}</b> / 96</span>`+
+    `<span class="badge b">Fundamentación B <b>${cB}</b> / 48</span>`+
+    `<span class="badge l">Libre L <b>${cL}</b> / 36</span>`;
+  document.getElementById("pbar").style.width = pct + "%";
+  document.getElementById("pct").textContent = pct.toFixed(1) + "% completado";
+}
+
+function elecWidget(){
+  const w = document.createElement("div");
+  w.className = "elec" + (elec >= LIBRE_META ? " done" : "");
+  w.innerHTML = `<span class="etop">Se suman por créditos, no por materia</span>
+    <div class="ecenter"><div class="elctl">
+      <button type="button" data-d="-1" aria-label="Quitar un crédito de electivas">−</button>
+      <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="${elec}" aria-label="Créditos de electivas cursados">
+      <button type="button" data-d="1" aria-label="Sumar un crédito de electivas">+</button>
+    </div></div>
+    <span class="emeta"><span id="elCount">${elec} / 36 créd.</span><span class="lc">L</span></span>`;
+  w.querySelectorAll("button").forEach(b => b.addEventListener("click", ()=> setElec(elec + (+b.dataset.d))));
+  const inp = w.querySelector("input");
+  inp.addEventListener("change", e => setElec(e.target.value));
+  inp.addEventListener("keydown", e => { if(e.key === "Enter") e.target.blur(); });
+  return w;
+}
+
+function agrkeyEl(){
+  const k = document.createElement("div");
+  k.className = "agrkey";
+  k.innerHTML = `<div class="kh">Color de cada celda = área de la malla</div>` +
+    Object.values(AGR).map(([c, n]) => `<span><i style="background:${c}"></i>${n}</span>`).join("");
+  return k;
+}
+
+function render(){
+  syncTop();
+  const rail = document.getElementById("rail");
+  rail.innerHTML = "";
+  let tailcols = null;
+  SEMS.forEach((sem, i)=>{
+    const col = document.createElement("div");
+    col.className = "col" + (sem.m.length <= 3 ? " short" : "");
+    const cr = sem.m.reduce((s,m)=> s + (approved.includes(m.id) ? m.c : 0), 0);
+    const h = document.createElement("div");
+    h.className = "colh";
+    h.innerHTML = `Semestre ${sem.s}<small>${cr} créditos</small>`;
+    col.appendChild(h);
+    let lastCat = null;
+    for(const m of sem.m){
+      const cat = m.opt ? "Optativa" : m.comp === "B" ? "Fundamentación" : m.comp === "C" ? "Disciplinar" : "Libre";
+      if(cat !== lastCat){
+        const c = document.createElement("div"); c.className = "cat"; c.textContent = cat;
+        col.appendChild(c); lastCat = cat;
+      }
+      col.appendChild(card(m));
+    }
+    if(i === SEMS.length - 2){
+      // sem 9: agrandar las dos casillas del bloque "Disciplinar" para que "Ingeniería Civil
+      // Sostenible" quede a la misma altura que "Construcción de Obras Civiles" del sem 10, y
+      // "Fundamentación" a la misma altura que "Libre Elección" (antes lo hacía un .tspacer).
+      const ms = col.querySelectorAll(".m");
+      if(ms[0]) ms[0].style.minHeight = "124px";
+      if(ms[1]) ms[1].style.minHeight = "105px";
+    }
+    if(i === SEMS.length - 1){
+      const c = document.createElement("div"); c.className = "cat"; c.textContent = "Libre Elección";
+      col.appendChild(c);
+      col.appendChild(elecWidget());
+    }
+
+    if(i >= SEMS.length - 2){          // semestres 9 y 10: columna especial con la clave debajo
+      if(!tailcols){
+        const tg = document.createElement("div"); tg.className = "tailgroup";
+        tailcols = document.createElement("div"); tailcols.className = "tailcols";
+        tg.appendChild(tailcols);
+        tg.appendChild(agrkeyEl());
+        rail.appendChild(tg);
+      }
+      tailcols.appendChild(col);
+    } else {
+      rail.appendChild(col);
+    }
+  });
+}
+
+// ---- tema claro / oscuro ----
+const temaBtn = document.getElementById("temaBtn");
+function temaActual(){ return document.documentElement.classList.contains("theme-light") ? "light" : "dark"; }
+function aplicarTema(t){
+  document.documentElement.classList.toggle("theme-light", t === "light");
+  try{ localStorage.setItem("malla_tema", t); }catch(e){}
+  const txt = t === "light" ? "Cambiar a modo oscuro" : "Cambiar a modo claro";
+  temaBtn.setAttribute("aria-label", txt);
+  temaBtn.title = txt;
+}
+aplicarTema(temaActual());
+temaBtn.addEventListener("click", ()=> aplicarTema(temaActual() === "light" ? "dark" : "light"));
+
+// ---- botón Reiniciar (solo en la vista de la malla) ----
+const resetBtn = document.getElementById("resetBtn");
+let armed = 0;
+resetBtn.addEventListener("click", ()=>{
+  if(!armed){
+    armed = 1; resetBtn.textContent = "¿Seguro? Confirmar";
+    resetBtn.style.color = "var(--cL)"; resetBtn.style.borderColor = "var(--cL)";
+    setTimeout(()=>{ armed = 0; resetBtn.textContent = "Reiniciar"; resetBtn.style.color = ""; resetBtn.style.borderColor = ""; }, 3500);
+    return;
+  }
+  armed = 0; resetBtn.textContent = "Reiniciar"; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
+  approved = []; elec = 0; save(); saveElec(); render();
+});
+
+// ---- router de vistas (#inicio / #civil) ----
+let civilListo = false;
+function route(){
+  const civil = location.hash === "#civil";
+  document.getElementById("view-inicio").hidden = civil;
+  document.getElementById("view-civil").hidden = !civil;
+  resetBtn.hidden = !civil;
+  document.title = civil ? "Malla Ingeniería Civil — UNAL" : "Malla — pensums de la Universidad Nacional";
+  if(civil && !civilListo){
+    approved = approved.filter(id => ALL[id]);
+    cascade();
+    render();
+    civilListo = true;
+  }
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+document.querySelectorAll("[data-go]").forEach(el=>{
+  el.style.cursor = "pointer";
+  el.addEventListener("click", ()=> { location.hash = el.dataset.go; });
+});
+route();
+</script>
