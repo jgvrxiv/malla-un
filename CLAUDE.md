@@ -25,33 +25,46 @@ sube la carpeta entera.
 existe sólo porque es el que se publica como Artifact). Un solo archivo autocontenido con **dos
 vistas** y un router por hash:
 
-- `#inicio` (por defecto) — **página de inicio**: hero, grilla de carreras (Ingeniería Civil
-  activa → `#civil`; el resto "Próximamente"), "cómo funciona", "¿falta tu carrera?" y footer
-  con el descargo de *proyecto estudiantil independiente*. Café y correo son **placeholders**
+- `#inicio` (por defecto) — **página de inicio**: hero, grilla de carreras (Civil y Química
+  activas; el resto "Próximamente"), "cómo funciona", "¿falta tu carrera?" y footer con el
+  descargo de *proyecto estudiantil independiente*. Café y correo son **placeholders**
   (`<!-- TODO -->`).
-- `#civil` — la **malla de Ingeniería Civil**. Datos del pensum en la constante `SEMS` por
-  semestre; cada materia `{id, n, c, comp, r, opt?}` con `comp` ∈ B/C/L y `r` la lista de
-  prerrequisitos.
+- `#civil` / `#quimica` — **una sola vista** `#view-malla` que muestra la carrera del hash.
 
-El router (`route()` + `hashchange`) alterna `#view-inicio` / `#view-civil` con `[hidden]`,
-muestra/oculta el botón "Reiniciar", ajusta `document.title` y hace scroll arriba. La malla se
-renderiza **perezosamente** la primera vez que se entra a `#civil` (`civilListo`). El logo de la
-barra apunta a `#inicio`.
+**Registro `MALLAS = { civil, quimica }`.** Cada entrada trae `sems`, `agr`, `store`/`elecStore`
+(claves de `localStorage`), `meta` (denominadores de las badges por componente), `sem9fix` y
+`foot` (HTML del pie). `SEMS_CIVIL`/`AGR_CIVIL` y `SEMS_QUIMICA`/`AGR_QUIMICA` son las constantes
+de datos. `setMalla(key)` cambia los `let` activos (`SEMS`, `AGR`, `ALL`, `META`, `STORE`,
+`ELEC_STORE`, `SEM9FIX`) y relee `approved`/`elec` del navegador. **El motor no cambió**: las
+funciones (`progress`, `cascade`, `toggle`, `card`, `render`…) son las mismas, solo leen esos
+`let` en vez de constantes. `render()` aplica el apaño de altura del sem 9 **solo si `SEM9FIX`**
+(true solo para civil).
 
-- `PENSUM_BORRADOR.md` — extracción cruda del PDF + notas de qué se verificó con el usuario.
-- `PLAN_ING (2).pdf` — la malla oficial (infografía de una página).
+El router (`route()` + `hashchange`) alterna `#view-inicio` / `#view-malla` con `[hidden]`,
+llama `setMalla` + `render`, rellena `#m-h1` / `#m-sub` / `#m-foot`, muestra/oculta "Reiniciar",
+ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#inicio`.
+
+- **Química**: créditos y estructura de la malla oficial (Acuerdo 02 de 2013, PDF de
+  ingenieria.bogota.unal.edu.co); **prerrequisitos y orden a partir de mallaiq.netlify.app**
+  (código de datos de mallaiq extraído en su `<script>` inline). Metas B 69 / C 75 / L 36 = 180
+  (cuadran con el PDF). Cortes: `{comp:"T",min:108}` (créditos totales → Optativa de Materiales),
+  `{comp:"C",min:53}` (Taller de Proyectos Interdisciplinarios), `{comp:"C",min:60}` (Trabajo de
+  Grado). **Falta verificar los prerrequisitos con el SIA / un estudiante** — así lo dice el pie.
+  Se agregó `if(comp==="T") return totalCredits()` a `creditsBy` para el corte por total.
+- `PENSUM_BORRADOR.md` — extracción cruda del PDF de Civil + notas de verificación.
+- `PLAN_ING (2).pdf` — malla oficial de Civil.
 - `serve.mjs` — servidor estático dev (:4179).
 
-Para una carrera nueva: agregar su `SEMS`/`AGR` y una vista `#view-<carrera>` (o factorizar los
-datos a un objeto por carrera), activar su tarjeta en la grilla del inicio, y sumar el caso al
-router. Tras cualquier cambio, `cp malla-artifact.html index.html` (o al revés) para no
-desincronizar.
+Para una carrera nueva: agregar `SEMS_<X>`/`AGR_<X>` + una entrada en `MALLAS`, activar su
+tarjeta en la grilla del inicio (`<a class="carrera" href="#<x>">`). Tras cualquier cambio,
+`cp malla-artifact.html index.html` para no desincronizar.
 
 ## Modelo de prerrequisitos
 
 `r` es un AND de:
 - **id de otra materia** (string) → tiene que estar aprobada.
-- **corte de créditos** `{comp:"C", min:67}` → suma de créditos aprobados de ese componente ≥ min.
+- **corte de créditos** `{comp:"C", min:67}` → créditos aprobados del componente C ≥ min.
+  `comp:"T"` = créditos **totales** del plan (usado en Química); `comp:"L"` = Libre Elección.
 
 Cortes reales del plan: Fundamentos de Construcción 67 C · Ing. Civil Sostenible 77 C · Trabajo
 de Grado 77 C · Electiva Técnica 28 C. (Electivas de Profundización 108 y Prácticas 126 sobre
@@ -135,11 +148,14 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 
 ## Pendiente
 
-- **Placeholders por reemplazar**: URL del botón "Invítame un café" (todo `index.html`,
-  `civil.html`, `malla-artifact.html`) y el `mailto:` de "¿falta tu carrera?" en `index.html`.
+- **Placeholders por reemplazar**: URL del botón "Invítame un café" y el `mailto:` de "¿falta
+  tu carrera?" (los dos en `malla-artifact.html` / `index.html`).
 - **Nombre/marca**: hoy la marca es sólo "Malla" — el usuario aún no eligió nombre definitivo.
-- Sumar carreras reales (duplicar `civil.html`, activar su tarjeta en `index.html`). Modelo
-  crowdsourced: pensa aportados por estudiantes de cada carrera.
+- **Verificar los prerrequisitos de Química** contra el SIA o con un estudiante (hoy salen de
+  mallaiq; el pie de la vista lo avisa). Ojo con `1000010` (Lab. principios de orgánica, hoy
+  depende solo de `1000024`) y los códigos que no vienen limpios del PDF (p. ej. Biología
+  molecular usa el id `IQ_BIO`).
+- Sumar más carreras (`SEMS_<X>`/`AGR_<X>` + entrada en `MALLAS` + tarjeta en el inicio).
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
 - ¿Modelar Prácticas / Electivas de Profundización con su corte de 108 / 126 créditos totales?
 - Publicar (Netlify / GitHub Pages) — ya es la carpeta entera, no un archivo suelto.

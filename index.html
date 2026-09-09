@@ -280,7 +280,7 @@
 
     <div class="sec-h">
       <h2>Carreras</h2>
-      <span>1 disponible · más en camino</span>
+      <span>2 disponibles · más en camino</span>
     </div>
 
     <div class="cards">
@@ -292,12 +292,19 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </span>
       </a>
+      <a class="carrera" href="#quimica" style="--c:#e07aa4">
+        <span class="tag live">Disponible</span>
+        <span class="cn">Ingeniería Química</span>
+        <span class="cm">Plan flexible · 180 créditos</span>
+        <span class="go">Abrir malla
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
       <div class="carrera soon" style="--c:#5aa9e6"><span class="tag">Próximamente</span><span class="cn">Ingeniería de Sistemas y Computación</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#e3b955"><span class="tag">Próximamente</span><span class="cn">Ingeniería Eléctrica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#ac93da"><span class="tag">Próximamente</span><span class="cn">Ingeniería Electrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#9aa6b6"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecánica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#f0a24a"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecatrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-      <div class="carrera soon" style="--c:#e07aa4"><span class="tag">Próximamente</span><span class="cn">Ingeniería Química</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
       <div class="carrera soon" style="--c:#3fb277"><span class="tag">Próximamente</span><span class="cn">Ingeniería Agrícola</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
     </div>
 
@@ -318,17 +325,17 @@
 
     <div class="site-foot">
       <span>Proyecto estudiantil independiente · no afiliado a la Universidad Nacional. Ante la duda, consulta el SIA.</span>
-      <span>Datos de <a data-go="#civil">Ingeniería Civil</a> reconstruidos de la malla oficial 2015.</span>
+      <span><a data-go="#civil">Ingeniería Civil</a> verificada con un estudiante · <a data-go="#quimica">Ingeniería Química</a> a partir de <a href="https://mallaiq.netlify.app/" target="_blank" rel="noopener">mallaiq</a> y la malla oficial.</span>
     </div>
   </div>
 </div>
 
-<!-- ============ VISTA: MALLA DE INGENIERÍA CIVIL ============ -->
-<div id="view-civil" hidden>
+<!-- ============ VISTA: MALLA (Civil / Química / …) ============ -->
+<div id="view-malla" hidden>
   <header>
     <div class="eyebrow">Universidad Nacional de Colombia · Sede Bogotá</div>
-    <h1>Malla curricular — Ingeniería Civil</h1>
-    <div class="sub">Plan flexible · 180 créditos · Acuerdo 26 de 2015. Tu avance se guarda en este navegador.</div>
+    <h1 id="m-h1">Malla curricular</h1>
+    <div class="sub" id="m-sub"></div>
     <div class="stats" id="stats"></div>
     <div class="pcont"><div class="pbar" id="pbar"></div></div>
     <div id="pct">0.0% completado</div>
@@ -343,17 +350,14 @@
 
   <div class="rail" id="rail"></div>
 
-  <footer>
-    Prerrequisitos y cortes de crédito reconstruidos de la malla oficial y verificados con un estudiante de la carrera.
-    Cortes: <code>67</code> créditos C → Fundamentos de Construcción · <code>77</code> créditos C → Ing. Civil Sostenible y
-    Trabajo de Grado · <code>28</code> créditos C → Electiva Técnica. Herramienta no oficial; ante la duda, consulta el SIA.
-  </footer>
+  <footer id="m-foot"></footer>
 </div>
 </div>
 
 <script>
-// a = agrupación (color, según la malla oficial)
-const SEMS = [
+// a = agrupación (color, según la malla oficial). r: AND de ids + cortes {comp,min}
+// (comp "C" = créditos disciplinares, "T" = créditos totales). La Libre Elección es el contador `elec`.
+const SEMS_CIVIL = [
  {s:1, m:[
    {id:"1000011", n:"Fundamentos de Ecología", c:3, comp:"B", a:"qb", r:[]},
    {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
@@ -420,7 +424,7 @@ const SEMS = [
 ];
 
 // agrupación → [color, nombre, etiqueta corta] (paleta de la malla oficial, adaptada a fondo oscuro)
-const AGR = {
+const AGR_CIVIL = {
   mat: ["#5aa9e6", "Matemáticas y Estadística", "Matemáticas"],
   qb:  ["#e07aa4", "Química y Biología", "Química y Biología"],
   fis: ["#e3b955", "Física", "Física"],
@@ -438,25 +442,145 @@ const AGR = {
   etec:["#c05248", "Electiva Técnica", "Electiva Técnica"],
 };
 
-const TARGET = 180;
-const ALL = {};
-SEMS.flatMap(s=>s.m).forEach(m=>ALL[m.id]=m);
+// Ingeniería Química — créditos y estructura de la malla oficial (Acuerdo 02 de 2013,
+// ingenieria.bogota.unal.edu.co); prerrequisitos y orden a partir de mallaiq.netlify.app.
+const SEMS_QUIMICA = [
+ {s:1, m:[
+   {id:"1000024", n:"Principios de Química", c:3, comp:"B", a:"qb", r:[]},
+   {id:"1000025", n:"Laboratorio de Técnicas Básicas en Química", c:3, comp:"B", a:"qb", r:[]},
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"OPT_HER_Q", n:"Optativa de Herramientas de la Ingeniería", c:3, comp:"B", a:"her", opt:true, r:[]},
+   {id:"2015718", n:"Introducción a la Ingeniería Química", c:3, comp:"C", a:"ctx", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000026", n:"Principios de Análisis Químico", c:3, comp:"B", a:"qb", r:["1000024"]},
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000004"]},
+   {id:"2015708", n:"Balance de Materia", c:3, comp:"C", a:"opu", r:[]},
+ ]},
+ {s:3, m:[
+   {id:"1000027", n:"Laboratorio de Principios de Análisis Químico", c:3, comp:"B", a:"qb", r:["1000024"]},
+   {id:"IQ_BIO", n:"Biología Molecular y Celular", c:3, comp:"B", a:"qb", r:[]},
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000003","1000005"]},
+   {id:"1000017", n:"Fundamentos de Electricidad y Magnetismo", c:4, comp:"B", a:"fis", r:["1000005","1000019"]},
+   {id:"2015741", n:"Termodinámica", c:3, comp:"C", a:"termo", r:["2015708"]},
+ ]},
+ {s:4, m:[
+   {id:"1000028", n:"Principios de Química Inorgánica", c:3, comp:"B", a:"qb", r:["1000024"]},
+   {id:"1000013", n:"Probabilidad y Estadística Fundamental", c:3, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", a:"mat", r:["1000003","1000005"]},
+   {id:"2015714", n:"Fluidos", c:3, comp:"C", a:"opu", r:["1000019","2015741"]},
+   {id:"2015735", n:"Taller 1", c:1, comp:"C", a:"termo", r:["1000006","2015741"]},
+   {id:"2015740", n:"Termodinámica Química", c:3, comp:"C", a:"termo", r:["1000006","2015741"]},
+ ]},
+ {s:5, m:[
+   {id:"1000030", n:"Principios de Química Orgánica", c:3, comp:"B", a:"qb", r:["1000024"]},
+   {id:"2015970", n:"Métodos Numéricos", c:3, comp:"B", a:"her", r:["1000007"]},
+   {id:"2015743", n:"Transferencia de Calor", c:4, comp:"C", a:"opu", r:["2015741","1000007"]},
+   {id:"2015726", n:"Manejo de Sólidos", c:3, comp:"C", a:"opu", r:["2015714"]},
+   {id:"2015707", n:"Balance de Energía y Equilibrio Químico", c:3, comp:"C", a:"termo", r:["2015740"]},
+ ]},
+ {s:6, m:[
+   {id:"1000010", n:"Laboratorio de Principios de Química Orgánica", c:2, comp:"B", a:"qb", r:["1000024"]},
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", a:"eco", r:["1000005"]},
+   {id:"2015744", n:"Transferencia de Masa", c:3, comp:"C", a:"opu", r:["1000007"]},
+   {id:"2015736", n:"Taller 2", c:1, comp:"C", a:"opu", r:["1000007"]},
+   {id:"2015721", n:"Laboratorio de Propiedades Termodinámicas y de Transporte", c:3, comp:"C", a:"inv", r:["2015707"]},
+   {id:"OPT_TERMO_Q", n:"Optativa de Termodinámica", c:3, comp:"C", a:"termo", opt:true, r:["2015707"]},
+ ]},
+ {s:7, m:[
+   {id:"OPT_ECON_Q", n:"Optativa de Ciencias Económicas y Administrativas", c:3, comp:"B", a:"eco", opt:true, r:[]},
+   {id:"2015702", n:"Gerencia y Gestión de Proyectos", c:3, comp:"B", a:"eco", r:["2015703"]},
+   {id:"2015731", n:"Operaciones de Separación", c:3, comp:"C", a:"opu", r:["2015744","2015707"]},
+   {id:"2015719", n:"Laboratorio de Fluidos, Sólidos y Transferencia de Calor", c:3, comp:"C", a:"inv", r:["2015743"]},
+   {id:"2015716", n:"Ingeniería de Reacciones Químicas", c:3, comp:"C", a:"proq", r:["2015707"]},
+ ]},
+ {s:8, m:[
+   {id:"OPT_MAT_Q", n:"Optativa de Materiales", c:3, comp:"C", a:"mater", opt:true, r:[{comp:"T",min:108}]},
+   {id:"2015710", n:"Control de Procesos", c:3, comp:"C", a:"proq", r:["2015970","2015716"]},
+   {id:"2015720", n:"Laboratorio de Operaciones de Separación, Reacción y Control", c:3, comp:"C", a:"inv", r:["2015731","2015710"]},
+   {id:"OPT_PROQ_Q", n:"Optativa de Procesos Químicos y Bioquímicos", c:3, comp:"C", a:"proq", opt:true, r:["2015744","2015716"]},
+   {id:"2015713", n:"Diseño de Procesos Químicos y Bioquímicos", c:3, comp:"C", a:"proq", r:["2015707"]},
+ ]},
+ {s:9, m:[
+   {id:"2015737", n:"Taller de Proyectos Interdisciplinarios", c:3, comp:"C", a:"inv", r:[{comp:"C",min:53}]},
+   {id:"2015712", n:"Diseño de Plantas y Equipos", c:3, comp:"C", a:"proq", r:["2015731","2015713"]},
+   {id:"2015715", n:"Ingeniería de Procesos", c:3, comp:"C", a:"proq", r:["2015713"]},
+ ]},
+ {s:10, m:[
+   {id:"2015289", n:"Trabajo de Grado", c:6, comp:"C", a:"inv", r:[{comp:"C",min:60}]},
+ ]},
+];
+const AGR_QUIMICA = {
+  mat:  ["#5aa9e6", "Matemáticas, Probabilidad y Estadística", "Matemáticas"],
+  qb:   ["#e07aa4", "Química y Biología", "Química y Biología"],
+  fis:  ["#e3b955", "Física", "Física"],
+  termo:["#e8804f", "Termodinámica", "Termodinámica"],
+  opu:  ["#4fc7ea", "Operaciones Unitarias", "Operaciones Unitarias"],
+  proq: ["#9aa6b6", "Procesos Químicos y Bioquímicos", "Procesos Químicos"],
+  inv:  ["#c56bd0", "Investigación e Innovación", "Investigación e Innovación"],
+  eco:  ["#33ac9d", "Ciencias Económicas y Administrativas", "Económico-Admin."],
+  her:  ["#ac93da", "Herramientas de la Ingeniería", "Herramientas"],
+  mater:["#b0865f", "Materiales", "Materiales"],
+  ctx:  ["#8ec44e", "Contexto Profesional", "Contexto Profesional"],
+};
 
-const LIBRE_META = 36;
-let approved = load();
-let elec = loadElec();          // créditos de electivas (Libre Elección), total único
-function load(){ try{ return JSON.parse(localStorage.getItem("malla_civil_unal")) || []; }catch(e){ return []; } }
-function save(){ try{ localStorage.setItem("malla_civil_unal", JSON.stringify(approved)); }catch(e){} }
+// registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
+const MALLAS = {
+  civil: {
+    nombre: "Ingeniería Civil",
+    plan: "Plan flexible · 180 créditos · Acuerdo 26 de 2015",
+    sems: SEMS_CIVIL, agr: AGR_CIVIL,
+    store: "malla_civil_unal", elecStore: "malla_civil_elec",
+    meta: { C: 96, B: 48, L: 36 }, sem9fix: true,
+    foot: `Prerrequisitos y cortes de crédito reconstruidos de la malla oficial y verificados con un estudiante de la carrera.
+      Cortes: <code>67</code> créditos C → Fundamentos de Construcción · <code>77</code> créditos C → Ing. Civil Sostenible y
+      Trabajo de Grado · <code>28</code> créditos C → Electiva Técnica. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  quimica: {
+    nombre: "Ingeniería Química",
+    plan: "Plan flexible · 180 créditos · Acuerdo 02 de 2013",
+    sems: SEMS_QUIMICA, agr: AGR_QUIMICA,
+    store: "malla_quimica_unal", elecStore: "malla_quimica_elec",
+    meta: { C: 75, B: 69, L: 36 }, sem9fix: false,
+    foot: `Créditos y estructura de la malla oficial (Acuerdo 02 de 2013); prerrequisitos y orden reconstruidos a partir de
+      <code>mallaiq.netlify.app</code> — <b>falta verificarlos contra el SIA</b>. Cortes: <code>108</code> créditos totales →
+      Optativa de Materiales · <code>53</code> créditos C → Taller de Proyectos Interdisciplinarios · <code>60</code> créditos C →
+      Trabajo de Grado. Herramienta no oficial.`,
+  },
+};
+
+const TARGET = 180, LIBRE_META = 36;
+let SEMS = SEMS_CIVIL, AGR = AGR_CIVIL, ALL = {};
+let META = MALLAS.civil.meta, STORE = MALLAS.civil.store, ELEC_STORE = MALLAS.civil.elecStore, SEM9FIX = true;
+let approved = [], elec = 0;
+
+// carga una carrera: cambia el pensum activo y relee su progreso del navegador
+function setMalla(key){
+  const M = MALLAS[key];
+  SEMS = M.sems; AGR = M.agr; META = M.meta;
+  STORE = M.store; ELEC_STORE = M.elecStore; SEM9FIX = !!M.sem9fix;
+  ALL = {};
+  SEMS.flatMap(s=>s.m).forEach(m=>ALL[m.id]=m);
+  approved = load().filter(id => ALL[id]);
+  elec = loadElec();
+  cascade();
+}
+
+function load(){ try{ return JSON.parse(localStorage.getItem(STORE)) || []; }catch(e){ return []; } }
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(approved)); }catch(e){} }
 function loadElec(){
   let v = 0;
-  try{ const raw = JSON.parse(localStorage.getItem("malla_civil_elec"));
+  try{ const raw = JSON.parse(localStorage.getItem(ELEC_STORE));
     v = Array.isArray(raw) ? raw.reduce((a,b)=>a+(+b||0),0) : (+raw||0); }catch(e){}
   return Math.max(0, Math.min(LIBRE_META, Math.round(v)));
 }
-function saveElec(){ try{ localStorage.setItem("malla_civil_elec", JSON.stringify(elec)); }catch(e){} }
+function saveElec(){ try{ localStorage.setItem(ELEC_STORE, JSON.stringify(elec)); }catch(e){} }
 
 function creditsBy(comp){
   if(comp === "L") return elec;
+  if(comp === "T") return totalCredits();     // corte por créditos totales del plan
   return approved.reduce((s,id)=> s + ((ALL[id] && ALL[id].comp===comp) ? ALL[id].c : 0), 0);
 }
 function totalCredits(){ return approved.reduce((s,id)=> s + (ALL[id]?ALL[id].c:0), 0) + elec; }
@@ -467,7 +591,7 @@ function setElec(v){
   const inp = document.getElementById("elInput");
   if(inp && document.activeElement !== inp) inp.value = elec;
   const cnt = document.getElementById("elCount");
-  if(cnt) cnt.textContent = elec + " / 36 créd.";
+  if(cnt) cnt.textContent = elec + " / " + LIBRE_META + " créd.";
   const wrap = document.querySelector(".elec");
   if(wrap) wrap.classList.toggle("done", elec >= LIBRE_META);
 }
@@ -482,7 +606,7 @@ function progress(m){
   for(const req of m.r){
     if(reqMet(req)) met++;
     else if(typeof req === "string") miss.push(ALL[req] ? ALL[req].n : req);
-    else miss.push(`${req.min} créditos ${req.comp} (faltan ${Math.max(0, req.min - creditsBy(req.comp))})`);
+    else miss.push(`${req.min} créditos ${req.comp === "T" ? "totales" : req.comp} (faltan ${Math.max(0, req.min - creditsBy(req.comp))})`);
   }
   if(met === m.r.length) return {st:"ready", miss:[]};
   if(met > 0) return {st:"partial", miss};
@@ -538,10 +662,10 @@ function syncTop(){
   const t = totalCredits(), cC = creditsBy("C"), cB = creditsBy("B"), cL = creditsBy("L");
   const pct = Math.min(t / TARGET * 100, 100);
   document.getElementById("stats").innerHTML =
-    `<span class="badge">Total <b>${t}</b> / 180</span>`+
-    `<span class="badge c">Disciplinar C <b>${cC}</b> / 96</span>`+
-    `<span class="badge b">Fundamentación B <b>${cB}</b> / 48</span>`+
-    `<span class="badge l">Libre L <b>${cL}</b> / 36</span>`;
+    `<span class="badge">Total <b>${t}</b> / ${TARGET}</span>`+
+    `<span class="badge c">Disciplinar C <b>${cC}</b> / ${META.C}</span>`+
+    `<span class="badge b">Fundamentación B <b>${cB}</b> / ${META.B}</span>`+
+    `<span class="badge l">Libre L <b>${cL}</b> / ${META.L}</span>`;
   document.getElementById("pbar").style.width = pct + "%";
   document.getElementById("pct").textContent = pct.toFixed(1) + "% completado";
 }
@@ -552,10 +676,10 @@ function elecWidget(){
   w.innerHTML = `<span class="etop">Se suman por créditos, no por materia</span>
     <div class="ecenter"><div class="elctl">
       <button type="button" data-d="-1" aria-label="Quitar un crédito de electivas">−</button>
-      <input type="number" id="elInput" inputmode="numeric" min="0" max="36" step="1" value="${elec}" aria-label="Créditos de electivas cursados">
+      <input type="number" id="elInput" inputmode="numeric" min="0" max="${LIBRE_META}" step="1" value="${elec}" aria-label="Créditos de electivas cursados">
       <button type="button" data-d="1" aria-label="Sumar un crédito de electivas">+</button>
     </div></div>
-    <span class="emeta"><span id="elCount">${elec} / 36 créd.</span><span class="lc">L</span></span>`;
+    <span class="emeta"><span id="elCount">${elec} / ${LIBRE_META} créd.</span><span class="lc">L</span></span>`;
   w.querySelectorAll("button").forEach(b => b.addEventListener("click", ()=> setElec(elec + (+b.dataset.d))));
   const inp = w.querySelector("input");
   inp.addEventListener("change", e => setElec(e.target.value));
@@ -593,10 +717,10 @@ function render(){
       }
       col.appendChild(card(m));
     }
-    if(i === SEMS.length - 2){
-      // sem 9: agrandar las dos casillas del bloque "Disciplinar" para que "Ingeniería Civil
-      // Sostenible" quede a la misma altura que "Construcción de Obras Civiles" del sem 10, y
-      // "Fundamentación" a la misma altura que "Libre Elección" (antes lo hacía un .tspacer).
+    if(i === SEMS.length - 2 && SEM9FIX){
+      // solo civil: agrandar las dos casillas del bloque "Disciplinar" del sem 9 para alinear
+      // "Ingeniería Civil Sostenible" con "Construcción de Obras Civiles" del sem 10 y
+      // "Fundamentación" con "Libre Elección" (antes lo hacía un .tspacer).
       const ms = col.querySelectorAll(".m");
       if(ms[0]) ms[0].style.minHeight = "124px";
       if(ms[1]) ms[1].style.minHeight = "105px";
@@ -649,19 +773,22 @@ resetBtn.addEventListener("click", ()=>{
   approved = []; elec = 0; save(); saveElec(); render();
 });
 
-// ---- router de vistas (#inicio / #civil) ----
-let civilListo = false;
+// ---- router de vistas (#inicio / #civil / #quimica / …) ----
 function route(){
-  const civil = location.hash === "#civil";
-  document.getElementById("view-inicio").hidden = civil;
-  document.getElementById("view-civil").hidden = !civil;
-  resetBtn.hidden = !civil;
-  document.title = civil ? "Malla Ingeniería Civil — UNAL" : "Malla — pensums de la Universidad Nacional";
-  if(civil && !civilListo){
-    approved = approved.filter(id => ALL[id]);
-    cascade();
+  const key = location.hash.slice(1);
+  const M = MALLAS[key];
+  document.getElementById("view-inicio").hidden = !!M;
+  document.getElementById("view-malla").hidden = !M;
+  resetBtn.hidden = !M;
+  if(M){
+    setMalla(key);
+    document.getElementById("m-h1").textContent = "Malla curricular — " + M.nombre;
+    document.getElementById("m-sub").textContent = M.plan + ". Tu avance se guarda en este navegador.";
+    document.getElementById("m-foot").innerHTML = M.foot;
+    document.title = "Malla " + M.nombre + " — UNAL";
     render();
-    civilListo = true;
+  } else {
+    document.title = "Malla — pensums de la Universidad Nacional";
   }
   window.scrollTo(0, 0);
 }
