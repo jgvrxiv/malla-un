@@ -53,7 +53,10 @@ las funciones (`progress`, `cascade`, `toggle`, `card`, `render`…) son las mis
 - **Semestre 100% libre elección** (`sem.m` vacío — Sistemas e Industrial sem 9): `render()` pone
   ahí el contador de electivas (`elecWidget(true)` → clase `.elec.solo`, se estira para llenar la
   columna) y el Trabajo de Grado queda solo en el sem 10. `elecPlaced` evita duplicar el widget:
-  si ningún semestre está vacío, va en el último (Civil/Química/Agrícola/Eléctrica).
+  si ningún semestre está vacío, va en el último (Civil/Química/Agrícola/Eléctrica). Cuando eso
+  pasa, el `.tailgroup` también lleva la clase `.tg-libre`: como sem 9/10 tienen poco contenido,
+  esas columnas quedan a su alto natural y la clave de colores (`.agrkey`) se lleva el espacio
+  sobrante, en columna (una agrupación por renglón, `justify-content:space-between`).
 - **`compact`** (`compact:true` en `MALLAS`): fichas más chicas, mismo diseño justificado.
   Lo usan Agrícola, Industrial, Sistemas y Eléctrica. La clase `#view-malla.compact` la pone el
   router. Además el router pone `#view-malla.malla-<key>` para reglas propias de una carrera

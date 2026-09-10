@@ -165,6 +165,15 @@
     color:var(--dim);margin-bottom:2px}
   .agrkey span{display:flex;align-items:center;gap:6px;font-size:.68rem;color:var(--dim)}
   .agrkey i{width:11px;height:11px;border-radius:3px;flex:none}
+  /* Sistemas / Industrial: el sem 9 es solo el contador de electivas y el 10 solo el Trabajo de
+     Grado, así que sobra alto. Las columnas del tail quedan a su alto natural y la clave de
+     colores (convenciones) se lleva el resto del espacio, una entrada por renglón. */
+  .tailgroup.tg-libre .tailcols{flex:0 0 auto}
+  .tailgroup.tg-libre .agrkey{flex:1 1 auto;flex-direction:column;flex-wrap:nowrap;
+    align-content:stretch;justify-content:space-between;gap:12px 0}
+  .tailgroup.tg-libre .agrkey .kh{margin-bottom:0}
+  .tailgroup.tg-libre .agrkey span{font-size:.72rem}
+  .tailgroup.tg-libre .agrkey i{width:13px;height:13px}
 
   .rail{display:flex;gap:14px;padding:20px 4px 30px;overflow-x:auto;align-items:stretch;
     scrollbar-width:thin;scrollbar-color:var(--line) transparent}
@@ -1175,7 +1184,8 @@ function render(){
 
     if(i >= SEMS.length - 2){          // semestres 9 y 10: columna especial con la clave debajo
       if(!tailcols){
-        const tg = document.createElement("div"); tg.className = "tailgroup" + (SEM9FIX ? "" : " tg-fill");
+        const tg = document.createElement("div");
+        tg.className = "tailgroup" + (SEM9FIX ? "" : " tg-fill") + (elecPlaced ? " tg-libre" : "");
         tailcols = document.createElement("div"); tailcols.className = "tailcols";
         tg.appendChild(tailcols);
         tg.appendChild(agrkeyEl());
