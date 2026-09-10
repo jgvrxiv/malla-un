@@ -313,7 +313,7 @@
 
     <div class="sec-h">
       <h2>Carreras</h2>
-      <span>6 disponibles · más en camino</span>
+      <span>9 disponibles · las 9 ingenierías de la Facultad</span>
     </div>
 
     <div class="cards">
@@ -365,9 +365,30 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </span>
       </a>
-      <div class="carrera soon" style="--c:#ac93da"><span class="tag">Próximamente</span><span class="cn">Ingeniería Electrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-      <div class="carrera soon" style="--c:#9aa6b6"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecánica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
-      <div class="carrera soon" style="--c:#f0a24a"><span class="tag">Próximamente</span><span class="cn">Ingeniería Mecatrónica</span><span class="cm">En preparación</span><span class="go">Sin publicar</span></div>
+      <a class="carrera" href="#mecatronica" style="--c:#9aa6b6">
+        <span class="tag live">Disponible</span>
+        <span class="cn">Ingeniería Mecatrónica</span>
+        <span class="cm">Acuerdo 18 de 2014 · 179 créditos</span>
+        <span class="go">Abrir malla
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
+      <a class="carrera" href="#mecanica" style="--c:#dc4c43">
+        <span class="tag live">Disponible</span>
+        <span class="cn">Ingeniería Mecánica</span>
+        <span class="cm">Acuerdo 68 de 2018 · 180 créditos</span>
+        <span class="go">Abrir malla
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
+      <a class="carrera" href="#electronica" style="--c:#ac93da">
+        <span class="tag live">Disponible</span>
+        <span class="cn">Ingeniería Electrónica</span>
+        <span class="cm">Plan de estudios 2545 · 172 créditos</span>
+        <span class="go">Abrir malla
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
     </div>
 
     <div class="sec-h"><h2>Cómo funciona</h2></div>
@@ -387,9 +408,8 @@
 
     <div class="site-foot">
       <span>Proyecto estudiantil independiente · no afiliado a la Universidad Nacional. Ante la duda, consulta el SIA.</span>
-      <span><a data-go="#civil">Civil</a> verificada con un estudiante · <a data-go="#quimica">Química</a>, <a data-go="#agricola">Agrícola</a>,
-        <a data-go="#industrial">Industrial</a>, <a data-go="#sistemas">Sistemas</a> y <a data-go="#electrica">Eléctrica</a> reconstruidas de las mallas
-        oficiales (falta verificar prerrequisitos).</span>
+      <span><a data-go="#civil">Civil</a> verificada con un estudiante; las otras ocho (Química, Agrícola, Industrial, Sistemas,
+        Eléctrica, Mecatrónica, Mecánica, Electrónica) reconstruidas de las mallas oficiales — falta verificar prerrequisitos.</span>
     </div>
   </div>
 </div>
@@ -914,6 +934,252 @@ const AGR_ELECTRICA = {
   tg:     ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
 };
 
+// Ingeniería Mecatrónica — malla oficial Acuerdo 18 de 2014 (Consejo de Facultad de Ingeniería).
+// Nombres, códigos, créditos, componentes y agrupaciones del PDF oficial; prerrequisitos leídos
+// del diagrama (nodos con letras) — faltan verificar contra el SIA. La Lengua Extranjera no va.
+const SEMS_MECATRONICA = [
+ {s:1, m:[
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"2015711", n:"Dibujo Básico", c:3, comp:"B", a:"graf", r:[]},
+   {id:"2015734", n:"Programación de Computadores", c:3, comp:"B", a:"info", r:[]},
+   {id:"2017278", n:"Tecnología Mecánica Básica", c:3, comp:"C", a:"mp", r:[]},
+   {id:"2017265", n:"Ingeniería y Desarrollo Sostenible", c:3, comp:"C", a:"inv", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000004"]},
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"2016509", n:"Taller de Ingeniería Electrónica", c:2, comp:"C", a:"elec", r:[]},
+ ]},
+ {s:3, m:[
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000017", n:"Fundamentos de Electricidad y Magnetismo", c:4, comp:"B", a:"fis", r:["1000005","1000019"]},
+   {id:"1000013", n:"Probabilidad y Estadística Fundamental", c:3, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000024", n:"Principios de Química", c:3, comp:"B", a:"qui", r:[]},
+   {id:"2016640", n:"Principios de Estática", c:3, comp:"C", a:"dis", r:["1000019","1000003"]},
+   {id:"2016489", n:"Circuitos Eléctricos I", c:3, comp:"C", a:"elec", r:["1000005"]},
+ ]},
+ {s:4, m:[
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"2016375", n:"Programación Orientada a Objetos", c:3, comp:"C", a:"inf", r:["2015734"]},
+   {id:"2017271", n:"Principios de Dinámica", c:3, comp:"C", a:"dis", r:["2016640"]},
+   {id:"2016495", n:"Electrónica Análoga I", c:4, comp:"C", a:"elec", r:["2016489"]},
+ ]},
+ {s:5, m:[
+   {id:"2015159", n:"Variable Compleja", c:4, comp:"B", a:"mat", r:["1000007"]},
+   {id:"OPT_FIS_MTR", n:"Optativa de Física", c:3, comp:"B", a:"fis", opt:true, r:["1000019","1000005"]},
+   {id:"2016506", n:"Señales y Sistemas I", c:3, comp:"C", a:"acr", r:["1000007","2016489"]},
+   {id:"2017256", n:"Ciencia e Ingeniería de Materiales", c:3, comp:"C", a:"mp", r:["1000024"]},
+   {id:"2017277", n:"Resistencia de Materiales", c:3, comp:"C", a:"dis", r:["2017271","2016640"]},
+   {id:"2016699", n:"Estructuras de Datos", c:3, comp:"C", a:"inf", r:["2016375"]},
+ ]},
+ {s:6, m:[
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", a:"eco", r:["1000005"]},
+   {id:"2024045", n:"Taller de Proyectos Interdisciplinarios", c:3, comp:"C", a:"inv", r:[{comp:"T",min:107}]},
+   {id:"2016507", n:"Señales y Sistemas II", c:3, comp:"C", a:"acr", r:["2016506"]},
+   {id:"OPT_MP_MTR", n:"Optativa de Materiales y Procesos de Manufactura", c:3, comp:"C", a:"mp", opt:true, r:["2017256"]},
+   {id:"2017282", n:"Diseño Mecatrónico", c:3, comp:"C", a:"dis", r:["2017277","2016495"]},
+   {id:"2016498", n:"Electrónica Digital I", c:4, comp:"C", a:"elec", r:["2016495"]},
+ ]},
+ {s:7, m:[
+   {id:"OPT_ECO_MTR", n:"Optativa de Ciencias Económicas y Administrativas", c:3, comp:"B", a:"eco", opt:true, r:["2015703"]},
+   {id:"OPT_INFO_MTR", n:"Optativa de Informática y Herramientas para Ingeniería", c:3, comp:"B", a:"info", opt:true, r:["2015734"]},
+   {id:"2016493", n:"Control", c:4, comp:"C", a:"acr", r:["2016507"]},
+   {id:"2017287", n:"Sensores y Actuadores", c:3, comp:"C", a:"acr", r:["2016498","2016506"]},
+   {id:"2025967", n:"Redes de Computadores", c:3, comp:"C", a:"inf", r:["2016699"]},
+   {id:"2016753", n:"Microcontroladores", c:3, comp:"C", a:"elec", r:["2016498"]},
+ ]},
+ {s:8, m:[
+   {id:"2016770", n:"Robótica", c:3, comp:"C", a:"acr", r:["2016493"]},
+   {id:"OPT_ACR_MTR", n:"Optativa de Automatización, Control y Robótica", c:3, comp:"C", a:"acr", opt:true, r:["2016493","2017287"]},
+   {id:"2017288", n:"Servomecanismos", c:3, comp:"C", a:"dis", r:["2016493","2017282"]},
+ ]},
+ {s:9, m:[
+   {id:"2017280", n:"Automatización de Procesos de Manufactura", c:3, comp:"C", a:"mp", r:["2016770","2017256"]},
+   {id:"2017275", n:"Proyecto Aplicado de Ingeniería", c:4, comp:"C", a:"inv", r:[{comp:"T",min:134}]},
+ ]},
+ {s:10, m:[
+   {id:"2017297", n:"Trabajo de Grado", c:6, comp:"C", a:"inv", r:[{comp:"C",min:70}]},
+ ]},
+];
+const AGR_MECATRONICA = {
+  mat:  ["#5aa9e6", "Matemáticas, Probabilidad y Estadística", "Matemáticas"],
+  fis:  ["#e3b955", "Física", "Física"],
+  graf: ["#e86a58", "Expresión Gráfica", "Expresión Gráfica"],
+  qui:  ["#e07aa4", "Química", "Química"],
+  eco:  ["#33ac9d", "Ciencias Económicas y Administrativas", "Económico-Admin."],
+  info: ["#7f8a9e", "Informática y Herramientas para Ingeniería", "Informática (Herr.)"],
+  inv:  ["#e08a4e", "Investigación, Innovación y Desarrollo Tecnológico", "Investig. e Innovación"],
+  elec: ["#4fc7ea", "Ingeniería Electrónica", "Electrónica"],
+  inf:  ["#8ec44e", "Ingeniería Informática", "Informática"],
+  dis:  ["#dc4c43", "Ingeniería de Diseño", "Diseño"],
+  acr:  ["#9aa6b6", "Automatización, Control y Robótica", "Automatización y Control"],
+  mp:   ["#f0a24a", "Ingeniería de Materiales y Procesos de Manufactura", "Materiales y Procesos"],
+};
+
+// Ingeniería Mecánica — malla oficial Acuerdo 68 de 2018 (Consejo de Facultad de Ingeniería).
+// Nombres, códigos, créditos, componentes y agrupaciones del PDF oficial; prerrequisitos leídos
+// del diagrama (nodos con letras) — faltan verificar contra el SIA. La Lengua Extranjera no va.
+const SEMS_MECANICA = [
+ {s:1, m:[
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"2015734", n:"Programación de Computadores", c:3, comp:"B", a:"her", r:[]},
+   {id:"2015711", n:"Dibujo Básico", c:3, comp:"B", a:"graf", r:[]},
+   {id:"2017278", n:"Tecnología Mecánica Básica", c:3, comp:"C", a:"mp", r:[]},
+   {id:"2017265", n:"Ingeniería y Desarrollo Sostenible", c:3, comp:"C", a:"inv", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000004"]},
+   {id:"2017257", n:"Dibujo de Máquinas", c:4, comp:"C", a:"dis", r:["2015711"]},
+ ]},
+ {s:3, m:[
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000013", n:"Probabilidad y Estadística Fundamental", c:3, comp:"B", a:"mat", r:["1000005"]},
+   {id:"OPT_FIS_MEC1", n:"Optativa de Física", c:4, comp:"B", a:"fis", opt:true, r:["1000019","1000005"]},
+   {id:"1000024", n:"Principios de Química", c:3, comp:"B", a:"qui", r:[]},
+   {id:"2016640", n:"Principios de Estática", c:3, comp:"C", a:"dis", r:["1000019","1000003"]},
+ ]},
+ {s:4, m:[
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"2017271", n:"Principios de Dinámica", c:3, comp:"C", a:"dis", r:["2016640"]},
+   {id:"2017256", n:"Ciencia e Ingeniería de Materiales", c:3, comp:"C", a:"mp", r:["1000024","1000019"]},
+   {id:"2017279", n:"Termodinámica Técnica", c:3, comp:"C", a:"itf", r:["1000019","1000005"]},
+   {id:"2017267", n:"Materiales de Ingeniería", c:3, comp:"C", a:"mp", r:["2017256"]},
+ ]},
+ {s:5, m:[
+   {id:"2015970", n:"Métodos Numéricos", c:3, comp:"B", a:"her", r:["1000007","2015734"]},
+   {id:"OPT_FIS_MEC2", n:"Optativa de Física", c:3, comp:"B", a:"fis", opt:true, r:["1000019","1000007"]},
+   {id:"2017277", n:"Resistencia de Materiales", c:3, comp:"C", a:"dis", r:["2017256","2016640"]},
+   {id:"2017268", n:"Mecanismos", c:3, comp:"C", a:"dis", r:["2017271"]},
+   {id:"2017272", n:"Principios de Mecánica de Fluidos", c:3, comp:"C", a:"itf", r:["2017279"]},
+   {id:"2017260", n:"Electrónica Básica", c:3, comp:"C", a:"acr", r:["1000019"]},
+ ]},
+ {s:6, m:[
+   {id:"2017293", n:"Modelación Matemática", c:3, comp:"B", a:"her", r:["2015970"]},
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", a:"eco", r:["1000005"]},
+   {id:"2017273", n:"Procesos de Manufactura I", c:3, comp:"C", a:"mp", r:["2017267"]},
+   {id:"2017262", n:"Fundamentos de Transferencia de Calor", c:3, comp:"C", a:"itf", r:["2017279","2017272"]},
+   {id:"2016506", n:"Señales y Sistemas I", c:3, comp:"C", a:"acr", r:["1000007"]},
+   {id:"2017266", n:"Instalaciones y Máquinas Eléctricas", c:3, comp:"C", a:"acr", r:["2017260"]},
+ ]},
+ {s:7, m:[
+   {id:"2015942", n:"Aplicaciones de Elementos Finitos", c:3, comp:"B", a:"her", r:["2015970","2017277"]},
+   {id:"2015702", n:"Gerencia y Gestión de Proyectos", c:3, comp:"B", a:"eco", r:["2015703"]},
+   {id:"2017258", n:"Diseño de Elementos de Máquinas I", c:3, comp:"C", a:"dis", r:["2017277","2017268"]},
+   {id:"2017274", n:"Procesos de Manufactura II", c:3, comp:"C", a:"mp", r:["2017273"]},
+   {id:"OPT_ITF_MEC1", n:"Optativa de Ingeniería Térmica y Fluidos", c:3, comp:"C", a:"itf", opt:true, r:["2017262"]},
+   {id:"2017261", n:"Fundamentos de Control", c:3, comp:"C", a:"acr", r:["2016506"]},
+ ]},
+ {s:8, m:[
+   {id:"2017259", n:"Diseño de Elementos de Máquinas II", c:3, comp:"C", a:"dis", r:["2017258"]},
+   {id:"2017264", n:"Ingeniería de Manufactura", c:3, comp:"C", a:"mp", r:["2017274"]},
+   {id:"OPT_ITF_MEC2", n:"Optativa de Ingeniería Térmica y Fluidos", c:3, comp:"C", a:"itf", opt:true, r:["2017262"]},
+   {id:"2015215", n:"Análisis de Sistemas Dinámicos", c:3, comp:"C", a:"acr", r:["2017261"]},
+   {id:"2024045", n:"Taller de Proyectos Interdisciplinarios", c:3, comp:"C", a:"inv", r:[{comp:"T",min:99}]},
+ ]},
+ {s:9, m:[
+   {id:"2017275", n:"Proyecto Aplicado de Ingeniería", c:4, comp:"C", a:"inv", r:[{comp:"T",min:135}]},
+ ]},
+ {s:10, m:[
+   {id:"2017295", n:"Trabajo de Grado", c:6, comp:"C", a:"inv", r:[{comp:"C",min:69}]},
+ ]},
+];
+const AGR_MECANICA = {
+  mat: ["#5aa9e6", "Matemáticas, Probabilidad y Estadística", "Matemáticas"],
+  her: ["#c56bd0", "Herramientas para Ingeniería", "Herramientas"],
+  fis: ["#e3b955", "Física", "Física"],
+  graf:["#e86a58", "Expresión Gráfica", "Expresión Gráfica"],
+  qui: ["#e07aa4", "Química", "Química"],
+  eco: ["#33ac9d", "Ciencias Económicas y Administrativas", "Económico-Admin."],
+  inv: ["#e08a4e", "Investigación, Innovación y Desarrollo Tecnológico", "Investig. e Innovación"],
+  itf: ["#4fc7ea", "Ingeniería Térmica y Fluidos", "Térmica y Fluidos"],
+  dis: ["#dc4c43", "Ingeniería de Diseño", "Diseño"],
+  acr: ["#8ec44e", "Automatización, Control y Robótica", "Automatización y Control"],
+  mp:  ["#b0865f", "Ingeniería de Materiales y Procesos de Manufactura", "Materiales y Procesos"],
+};
+
+// Ingeniería Electrónica — plan de estudios 2545 (Fac. de Ingeniería, Sede Bogotá).
+// Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial; prerrequisitos
+// reconstruidos del diagrama — faltan verificar contra el SIA. Nivelación y Lengua Extranjera
+// no se incluyen (no cuentan en los 172 créditos).
+const SEMS_ELECTRONICA = [
+ {s:1, m:[
+   {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
+   {id:"2016502", n:"Introducción a la Ingeniería Electrónica", c:5, comp:"C", a:"ctx", r:[]},
+   {id:"2015734", n:"Programación de Computadores", c:3, comp:"B", a:"info", r:[]},
+   {id:"2016509", n:"Taller de Electrónica", c:2, comp:"C", a:"ctx", r:[]},
+ ]},
+ {s:2, m:[
+   {id:"1000005", n:"Cálculo Integral", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000003", n:"Álgebra Lineal", c:4, comp:"B", a:"mat", r:["1000004"]},
+   {id:"1000019", n:"Fundamentos de Mecánica", c:4, comp:"B", a:"fis", r:["1000004"]},
+   {id:"2016375", n:"Programación Orientada a Objetos", c:3, comp:"B", a:"info", r:["2015734"]},
+ ]},
+ {s:3, m:[
+   {id:"1000006", n:"Cálculo en Varias Variables", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000007", n:"Ecuaciones Diferenciales", c:4, comp:"B", a:"mat", r:["1000005","1000003"]},
+   {id:"1000017", n:"Fundamentos de Electricidad y Magnetismo", c:4, comp:"B", a:"fis", r:["1000005","1000019"]},
+   {id:"1000040", n:"Introducción a la Ciencia de Materiales", c:3, comp:"B", a:"cmat", r:["1000019"]},
+   {id:"2016489", n:"Circuitos Eléctricos I", c:3, comp:"C", a:"cyc", r:["1000003","1000017"]},
+ ]},
+ {s:4, m:[
+   {id:"2015159", n:"Variable Compleja", c:4, comp:"B", a:"mat", r:["1000007"]},
+   {id:"1000020", n:"Fundamentos de Oscilaciones, Ondas y Óptica", c:4, comp:"B", a:"fis", r:["1000007","1000019"]},
+   {id:"2016495", n:"Electrónica Análoga I", c:4, comp:"C", a:"elana", r:["2016489"]},
+   {id:"2016490", n:"Circuitos Eléctricos II", c:4, comp:"C", a:"cyc", r:["2016489","1000007"]},
+ ]},
+ {s:5, m:[
+   {id:"1000013", n:"Optativa de Probabilidad y Estadística", c:3, comp:"B", a:"mat", opt:true, r:["1000005"]},
+   {id:"2016506", n:"Señales y Sistemas I", c:3, comp:"C", a:"ssc", r:["2016489","1000007"]},
+   {id:"2016501", n:"Instrumentación y Medidas", c:3, comp:"C", a:"elana", r:["2016495"]},
+   {id:"2016496", n:"Electrónica Análoga II", c:4, comp:"C", a:"elana", r:["2016495"]},
+   {id:"2016498", n:"Electrónica Digital I", c:4, comp:"C", a:"eldig", r:["2016489"]},
+ ]},
+ {s:6, m:[
+   {id:"2016500", n:"Física de Semiconductores", c:3, comp:"B", a:"fis", r:["1000020","1000040"]},
+   {id:"2016507", n:"Señales y Sistemas II", c:3, comp:"C", a:"ssc", r:["2016506","2015159"]},
+   {id:"2016487", n:"Campos Electromagnéticos", c:4, comp:"C", a:"cyc", r:["1000017","1000006"]},
+   {id:"OPT_ELANA_ETR", n:"Optativa de Electrónica Análoga", c:3, comp:"C", a:"elana", opt:true, r:["2016496"]},
+   {id:"2016499", n:"Electrónica Digital II", c:4, comp:"C", a:"eldig", r:["2016498"]},
+ ]},
+ {s:7, m:[
+   {id:"2015703", n:"Ingeniería Económica", c:3, comp:"B", a:"eco", r:["1000005"]},
+   {id:"2016493", n:"Control", c:4, comp:"C", a:"ssc", r:["2016507"]},
+   {id:"2016503", n:"Líneas y Antenas", c:3, comp:"C", a:"telec", r:["2016487"]},
+   {id:"2016492", n:"Comunicaciones", c:3, comp:"C", a:"telec", r:["2016507","2016496"]},
+   {id:"OPT_ELDIG_ETR", n:"Optativa de Electrónica Digital", c:3, comp:"C", a:"eldig", opt:true, r:["2016499"]},
+ ]},
+ {s:8, m:[
+   {id:"OPT_ADM_ETR1", n:"Optativa de Administración", c:3, comp:"B", a:"eco", opt:true, r:["2015703"]},
+   {id:"2016494", n:"Conversión Electromagnética", c:3, comp:"C", a:"cyc", r:["2016487","2016490"]},
+   {id:"2019125", n:"Optativa de Telecomunicaciones", c:3, comp:"C", a:"telec", r:["2016492"]},
+   {id:"2016497", n:"Electrónica de Potencia", c:4, comp:"C", a:"elana", r:["2016496","2016498"]},
+ ]},
+ {s:9, m:[
+   {id:"OPT_ADM_ETR2", n:"Optativa de Administración", c:3, comp:"B", a:"eco", opt:true, r:["2015703"]},
+   {id:"2016510", n:"Taller de Proyectos Inter-disciplinarios", c:3, comp:"C", a:"ctx", r:[{comp:"T",min:121}]},
+ ]},
+ {s:10, m:[
+   {id:"2015316", n:"Trabajo de Grado", c:6, comp:"C", a:"tg", r:[{comp:"C",min:63}]},
+ ]},
+];
+const AGR_ELECTRONICA = {
+  mat:  ["#5aa9e6", "Matemáticas, Probabilidad y Estadística", "Matemáticas"],
+  fis:  ["#e3b955", "Física", "Física"],
+  cmat: ["#b0865f", "Ciencia de los Materiales", "Ciencia de Materiales"],
+  info: ["#c56bd0", "Informática", "Informática"],
+  eco:  ["#33ac9d", "Ciencias Económicas y Administrativas", "Económico-Admin."],
+  cyc:  ["#8ec44e", "Circuitos y Campos", "Circuitos y Campos"],
+  ctx:  ["#7f8a9e", "Contexto Profesional, Innovación e Investigación", "Contexto Profesional"],
+  telec:["#e07aa4", "Telecomunicaciones", "Telecomunicaciones"],
+  eldig:["#4fc7ea", "Electrónica Digital", "Electrónica Digital"],
+  elana:["#f0a24a", "Electrónica Análoga", "Electrónica Análoga"],
+  ssc:  ["#6f9bd8", "Señales, Sistemas y Control", "Señales y Control"],
+  tg:   ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -981,6 +1247,44 @@ const MALLAS = {
     foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (plan de estudios 2544); los prerrequisitos
       se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>121</code> créditos totales
       (70% del programa) → Taller de Proyectos Interdisciplinarios · <code>63</code> créditos del componente disciplinar (80%) →
+      Trabajo de Grado. La Nivelación y la Lengua Extranjera no se incluyen. Herramienta no oficial.`,
+  },
+  mecatronica: {
+    nombre: "Ingeniería Mecatrónica",
+    plan: "Acuerdo 18 de 2014 · 179 créditos",
+    sems: SEMS_MECATRONICA, agr: AGR_MECATRONICA,
+    store: "malla_mecatronica_unal", elecStore: "malla_mecatronica_elec",
+    meta: { C: 87, B: 56, L: 36 }, sem9fix: false, compact: true,
+    target: 179, libreMeta: 36,
+    foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 18 de 2014); los prerrequisitos
+      se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>107</code> créditos totales (60%
+      del programa) → Taller de Proyectos Interdisciplinarios · <code>134</code> créditos totales (75%) → Proyecto Aplicado de
+      Ingeniería · <code>70</code> créditos del componente disciplinar (80%) → Trabajo de Grado. La Lengua Extranjera no se
+      incluye. Herramienta no oficial.`,
+  },
+  mecanica: {
+    nombre: "Ingeniería Mecánica",
+    plan: "Acuerdo 68 de 2018 · 180 créditos",
+    sems: SEMS_MECANICA, agr: AGR_MECANICA,
+    store: "malla_mecanica_unal", elecStore: "malla_mecanica_elec",
+    meta: { C: 86, B: 58, L: 36 }, sem9fix: false, compact: true,
+    target: 180, libreMeta: 36,
+    foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 68 de 2018); los prerrequisitos
+      se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>99</code> créditos totales (55%
+      del programa) → Taller de Proyectos Interdisciplinarios · <code>135</code> créditos totales (75%) → Proyecto Aplicado de
+      Ingeniería · <code>69</code> créditos del componente disciplinar (80%) → Trabajo de Grado. La Lengua Extranjera no se
+      incluye. Herramienta no oficial.`,
+  },
+  electronica: {
+    nombre: "Ingeniería Electrónica",
+    plan: "Plan de estudios 2545 · 172 créditos",
+    sems: SEMS_ELECTRONICA, agr: AGR_ELECTRONICA,
+    store: "malla_electronica_unal", elecStore: "malla_electronica_elec",
+    meta: { C: 78, B: 60, L: 34 }, sem9fix: false, compact: true,
+    target: 172, libreMeta: 34,
+    foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (plan de estudios 2545); los prerrequisitos
+      se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>121</code> créditos totales
+      (70% del programa) → Taller de Proyectos Inter-disciplinarios · <code>63</code> créditos del componente disciplinar (80%) →
       Trabajo de Grado. La Nivelación y la Lengua Extranjera no se incluyen. Herramienta no oficial.`,
   },
 };

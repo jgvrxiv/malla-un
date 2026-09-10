@@ -2,9 +2,10 @@
 
 App web de una sola página para seguir el avance en los pensa de la **Universidad Nacional de
 Colombia (Sede Bogotá)**. Empezó con **Ingeniería Civil** (plan flexible 180 créditos, Acuerdo 26
-de 2015) y hoy tiene 6 carreras (Civil, Química, Agrícola, Industrial, Sistemas, Eléctrica). Se
-hace clic en una materia para aprobarla; se van desbloqueando las que dependen de ella. El
-progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.app.
+de 2015) y hoy cubre las **9 ingenierías de la Facultad**: Civil, Química, Agrícola, Industrial,
+Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica. Se hace clic en una materia para
+aprobarla; se van desbloqueando las que dependen de ella. El progreso se guarda en
+`localStorage`. Inspirada en https://mallaiq.netlify.app.
 
 > **Idioma:** el usuario es colombiano (Bogotá). Todo el texto de la app, docs, comentarios y
 > mensajes de commit va en español neutro/colombiano — **sin voseo** ("haces", no "hacés";
@@ -26,14 +27,15 @@ sube la carpeta entera.
 existe sólo porque es el que se publica como Artifact). Un solo archivo autocontenido con **dos
 vistas** y un router por hash:
 
-- `#inicio` (por defecto) — **página de inicio**: hero, grilla de carreras (6 activas: Civil,
-  Química, Agrícola, Industrial, Sistemas, Eléctrica; el resto "Próximamente"), "cómo funciona",
-  "¿falta tu carrera?" y footer con el descargo de *proyecto estudiantil independiente*. Café y
-  correo son **placeholders** (`<!-- TODO -->`).
-- `#civil` / `#quimica` / `#agricola` / `#industrial` / `#sistemas` / `#electrica` — **una sola
-  vista** `#view-malla` que muestra la carrera del hash.
+- `#inicio` (por defecto) — **página de inicio**: hero, grilla de carreras (9 activas, sin
+  "Próximamente"), "cómo funciona", "¿falta tu carrera?" y footer con el descargo de *proyecto
+  estudiantil independiente*. Café y correo son **placeholders** (`<!-- TODO -->`).
+- `#civil` / `#quimica` / `#agricola` / `#industrial` / `#sistemas` / `#electrica` /
+  `#mecatronica` / `#mecanica` / `#electronica` — **una sola vista** `#view-malla` que muestra la
+  carrera del hash.
 
-**Registro `MALLAS = { civil, quimica, agricola, industrial, sistemas, electrica }`.** Cada
+**Registro `MALLAS = { civil, quimica, agricola, industrial, sistemas, electrica, mecatronica,
+mecanica, electronica }`.** Cada
 entrada trae `sems`, `agr`, `store`/`elecStore` (claves de `localStorage`), `meta` (denominadores
 de las badges por componente), `sem9fix`, `compact`, `target`/`libreMeta` (opcionales, por
 defecto 180/36) y `foot` (HTML del pie). `SEMS_<X>`/`AGR_<X>` son las constantes de datos.
@@ -97,11 +99,30 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   Extranjera no se incluyen. Cortes `{comp:"T",min:121}` (70% del programa → Taller de Proyectos
   Interdisciplinarios) y `{comp:"C",min:63}` (80% disciplinar → Trabajo de Grado). Prerrequisitos
   reconstruidos del diagrama (nodos con letras).
-- **Alturas de sem 9/10**: en carreras sin `sem9fix` (Química, Agrícola, Industrial, Sistemas,
-  Eléctrica) el `.tailgroup` lleva la clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a
-  `flex:0 0 auto` (la clave de colores no queda con espacio sobrante). Civil conserva su ajuste
-  fino. El apaño de Agrícola (celdas de sem 9/10 a 96/118 px exactos) está scopeado a
-  `#view-malla.malla-agricola`.
+- **Mecatrónica**: Acuerdo 18 de 2014. Metas B 56 / C 87 / L 36 = 179 (cuadran con el PDF:
+  Fund. 47 oblig + 9 opt; Discipl. 81 oblig + 6 opt; Libre 36). La Lengua Extranjera no va.
+  Cortes `{comp:"T",min:107}` (60% → Taller Interdisc.), `{comp:"T",min:134}` (75% → Proyecto
+  Aplicado de Ingeniería), `{comp:"C",min:70}` (80% disciplinar → Trabajo de Grado).
+  Agrupaciones B: Matemáticas, Física, Expresión Gráfica, Química, Cs. Económicas, Informática y
+  Herramientas (clave `info`). Disciplinares: Inv./Innovación, Ing. Electrónica, Ing. Informática
+  (clave `inf`), Ing. de Diseño, Automatización Control y Robótica, Materiales y Procesos.
+- **Mecánica**: Acuerdo 68 de 2018. Metas B 58 / C 86 / L 36 = 180 (cuadran con el PDF:
+  Fund. 50 oblig + 8 opt; Discipl. 80 oblig + 6 opt; Libre 36). La Lengua Extranjera no va.
+  Cortes `{comp:"T",min:99}` (55% → Taller Interdisc.), `{comp:"T",min:135}` (75% → Proyecto
+  Aplicado), `{comp:"C",min:69}` (80% disciplinar → Trabajo de Grado). El diagrama tiene las
+  materias muy escalonadas: la **asignación a semestres es aproximada** (reconstruida), pero las
+  sumas de crédito por componente sí cuadran. "Herramientas para Ingeniería" quedó en
+  Fundamentación (clave `her`). Créditos ajustados a ojo en 1 optativa de Física para cuadrar B=58.
+- **Electrónica**: plan de estudios 2545 (hermano del 2544 de Eléctrica). Metas B 60 / C 78 /
+  L 34 = 172 (cuadran con el PDF: Fund. 51 oblig + 9 opt; Discipl. 72 oblig + 6 opt; Libre 34).
+  Nivelación y Lengua Extranjera no van. Cortes iguales a Eléctrica: `{comp:"T",min:121}` (Taller
+  Inter-disciplinarios) y `{comp:"C",min:63}` (Trabajo de Grado). "Optativa de Telecomunicaciones"
+  2019125 tiene código → se modela como obligatoria (la disc. optativa son las de Electrónica
+  Análoga y Digital).
+- **Alturas de sem 9/10**: en carreras sin `sem9fix` (todas menos Civil) el `.tailgroup` lleva la
+  clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a `flex:0 0 auto` (la clave de colores no
+  queda con espacio sobrante). Civil conserva su ajuste fino. El apaño de Agrícola (celdas de
+  sem 9/10 a 96/118 px exactos) está scopeado a `#view-malla.malla-agricola`.
 - `PENSUM_BORRADOR.md` — extracción cruda del PDF de Civil + notas de verificación.
 - `PLAN_ING (2).pdf` — malla oficial de Civil.
 - `serve.mjs` — servidor estático dev (:4179).
