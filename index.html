@@ -152,6 +152,9 @@
   .tailcols .col.short{align-self:stretch}
   .tailcols .col.short .m{flex:1 0 auto;display:flex;flex-direction:column;justify-content:center}
   .tailgroup .elec{flex:0 0 auto}
+  /* si el contador de electivas es lo único del semestre (sem 9 de Sistemas/Industrial) se
+     estira para llenar la columna, igual que una ficha */
+  .tailcols .col.short .elec.solo{flex:1 0 auto}
   /* carreras sin el ajuste fino de civil (SEM9FIX): las materias de sem 9/10 se estiran para
      llenar el alto y la clave de colores ocupa solo lo que necesita */
   .tailgroup.tg-fill .tailcols{flex:1 1 auto}
@@ -217,10 +220,6 @@
   #view-malla.malla-agricola .tailcols .col .m{flex:0 0 auto;min-height:96px}
   /* la última celda del sem 9 (optativa) iguala al recuadro de Libre Elección del sem 10 */
   #view-malla.malla-agricola .tailcols .col:first-child .m:last-of-type{min-height:118px}
-
-  /* semestre dedicado por completo a Libre Elección (Sistemas / Industrial: sem 9) */
-  .semnote{margin:0;padding:11px 4px;font-size:.72rem;color:var(--dim);line-height:1.45}
-  .tailcols .col.short .semnote{flex:1 0 auto;display:flex;align-items:center;justify-content:center;text-align:center}
 
   .tip{visibility:hidden;opacity:0;position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%);
     width:214px;background:#060c18;color:#dbe6f5;border:1px solid var(--line);border-radius:9px;padding:9px 11px;
@@ -1099,9 +1098,10 @@ function syncTop(){
   document.getElementById("pct").textContent = pct.toFixed(1) + "% completado";
 }
 
-function elecWidget(){
+function elecWidget(solo){
   const w = document.createElement("div");
-  w.className = "elec" + (elec >= LIBRE_META ? " done" : "");
+  // `solo`: es el único contenido de un semestre (sem 9 de Sistemas/Industrial) → se estira
+  w.className = "elec" + (elec >= LIBRE_META ? " done" : "") + (solo ? " solo" : "");
   w.innerHTML = `<span class="etop">Se suman por créditos, no por materia</span>
     <div class="ecenter"><div class="elctl">
       <button type="button" data-d="-1" aria-label="Quitar un crédito de electivas">−</button>
@@ -1128,7 +1128,7 @@ function render(){
   syncTop();
   const rail = document.getElementById("rail");
   rail.innerHTML = "";
-  let tailcols = null;
+  let tailcols = null, elecPlaced = false;
   SEMS.forEach((sem, i)=>{
     const col = document.createElement("div");
     // "short" = solo los dos últimos semestres (9 y 10), que van en el bloque .tailcols con la
@@ -1151,12 +1151,12 @@ function render(){
       col.appendChild(card(m));
     }
     if(!sem.m.length){
-      // semestre 100% libre elección (Sistemas / Industrial: sem 9)
+      // semestre 100% libre elección (Sistemas / Industrial: sem 9): en vez de una nota,
+      // se pone acá el contador de electivas y el Trabajo de Grado queda solo en el sem 10.
       const c = document.createElement("div"); c.className = "cat"; c.textContent = "Libre Elección";
       col.appendChild(c);
-      const n = document.createElement("p"); n.className = "semnote";
-      n.textContent = "Semestre dedicado a créditos de libre elección.";
-      col.appendChild(n);
+      col.appendChild(elecWidget(true));
+      elecPlaced = true;
     }
     if(i === SEMS.length - 2 && SEM9FIX){
       // solo civil: agrandar las dos casillas del bloque "Disciplinar" del sem 9 para alinear
@@ -1166,10 +1166,11 @@ function render(){
       if(ms[0]) ms[0].style.minHeight = "124px";
       if(ms[1]) ms[1].style.minHeight = "105px";
     }
-    if(i === SEMS.length - 1){
+    if(i === SEMS.length - 1 && !elecPlaced){
       const c = document.createElement("div"); c.className = "cat"; c.textContent = "Libre Elección";
       col.appendChild(c);
       col.appendChild(elecWidget());
+      elecPlaced = true;
     }
 
     if(i >= SEMS.length - 2){          // semestres 9 y 10: columna especial con la clave debajo
