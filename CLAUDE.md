@@ -71,34 +71,34 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
 
 - **Química**: créditos y estructura de la malla oficial (Acuerdo 02 de 2013, PDF de
   ingenieria.bogota.unal.edu.co); **prerrequisitos y orden a partir de mallaiq.netlify.app**
-  (código de datos de mallaiq extraído en su `<script>` inline). Metas B 69 / C 75 / L 36 = 180
-  (cuadran con el PDF). Cortes: `{comp:"T",min:108}` (créditos totales → Optativa de Materiales),
-  `{comp:"C",min:53}` (Taller de Proyectos Interdisciplinarios), `{comp:"C",min:60}` (Trabajo de
-  Grado). **Falta verificar los prerrequisitos con el SIA / un estudiante** — así lo dice el pie.
-  Se agregó `if(comp==="T") return totalCredits()` a `creditsBy` para el corte por total.
+  (código de datos de mallaiq extraído en su `<script>` inline), **verificados con estudiantes de
+  la carrera**. Metas B 69 / C 75 / L 36 = 180 (cuadran con el PDF). Cortes: `{comp:"T",min:108}`
+  (créditos totales → Optativa de Materiales), `{comp:"C",min:53}` (Taller de Proyectos
+  Interdisciplinarios), `{comp:"C",min:60}` (Trabajo de Grado). Se agregó
+  `if(comp==="T") return totalCredits()` a `creditsBy` para el corte por total.
 - **Agrícola**: nombres, créditos, componentes y **agrupaciones** de la malla oficial (Acuerdo 30
-  de 2016); los **prerrequisitos se leyeron del diagrama** del PDF (letras A–R = flechas) — hay
-  varios a ojo, **faltan verificar**. Metas B 59 / C 85 / L 36 = 180 (cuadran con el PDF).
-  Cortes solo `{comp:"C",min:40/65/68}` (Electrotecnia / Taller Interdisciplinario / Trabajo de
-  Grado). Códigos reales del PDF. PDF descargado y rasterizado con `mupdf`+`sharp` en el
+  de 2016); los **prerrequisitos se leyeron del diagrama** del PDF (letras A–R = flechas) y fueron
+  **verificados con estudiantes de la carrera**. Metas B 59 / C 85 / L 36 = 180 (cuadran con el
+  PDF). Cortes solo `{comp:"C",min:40/65/68}` (Electrotecnia / Taller Interdisciplinario / Trabajo
+  de Grado). Códigos reales del PDF. PDF descargado y rasterizado con `mupdf`+`sharp` en el
   scratchpad para leer el diagrama.
 - **Industrial**: nombres, códigos, créditos, componentes y agrupaciones de la malla oficial
-  (Acuerdo 024 de 2014); **prerrequisitos reconstruidos del diagrama** (nodos con letras) —
-  faltan verificar. Metas B 42 / C 92 / L 34 = 168 (cuadran con los totales de componente del
-  PDF: Fund. 22 oblig + 20 opt; Discipl. 52 oblig + 40 opt; Libre 34). Sem 9 = 100% libre.
-  Corte `{comp:"C",min:70}` → Trabajo de Grado.
+  (Acuerdo 024 de 2014); **prerrequisitos reconstruidos del diagrama** (nodos con letras) y
+  **verificados con estudiantes de la carrera**. Metas B 42 / C 92 / L 34 = 168 (cuadran con los
+  totales de componente del PDF: Fund. 22 oblig + 20 opt; Discipl. 52 oblig + 40 opt; Libre 34).
+  Sem 9 = 100% libre. Corte `{comp:"C",min:70}` → Trabajo de Grado.
 - **Sistemas y Computación**: plan 2A74, Acuerdo 033 de 2007. Metas B 51 / C 81 / L 33 = 165
   (cuadran con el PDF: Matemáticas 16, Prob/Est 3, Cs. Computación 18, Física 8, Cs. Econ. 6 = B;
   Métodos y Tec. Software 21, Infraestructura 30, Comp. Visual 3, Sist. Inteligentes 3, SMOS 12,
   Contexto 6, TG 6 = C). Sem 9 = 100% libre. `{comp:"C",min:55}` (Taller de Proyectos
   Interdisciplinarios) y `{comp:"C",min:60}` (Trabajo de Grado — id `TG_SIS`, el PDF no da el
   código) son **estimados** (el PDF los marca con `*` sin número). Prerrequisitos reconstruidos
-  del diagrama de flechas numeradas.
+  del diagrama de flechas numeradas y **verificados con estudiantes de la carrera**.
 - **Eléctrica**: plan de estudios 2544. Metas B 63 / C 71 / L 33 = 167 (cuadran con el PDF:
   Fund. 51 oblig + 12 opt; Discipl. 63 oblig + 8 opt; Libre 33). La Nivelación y la Lengua
   Extranjera no se incluyen. Cortes `{comp:"T",min:121}` (70% del programa → Taller de Proyectos
   Interdisciplinarios) y `{comp:"C",min:63}` (80% disciplinar → Trabajo de Grado). Prerrequisitos
-  reconstruidos del diagrama (nodos con letras).
+  reconstruidos del diagrama (nodos con letras) y **verificados con estudiantes de la carrera**.
 - **Mecatrónica**: Acuerdo 18 de 2014. Metas B 56 / C 87 / L 36 = 179 (cuadran con el PDF:
   Fund. 47 oblig + 9 opt; Discipl. 81 oblig + 6 opt; Libre 36). La Lengua Extranjera no va.
   Cortes `{comp:"T",min:107}` (60% → Taller Interdisc.), `{comp:"T",min:134}` (75% → Proyecto
@@ -106,19 +106,22 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   Agrupaciones B: Matemáticas, Física, Expresión Gráfica, Química, Cs. Económicas, Informática y
   Herramientas (clave `info`). Disciplinares: Inv./Innovación, Ing. Electrónica, Ing. Informática
   (clave `inf`), Ing. de Diseño, Automatización Control y Robótica, Materiales y Procesos.
+  Prerrequisitos reconstruidos del diagrama y **verificados con estudiantes de la carrera**.
 - **Mecánica**: Acuerdo 68 de 2018. Metas B 58 / C 86 / L 36 = 180 (cuadran con el PDF:
   Fund. 50 oblig + 8 opt; Discipl. 80 oblig + 6 opt; Libre 36). La Lengua Extranjera no va.
   Cortes `{comp:"T",min:99}` (55% → Taller Interdisc.), `{comp:"T",min:135}` (75% → Proyecto
   Aplicado), `{comp:"C",min:69}` (80% disciplinar → Trabajo de Grado). El diagrama tiene las
   materias muy escalonadas: la **asignación a semestres es aproximada** (reconstruida), pero las
-  sumas de crédito por componente sí cuadran. "Herramientas para Ingeniería" quedó en
-  Fundamentación (clave `her`). Créditos ajustados a ojo en 1 optativa de Física para cuadrar B=58.
+  sumas de crédito por componente sí cuadran y los prerrequisitos ya fueron **verificados con
+  estudiantes de la carrera**. "Herramientas para Ingeniería" quedó en Fundamentación (clave
+  `her`). Créditos ajustados a ojo en 1 optativa de Física para cuadrar B=58.
 - **Electrónica**: plan de estudios 2545 (hermano del 2544 de Eléctrica). Metas B 60 / C 78 /
   L 34 = 172 (cuadran con el PDF: Fund. 51 oblig + 9 opt; Discipl. 72 oblig + 6 opt; Libre 34).
   Nivelación y Lengua Extranjera no van. Cortes iguales a Eléctrica: `{comp:"T",min:121}` (Taller
   Inter-disciplinarios) y `{comp:"C",min:63}` (Trabajo de Grado). "Optativa de Telecomunicaciones"
   2019125 tiene código → se modela como obligatoria (la disc. optativa son las de Electrónica
-  Análoga y Digital).
+  Análoga y Digital). Prerrequisitos reconstruidos del diagrama y **verificados con estudiantes de
+  la carrera**.
 - **Alturas de sem 9/10**: en carreras sin `sem9fix` (todas menos Civil) el `.tailgroup` lleva la
   clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a `flex:0 0 auto` (la clave de colores no
   queda con espacio sobrante). Civil conserva su ajuste fino. El apaño de Agrícola (celdas de
@@ -223,11 +226,8 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 - **Placeholders por reemplazar**: URL del botón "Invítame un café" y el `mailto:` de "¿falta
   tu carrera?" (los dos en `malla-artifact.html` / `index.html`).
 - **Nombre/marca**: hoy la marca es sólo "Malla" — el usuario aún no eligió nombre definitivo.
-- **Verificar los prerrequisitos de Química y Agrícola** contra el SIA o con estudiantes (hoy
-  salen de mallaiq / del diagrama del PDF; el pie de cada vista lo avisa). En Química ojo con
-  `1000010` (Lab. principios de orgánica) y `IQ_BIO` (Biología molecular, sin código limpio).
-  En Agrícola varios prereqs son "a ojo" (Estática, Termodinámica, Fisiología Vegetal, etc.).
-- Sumar más carreras (`SEMS_<X>`/`AGR_<X>` + entrada en `MALLAS` + tarjeta en el inicio).
+- Las 9 carreras ya están **verificadas con estudiantes** (así lo dice el pie de cada una); si
+  alguna cambia de plan de estudios, hay que revisar de nuevo esa malla puntual.
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
 - ¿Modelar Prácticas / Electivas de Profundización con su corte de 108 / 126 créditos totales?
 - Publicar (Netlify / GitHub Pages) — ya es la carpeta entera, no un archivo suelto.

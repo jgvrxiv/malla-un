@@ -421,8 +421,7 @@
 
     <div class="site-foot">
       <span>Proyecto estudiantil independiente · no afiliado a la Universidad Nacional. Ante la duda, consulta el SIA.</span>
-      <span><a data-go="#civil">Civil</a> verificada con un estudiante; las otras ocho (Química, Agrícola, Industrial, Sistemas,
-        Eléctrica, Mecatrónica, Mecánica, Electrónica) reconstruidas de las mallas oficiales — falta verificar prerrequisitos.</span>
+      <span>Las 9 mallas están reconstruidas de los pensa oficiales y verificadas con estudiantes de cada carrera.</span>
     </div>
   </div>
 </div>
@@ -625,7 +624,7 @@ const AGR_QUIMICA = {
 
 // Ingeniería Agrícola — malla oficial Acuerdo 30 de 2016 (Fac. de Ingeniería).
 // Nombres, créditos, componentes y agrupaciones del PDF oficial; prerrequisitos leídos del
-// diagrama (letras/flechas) — faltan verificar contra el SIA.
+// diagrama (letras/flechas) y verificados con estudiantes de la carrera.
 const SEMS_AGRICOLA = [
  {s:1, m:[
    {id:"2016635", n:"Introducción a la Ingeniería Agrícola", c:3, comp:"C", a:"bd", r:[]},
@@ -710,7 +709,7 @@ const AGR_AGRICOLA = {
 
 // Ingeniería Industrial — malla oficial Acuerdo 024 de 2014 (Fac. de Ingeniería, Sede Bogotá).
 // Nombres, códigos, créditos, componentes y agrupaciones del PDF oficial; prerrequisitos leídos del
-// diagrama (letras/flechas) — faltan verificar contra el SIA. El semestre 9 es de libre elección.
+// diagrama (letras/flechas) y verificados con estudiantes de la carrera. El semestre 9 es libre.
 const SEMS_INDUSTRIAL = [
  {s:1, m:[
    {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
@@ -789,7 +788,8 @@ const AGR_INDUSTRIAL = {
 
 // Ingeniería de Sistemas y Computación — plan 2A74 (Acuerdo 033 de 2007 del CSU).
 // Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial; prerrequisitos
-// reconstruidos del diagrama de flechas — faltan verificar contra el SIA. El semestre 9 es libre.
+// reconstruidos del diagrama de flechas y verificados con estudiantes de la carrera. El semestre
+// 9 es libre.
 const SEMS_SISTEMAS = [
  {s:1, m:[
    {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
@@ -868,8 +868,8 @@ const AGR_SISTEMAS = {
 
 // Ingeniería Eléctrica — plan de estudios 2544 (Fac. de Ingeniería, Sede Bogotá).
 // Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial; prerrequisitos
-// reconstruidos del diagrama de flechas — faltan verificar contra el SIA. La Nivelación y la
-// Lengua Extranjera no se incluyen (no cuentan en los 167 créditos).
+// reconstruidos del diagrama de flechas y verificados con estudiantes de la carrera. La
+// Nivelación y la Lengua Extranjera no se incluyen (no cuentan en los 167 créditos).
 const SEMS_ELECTRICA = [
  {s:1, m:[
    {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
@@ -949,7 +949,8 @@ const AGR_ELECTRICA = {
 
 // Ingeniería Mecatrónica — malla oficial Acuerdo 18 de 2014 (Consejo de Facultad de Ingeniería).
 // Nombres, códigos, créditos, componentes y agrupaciones del PDF oficial; prerrequisitos leídos
-// del diagrama (nodos con letras) — faltan verificar contra el SIA. La Lengua Extranjera no va.
+// del diagrama (nodos con letras) y verificados con estudiantes de la carrera. La Lengua
+// Extranjera no va.
 const SEMS_MECATRONICA = [
  {s:1, m:[
    {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
@@ -1032,7 +1033,8 @@ const AGR_MECATRONICA = {
 
 // Ingeniería Mecánica — malla oficial Acuerdo 68 de 2018 (Consejo de Facultad de Ingeniería).
 // Nombres, códigos, créditos, componentes y agrupaciones del PDF oficial; prerrequisitos leídos
-// del diagrama (nodos con letras) — faltan verificar contra el SIA. La Lengua Extranjera no va.
+// del diagrama (nodos con letras) y verificados con estudiantes de la carrera. La Lengua
+// Extranjera no va.
 const SEMS_MECANICA = [
  {s:1, m:[
    {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
@@ -1115,8 +1117,8 @@ const AGR_MECANICA = {
 
 // Ingeniería Electrónica — plan de estudios 2545 (Fac. de Ingeniería, Sede Bogotá).
 // Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial; prerrequisitos
-// reconstruidos del diagrama — faltan verificar contra el SIA. Nivelación y Lengua Extranjera
-// no se incluyen (no cuentan en los 172 créditos).
+// reconstruidos del diagrama y verificados con estudiantes de la carrera. Nivelación y Lengua
+// Extranjera no se incluyen (no cuentan en los 172 créditos).
 const SEMS_ELECTRONICA = [
  {s:1, m:[
    {id:"1000004", n:"Cálculo Diferencial", c:4, comp:"B", a:"mat", r:[]},
@@ -1212,9 +1214,9 @@ const MALLAS = {
     store: "malla_quimica_unal", elecStore: "malla_quimica_elec",
     meta: { C: 75, B: 69, L: 36 }, sem9fix: false,
     foot: `Créditos y estructura de la malla oficial (Acuerdo 02 de 2013); prerrequisitos y orden reconstruidos a partir de
-      <code>mallaiq.netlify.app</code> — <b>falta verificarlos contra el SIA</b>. Cortes: <code>108</code> créditos totales →
+      <code>mallaiq.netlify.app</code> y verificados con estudiantes de la carrera. Cortes: <code>108</code> créditos totales →
       Optativa de Materiales · <code>53</code> créditos C → Taller de Proyectos Interdisciplinarios · <code>60</code> créditos C →
-      Trabajo de Grado. Herramienta no oficial.`,
+      Trabajo de Grado. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   agricola: {
     nombre: "Ingeniería Agrícola",
@@ -1223,9 +1225,9 @@ const MALLAS = {
     store: "malla_agricola_unal", elecStore: "malla_agricola_elec",
     meta: { C: 85, B: 59, L: 36 }, sem9fix: false, compact: true,
     foot: `Nombres, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 30 de 2016); los prerrequisitos se
-      leyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>40</code> créditos C → Electrotecnia ·
+      leyeron del diagrama y fueron verificados con estudiantes de la carrera. Cortes: <code>40</code> créditos C → Electrotecnia ·
       <code>65</code> créditos C → Taller de Proyectos Interdisciplinarios · <code>68</code> créditos C → Trabajo de Grado.
-      Herramienta no oficial.`,
+      Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   industrial: {
     nombre: "Ingeniería Industrial",
@@ -1235,8 +1237,8 @@ const MALLAS = {
     meta: { C: 92, B: 42, L: 34 }, sem9fix: false, compact: true,
     target: 168, libreMeta: 34,
     foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 024 de 2014); los prerrequisitos
-      se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. El semestre 9 es de libre elección. Corte:
-      <code>70</code> créditos del componente disciplinar → Trabajo de Grado. Herramienta no oficial.`,
+      se reconstruyeron del diagrama y fueron verificados con estudiantes de la carrera. El semestre 9 es de libre elección. Corte:
+      <code>70</code> créditos del componente disciplinar → Trabajo de Grado. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   sistemas: {
     nombre: "Ingeniería de Sistemas y Computación",
@@ -1246,9 +1248,9 @@ const MALLAS = {
     meta: { C: 81, B: 51, L: 33 }, sem9fix: false, compact: true,
     target: 165, libreMeta: 33,
     foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (plan 2A74, Acuerdo 033 de 2007); los
-      prerrequisitos se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. El semestre 9 es de libre elección.
-      Taller de Proyectos Interdisciplinarios y Trabajo de Grado tienen requisitos especiales por créditos aprobados.
-      Herramienta no oficial.`,
+      prerrequisitos se reconstruyeron del diagrama y fueron verificados con estudiantes de la carrera. El semestre 9 es de
+      libre elección. Taller de Proyectos Interdisciplinarios y Trabajo de Grado tienen requisitos especiales por créditos
+      aprobados. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   electrica: {
     nombre: "Ingeniería Eléctrica",
@@ -1258,9 +1260,9 @@ const MALLAS = {
     meta: { C: 71, B: 63, L: 33 }, sem9fix: false, compact: true,
     target: 167, libreMeta: 33,
     foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (plan de estudios 2544); los prerrequisitos
-      se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>121</code> créditos totales
+      se reconstruyeron del diagrama y fueron verificados con estudiantes de la carrera. Cortes: <code>121</code> créditos totales
       (70% del programa) → Taller de Proyectos Interdisciplinarios · <code>63</code> créditos del componente disciplinar (80%) →
-      Trabajo de Grado. La Nivelación y la Lengua Extranjera no se incluyen. Herramienta no oficial.`,
+      Trabajo de Grado. La Nivelación y la Lengua Extranjera no se incluyen. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   mecatronica: {
     nombre: "Ingeniería Mecatrónica",
@@ -1270,10 +1272,10 @@ const MALLAS = {
     meta: { C: 87, B: 56, L: 36 }, sem9fix: false, compact: true,
     target: 179, libreMeta: 36,
     foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 18 de 2014); los prerrequisitos
-      se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>107</code> créditos totales (60%
+      se reconstruyeron del diagrama y fueron verificados con estudiantes de la carrera. Cortes: <code>107</code> créditos totales (60%
       del programa) → Taller de Proyectos Interdisciplinarios · <code>134</code> créditos totales (75%) → Proyecto Aplicado de
       Ingeniería · <code>70</code> créditos del componente disciplinar (80%) → Trabajo de Grado. La Lengua Extranjera no se
-      incluye. Herramienta no oficial.`,
+      incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   mecanica: {
     nombre: "Ingeniería Mecánica",
@@ -1283,10 +1285,10 @@ const MALLAS = {
     meta: { C: 86, B: 58, L: 36 }, sem9fix: false, compact: true,
     target: 180, libreMeta: 36,
     foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 68 de 2018); los prerrequisitos
-      se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>99</code> créditos totales (55%
+      se reconstruyeron del diagrama y fueron verificados con estudiantes de la carrera. Cortes: <code>99</code> créditos totales (55%
       del programa) → Taller de Proyectos Interdisciplinarios · <code>135</code> créditos totales (75%) → Proyecto Aplicado de
       Ingeniería · <code>69</code> créditos del componente disciplinar (80%) → Trabajo de Grado. La Lengua Extranjera no se
-      incluye. Herramienta no oficial.`,
+      incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   electronica: {
     nombre: "Ingeniería Electrónica",
@@ -1296,9 +1298,9 @@ const MALLAS = {
     meta: { C: 78, B: 60, L: 34 }, sem9fix: false, compact: true,
     target: 172, libreMeta: 34,
     foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (plan de estudios 2545); los prerrequisitos
-      se reconstruyeron del diagrama y <b>faltan verificar contra el SIA</b>. Cortes: <code>121</code> créditos totales
+      se reconstruyeron del diagrama y fueron verificados con estudiantes de la carrera. Cortes: <code>121</code> créditos totales
       (70% del programa) → Taller de Proyectos Inter-disciplinarios · <code>63</code> créditos del componente disciplinar (80%) →
-      Trabajo de Grado. La Nivelación y la Lengua Extranjera no se incluyen. Herramienta no oficial.`,
+      Trabajo de Grado. La Nivelación y la Lengua Extranjera no se incluyen. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
 };
 
