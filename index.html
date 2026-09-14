@@ -81,10 +81,12 @@
   .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:36px 0 14px;flex-wrap:wrap}
   .sec-h h2{font-family:var(--disp);font-size:1.15rem;font-weight:800;margin:0}
   .sec-h span{font-family:var(--mono);font-size:.76rem;color:var(--dim)}
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
+  /* 9 carreras = cuadrícula fija de 3×3 en cualquier dispositivo (no auto-fill: nunca 1, 2, 4…
+     columnas). En pantallas angostas .carrera se compacta más abajo para que las tres quepan. */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
   .carrera{--c:#8891a5;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--text);
     background:color-mix(in srgb, var(--c) var(--tint), var(--surface));
-    border:1px solid var(--line);border-radius:13px;padding:15px 16px 14px;
+    border:1px solid var(--line);border-radius:13px;padding:15px 16px 14px;min-width:0;
     transition:transform .14s,box-shadow .14s,border-color .14s}
   a.carrera:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--c) 60%,var(--line))}
   .carrera .cn{font-weight:700;font-size:.95rem;line-height:1.25}
@@ -97,6 +99,17 @@
   .tag{align-self:flex-start;font-family:var(--mono);font-size:.57rem;font-weight:700;letter-spacing:.12em;
     text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--dim)}
   .tag.live{color:var(--done);border-color:color-mix(in srgb,var(--done) 45%,transparent)}
+  /* las 9 tarjetas de carrera se achican para seguir cabiendo de a 3 por fila en el celular
+     (va después de las reglas de arriba para ganarles la cascada con la misma especificidad) */
+  @media (max-width:640px){
+    .cards{gap:7px}
+    .carrera{padding:9px 8px 8px;gap:4px;border-radius:9px}
+    .carrera .cn{font-size:.7rem;line-height:1.2}
+    .carrera .cm{font-size:.56rem;line-height:1.3}
+    .carrera .go{font-size:.58rem;gap:3px;padding-top:3px}
+    .carrera .go svg{width:10px;height:10px}
+    .tag{font-size:.48rem;padding:2px 5px;letter-spacing:.08em}
+  }
   .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
   .step{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:16px}
   .step b{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;
