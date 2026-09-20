@@ -1878,6 +1878,166 @@ const AGR_CONTADURIA = {
   tg:        ["#93a0e6", "Trabajo de grado", "Trabajo de Grado"],
 };
 
+// ============ Facultad de Medicina ============
+// Nutrición y Dietética — plan de estudios de la Facultad de Medicina (Acuerdo 238 de 2013) y PEP:
+// 158 créditos (Fundamentación 38: 25 obligatorios + 13 optativos; Disciplinar 88: 83 + 5; Libre 32).
+// Códigos y créditos del PEP; los prerrequisitos son los que lista el PEP (los correquisitos —
+// materia + su laboratorio— no se modelan). La malla de la Facultad pone "Fisiología General" (4 cr)
+// como optativa de la agrupación Ciencias Biológicas; aquí queda como cupo de 3 créditos para que
+// la agrupación sume lo que exige el PEP (7 optativos).
+const SEMS_NUTRICION = [
+ {s:1, m:[
+   _m("2015788","Morfología",4,"B","cb"),
+   _m("1000041","Química Básica",3,"B","cb"),
+   _m("2015782","Laboratorio de Química Básica",2,"B","cb"),
+   _m("2021550","Introducción a la Nutrición y a la Dietética",3,"C","intro"),
+   _m("OPT_CSH_NUT","Optativa de Ciencias Sociales y Humanas",3,"B","csh",[],true),
+ ]},
+ {s:2, m:[
+   _m("2017983","Bioquímica I",4,"B","cb",["1000041","2015782"],true),
+   _m("2015790","Ciencia de Alimentos I",4,"C","calim",["2021550","1000041"]),
+   _m("2015920","Laboratorio de Ciencia de Alimentos I",2,"C","calim"),
+   _m("1000012","Bioestadística Fundamental",3,"B","cen"),
+ ]},
+ {s:3, m:[
+   _m("2025487","Bases Fisiológicas de la Nutrición",4,"C","normal",["2021550"]),
+   _m("2021977","Evaluación del Estado Nutricional",3,"C","normal",["2017983"]),
+   _m("2015789","Ciencia de Alimentos II",4,"C","calim",["2015790"]),
+   _m("2015921","Laboratorio de Ciencia de Alimentos II",2,"C","calim",["2015920"]),
+   _m("2016007","Fundamentos de Administración",4,"B","adm"),
+ ]},
+ {s:4, m:[
+   _m("2021978","Nutrición Materno Infantil",4,"C","normal",["2021977"]),
+   _m("2015787","Microbiología",2,"B","cb"),
+   _m("2015786","Laboratorio de Microbiología",2,"B","cb"),
+   _m("2015754","Antropología Alimentaria",3,"C","publica",["OPT_CSH_NUT"]),
+   _m("OPT_CB_NUT","Optativa de Ciencias Biológicas",3,"B","cb",[],true),
+ ]},
+ {s:5, m:[
+   _m("2015785","Fisiopatología",5,"B","cb",["2021978"]),
+   _m("2015775","Nutrición del Adulto",3,"C","normal",["2021978"]),
+   _m("NUT_SAGRO","Sistema Agroalimentario",3,"C","publica",["2015754"]),
+   _m("2025500","Epidemiología Nutricional I",3,"C","publica"),
+ ]},
+ {s:6, m:[
+   _m("2025492","Nutrición Clínica Materno Infantil",3,"C","enferm",["2015785","2021978"]),
+   _m("2025489","Gerencia de Servicios de Alimentación y Nutrición",6,"C","serv",["2016007","2015775"]),
+   _m("2025502","Nutrición Clínica Adultos",3,"C","enferm",["2015785","2015775"]),
+   _m("2025499","Nutrición Pública",4,"C","publica",["2025500"]),
+ ]},
+ {s:7, m:[
+   _m("2025495","Práctica de Nutrición Clínica Materno Infantil",3,"C","prac",["2025492"]),
+   _m("2025504","Práctica de Servicios de Alimentación y Nutrición",6,"C","prac",["2025489"]),
+   _m("2025505","Educación Alimentaria y Nutricional I",3,"C","publica",["2021978"]),
+   _m("2015759","Fundamentos de Investigación",3,"B","bpc",["2025500"],true),
+ ]},
+ {s:8, m:[
+   _m("2025497","Práctica de Nutrición Clínica Adultos",3,"C","prac",["2025502"]),
+   _m("2025496","Práctica de Nutrición Pública",6,"C","prac",["2025499"]),
+ ]},
+ {s:9, m:[
+   _m("OPT_PROF_NUT","Optativa de Profundización",5,"C","opt",[],true),
+   _m("2015756","Trabajo de Grado",8,"C","tg",["2025495","2025504","2025497","2025496"]),
+ ]},
+];
+const AGR_NUTRICION = {
+  cb:      ["#e07aa4", "Ciencias Biológicas y química", "Cs. Biológicas"],
+  csh:     ["#ac93da", "Ciencias Sociales y Humanas", "Cs. Sociales"],
+  cen:     ["#5aa9e6", "Ciencias Exactas y Naturales", "Cs. Exactas"],
+  bpc:     ["#4fc7ea", "Bases de Pensamiento Científico", "Pensamiento Cient."],
+  adm:     ["#e3b955", "Administración y Gestión", "Administración"],
+  intro:   ["#9aa6b6", "Introducción a la Nutrición y Dietética", "Introducción"],
+  normal:  ["#8ec44e", "Alimentación y Nutrición Normal", "Nutrición Normal"],
+  publica: ["#33ac9d", "Alimentación y Nutrición Pública", "Nutrición Pública"],
+  enferm:  ["#dc4c43", "Alimentación y Nutrición en Condición de Enfermedad", "Nutrición Clínica"],
+  serv:    ["#e8804f", "Administración de Servicios de Alimentación", "Servicios Aliment."],
+  calim:   ["#f0a24a", "Ciencia de Alimentos aplicada a la Nutrición Humana", "Ciencia de Alimentos"],
+  prac:    ["#c56bd0", "Prácticas Académicas", "Prácticas"],
+  opt:     ["#7f8a9e", "Optativas de Profundización", "Optativa profund."],
+  tg:      ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Fonoaudiología — plan de estudios de la Facultad de Medicina (Acuerdo 184 de 2013): 155 créditos
+// (Fundamentación 45: 20 obligatorios + 25 optativos; Disciplinar 79: 65 + 14; Libre 31). Códigos y
+// créditos de la malla del PEP. La malla impresa tiene 2 totales por semestre que no cuadran con
+// las tarjetas (typos); se tomaron los créditos por materia y se ajustaron 2 optativas de
+// fundamentación (3 cr) para que las sumas sean las del plan. El PEP no trae flechas: los
+// prerrequisitos siguen la secuencia del plan (fundamentos → intervención → prácticas).
+const SEMS_FONO = [
+ {s:1, m:[
+   _m("2015466","Lingüística General",3,"B","chum"),
+   _m("2016149","Comunicación Oral y Escrita I",3,"B","pens"),
+   _m("2025574","Anatomía e Histología Funcional",3,"B","cbio"),
+   _m("OPT_DH_FONO","Optativa de Desarrollo Humano",3,"B","opf",[],true),
+   _m("2016164","Introducción a Fonoaudiología",2,"C","fund"),
+ ]},
+ {s:2, m:[
+   _m("2016310","Lingüística Aplicada",3,"B","chum"),
+   _m("1000023","Mecánica y Ondas para Biociencias",4,"B","cex"),
+   _m("2025577","Neuroanatomía Estructural y Funcional",2,"B","cbio"),
+   _m("2025578","Cabeza, Cuello y Tórax",2,"B","cbio"),
+   _m("2016151","Desórdenes de Comunicación",4,"C","fund",["2016164"]),
+ ]},
+ {s:3, m:[
+   _m("2016311","Psicología Evolutiva",3,"B","chum",[],true),
+   _m("2016165","Juicio Clínico en Fonoaudiología",3,"C","fund",["2016151"]),
+   _m("2016159","Fundamentos del Habla",2,"C","habla",["2016164","2025574"]),
+   _m("2016160","Fundamentos del Lenguaje",4,"C","leng",["2016164","2015466"]),
+   _m("2025826","Fundamentos de Audición",2,"C","aud",["2016164","2025577"]),
+ ]},
+ {s:4, m:[
+   _m("2015479","Psicolingüística",3,"B","chum",[],true),
+   _m("2023852","Comunicación Oral y Escrita II",3,"B","pens",["2016149"],true),
+   _m("2016163","Intervención del Habla",3,"C","habla",["2016159"]),
+   _m("2016168","Lenguaje Infantil y del Adolescente",3,"C","leng",["2016160"]),
+   _m("2016145","Audiología Básica",3,"C","aud",["2025826"]),
+ ]},
+ {s:5, m:[
+   _m("OPT_1_FONO","Optativa I de Fundamentación",2,"B","opf",[],true),
+   _m("1000012","Bioestadística Fundamental",3,"B","pens",[],true),
+   _m("2016162","Intervención de la Función Oral Faríngea",3,"C","habla",["2016159"]),
+   _m("2016188","Lenguaje en la Educación y el Aprendizaje",3,"C","leng",["2016168"]),
+   _m("2016161","Intervención Audiológica",3,"C","aud",["2016145"]),
+ ]},
+ {s:6, m:[
+   _m("OPT_2_FONO","Optativa II de Fundamentación",2,"B","opf",[],true),
+   _m("OPT_3_FONO","Optativa III de Fundamentación",3,"B","opf",[],true),
+   _m("OPT_AV_FONO","Optativa Avanzada",3,"C","prof",[],true),
+   _m("2016167","Lenguaje en el Adulto",3,"C","leng",["2016168"]),
+ ]},
+ {s:7, m:[
+   _m("2015695","Diseño, Gestión y Evaluación de Proyectos",3,"B","chum",[],true),
+   _m("2016174","Práctica en Educación",5,"C","prac",["2016188","2016165"]),
+   _m("OPT_PF1_FONO","Profundización I",3,"C","prof",[],true),
+ ]},
+ {s:8, m:[
+   _m("2016175","Práctica en Salud",5,"C","prac",["2016167","2016163","2016162"]),
+   _m("OPT_PF2_FONO","Profundización II",3,"C","prof",[],true),
+ ]},
+ {s:9, m:[
+   _m("2016173","Práctica en Audiología",5,"C","prac",["2016161","2016175"]),
+   _m("2016158","Fundamentos de Investigación",4,"C","fund",["1000012"]),
+ ]},
+ {s:10, m:[
+   _m("OPT_PR_FONO","Práctica Optativa",5,"C","prof",["2016173"],true),
+   _m("2015310","Trabajo de Grado",8,"C","tg",["2016158","2016173"]),
+ ]},
+];
+const AGR_FONO = {
+  cex:   ["#5aa9e6", "Ciencias Exactas", "Cs. Exactas"],
+  cbio:  ["#e07aa4", "Ciencias Biológicas", "Cs. Biológicas"],
+  chum:  ["#ac93da", "Ciencias Humanas y desarrollo humano", "Cs. Humanas"],
+  pens:  ["#4fc7ea", "Pensamiento Científico y comunicación", "Pensamiento Cient."],
+  opf:   ["#e3b955", "Optativas de fundamentación", "Optativa fund."],
+  fund:  ["#9aa6b6", "Fundamentos de Fonoaudiología", "Fund. Fonoaudiología"],
+  leng:  ["#8ec44e", "Lenguaje", "Lenguaje"],
+  habla: ["#e8804f", "Habla", "Habla"],
+  aud:   ["#33ac9d", "Audición", "Audición"],
+  prac:  ["#c56bd0", "Prácticas", "Prácticas"],
+  prof:  ["#7f8a9e", "Profundización y optativas", "Profundización"],
+  tg:    ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -2125,6 +2285,33 @@ const MALLAS = {
       Libre elección 33; las sumas cuadran). La malla <b>no trae flechas</b>: los prerrequisitos siguen la secuencia de la malla y
       <b>no se han verificado con estudiantes</b>. El semestre 9 es de libre elección; el 10 lleva la opción de grado. Inglés I–IV no se
       incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  nutricion: {
+    nombre: "Nutrición y Dietética",
+    fac: "medicina", color: "#8ec44e", cm: "Acuerdo 238 de 2013 · 158 créditos", ver: false,
+    plan: "Acuerdo 238 de 2013 · 158 créditos",
+    sems: SEMS_NUTRICION, agr: AGR_NUTRICION,
+    store: "malla_nutricion_unal", elecStore: "malla_nutricion_elec",
+    meta: { C: 88, B: 38, L: 32 }, sem9fix: false, compact: true,
+    target: 158, libreMeta: 32,
+    foot: `Códigos, créditos y prerrequisitos del PEP de la Facultad de Medicina (158 créditos: Fundamentación 38, Disciplinar 88, Libre elección 32;
+      las sumas cuadran). Los correquisitos (materia + laboratorio) no se modelan. "Fisiología General" (4 cr en la malla impresa) queda como
+      cupo optativo de 3 créditos para que Ciencias Biológicas sume lo que exige el PEP. Trabajo de Grado: haber aprobado las 4 prácticas
+      (18 créditos). <b>No se ha verificado con estudiantes</b>. Inglés I–IV no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  fonoaudiologia: {
+    nombre: "Fonoaudiología",
+    fac: "medicina", color: "#33ac9d", cm: "Acuerdo 184 de 2013 · 155 créditos", ver: false,
+    plan: "Acuerdo 184 de 2013 · 155 créditos",
+    sems: SEMS_FONO, agr: AGR_FONO,
+    store: "malla_fonoaudiologia_unal", elecStore: "malla_fonoaudiologia_elec",
+    meta: { C: 79, B: 45, L: 31 }, sem9fix: false, compact: true,
+    target: 155, libreMeta: 31,
+    foot: `Códigos y créditos de la malla del PEP de la Facultad de Medicina (155 créditos: Fundamentación 45, Disciplinar 79, Libre elección 31;
+      las sumas cuadran). La malla impresa trae dos totales por semestre que no cuadran con sus tarjetas; se tomaron los créditos por materia
+      y se ajustaron dos optativas de fundamentación a 3 créditos para que las sumas coincidan con el plan. El PEP <b>no trae flechas</b>: los
+      prerrequisitos siguen la secuencia del plan (fundamentos → intervención → prácticas) y <b>no se han verificado con estudiantes</b>.
+      Inglés I–IV no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
 };
 

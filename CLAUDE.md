@@ -2,10 +2,11 @@
 
 App web de una sola página para seguir el avance en los pensa de la **Universidad Nacional de
 Colombia (Sede Bogotá)**. Empezó con **Ingeniería Civil** (plan flexible 180 créditos, Acuerdo 26
-de 2015) y hoy cubre las **9 ingenierías de la Facultad**: Civil, Química, Agrícola, Industrial,
-Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica. Se hace clic en una materia para
-aprobarla; se van desbloqueando las que dependen de ella. El progreso se guarda en
-`localStorage`. Inspirada en https://mallaiq.netlify.app.
+de 2015) y hoy cubre **21 carreras**: las 9 ingenierías (Civil, Química, Agrícola, Industrial,
+Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica — verificadas con estudiantes) y 12 de las
+facultades de Ciencias, Ciencias Económicas y Medicina (reconstruidas de las mallas oficiales, **sin
+verificar**). Se hace clic en una materia para aprobarla; se van desbloqueando las que dependen de
+ella. El progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.app.
 
 > **Idioma:** el usuario es colombiano (Bogotá). Todo el texto de la app, docs, comentarios y
 > mensajes de commit va en español neutro/colombiano — **sin voseo** ("haces", no "hacés";
@@ -122,6 +123,37 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   2019125 tiene código → se modela como obligatoria (la disc. optativa son las de Electrónica
   Análoga y Digital). Prerrequisitos reconstruidos del diagrama y **verificados con estudiantes de
   la carrera**.
+- **Inicio generado desde `MALLAS`** (`renderInicio()`): ya no hay tarjetas escritas a mano. La
+  constante `FACULTADES` (`ingenieria`, `ciencias`, `economicas`, `medicina`) define las secciones y
+  su orden; cada entrada de `MALLAS` trae `fac`, `color`, `cm` (renglón de la tarjeta) y `ver`
+  (`true` = verificada con estudiantes → etiqueta "Verificada"; `false` → "Sin verificar", ámbar).
+  El contador y el pie (`#foot-ver`) se calculan solos. Cada facultad lleva su grilla fija de 3
+  columnas. Las 9 de Ingeniería son `ver:true`; las otras 12 son `ver:false`.
+- **Facultades nuevas (Ciencias, Económicas, Medicina)** — datos con el helper `_m(id, nombre,
+  créditos, comp, agr, prereqs, opt?)` y claves de `MALLAS` `quimica-ciencias`, `computacion`,
+  `matematicas`, `fisica`, `geologia`, `farmacia`, `estadistica`, `economia`, `administracion`,
+  `contaduria`, `nutricion`, `fonoaudiologia`. Fuentes: mallas PDF de cada facultad + PEP
+  (`diracad.bogota.unal.edu.co/recursos/pdf/unal-aspirante/PEP/PEP-<slug>.pdf`). Todas con sumas B/C/L
+  iguales a las del PDF/PEP, salvo Química (Ciencias), cuya malla no marca el componente de cada
+  materia (B/C aproximado, suma 158 vs 160 del PEP). Notas por carrera:
+  - **Química (Ciencias)**: prerrequisitos de la malla; TG = 100% de B y de C obligatorio (cortes 40 B / 78 C, estimados).
+  - **Computación, Matemáticas, Física**: prerrequisitos leídos de flechas (Matemáticas y Física
+    decodificados con las letras del diagrama vía `pdf.toStructuredText`). Cortes del TG: Matemáticas
+    112 T (80%), Física 60 T y 80 T (los "60/80 créditos del plan" de la malla).
+  - **Geología**: sin códigos (ids `GEO_*`); componente leído del **color del texto** (muestreo de píxeles).
+    Los semestres se llaman "matrículas". Corte TG 106 T (80% de 133 sin libre, estimado).
+  - **Farmacia**: sin códigos; las flechas de colores no se pudieron leer → prerrequisitos aproximados.
+  - **Estadística**: malla solo con nombres; créditos del PEP; muchos cupos ("Núcleo Estadístico").
+  - **Economía / Administración / Contaduría**: sin flechas; prerrequisitos por secuencia. Sem 9 = libre
+    (`m:[]`, activa `.tg-libre`).
+  - **Nutrición y Dietética**: prerrequisitos del PEP (sí los trae); "Fisiología General" (4) pasa a cupo
+    de 3 para cuadrar el PEP. **Fonoaudiología**: 2 optativas de fundamentación ajustadas a 3 cr porque
+    los totales impresos por semestre no cuadran; sin flechas.
+  - **No agregadas todavía**: **Biología** (la malla no trae créditos por materia ni códigos y no hallé
+    otra fuente fiable), **Terapia Ocupacional** y **Medicina** (el PEP solo trae las materias por
+    agrupación, sin distribución por semestre; Medicina es de 256 créditos con módulos integrados),
+    Fisioterapia (no está en la oferta 2027-01), y las facultades de Enfermería, Odontología, Artes,
+    Ciencias Humanas, Derecho, Agrarias, Veterinaria, etc.
 - **Alturas de sem 9/10**: en carreras sin `sem9fix` (todas menos Civil) el `.tailgroup` lleva la
   clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a `flex:0 0 auto` (la clave de colores no
   queda con espacio sobrante). Civil conserva su ajuste fino. El apaño de Agrícola (celdas de
@@ -226,8 +258,13 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 - **Placeholders por reemplazar**: URL del botón "Invítame un café" y el `mailto:` de "¿falta
   tu carrera?" (los dos en `malla-artifact.html` / `index.html`).
 - **Nombre/marca**: hoy la marca es sólo "Malla" — el usuario aún no eligió nombre definitivo.
-- Las 9 carreras ya están **verificadas con estudiantes** (así lo dice el pie de cada una); si
-  alguna cambia de plan de estudios, hay que revisar de nuevo esa malla puntual.
+- Las 9 ingenierías ya están **verificadas con estudiantes** (`ver:true`; así lo dice el pie de cada
+  una); las otras 12 (Ciencias, Económicas y Medicina) están **sin verificar** (`ver:false`) — cuando
+  un estudiante confirme una, pasar su `ver` a `true` y reescribir su pie.
+- **Faltan por agregar** (pedido del usuario: todas las carreras de la Sede Bogotá): Biología,
+  Terapia Ocupacional, Medicina y las demás facultades (Enfermería, Odontología, Artes, Ciencias
+  Humanas, Derecho, Ciencias Agrarias, Veterinaria y Zootecnia). Ver arriba por qué las primeras tres
+  quedaron pendientes.
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
 - ¿Modelar Prácticas / Electivas de Profundización con su corte de 108 / 126 créditos totales?
 - Publicar (Netlify / GitHub Pages) — ya es la carpeta entera, no un archivo suelto.
