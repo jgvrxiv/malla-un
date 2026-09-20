@@ -2038,6 +2038,96 @@ const AGR_FONO = {
   tg:    ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
 };
 
+// Medicina (Facultad de Medicina) — malla del PEP (Acuerdo 239 de 2013), 12 semestres, 256 créditos.
+// Códigos, nombres y créditos de la malla por semestres (página 28 del PEP) y componente por las
+// agrupaciones del "rompecabezas" (página 29): Fundamentación 72 = Biología del Desarrollo I (33) +
+// II (15) + Salud Pública y Ciencias Sociales I (6) + Enlace Básico Clínico I (18). Todo lo demás es
+// Disciplinar. Las "Optativas-Internados Electivos" (25 cr, sem 12) van dentro de la Libre elección
+// (51 en el PEP). La malla impresa tiene 1 crédito de diferencia con los totales del plan (y sus
+// totales por semestre 1 y 2 tienen typos), así que aquí Disciplinar suma 134 y Libre 50. Las flechas
+// (letras A–I) no se modelaron: los prerrequisitos siguen la secuencia básicas → clínicas → internado.
+const SEMS_MEDICINA = [
+ {s:1, m:[
+   _m("2017995","Histología I",2,"B","bd1"),
+   _m("2017988","Embriología",3,"B","bd1"),
+   _m("2021521","Introducción a la Fisiología",3,"B","bd1"),
+   _m("2026320","Química Básica para Ciencias de la Salud",3,"B","bd1"),
+   _m("2018012","Salud y Sociedad",2,"B","spcs1"),
+ ]},
+ {s:2, m:[
+   _m("2021519","Histología II",4,"B","bd1",["2017995","2017988"]),
+   _m("2017979","Anatomía I",2,"B","bd1",["2017988"]),
+   _m("2023104","Fisiología I",3,"B","bd1",["2021521"]),
+   _m("2017983","Bioquímica I",4,"B","bd1",["2026320"]),
+   _m("2021522","Medicina y Sociedad",2,"B","spcs1",["2018012"]),
+ ]},
+ {s:3, m:[
+   _m("2023103","Anatomía II",5,"B","bd1",["2017979","2021519"]),
+   _m("2026282","Histología III",5,"B","bd2",["2021519"]),
+   _m("2017994","Genética",2,"B","bd1",["2017983"]),
+   _m("2017986","Demografía y Estadística",2,"B","spcs1",["2021522"],true),
+   _m("2017981","Biología Molecular",2,"B","bd1",["2017983"]),
+ ]},
+ {s:4, m:[
+   _m("2017993","Fisiología II",8,"B","bd2",["2023104","2017983","2023103"]),
+   _m("2023105","Inmunología",2,"B","bd2",["2026282","2017981"]),
+   _m("2018005","Metodología de la Investigación",3,"B","ebc1",["2017986"],true),
+   _m("2023108","Patología General",2,"C","ebc2",["2023103","2026282"]),
+ ]},
+ {s:5, m:[
+   _m("2018006","Microbiología",5,"B","ebc1",["2023105"]),
+   _m("2018007","Parasitología",3,"B","ebc1",["2023105"]),
+   _m("2023109","Patología Especial",7,"C","ebc2",["2023108"]),
+   _m("2015584","Introducción a la Medicina Interna",3,"C","ebc2",["2017993"]),
+   _m("2017989","Epidemiología",3,"C","spcs2",["2018005"]),
+ ]},
+ {s:6, m:[
+   _m("2018009","Psiquiatría I",2,"C","clin1",["2017993"]),
+   _m("2018016","Medicina Interna I",9,"C","clin1",["2023109","2015584"]),
+   _m("2017990","Farmacología",7,"B","ebc1",["2017993","2018006"]),
+   _m("2015680","Introducción a las Imágenes Diagnósticas",3,"C","ebc2",["2023109"]),
+ ]},
+ {s:7, m:[
+   _m("2018017","Medicina Interna II",9,"C","clin1",["2018016"]),
+   _m("MED_MI2ESP","Medicina Interna II — Especialidades",3,"C","clin1",["2018016"]),
+   _m("2018011","Rehabilitación",3,"C","clin2",["2018016"]),
+   _m("2017996","Imágenes Diagnósticas",2,"C","clin1",["2015680"]),
+ ]},
+ {s:8, m:[
+   _m("2018018","Pediatría",13,"C","clin2",["2018017"]),
+   _m("2025444","Pediatría II",2,"C","clin2",["2018018"]),
+   _m("2021518","Habilitación Pediátrica",2,"C","clin1",["2018011"]),
+ ]},
+ {s:9, m:[
+   _m("2017984","Cirugía I",12,"C","clin2",["2018017","2017990"]),
+   _m("2024993","Cirugía II",4,"C","clin2",["2017984"]),
+ ]},
+ {s:10, m:[
+   _m("2018015","Ginecología y Obstetricia",12,"C","clin2",["2018018"]),
+   _m("2025524","Medicina Legal I",2,"C","prof",["2017984"]),
+   _m("2018010","Psiquiatría II",3,"C","clin1",["2018009"]),
+   _m("2025508","Administración en Salud I",2,"C","prof",["2017989"]),
+ ]},
+ {s:11, m:[
+   _m("MED_INTERN","Optativa — Internados",30,"C","int",["2018015","2024993","2025444"],true),
+ ]},
+ {s:12, m:[
+   _m("2025532","Trabajo de Grado de Medicina",6,"C","int",["MED_INTERN"]),
+ ]},
+];
+const AGR_MEDICINA = {
+  bd1:   ["#e07aa4", "Biología del Desarrollo I", "Biología Desarrollo I"],
+  bd2:   ["#c56bd0", "Biología del Desarrollo II", "Biología Desarrollo II"],
+  spcs1: ["#e3b955", "Salud Pública y Ciencias Sociales I", "Salud Púb. y CS I"],
+  ebc1:  ["#4fc7ea", "Enlace Básico Clínico I", "Enlace Básico Clín. I"],
+  ebc2:  ["#33ac9d", "Enlace Básico Clínico II", "Enlace Básico Clín. II"],
+  spcs2: ["#f0a24a", "Salud Pública y Ciencias Sociales II", "Salud Púb. y CS II"],
+  clin1: ["#8ec44e", "Clínicas I", "Clínicas I"],
+  clin2: ["#dc4c43", "Clínicas II", "Clínicas II"],
+  prof:  ["#5aa9e6", "Profundización y Diversificación del Perfil Profesional", "Profundización"],
+  int:   ["#93a0e6", "Internado y Trabajo de Grado", "Internado y TG"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -2312,6 +2402,20 @@ const MALLAS = {
       y se ajustaron dos optativas de fundamentación a 3 créditos para que las sumas coincidan con el plan. El PEP <b>no trae flechas</b>: los
       prerrequisitos siguen la secuencia del plan (fundamentos → intervención → prácticas) y <b>no se han verificado con estudiantes</b>.
       Inglés I–IV no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  medicina: {
+    nombre: "Medicina",
+    fac: "medicina", color: "#dc4c43", cm: "Acuerdo 239 de 2013 · 256 créditos", ver: false,
+    plan: "Acuerdo 239 de 2013 · 256 créditos",
+    sems: SEMS_MEDICINA, agr: AGR_MEDICINA,
+    store: "malla_medicina_unal", elecStore: "malla_medicina_elec",
+    meta: { C: 134, B: 72, L: 50 }, sem9fix: false, compact: true,
+    target: 256, libreMeta: 50,
+    foot: `Códigos, créditos y agrupaciones de la malla y del PEP de la Facultad de Medicina (Acuerdo 239 de 2013, 12 semestres, 256 créditos).
+      Fundamentación = 72 créditos (cuadra con el PEP). La malla impresa tiene <b>1 crédito de diferencia</b> con los totales del plan y errores en los
+      totales de los semestres 1 y 2: aquí Disciplinar suma 134 (PEP: 133) y Libre elección 50 (PEP: 51). Las "Optativas-Internados Electivos" (25 cr)
+      se cuentan dentro de la libre elección. Las flechas (letras A–I) no se modelaron: los <b>prerrequisitos siguen la secuencia</b> básicas → clínicas →
+      internado y <b>no se han verificado con estudiantes</b>. Inglés I–IV no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
 };
 

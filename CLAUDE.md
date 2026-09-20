@@ -2,8 +2,8 @@
 
 App web de una sola página para seguir el avance en los pensa de la **Universidad Nacional de
 Colombia (Sede Bogotá)**. Empezó con **Ingeniería Civil** (plan flexible 180 créditos, Acuerdo 26
-de 2015) y hoy cubre **21 carreras**: las 9 ingenierías (Civil, Química, Agrícola, Industrial,
-Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica — verificadas con estudiantes) y 12 de las
+de 2015) y hoy cubre **22 carreras**: las 9 ingenierías (Civil, Química, Agrícola, Industrial,
+Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica — verificadas con estudiantes) y 13 de las
 facultades de Ciencias, Ciencias Económicas y Medicina (reconstruidas de las mallas oficiales, **sin
 verificar**). Se hace clic en una materia para aprobarla; se van desbloqueando las que dependen de
 ella. El progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.app.
@@ -128,11 +128,11 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   su orden; cada entrada de `MALLAS` trae `fac`, `color`, `cm` (renglón de la tarjeta) y `ver`
   (`true` = verificada con estudiantes → etiqueta "Verificada"; `false` → "Sin verificar", ámbar).
   El contador y el pie (`#foot-ver`) se calculan solos. Cada facultad lleva su grilla fija de 3
-  columnas. Las 9 de Ingeniería son `ver:true`; las otras 12 son `ver:false`.
+  columnas. Las 9 de Ingeniería son `ver:true`; las otras 13 son `ver:false`.
 - **Facultades nuevas (Ciencias, Económicas, Medicina)** — datos con el helper `_m(id, nombre,
   créditos, comp, agr, prereqs, opt?)` y claves de `MALLAS` `quimica-ciencias`, `computacion`,
   `matematicas`, `fisica`, `geologia`, `farmacia`, `estadistica`, `economia`, `administracion`,
-  `contaduria`, `nutricion`, `fonoaudiologia`. Fuentes: mallas PDF de cada facultad + PEP
+  `contaduria`, `nutricion`, `fonoaudiologia`, `medicina`. Fuentes: mallas PDF de cada facultad + PEP
   (`diracad.bogota.unal.edu.co/recursos/pdf/unal-aspirante/PEP/PEP-<slug>.pdf`). Todas con sumas B/C/L
   iguales a las del PDF/PEP, salvo Química (Ciencias), cuya malla no marca el componente de cada
   materia (B/C aproximado, suma 158 vs 160 del PEP). Notas por carrera:
@@ -149,10 +149,15 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   - **Nutrición y Dietética**: prerrequisitos del PEP (sí los trae); "Fisiología General" (4) pasa a cupo
     de 3 para cuadrar el PEP. **Fonoaudiología**: 2 optativas de fundamentación ajustadas a 3 cr porque
     los totales impresos por semestre no cuadran; sin flechas.
+  - **Medicina** (12 semestres, 256 cr): malla por semestres en la **página 28 del PEP** (`pep_2_10.pdf`,
+    la pág. 29 es el "rompecabezas" por agrupaciones). Fundamentación 72 = Biología del Desarrollo I+II +
+    Salud Pública y CS I + Enlace Básico Clínico I (Farmacología es F aunque la malla la pinte de
+    Disciplinar). La malla impresa tiene 1 cr de diferencia con el plan y typos en los totales de los sem
+    1–2: Disciplinar suma 134 (PEP 133) y Libre 50 (PEP 51). Los 25 cr de "Internados Electivos" van
+    dentro de la libre. Prerrequisitos por secuencia (las flechas A–I no se modelaron).
   - **No agregadas todavía**: **Biología** (la malla no trae créditos por materia ni códigos y no hallé
-    otra fuente fiable), **Terapia Ocupacional** y **Medicina** (el PEP solo trae las materias por
-    agrupación, sin distribución por semestre; Medicina es de 256 créditos con módulos integrados),
-    Fisioterapia (no está en la oferta 2027-01), y las facultades de Enfermería, Odontología, Artes,
+    otra fuente fiable), **Terapia Ocupacional** (el PEP solo trae las materias por agrupación, sin
+    semestres), Fisioterapia (no está en la oferta 2027-01), y las facultades de Enfermería, Odontología, Artes,
     Ciencias Humanas, Derecho, Agrarias, Veterinaria, etc.
 - **Alturas de sem 9/10**: en carreras sin `sem9fix` (todas menos Civil) el `.tailgroup` lleva la
   clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a `flex:0 0 auto` (la clave de colores no
@@ -259,10 +264,10 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   tu carrera?" (los dos en `malla-artifact.html` / `index.html`).
 - **Nombre/marca**: hoy la marca es sólo "Malla" — el usuario aún no eligió nombre definitivo.
 - Las 9 ingenierías ya están **verificadas con estudiantes** (`ver:true`; así lo dice el pie de cada
-  una); las otras 12 (Ciencias, Económicas y Medicina) están **sin verificar** (`ver:false`) — cuando
+  una); las otras 13 (Ciencias, Económicas y Medicina) están **sin verificar** (`ver:false`) — cuando
   un estudiante confirme una, pasar su `ver` a `true` y reescribir su pie.
 - **Faltan por agregar** (pedido del usuario: todas las carreras de la Sede Bogotá): Biología,
-  Terapia Ocupacional, Medicina y las demás facultades (Enfermería, Odontología, Artes, Ciencias
+  Terapia Ocupacional y las demás facultades (Enfermería, Odontología, Artes, Ciencias
   Humanas, Derecho, Ciencias Agrarias, Veterinaria y Zootecnia). Ver arriba por qué las primeras tres
   quedaron pendientes.
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
