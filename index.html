@@ -2128,6 +2128,307 @@ const AGR_MEDICINA = {
   int:   ["#93a0e6", "Internado y Trabajo de Grado", "Internado y TG"],
 };
 
+// ===== Enfermería (Facultad de Enfermería) — Acuerdo 010 de 2012, 161 créditos (sin Nivelación: 20) =====
+// Malla del anexo 1 del PEP (páginas 24–25 del PDF). Fundamentación 47 (32 Cs. Básicas + 6 Salud Pública +
+// 5 Proceso Investigativo + 4 Administración) y Disciplinar 82 (16 Fundamentación para el cuidado + 56
+// Cuidado y práctica + 10 Proceso investigativo y TG). Las "Enfermería I–VI" no tienen orden entre sí: solo
+// piden las Prácticas y Habilidades Clínicas Avanzadas (así lo dice el PEP).
+const SEMS_ENFERMERIA = [
+ {s:1, m:[
+   _m("1000041","Química Básica",3,"B","cb"),
+   _m("2016576","Morfofisiología I",3,"B","cb"),
+   _m("ENF_OPT_EPI","Optativa — Epistemología, historia y modelos de enfermería",4,"C","fcd",[],true),
+   _m("ENF_OPT_CB1","Optativa I — Ciencias Básicas: Psicología del ciclo vital",2,"B","cb",[],true),
+ ]},
+ {s:2, m:[
+   _m("1000042","Bioquímica Básica",3,"B","cb",["1000041"]),
+   _m("2016575","Microbiología",3,"B","cb",["2016576"]),
+   _m("2017937","Fundamentos Psicosociales y Culturales del Cuidado",4,"B","cb"),
+   _m("ENF_OPT_SP1","Optativa de Fundamentación: Salud Pública",4,"B","sp",[],true),
+   _m("ENF_OPT_CB2","Optativa — Ciencias Básicas: Familia y Salud",2,"B","cb",[],true),
+ ]},
+ {s:3, m:[
+   _m("2016569","Farmacología",3,"B","cb",["1000042"]),
+   _m("2016007","Fundamentos de Administración en Salud",4,"B","adm"),
+   _m("2017966","Prácticas y Habilidades Clínicas Básicas",6,"C","fcd",["2016575","2017937"]),
+ ]},
+ {s:4, m:[
+   _m("ENF_OPT_CB3","Optativa II — Ciencias Básicas",2,"B","cb",[],true),
+   _m("ENF_OPT_SP2","Optativa — Salud Pública",2,"B","sp",[],true),
+   _m("2016578","Prácticas y Habilidades Clínicas Avanzadas",6,"C","fcd",["2017966","2016569"]),
+   _m("ENF_OPT_PI1","Optativa — Proceso Investigativo I",2,"B","pi",[],true),
+ ]},
+ {s:5, m:[
+   _m("ENF_OPT_CB4","Optativa III — Ciencias Básicas",3,"B","cb",[],true),
+   _m("ENF1","Enfermería I (de 6)",8,"C","cpe",["2016578"]),
+   _m("ENF_OPT_CP1","Optativa I — Cuidado y Práctica de Enfermería",2,"C","cpe",[],true),
+   _m("ENF_OPT_PI2","Optativa — Proceso Investigativo II",3,"B","pi",[],true),
+ ]},
+ {s:6, m:[
+   _m("ENF_OPT_CB5","Optativa IV — Ciencias Básicas",2,"B","cb",[],true),
+   _m("ENF_OPT_CB6","Optativa V — Ciencias Básicas",2,"B","cb",[],true),
+   _m("ENF2","Enfermería II (de 6)",8,"C","cpe",["2016578"]),
+   _m("ENF_OPT_CP2","Optativa II — Cuidado y Práctica de Enfermería",2,"C","cpe",[],true),
+   _m("ENF_OPT_PITG","Optativa — Proceso Investigativo y Trabajo de Grado",2,"C","ptg",[],true),
+ ]},
+ {s:7, m:[
+   _m("ENF3","Enfermería III (de 6)",8,"C","cpe",["2016578"]),
+   _m("ENF_OPT_CP3","Optativa III — Cuidado y Práctica de Enfermería",2,"C","cpe",[],true),
+   _m("2017935","Fundamentos de Investigación en Enfermería",2,"C","ptg",["ENF2","ENF_OPT_PI1","ENF_OPT_PI2"]),
+ ]},
+ {s:8, m:[
+   _m("ENF4","Enfermería IV (de 6)",8,"C","cpe",["2016578"]),
+   _m("ENF_OPT_CP4","Optativa — Cuidado y Práctica de Enfermería",2,"C","cpe",[],true),
+ ]},
+ {s:9, m:[
+   _m("ENF5","Enfermería V (de 6)",8,"C","cpe",["2016578"]),
+ ]},
+ {s:10, m:[
+   _m("ENF6","Enfermería VI (de 6)",8,"C","cpe",["2016578"]),
+   _m("2017974","Trabajo de Grado",6,"C","ptg",["2017935"]),
+ ]},
+];
+const AGR_ENFERMERIA = {
+  cb:  ["#2aa6a0", "Ciencias Básicas", "Ciencias Básicas"],
+  sp:  ["#5aa9e6", "Salud Pública", "Salud Pública"],
+  pi:  ["#9b8ee0", "Proceso Investigativo", "Proceso Investigativo"],
+  adm: ["#7fbf5f", "Administración, Gerencia y Gestión", "Administración"],
+  fcd: ["#f0a24a", "Fundamentación para el Cuidado de Enfermería", "Fund. del Cuidado"],
+  cpe: ["#dc6a4c", "Cuidado y Práctica de Enfermería", "Cuidado y Práctica"],
+  ptg: ["#c56bd0", "Proceso Investigativo y Trabajo de Grado", "Investigación y TG"],
+};
+
+// ===== Odontología (Facultad de Odontología) — plan 2557, Acuerdo 05 de 2023, 180 créditos (sin Nivelación: 20) =====
+// Malla vigente publicada en odontologia.unal.edu.co (Malla-Pregrado-2.pdf). Fundamentación 53 (47 + 6 optativos),
+// Profesional 91 (57 obligatorios + 7 optativos + 27 clínicas) y Libre elección 36 (24 libre + 12 de profundización).
+// Prerrequisitos leídos de las flechas numeradas del diagrama. El corte del Trabajo de Grado es "73 créditos
+// disciplinares" (la leyenda del "#").
+const SEMS_ODONTOLOGIA = [
+ {s:1, m:[
+   _m("1000041","Química Básica",3,"B","fun"),
+   _m("2016536","Lógica Informal",3,"B","fun"),
+   _m("2023905","Biología Celular",4,"B","fun"),
+   _m("2023903","Histología y Anatomía I",4,"B","fun"),
+   _m("2016539","Morfología Oral",3,"C","dis"),
+ ]},
+ {s:2, m:[
+   _m("1000042","Bioquímica Básica",3,"B","fun",["1000041"]),
+   _m("1000023","Mecánica y Ondas para Biociencias",4,"B","fun"),
+   _m("2016528","Determinantes del Proceso Salud-Enfermedad",3,"C","dis"),
+   _m("2023904","Histología y Anatomía II",8,"B","fun",["2023903"]),
+ ]},
+ {s:3, m:[
+   _m("2016532","Fisiología General",6,"B","fun",["1000042","2023905"]),
+   _m("2016537","Microbiología General y Oral",3,"B","fun",["1000042"]),
+   _m("2016538","Morfología Oral y Oclusión",3,"C","dis",["2016539","2023904"]),
+   _m("2016534","Imagenología",3,"C","dis",["2016539","2023904"]),
+   _m("ODO_OPT_FUN1","Optativa de Fundamentación",3,"B","fopt",[],true),
+ ]},
+ {s:4, m:[
+   _m("2016531","Farmacología",4,"B","fun",["2016532"]),
+   _m("2016547","Patología General y Oral I",3,"B","fun",["2016532"]),
+   _m("2016517","Cariología",3,"C","dis",["2016537"]),
+   _m("2016529","Endodoncia",3,"C","dis",["2016534"]),
+   _m("ODO_OPT_SOC","Optativa de Formación Social",2,"C","dopt",[],true),
+ ]},
+ {s:5, m:[
+   _m("2016552","Principios Quirúrgicos y Anestesiología",3,"C","dis",["2016531"]),
+   _m("2016548","Patología General y Oral II",2,"B","fun",["2016547"]),
+   _m("2016557","Semiología",3,"C","dis",["2016534","2016547"]),
+   _m("2016544","Operatoria y Materiales Dentales",3,"C","dis",["2016538","2016517"]),
+   _m("2016549","Periodoncia",3,"C","dis",["2016537","2016547"]),
+   _m("2016530","Epidemiología",3,"C","dis",["2016528"]),
+ ]},
+ {s:6, m:[
+   _m("ODO_OPT_FUN2","Optativa de Fundamentación",3,"B","fopt",[],true),
+   _m("2016546","Ortodoncia, Crecimiento y Desarrollo",3,"C","dis",["2016538","2016557"]),
+   _m("2016518","Clínica Odontológica del Adulto I",2,"C","cli",["2016557","2016544","2016549","2016529","2016552"]),
+   _m("2016554","Rehabilitación Oral I",3,"C","dis",["2016544"]),
+   _m("2016513","Bioética",2,"C","dis",["2016528","2016557"]),
+   _m("2016542","Odontopediatría",3,"C","dis",["2016557","2016544"]),
+ ]},
+ {s:7, m:[
+   _m("2016520","Clínica Odontológica del Niño I",2,"C","cli",["2016552","2016557","2016542"]),
+   _m("2016521","Clínica Odontológica de Cirugía Oral I",2,"C","cli",["2016518"]),
+   _m("2016519","Clínica Odontológica del Adulto II",3,"C","cli",["2016518","2016554"]),
+   _m("2016555","Rehabilitación Oral II",3,"C","dis",["2016544"]),
+   _m("2016551","Políticas Públicas y Administración en Salud",2,"C","dis",["2016530"]),
+ ]},
+ {s:8, m:[
+   _m("2016526","Clínica Odontológica del Niño II",3,"C","cli",["2016520"]),
+   _m("2016523","Clínica Odontológica de Ortodoncia I",1,"C","cli",["2016546","2016520"]),
+   _m("2016525","Clínica Odontológica de Cirugía Oral II",2,"C","cli",["2016521"]),
+   _m("2016522","Clínica Odontológica del Adulto III",3,"C","cli",["2016519","2016555"]),
+   _m("ODO_OPT_PRIN","Optativa de Principios Odontológicos",2,"C","dopt",[],true),
+ ]},
+ {s:9, m:[
+   _m("2016524","Clínica Odontológica de Ortodoncia II",2,"C","cli",["2016523"]),
+   _m("2023906","Clínica Odontológica del Adulto Mayor",2,"C","cli",["2016519","2016555"]),
+   _m("2016527","Clínica Odontológica del Adulto IV",3,"C","cli",["2016519","2016555"]),
+   _m("2016556","Salud Pública",2,"C","dis"),
+   _m("ODO_OPT_INV","Optativa de Indagación e Investigación",3,"C","dopt",[],true),
+ ]},
+ {s:10, m:[
+   _m("2016648","Clínica de Odontología Hospitalaria",2,"C","cli",["2016526","2016519"]),
+   _m("2015318","Trabajo de Grado",6,"C","dis",[{comp:"C",min:73}]),
+ ]},
+];
+const AGR_ODONTOLOGIA = {
+  fun:  ["#f0b400", "Fundamentación", "Fundamentación"],
+  fopt: ["#f5e14a", "Optativas de Fundamentación", "Optativa Fund."],
+  dis:  ["#2f7fd0", "Profesional o Disciplinar", "Disciplinar"],
+  dopt: ["#8fa9d1", "Optativas Profesionales", "Optativa Prof."],
+  cli:  ["#8fce4f", "Clínicas", "Clínicas"],
+};
+
+// ===== Derecho (Facultad de Derecho, Ciencias Políticas y Sociales) — Acuerdo 048 de 2008, 180 créditos =====
+// Malla del PEP (Gráfico 1, página 13 del PDF): Fundamentación 36, Disciplinar 108, Libre elección 36. El "Preparatorio
+// Básico" (0 cr) y el Inglés I–IV son requisitos y no van. La malla no trae códigos ni flechas: ids DER_*.
+const SEMS_DERECHO = [
+ {s:1, m:[
+   _m("DER_INTRO","Introducción al Derecho",3,"B","fun"),
+   _m("DER_HERM","Hermenéutica Jurídica",3,"B","fun"),
+   _m("DER_SISTEMAS","Sistemas de Derecho",2,"B","fun"),
+   _m("DER_SOCJUR","Sociología Jurídica",2,"B","fun"),
+   _m("DER_INV1","Investigación I",2,"B","fun"),
+   _m("DER_UMANA","Cátedra Eduardo Umaña Luna",3,"B","fun"),
+   _m("DER_OPT_FUN1","Optativa de Fundamentación",3,"B","fopt",[],true),
+ ]},
+ {s:2, m:[
+   _m("DER_TCONST","Teoría Constitucional",3,"B","fun"),
+   _m("DER_LOGICA","Lógica y Argumentación Jurídica",3,"B","fun"),
+   _m("DER_TFD","Teoría y Filosofía del Derecho",3,"B","fun"),
+   _m("DER_SOCCON","Sociología del Conflicto y el Evento Criminal",3,"B","fun"),
+   _m("DER_DDHH","Derechos Humanos Integrales",3,"B","fun"),
+   _m("DER_OPT_FUN2","Optativa de Fundamentación",3,"B","fopt",[],true),
+ ]},
+ {s:3, m:[
+   _m("DER_CONSTCOL","Derecho Constitucional Colombiano",3,"C","dis",["DER_TCONST"]),
+   _m("DER_ECON","Derecho Económico",2,"C","dis"),
+   _m("DER_CIVIL","Derecho Civil General y Personas",3,"C","dis"),
+   _m("DER_LABORALES","Derecho de las Relaciones Laborales",3,"C","dis"),
+   _m("DER_INV2","Investigación II",3,"C","dis",["DER_INV1"]),
+   _m("DER_DIP","Derecho Internacional Público",3,"C","dis"),
+ ]},
+ {s:4, m:[
+   _m("DER_ADM1","Derecho Administrativo I",3,"C","dis",["DER_CONSTCOL"]),
+   _m("DER_COMERCIAL","Derecho Comercial General y Sociedades",3,"C","dis"),
+   _m("DER_REALES","Derechos Reales",3,"C","dis",["DER_CIVIL"]),
+   _m("DER_SEGSOC","Seguridad Social",3,"C","dis"),
+   _m("DER_SEMINV1","Seminario de Investigación I",2,"C","dis",["DER_INV2"]),
+   _m("DER_PENALGEN","Derecho Penal General",3,"C","dis"),
+ ]},
+ {s:5, m:[
+   _m("DER_ADM2","Derecho Administrativo II",3,"C","dis",["DER_ADM1"]),
+   _m("DER_TGP","Teoría General del Proceso",4,"C","dis"),
+   _m("DER_OBLIG","Obligaciones y Responsabilidad",3,"C","dis",["DER_CIVIL"]),
+   _m("DER_OPT_DIS1","Optativa Disciplinar",2,"C","dopt",[],true),
+   _m("DER_SEMINV2","Seminario de Investigación II",3,"C","dis",["DER_SEMINV1"]),
+   _m("DER_DELITO","Teoría del Delito",3,"C","dis",["DER_PENALGEN"]),
+ ]},
+ {s:6, m:[
+   _m("DER_PROCADM","Derecho Procesal Administrativo",3,"C","dis",["DER_ADM2","DER_TGP"]),
+   _m("DER_POLFAM","Políticas Públicas de Familia",3,"C","dis"),
+   _m("DER_CONTRATOS","Contratos Civiles y Mercantiles",3,"C","dis",["DER_OBLIG"]),
+   _m("DER_PROCLAB","Derecho Procesal Laboral",3,"C","dis",["DER_TGP","DER_LABORALES"]),
+   _m("DER_OPT_DIS2","Optativa Disciplinar",2,"C","dopt",[],true),
+   _m("DER_PENALESP","Derecho Penal Especial",3,"C","dis",["DER_DELITO"]),
+ ]},
+ {s:7, m:[
+   _m("DER_PRUEBA","Teoría y Práctica de la Prueba y la Evidencia",3,"C","dis",["DER_TGP"]),
+   _m("DER_PROCCIVIL","Derecho Procesal Civil",3,"C","dis",["DER_TGP"]),
+   _m("DER_OPT_DIS3","Optativa Disciplinar",2,"C","dopt",[],true),
+   _m("DER_OPT_DIS4","Optativa Disciplinar",2,"C","dopt",[],true),
+   _m("DER_PENALINT","Derecho Penal Internacional",3,"C","dis",["DER_PENALGEN"]),
+   _m("DER_PROCPENAL","Derecho Procesal Penal",3,"C","dis",["DER_TGP","DER_PENALGEN"]),
+ ]},
+ {s:8, m:[
+   _m("DER_PRAC1","Prácticas y Consultorio Jurídico I",3,"C","dis",["DER_TGP"]),
+   _m("DER_TRANSM","Transmisión de Derechos",2,"C","dis"),
+   _m("DER_BIENESMERC","Bienes Mercantiles",2,"C","dis",["DER_COMERCIAL"]),
+   _m("DER_OPT_DIS5","Optativa Disciplinar",2,"C","dopt",[],true),
+   _m("DER_AMBIENTAL","Derecho Ambiental",3,"C","dis"),
+   _m("DER_DIDH","Derecho Internacional de los Derechos Humanos",2,"C","dis"),
+ ]},
+ {s:9, m:[
+   _m("DER_PRAC2","Prácticas y Consultorio Jurídico II",3,"C","dis",["DER_PRAC1"]),
+ ]},
+ {s:10, m:[
+   _m("DER_TG","Trabajo de Grado",6,"C","dis",["DER_PRAC2"]),
+ ]},
+];
+const AGR_DERECHO = {
+  fun:  ["#e3b955", "Fundamentación", "Fundamentación"],
+  fopt: ["#f5e14a", "Optativas de Fundamentación", "Optativa Fund."],
+  dis:  ["#3f78c8", "Formación Disciplinar o Profesional", "Disciplinar"],
+  dopt: ["#8fa9d1", "Optativas Disciplinares", "Optativa Disc."],
+};
+
+// ===== Ciencia Política (Facultad de Derecho, Ciencias Políticas y Sociales) — Acuerdo 098 de 2008, 126 créditos =====
+// Malla del PEP (Gráfico 1, página 33 del PDF): Fundamentación 30, Disciplinar 66 (con TG 6) y Libre elección 30
+// (semestres VII y VIII completos). El PEP dice que en estricto sentido solo hay dos prerrequisitos: 80 % de la
+// Fundamentación (24 cr) para empezar el componente disciplinar y 80 % del plan (101 cr) para el Trabajo de Grado.
+// El Inglés I–IV (requisito, 12 cr) no va. Sin códigos: ids CP_*.
+const _cpd = [{comp:"B",min:24}];
+const SEMS_CIENCIAPOLITICA = [
+ {s:1, m:[
+   _m("CP_TEC","Teoría e Historia Constitucional",3,"B","fun"),
+   _m("CP_HPM","Historia Política Moderna",3,"B","fun"),
+   _m("CP_H19","Historia política y socioeconómica de Colombia del siglo XIX",3,"B","fun"),
+   _m("CP_ICP","Introducción a la Ciencia Política",3,"B","fun"),
+   _m("CP_CAT","Cátedra de Facultad",3,"B","fun"),
+ ]},
+ {s:2, m:[
+   _m("CP_TE","Teoría del Estado",3,"B","fun"),
+   _m("CP_PPAL","Procesos Políticos de América Latina",3,"B","fun"),
+   _m("CP_H20","Historia política y socioeconómica de Colombia del siglo XX",3,"B","fun"),
+   _m("CP_OPT1","Optativa de Fundamentación — Agrupación 1",3,"B","fopt",[],true),
+   _m("CP_OPT2","Optativa de Fundamentación — Agrupación 2",3,"B","fopt",[],true),
+ ]},
+ {s:3, m:[
+   _m("CP_TPM","Teorías Políticas Modernas",3,"C","tp",_cpd),
+   _m("CP_TRI","Teorías de las Relaciones Internacionales",3,"C","ri",_cpd),
+   _m("CP_SP","Sistemas Políticos",3,"C","ap",_cpd),
+   _m("CP_EP","Economía Pública",3,"C","gp",_cpd),
+   _m("CP_II","Introducción a la Investigación",3,"C","inv",_cpd),
+ ]},
+ {s:4, m:[
+   _m("CP_TPC","Teorías Políticas Contemporáneas",3,"C","tp",_cpd),
+   _m("CP_TG_LOB","Teorías de la Globalización",3,"C","ri",_cpd),
+   _m("CP_PARTIDOS","Partidos Políticos y Sistemas Electorales",3,"C","ap",_cpd),
+   _m("CP_TAP","Teorías de la Administración Pública",3,"C","gp",_cpd),
+   _m("CP_MET","Métodos Cuantitativos y Cualitativos",3,"C","inv",_cpd),
+ ]},
+ {s:5, m:[
+   _m("CP_PODER","Teorías del Poder",3,"C","tp",_cpd),
+   _m("CP_IDIP","Instituciones y Derecho Internacional Público",3,"C","ri",_cpd),
+   _m("CP_SPCOL","Sistema Político Colombiano",3,"C","ap",_cpd),
+   _m("CP_GPP","Gobierno y Políticas Públicas",3,"C","gp",_cpd),
+   _m("CP_COMP","Método y Análisis Comparado",3,"C","inv",_cpd),
+ ]},
+ {s:6, m:[
+   _m("CP_CULT","Teorías de la Cultura Política",3,"C","tp",_cpd),
+   _m("CP_OPT_RI","Optativa Agrupación RR.II. y Globales",3,"C","ri",_cpd,true),
+   _m("CP_OPT_AP","Optativa Agrupación Análisis Político",3,"C","ap",_cpd,true),
+   _m("CP_OPT_GP","Optativa Agrupación Adm., Gobierno y Políticas Públicas",3,"C","gp",_cpd,true),
+   _m("CP_OPT_INV","Optativa Agrupación Investigación",3,"C","inv",_cpd,true),
+ ]},
+ {s:7, m:[]},
+ {s:8, m:[
+   _m("CP_TRABGRADO","Trabajo de Grado",6,"C","tg",[{comp:"T",min:101}]),
+ ]},
+];
+const AGR_CIENCIAPOLITICA = {
+  fun:  ["#f26522", "Fundamentación", "Fundamentación"],
+  fopt: ["#f7c948", "Optativas de Fundamentación", "Optativa Fund."],
+  tp:   ["#3b82f6", "Teoría Política", "Teoría Política"],
+  ri:   ["#33ac9d", "Relaciones Internacionales y Globales", "RR.II. y Globales"],
+  gp:   ["#8ec44e", "Gobierno, Administración y Políticas Públicas", "Gobierno y PP"],
+  ap:   ["#c56bd0", "Análisis Político", "Análisis Político"],
+  inv:  ["#dc4c43", "Investigación", "Investigación"],
+  tg:   ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -2417,6 +2718,57 @@ const MALLAS = {
       se cuentan dentro de la libre elección. Las flechas (letras A–I) no se modelaron: los <b>prerrequisitos siguen la secuencia</b> básicas → clínicas →
       internado y <b>no se han verificado con estudiantes</b>. Inglés I–IV no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
+  enfermeria: {
+    nombre: "Enfermería",
+    fac: "enfermeria", color: "#2aa6a0", cm: "Acuerdo 010 de 2012 · 161 créditos", ver: false,
+    plan: "Acuerdo 010 de 2012 · 161 créditos",
+    sems: SEMS_ENFERMERIA, agr: AGR_ENFERMERIA,
+    store: "malla_enfermeria_unal", elecStore: "malla_enfermeria_elec",
+    meta: { C: 82, B: 47, L: 32 }, sem9fix: false, compact: true,
+    target: 161, libreMeta: 32,
+    foot: `Nombres, créditos y componentes de la malla del PEP de la Facultad de Enfermería (Acuerdo 010 de 2012, 10 semestres, 161 créditos), con los totales por componente del plan de estudios
+      (Fundamentación 47, Disciplinar 82, Libre elección 32). La Nivelación (20 cr) no se incluye. Los cupos "Optativa …" van en el semestre donde la malla los ubica y no se elige la materia concreta.
+      Los prerrequisitos salen de las flechas del diagrama y del PEP (las "Enfermerías" I–VI solo piden las Prácticas y Habilidades Clínicas Avanzadas) y
+      <b>no se han verificado con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  odontologia: {
+    nombre: "Odontología",
+    fac: "odontologia", color: "#2f7fd0", cm: "Acuerdo 05 de 2023 · 180 créditos", ver: false,
+    plan: "Plan 2557 · Acuerdo 05 de 2023 · 180 créditos",
+    sems: SEMS_ODONTOLOGIA, agr: AGR_ODONTOLOGIA,
+    store: "malla_odontologia_unal", elecStore: "malla_odontologia_elec",
+    meta: { C: 91, B: 53, L: 36 }, sem9fix: false, compact: true,
+    target: 180, libreMeta: 36,
+    foot: `Códigos, créditos y prerrequisitos de la malla curricular vigente de la Facultad de Odontología (plan 2557, Acuerdo 05 de 2023 del Consejo de Facultad; 10 semestres, 180 créditos).
+      Fundamentación 53, Profesional 91 (incluye 27 de Clínicas) y Libre elección 36 (24 de libre elección + 12 de profundización, que aquí van en el contador).
+      La Nivelación (Matemáticas, Lecto-Escritura e Inglés, 20 cr) no se incluye. Los prerrequisitos se leyeron de las flechas numeradas del diagrama; el Trabajo de Grado pide
+      73 créditos disciplinares. Se omitió una flecha ambigua hacia Salud Pública. <b>No se han verificado con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  derecho: {
+    nombre: "Derecho",
+    fac: "derecho", color: "#b8623d", cm: "Acuerdo 048 de 2008 · 180 créditos", ver: false,
+    plan: "Acuerdo 048 de 2008 · 180 créditos",
+    sems: SEMS_DERECHO, agr: AGR_DERECHO,
+    store: "malla_derecho_unal", elecStore: "malla_derecho_elec",
+    meta: { C: 108, B: 36, L: 36 }, sem9fix: false, compact: true,
+    target: 180, libreMeta: 36,
+    foot: `Nombres y créditos de la malla del PEP de Derecho (Acuerdo 048 de 2008, 10 semestres): Fundamentación 36, Disciplinar 108 y Libre elección 36 (los cupos de libre elección de cada semestre se
+      cuentan en el contador). El Preparatorio Básico (0 cr) y el Inglés I–IV son requisitos y no se incluyen. La malla <b>no trae códigos ni flechas de prerrequisitos</b>: los que aparecen
+      (numeradas I/II, penal, civil, procesal) son una <b>reconstrucción por secuencia</b> que no se ha verificado con estudiantes. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "ciencia-politica": {
+    nombre: "Ciencia Política",
+    fac: "derecho", color: "#7a5fc7", cm: "Acuerdo 098 de 2008 · 126 créditos", ver: false,
+    plan: "Acuerdo 098 de 2008 · 126 créditos",
+    sems: SEMS_CIENCIAPOLITICA, agr: AGR_CIENCIAPOLITICA,
+    store: "malla_cienciapolitica_unal", elecStore: "malla_cienciapolitica_elec",
+    meta: { C: 66, B: 30, L: 30 }, sem9fix: false, compact: true,
+    target: 126, libreMeta: 30,
+    foot: `Nombres y créditos de la malla del PEP de Ciencia Política (Acuerdo 098 de 2008, 8 semestres, 126 créditos): Fundamentación 30, Disciplinar 66 (con el Trabajo de Grado) y Libre elección 30
+      (los semestres VII y VIII de la malla son de libre elección). Según el PEP solo hay dos prerrequisitos: 24 créditos de Fundamentación (80 %) para empezar el componente disciplinar y
+      101 créditos (80 % del plan) para el Trabajo de Grado. El Inglés I–IV (12 cr) no se incluye. La malla del PEP es de 2008; <b>no se ha verificado con estudiantes</b>. Herramienta no oficial;
+      ante la duda, consulta el SIA.`,
+  },
 };
 
 // facultades de la Sede Bogotá, en el orden en que aparecen en el inicio. Cada carrera de
@@ -2427,6 +2779,9 @@ const FACULTADES = [
   {k:"ciencias",   n:"Facultad de Ciencias"},
   {k:"economicas", n:"Facultad de Ciencias Económicas"},
   {k:"medicina",   n:"Facultad de Medicina"},
+  {k:"enfermeria", n:"Facultad de Enfermería"},
+  {k:"odontologia",n:"Facultad de Odontología"},
+  {k:"derecho",    n:"Facultad de Derecho, Ciencias Políticas y Sociales"},
 ];
 
 // pinta el inicio: una sección por facultad, con su grilla fija de 3 columnas
