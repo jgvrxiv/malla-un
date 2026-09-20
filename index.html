@@ -1425,6 +1425,459 @@ const AGR_FISICA = {
   tg:    ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
 };
 
+// Geología (Facultad de Ciencias) — malla publicada por la Facultad (166 créditos). El PDF no trae
+// códigos: las materias llevan un id propio. El componente de cada materia se leyó del color del
+// texto (azul = Fundamentación obligatoria, dorado = Fundamentación optativa, naranja = Disciplinar
+// obligatoria, índigo = Disciplinar optativa). Prerrequisitos de las flechas; los correquisitos
+// (flechas de doble punta) no se modelan. "Agrupación X" son cupos de fundamentación optativa.
+const SEMS_GEOLOGIA = [
+ {s:1, m:[
+   _m("GEO_QUIM1","Agrupación Química",3,"B","fopt",[],true),
+   _m("GEO_QUIM2","Agrupación Química",3,"B","fopt",[],true),
+   _m("GEO_DINT","Geodinámica Interna",4,"B","fund"),
+   _m("GEO_MAT1","Agrupación Matemáticas",4,"B","fopt",[],true),
+ ]},
+ {s:2, m:[
+   _m("GEO_FQUIM","Fundamentos Químicos de Geología",3,"B","fund",["GEO_QUIM1","GEO_QUIM2"]),
+   _m("GEO_GDESC","Geometría Descriptiva",4,"B","fund"),
+   _m("GEO_DEXT","Geodinámica Externa",4,"B","fund",["GEO_DINT"]),
+   _m("GEO_FIS1","Agrupación Física",4,"B","fopt",["GEO_MAT1"],true),
+ ]},
+ {s:3, m:[
+   _m("GEO_MIN","Mineralogía",3,"C","min",["GEO_FQUIM"]),
+   _m("GEO_CAMPO1","Campo I",3,"C","campo"),
+   _m("GEO_GEOMORF","Geomorfología y Fotos Aéreas",3,"C","est",["GEO_GDESC","GEO_DEXT"]),
+   _m("GEO_FIS2","Agrupación Física",3,"B","fopt",["GEO_FIS1"],true),
+   _m("GEO_MAT2","Agrupación Matemáticas",4,"B","fopt",["GEO_MAT1"],true),
+ ]},
+ {s:4, m:[
+   _m("GEO_BIOL","Biología General",3,"B","fund"),
+   _m("GEO_MINOPT","Mineralogía Óptica",3,"C","min",["GEO_MIN"]),
+   _m("GEO_ESTRUCT","Geología Estructural",3,"C","est",["GEO_GEOMORF"]),
+   _m("GEO_FGEOF","Fundamentación Geofísica",3,"C","geof",["GEO_FIS2"]),
+   _m("GEO_EST","Agrupación Estadística",3,"B","fopt",["GEO_MAT2"],true),
+ ]},
+ {s:5, m:[
+   _m("GEO_PETIG","Petrografía Ígnea",3,"C","min",["GEO_MINOPT"]),
+   _m("GEO_CAMPO2","Campo II",3,"C","campo",["GEO_CAMPO1"]),
+   _m("GEO_TECT","Tectónica",3,"C","est",["GEO_ESTRUCT"]),
+   _m("GEO_METGEOF","Métodos Geofísicos",3,"C","geof",["GEO_FGEOF","GEO_EST"]),
+ ]},
+ {s:6, m:[
+   _m("GEO_PALEO","Paleontología",3,"C","estr",["GEO_BIOL"]),
+   _m("GEO_SEDIM","Sedimentología",3,"C","estr",["GEO_PETIG"]),
+   _m("GEO_PETMET","Petrografía Metamórfica",3,"C","min",["GEO_PETIG"]),
+   _m("GEO_CAMPO3","Campo III",3,"C","campo",["GEO_CAMPO2"]),
+   _m("GEO_OPT1","Optativa",3,"C","od",[],true),
+ ]},
+ {s:7, m:[
+   _m("GEO_ESTRAT","Estratigrafía",3,"C","estr",["GEO_PALEO","GEO_SEDIM"]),
+   _m("GEO_CAMPO4","Campo IV",3,"C","campo",["GEO_CAMPO3"]),
+   _m("GEO_OPT2","Optativa",3,"C","od",[],true),
+   _m("GEO_OPT3","Optativa",3,"C","od",[],true),
+ ]},
+ {s:8, m:[
+   _m("GEO_HIST","Geología Histórica",3,"C","estr",["GEO_ESTRAT"]),
+   _m("GEO_YAC","Yacimientos Minerales",3,"C","min",["GEO_ESTRAT"]),
+   _m("GEO_COL","Geología de Colombia",3,"C","est",["GEO_ESTRAT"]),
+   _m("GEO_CAMPO5","Campo V",3,"C","campo",["GEO_CAMPO4"]),
+   _m("GEO_OPT4","Optativa",3,"C","od",[],true),
+ ]},
+ {s:9, m:[
+   _m("GEO_CAMPO6","Campo VI",6,"C","campo",["GEO_CAMPO4"]),
+   _m("GEO_OPT5","Optativa",3,"C","od",[],true),
+ ]},
+ {s:10, m:[
+   _m("GEO_TG","Trabajo de Grado",10,"C","tg",[{comp:"T",min:106}]),
+ ]},
+];
+const AGR_GEOLOGIA = {
+  fund:  ["#5aa9e6", "Fundamentación obligatoria", "Fundamentación"],
+  fopt:  ["#e3b955", "Fundamentación optativa (agrupaciones)", "Fund. optativa"],
+  min:   ["#e8804f", "Mineralogía y petrografía", "Mineralogía"],
+  est:   ["#9aa6b6", "Estructural, tectónica y geomorfología", "Estructural"],
+  estr:  ["#8ec44e", "Estratigrafía, sedimentología y paleontología", "Estratigrafía"],
+  geof:  ["#4fc7ea", "Geofísica", "Geofísica"],
+  campo: ["#3fb277", "Trabajo de campo", "Campo"],
+  od:    ["#ac93da", "Disciplinar optativa", "Optativa disc."],
+  tg:    ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Farmacia (Facultad de Ciencias) — malla oficial, Acuerdo 511 de 2023 (185 créditos). Nombres,
+// créditos y agrupaciones del PDF; el componente sale de las agrupaciones del PEP (Química, Física-
+// Matemáticas-Estadística y Biológica = Fundamentación; Farmacéutica, Biomédica, Administrativa y
+// sociohumanística y Trabajo de Grado = Disciplinar). El PDF no trae códigos. Sus flechas de colores
+// (cientos de líneas cruzadas) no se pudieron leer de forma confiable: los prerrequisitos son una
+// reconstrucción razonable siguiendo las cadenas obvias (química orgánica, farmacotecnia, farmacología…).
+const SEMS_FARMACIA = [
+ {s:1, m:[
+   _m("FARM_PQ","Principios de Química",3,"B","q"),
+   _m("FARM_LTB","Laboratorio de Técnicas Básicas en Química",3,"B","q"),
+   _m("FARM_CD","Cálculo Diferencial",4,"B","fme"),
+   _m("FARM_BMC","Biología Molecular y Celular",3,"B","bg"),
+   _m("FARM_INTRO","Introducción a la Farmacia",2,"C","as"),
+ ]},
+ {s:2, m:[
+   _m("FARM_QO1","Química Orgánica I",3,"B","q",["FARM_PQ"]),
+   _m("FARM_LQO1","Laboratorio de Química Orgánica I",3,"B","q",["FARM_LTB","FARM_PQ"]),
+   _m("FARM_PAQ","Principios de Análisis Químico",3,"B","q",["FARM_PQ"]),
+   _m("FARM_LPAQ","Laboratorio de Principios de Análisis Químico",3,"B","q",["FARM_LTB"]),
+   _m("FARM_MOB","Mecánica y Ondas para Biociencias",4,"B","fme",["FARM_CD"]),
+   _m("FARM_BIOEST","Bioestadística Fundamental",3,"B","fme"),
+ ]},
+ {s:3, m:[
+   _m("FARM_QO2","Química Orgánica II",3,"B","q",["FARM_QO1"]),
+   _m("FARM_QIF","Química Inorgánica Farmacéutica",2,"C","f",["FARM_PQ"]),
+   _m("FARM_BQ","Bioquímica",3,"C","bm",["FARM_QO1","FARM_BMC"]),
+   _m("FARM_FQ1","Fisicoquímica I",3,"B","q",["FARM_PQ","FARM_CD"]),
+   _m("FARM_OF3","Optativa de Fundamentación",3,"B","of",[],true),
+ ]},
+ {s:4, m:[
+   _m("FARM_FISIOANAT","Fisioanatomía",3,"C","bm",["FARM_BMC"]),
+   _m("FARM_MICROG","Microbiología General",3,"C","bm",["FARM_BMC"]),
+   _m("FARM_OUF","Operaciones Unitarias Farmacéuticas",2,"C","f",["FARM_FQ1"]),
+   _m("FARM_FGN","Farmacognosia y Fitoquímica",4,"C","f",["FARM_QO2"]),
+   _m("FARM_OF4","Optativa de Fundamentación",3,"B","of",[],true),
+ ]},
+ {s:5, m:[
+   _m("FARM_FISIOPAT","Fisiopatología",3,"C","bm",["FARM_FISIOANAT"]),
+   _m("FARM_MICROF","Microbiología Farmacéutica",3,"C","bm",["FARM_MICROG"]),
+   _m("FARM_FTEC1","Farmacotecnia I",4,"C","f",["FARM_OUF"]),
+   _m("FARM_FQUIM1","Farmacia Química I",4,"C","f",["FARM_QO2","FARM_QIF"]),
+   _m("FARM_OF5","Optativa de Fundamentación",3,"B","of",[],true),
+ ]},
+ {s:6, m:[
+   _m("FARM_FARMGEN","Farmacología General",3,"C","bm",["FARM_FISIOPAT"]),
+   _m("FARM_SP","Salud Pública y Farmacia",2,"C","as",["FARM_INTRO"]),
+   _m("FARM_FTEC2","Farmacotecnia II",4,"C","f",["FARM_FTEC1"]),
+   _m("FARM_AIF","Análisis Instrumental Farmacéutico",4,"C","f",["FARM_PAQ","FARM_LPAQ"]),
+   _m("FARM_BIOFARM","Biofarmacia y Farmacocinética",2,"C","f",["FARM_FTEC1"]),
+   _m("FARM_FQUIM2","Farmacia Química II",2,"C","f",["FARM_FQUIM1"]),
+   _m("FARM_ADMIN","Administración Farmacéutica",2,"C","as",["FARM_SP"]),
+ ]},
+ {s:7, m:[
+   _m("FARM_FARMESP","Farmacología Especial",3,"C","bm",["FARM_FARMGEN"]),
+   _m("FARM_GSF","Gestión de Servicios Farmacéuticos",2,"C","as",["FARM_ADMIN"]),
+   _m("FARM_LEG","Legislación Farmacéutica",2,"C","as",["FARM_SP"]),
+   _m("FARM_TOX","Toxicología",3,"C","bm",["FARM_FARMGEN"]),
+   _m("FARM_OD7","Optativa Disciplinar",3,"C","od",[],true),
+ ]},
+ {s:8, m:[
+   _m("FARM_FIND","Farmacia Industrial",4,"C","f",["FARM_FTEC2"]),
+   _m("FARM_CCF","Control de Calidad Farmacéutico",4,"C","f",["FARM_AIF"]),
+   _m("FARM_ASEG","Aseguramiento de Calidad",2,"C","as",["FARM_LEG"]),
+   _m("FARM_OD8","Optativa Disciplinar",3,"C","od",[],true),
+ ]},
+ {s:9, m:[
+   _m("FARM_HOSP","Farmacia Hospitalaria",9,"C","f",["FARM_FARMESP","FARM_GSF"]),
+   _m("FARM_OD9A","Optativa Disciplinar",3,"C","od",[],true),
+   _m("FARM_OD9B","Optativa Disciplinar",3,"C","od",[],true),
+ ]},
+ {s:10, m:[
+   _m("FARM_TG","Trabajo de Grado",8,"C","tg"),
+ ]},
+];
+const AGR_FARMACIA = {
+  q:   ["#e07aa4", "Química", "Química"],
+  fme: ["#5aa9e6", "Física, Matemáticas y Estadística", "Física-Mat-Estad."],
+  bg:  ["#3fb277", "Biológica", "Biológica"],
+  of:  ["#ac93da", "Optativa de fundamentación", "Optativa fund."],
+  f:   ["#4fc7ea", "Farmacéutica", "Farmacéutica"],
+  bm:  ["#e8804f", "Biomédica", "Biomédica"],
+  as:  ["#e3b955", "Administrativa y sociohumanística", "Admin. y sociohum."],
+  od:  ["#9aa6b6", "Optativa disciplinar", "Optativa disc."],
+  tg:  ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Estadística (Facultad de Ciencias) — malla publicada por la Facultad (8 semestres) + PEP. La malla
+// muestra las materias por nombre y agrupación, sin códigos, créditos ni flechas: los créditos salen
+// del PEP (141 créditos: Fundamentación 52, Disciplinar 61, Libre elección 28); varias tarjetas son
+// cupos ("Núcleo Estadístico", "Aplicación estadística"…) que el estudiante llena con la oferta del
+// PEP. Los prerrequisitos se dedujeron de la secuencia de la malla (no están indicados).
+const SEMS_ESTADISTICA = [
+ {s:1, m:[
+   _m("EST_COM","Comunicación",3,"B","com",[],true),
+   _m("EST_FMAT","Fundamentos de Matemáticas",4,"B","fme"),
+   _m("EST_CD","Cálculo Diferencial en una Variable",4,"B","fme"),
+   _m("EST_DESC","Estadística Descriptiva y Exploratoria",4,"C","nuc"),
+ ]},
+ {s:2, m:[
+   _m("EST_ALB","Álgebra Lineal Básica",4,"B","fme"),
+   _m("EST_SN","Sistemas Numéricos",4,"B","fme",["EST_FMAT"]),
+   _m("EST_CI","Cálculo Integral en una Variable",4,"B","fme",["EST_CD"]),
+   _m("EST_FC","Fundamentación en Ciencias",3,"B","fc",[],true),
+ ]},
+ {s:3, m:[
+   _m("EST_AMAT","Álgebra Matricial",4,"B","fme",["EST_ALB"]),
+   _m("EST_PROB","Probabilidad",4,"B","fme",["EST_CI"]),
+   _m("EST_CV","Cálculo Vectorial",4,"B","fme",["EST_CI"]),
+   _m("EST_PROG","Programación",3,"B","prog",[],true),
+ ]},
+ {s:4, m:[
+   _m("EST_GFD","Guarda y Flujo de Datos",3,"B","gfd",[],true),
+   _m("EST_INF","Inferencia Estadística",4,"B","fme",["EST_PROB"]),
+   _m("EST_CMAT","Complementación Matemática",4,"B","cm",[],true),
+   _m("EST_METOD","Estadística y Sociedad (Metodología)",3,"C","met"),
+ ]},
+ {s:5, m:[
+   _m("EST_REG","Análisis de Regresión",4,"C","nuc",["EST_INF","EST_AMAT"]),
+   _m("EST_NUC1","Núcleo Estadístico",4,"C","nuc",["EST_INF"],true),
+   _m("EST_NUC2","Núcleo Estadístico",4,"C","nuc",["EST_INF"],true),
+   _m("EST_NUC3","Núcleo Estadístico",4,"C","nuc",["EST_INF"],true),
+ ]},
+ {s:6, m:[
+   _m("EST_NUC4","Núcleo Estadístico",4,"C","nuc",["EST_REG"],true),
+   _m("EST_NUC5","Núcleo Estadístico",4,"C","nuc",["EST_REG"],true),
+   _m("EST_NUC6","Núcleo Estadístico",4,"C","nuc",["EST_REG"],true),
+   _m("EST_NUC7","Núcleo Estadístico",4,"C","nuc",["EST_REG"],true),
+ ]},
+ {s:7, m:[
+   _m("EST_SEM","Seminario de Estadística",2,"C","cons",["EST_REG"]),
+   _m("EST_CEST","Complementación Estadística",4,"C","ce",["EST_REG"],true),
+   _m("EST_APL1","Aplicación Estadística",3,"C","apl",["EST_REG"],true),
+   _m("EST_APL2","Aplicación Estadística",3,"C","apl",["EST_REG"],true),
+ ]},
+ {s:8, m:[
+   _m("EST_CONS","Consultoría Estadística",2,"C","cons",["EST_SEM"]),
+   _m("EST_TG","Trabajo de Grado",8,"C","cons",["EST_SEM"]),
+ ]},
+];
+const AGR_ESTADISTICA = {
+  fme:  ["#5aa9e6", "Fundamentación Matemático-Estadística", "Fund. Mat-Estad."],
+  fc:   ["#e3b955", "Fundamentación en Ciencias", "Fund. en Ciencias"],
+  cm:   ["#4fc7ea", "Complementación Matemática", "Compl. Matemática"],
+  prog: ["#8ec44e", "Programación", "Programación"],
+  com:  ["#ac93da", "Comunicación", "Comunicación"],
+  gfd:  ["#33ac9d", "Guarda y Flujo de Datos", "Guarda y Flujo de Datos"],
+  nuc:  ["#e8804f", "Núcleo Estadístico", "Núcleo Estadístico"],
+  apl:  ["#dc4c43", "Aplicación Estadística", "Aplicación Estad."],
+  ce:   ["#c56bd0", "Complementación Estadística", "Compl. Estadística"],
+  met:  ["#9aa6b6", "Metodología", "Metodología"],
+  cons: ["#93a0e6", "Consolidación Estadística (seminario, consultoría, trabajo de grado)", "Consolidación"],
+};
+
+// ============ Facultad de Ciencias Económicas ============
+// Economía — plan general de estudios vigente (151 créditos). Códigos y créditos de la malla y del PEP;
+// el componente sale de las agrupaciones del PEP (Fundamentación 31 = fundamentos en ciencias
+// económicas 11 + contenido cuantitativo 15 + formación básica universitaria 5; Disciplinar 90; Libre 30).
+// La malla no trae flechas: los prerrequisitos siguen las cadenas obvias (macro I→II→III, micro I→II→III…).
+const SEMS_ECONOMIA = [
+ {s:1, m:[
+   _m("2015270","Fundamentos de Economía",3,"B","fce"),
+   _m("2016007","Fundamentos de Administración",4,"B","fce"),
+   _m("2006086","Fundamentos de Contabilidad Financiera",4,"B","fce"),
+   _m("2016015","Metodología de la Investigación I",2,"B","fbu"),
+   _m("1000004","Cálculo Diferencial",4,"B","cuant"),
+ ]},
+ {s:2, m:[
+   _m("2016012","Macroeconomía I",4,"C","macro",["2015270"]),
+   _m("2016017","Microeconomía I",4,"C","micro",["2015270","1000004"]),
+   _m("2016011","Historia Económica General",4,"C","hist",["2015270"]),
+   _m("2016021","Modelación Estática",4,"B","cuant",["1000004"]),
+ ]},
+ {s:3, m:[
+   _m("2016013","Macroeconomía II",4,"C","macro",["2016012","2016021"]),
+   _m("2016018","Microeconomía II",4,"C","micro",["2016017","2016021"]),
+   _m("2016009","Historia del Pensamiento Económico",4,"C","teor",["2016011"]),
+   _m("OPT_CUANT_ECO","Optativa de Contenido Cuantitativo",3,"B","cuant",[],true),
+   _m("2016020","Modelación Dinámica",4,"B","cuant",["2016021"]),
+ ]},
+ {s:4, m:[
+   _m("2016014","Macroeconomía III",4,"C","macro",["2016013"]),
+   _m("2016019","Microeconomía III",4,"C","micro",["2016018"]),
+   _m("2016005","Economía Política I",4,"C","teor",["2016009"]),
+   _m("2016002","Econometría I",4,"C","metq",["2016021"]),
+ ]},
+ {s:5, m:[
+   _m("2016022","Política Macroeconómica",4,"C","macro",["2016014"]),
+   _m("2016023","Teoría Moderna de la Firma",4,"C","micro",["2016019"]),
+   _m("2016006","Economía Política II",4,"C","teor",["2016005"]),
+   _m("2016003","Econometría II",4,"C","metq",["2016002"]),
+   _m("2016001","Desarrollo Económico",4,"C","des",["2016014"]),
+ ]},
+ {s:6, m:[
+   _m("2016004","Economía Colombiana",4,"C","hist",["2016012","2016011"]),
+   _m("2016010","Historia Económica de Colombia (Siglos XIX y XX)",4,"C","hist",["2016011"]),
+   _m("2016024","Teorías del Comercio Internacional",4,"C","des",["2016018"]),
+   _m("2016016","Metodología de la Investigación II",3,"B","fbu",["2016015"]),
+ ]},
+ {s:7, m:[
+   _m("OPT_INT_ECO1","Optativa Interdisciplinar",3,"C","oip",[],true),
+   _m("OPT_INT_ECO2","Optativa Interdisciplinar",3,"C","oip",[],true),
+ ]},
+ {s:8, m:[
+   _m("OPT_INT_ECO3","Optativa Interdisciplinar",3,"C","oip",[],true),
+   _m("OPT_INT_ECO4","Optativa Interdisciplinar",3,"C","oip",[],true),
+ ]},
+ {s:9, m:[]},
+ {s:10, m:[
+   _m("2015300","Trabajo de Grado",6,"C","tg",["2016016"]),
+ ]},
+];
+const AGR_ECONOMIA = {
+  fce:   ["#5aa9e6", "Fundamentos en Ciencias Económicas", "Fund. Cs. Económicas"],
+  cuant: ["#4fc7ea", "Contenido Cuantitativo", "Cuantitativo"],
+  fbu:   ["#ac93da", "Formación Básica Universitaria", "Formación Básica"],
+  macro: ["#e8804f", "Macroeconomía", "Macroeconomía"],
+  micro: ["#e3b955", "Microeconomía", "Microeconomía"],
+  hist:  ["#b0865f", "Historia de los Hechos Económicos", "Hist. Hechos Econ."],
+  metq:  ["#8ec44e", "Métodos Cuantitativos", "Métodos Cuantitativos"],
+  teor:  ["#c56bd0", "Teorías Económicas Comparadas", "Teorías Comparadas"],
+  des:   ["#33ac9d", "Desarrollo", "Desarrollo"],
+  oip:   ["#9aa6b6", "Optativas Interdisciplinares Profesionales", "Optativas Interdisc."],
+  tg:    ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Administración de Empresas — malla de la Facultad (164 créditos: B 49 + O 8 = Fundamentación 57;
+// C/P 65 + T 9 = Disciplinar 74; L 33). La malla trae nombres, créditos y componente por color; no
+// trae flechas ni códigos (salvo los de materias compartidas): los prerrequisitos siguen la
+// secuencia de la malla. Las 3 modalidades de Trabajo de Grado (pasantía, monografía, posgrado,
+// preparatorios) cuentan como una sola materia de 6 créditos.
+const SEMS_ADMIN = [
+ {s:1, m:[
+   _m("2016007","Fundamentos de Administración",4,"B","fund"),
+   _m("2006086","Fundamentos de Contabilidad Financiera",4,"B","fund"),
+   _m("2015270","Fundamentos en Economía",3,"B","fund"),
+   _m("ADM_HAB","Habilidades Comunicativas en Ciencias de Gestión",3,"B","fund"),
+   _m("1000004","Cálculo Diferencial",4,"B","cuant"),
+ ]},
+ {s:2, m:[
+   _m("ADM_TO1","Teoría Organizacional I",4,"B","fund",["2016007"]),
+   _m("ADM_CG","Fundamentos de Contabilidad de Gestión",4,"B","fund",["2006086"]),
+   _m("2016012","Macroeconomía I",4,"B","fund",["2015270"]),
+   _m("ADM_INF","Informática Aplicada para la Gestión de Datos e Información",4,"B","cuant"),
+   _m("1000013","Probabilidad y Estadística Fundamental",3,"B","cuant",["1000004"]),
+ ]},
+ {s:3, m:[
+   _m("ADM_TO2","Teoría Organizacional II",4,"C","org",["ADM_TO1"]),
+   _m("ADM_OD3","Optativa Disciplinar",3,"C","od",[],true),
+   _m("2016017","Microeconomía I",4,"B","fund",["2015270","1000004"]),
+   _m("ADM_AN1","Analítica de Negocios I",4,"B","cuant",["1000013","ADM_INF"]),
+ ]},
+ {s:4, m:[
+   _m("ADM_INTER","Internacionalización de la Empresa",4,"C","org",["ADM_TO2"]),
+   _m("ADM_FIN","Fundamentos de Finanzas",4,"B","fin",["2006086"]),
+   _m("ADM_OD4","Optativa Disciplinar",3,"C","od",[],true),
+   _m("ADM_DCOM","Derecho Comercial, General y Sociedades",3,"C","der",["2016007"]),
+ ]},
+ {s:5, m:[
+   _m("ADM_DRL","Derecho de las Relaciones Laborales",3,"C","der",["ADM_DCOM"]),
+   _m("ADM_MERC","Fundamentos de Mercadeo",4,"C","merc",["ADM_TO1"]),
+   _m("ADM_GRH","Gestión de Recursos Humanos",4,"C","org",["ADM_TO2"]),
+   _m("ADM_OFB5","Optativa de Formación Básica",4,"B","ofb",[],true),
+   _m("ADM_OP1","Gestión de las Operaciones I",4,"C","ops",["ADM_AN1"]),
+ ]},
+ {s:6, m:[
+   _m("ADM_EMP","Emprendimiento Enfocado en la Generación de Valor",4,"C","org",["ADM_INTER"]),
+   _m("ADM_FAV","Finanzas Avanzadas",4,"C","fin",["ADM_FIN"]),
+   _m("ADM_COMP","Comportamiento Organizacional",3,"C","org",["ADM_GRH"]),
+   _m("ADM_SIG","Sistemas de Información Gerencial",4,"C","ops",["ADM_INF"]),
+   _m("ADM_OP2","Gestión de las Operaciones II",3,"C","ops",["ADM_OP1"]),
+ ]},
+ {s:7, m:[
+   _m("ADM_ESTR","Estrategia",4,"C","org",["ADM_EMP"]),
+   _m("ADM_EMERC","Estrategia de Mercadeo",3,"C","merc",["ADM_MERC"]),
+   _m("ADM_OFB7","Optativa de Formación Básica",4,"B","ofb",[],true),
+   _m("ADM_APLE","Aplicaciones Empresariales",4,"C","ops",["ADM_SIG"]),
+   _m("ADM_PROY","Diseño, Gestión y Evaluación de Proyectos",4,"C","fin",["ADM_FAV"]),
+ ]},
+ {s:8, m:[
+   _m("ADM_OD8","Optativa Disciplinar",3,"C","od",[],true),
+ ]},
+ {s:9, m:[]},
+ {s:10, m:[
+   _m("ADM_TG","Trabajo de Grado (pasantía, monografía, posgrado o preparatorios)",6,"C","tg",["ADM_ESTR"]),
+ ]},
+];
+const AGR_ADMIN = {
+  fund:  ["#5aa9e6", "Fundamentación obligatoria", "Fundamentación"],
+  cuant: ["#4fc7ea", "Cuantitativo e informática", "Cuantitativo"],
+  ofb:   ["#e3b955", "Optativa de formación básica", "Optativa fund."],
+  fin:   ["#33ac9d", "Finanzas y proyectos", "Finanzas"],
+  org:   ["#e8804f", "Organizaciones y estrategia", "Organizaciones"],
+  merc:  ["#e07aa4", "Mercadeo", "Mercadeo"],
+  ops:   ["#8ec44e", "Operaciones y sistemas de información", "Operaciones"],
+  der:   ["#9aa6b6", "Derecho empresarial", "Derecho"],
+  od:    ["#ac93da", "Optativa disciplinar", "Optativa disc."],
+  tg:    ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Contaduría Pública — plan de estudios (Acuerdos 030 de 2014, 111 de 2021 y 001 de 2025; 167 créditos:
+// Fundamentación 57, Disciplinar 77, Libre elección 33). Nombres, créditos, componente (color de la
+// casilla) y obligatoria/optativa del PDF de la Facultad. La malla no trae flechas: los prerrequisitos
+// siguen la secuencia de la malla y del plan detallado. La "opción de grado" cuenta como una materia de 6.
+const SEMS_CONTADURIA = [
+ {s:1, m:[
+   _m("CP_FCF","Fundamentos de Contabilidad Financiera",4,"B","fce"),
+   _m("CP_FECO","Fundamentos de Economía",3,"B","fce"),
+   _m("CP_FADM","Fundamentos de Administración",4,"B","fce"),
+   _m("1000004","Cálculo Diferencial",4,"B","cuant"),
+   _m("CP_ESP","Español y Comunicación",3,"B","fbu"),
+ ]},
+ {s:2, m:[
+   _m("CP_COP","Contabilidad de Operaciones",3,"C","tmc",["CP_FCF"]),
+   _m("CP_MICRO","Microeconomía I",4,"B","fce",["CP_FECO","1000004"]),
+   _m("CP_FCG","Fundamentos de Contabilidad de Gestión",4,"B","tmc",["CP_FCF"]),
+   _m("CP_MEST","Modelación Estática",4,"B","cuant",["1000004"]),
+ ]},
+ {s:3, m:[
+   _m("CP_CIF","Contabilidad de Inversión y Financiación",3,"C","tmc",["CP_COP"]),
+   _m("CP_MACRO","Macroeconomía I",4,"B","fce",["CP_FECO"]),
+   _m("CP_CGA","Contabilidad de Gestión Avanzada",4,"C","tmcontrol",["CP_FCG"]),
+   _m("CP_OCUANT3","Optativa Cuantitativa",4,"B","cuant",[],true),
+   _m("CP_OFBU","Optativa de Formación Básica Universitaria",4,"B","fbu",[],true),
+ ]},
+ {s:4, m:[
+   _m("CP_PCONT","Contabilidad Proceso Contable",3,"C","tmc",["CP_CIF"]),
+   _m("CP_TMF","Teoría Moderna de la Firma",4,"B","fce",["CP_MICRO"]),
+   _m("CP_FFIN","Fundamentos de Finanzas",4,"B","fin",["CP_FCF"]),
+   _m("CP_OCUANT4","Optativa Cuantitativa",3,"B","cuant",[],true),
+ ]},
+ {s:5, m:[
+   _m("CP_CINT","Control Interno",3,"C","tmcontrol",["CP_PCONT"]),
+   _m("CP_PEC","Problemas Económicos Colombianos",4,"B","fce",["CP_FECO"]),
+   _m("CP_FAV","Finanzas Avanzadas",4,"C","fin",["CP_FFIN"]),
+   _m("CP_TC1","Teoría de la Contabilidad I",4,"C","tmc",["CP_PCONT"]),
+   _m("CP_DCOM","Derecho Comercial, General y Sociedades",3,"C","rct",["CP_FADM"]),
+ ]},
+ {s:6, m:[
+   _m("CP_RCT1","Regulación y Contabilidad Tributaria I",4,"C","rct",["CP_PCONT"]),
+   _m("CP_OTMC","Optativa de Teorías y Modelos Contables",3,"C","tmc",["CP_PCONT"],true),
+   _m("CP_AUD1","Auditoría Financiera I",4,"C","tmcontrol",["CP_CINT"]),
+   _m("CP_TC2","Teoría de la Contabilidad II",4,"C","tmc",["CP_TC1"]),
+ ]},
+ {s:7, m:[
+   _m("CP_RCT2","Regulación y Contabilidad Tributaria II",4,"C","rct",["CP_RCT1"]),
+   _m("CP_CPUB","Contabilidad Pública",3,"C","icp",["CP_PCONT"]),
+   _m("CP_AUD2","Auditoría Financiera II",4,"C","tmcontrol",["CP_AUD1"]),
+   _m("CP_OETICA","Optativa de Ética y Responsabilidad Social",3,"C","etica",[],true),
+ ]},
+ {s:8, m:[
+   _m("CP_OREG","Optativa de Regulación",3,"C","rct",[],true),
+   _m("CP_OINT8A","Optativa Interdisciplinaria",3,"C","oip",[],true),
+   _m("CP_OICP","Optativa de Información y Control Público",3,"C","icp",[],true),
+   _m("CP_OINT8B","Optativa Interdisciplinaria",3,"C","oip",[],true),
+   _m("CP_OINT8C","Optativa Interdisciplinaria",3,"C","oip",[],true),
+ ]},
+ {s:9, m:[]},
+ {s:10, m:[
+   _m("CP_TG","Opción de Grado",6,"C","tg"),
+ ]},
+];
+const AGR_CONTADURIA = {
+  fce:       ["#5aa9e6", "Fundamentos en ciencias económicas", "Fund. Cs. Económicas"],
+  cuant:     ["#4fc7ea", "Cuantitativo", "Cuantitativo"],
+  fbu:       ["#ac93da", "Formación básica universitaria", "Formación Básica"],
+  fin:       ["#33ac9d", "Finanzas", "Finanzas"],
+  tmc:       ["#e8804f", "Teorías y modelos contables", "Teorías Contables"],
+  tmcontrol: ["#dc4c43", "Teorías y modelos de control", "Modelos de Control"],
+  rct:       ["#e3b955", "Regulación y contabilidad tributaria", "Regulación Tributaria"],
+  icp:       ["#8ec44e", "Información y control públicos", "Control Público"],
+  etica:     ["#e07aa4", "Ética y responsabilidad social", "Ética y Resp. Social"],
+  oip:       ["#9aa6b6", "Optativas interdisciplinares profesionales", "Optativas Interdisc."],
+  tg:        ["#93a0e6", "Trabajo de grado", "Trabajo de Grado"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -1593,6 +2046,85 @@ const MALLAS = {
       se leyeron de las flechas y letras del diagrama y <b>no se han verificado con estudiantes</b>. Las optativas son cupos
       (el PDF lista las opciones aparte). Cortes: <code>60</code> créditos totales → Introducción a la Investigación ·
       <code>80</code> créditos totales → Trabajo de Grado. La nivelación no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  geologia: {
+    nombre: "Geología",
+    fac: "ciencias", color: "#e8804f", cm: "Malla de la Facultad de Ciencias · 166 créditos", ver: false,
+    plan: "Facultad de Ciencias · 166 créditos",
+    sems: SEMS_GEOLOGIA, agr: AGR_GEOLOGIA,
+    store: "malla_geologia_unal", elecStore: "malla_geologia_elec",
+    meta: { C: 91, B: 42, L: 33 }, sem9fix: false, compact: true,
+    target: 166, libreMeta: 33,
+    foot: `Nombres, créditos y prerrequisitos de la malla que publica la Facultad de Ciencias (166 créditos). El PDF <b>no trae códigos</b>
+      de asignatura. El componente de cada materia (Fundamentación / Disciplinar) se leyó del color del texto y los prerrequisitos de
+      las flechas: <b>no se han verificado con estudiantes</b>. Los correquisitos no se modelan (se cursan juntos). Corte: 80% de los
+      créditos exigidos (<code>106</code> créditos totales) → Trabajo de Grado. Los semestres se llaman "matrículas" en la malla.
+      Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  farmacia: {
+    nombre: "Farmacia",
+    fac: "ciencias", color: "#b45fd0", cm: "Acuerdo 511 de 2023 · 185 créditos", ver: false,
+    plan: "Acuerdo 511 de 2023 · 185 créditos",
+    sems: SEMS_FARMACIA, agr: AGR_FARMACIA,
+    store: "malla_farmacia_unal", elecStore: "malla_farmacia_elec",
+    meta: { C: 101, B: 47, L: 37 }, sem9fix: false, compact: true,
+    target: 185, libreMeta: 37,
+    foot: `Nombres, créditos y agrupaciones de la malla oficial (Acuerdo 511 de 2023, 185 créditos); las sumas por componente cuadran con
+      el PEP (Fundamentación 47, Disciplinar 101, Libre elección 37). El PDF <b>no trae códigos</b> y sus flechas de colores no se
+      pudieron leer de forma confiable: los <b>prerrequisitos son una reconstrucción aproximada</b>, <b>sin verificar</b> con
+      estudiantes. El PDF no indica requisitos para el Trabajo de Grado. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  estadistica: {
+    nombre: "Estadística",
+    fac: "ciencias", color: "#33ac9d", cm: "Malla de la Facultad de Ciencias · 141 créditos", ver: false,
+    plan: "Facultad de Ciencias · 141 créditos",
+    sems: SEMS_ESTADISTICA, agr: AGR_ESTADISTICA,
+    store: "malla_estadistica_unal", elecStore: "malla_estadistica_elec",
+    meta: { C: 61, B: 52, L: 28 }, sem9fix: false, compact: true,
+    target: 141, libreMeta: 28,
+    foot: `Estructura de la malla de la Facultad de Ciencias (8 semestres) con los créditos del PEP (141: Fundamentación 52, Disciplinar 61,
+      Libre elección 28). La malla <b>no trae códigos, créditos ni flechas</b>: muchas tarjetas son cupos (Núcleo Estadístico, Aplicación
+      estadística…) y <b>los prerrequisitos se dedujeron de la secuencia</b> de la malla; <b>no se han verificado con estudiantes</b>.
+      La nivelación (Inglés I–IV) no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  economia: {
+    nombre: "Economía",
+    fac: "economicas", color: "#e8804f", cm: "Plan general vigente · 151 créditos", ver: false,
+    plan: "Plan general vigente · 151 créditos",
+    sems: SEMS_ECONOMIA, agr: AGR_ECONOMIA,
+    store: "malla_economia_unal", elecStore: "malla_economia_elec",
+    meta: { C: 90, B: 31, L: 30 }, sem9fix: false, compact: true,
+    target: 151, libreMeta: 30,
+    foot: `Códigos, créditos y agrupaciones de la malla y del PEP de la Facultad de Ciencias Económicas (151 créditos: Fundamentación 31,
+      Disciplinar 90, Libre elección 30; las sumas cuadran). La malla <b>no trae flechas</b>: los prerrequisitos siguen las cadenas
+      obvias del plan (macro I→II→III, micro I→II→III, econometría I→II…) y <b>no se han verificado con estudiantes</b>. El semestre 9
+      es de libre elección. Inglés I–IV (nivelación) no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  administracion: {
+    nombre: "Administración de Empresas",
+    fac: "economicas", color: "#5aa9e6", cm: "Malla de la Facultad · 164 créditos", ver: false,
+    plan: "Malla de la Facultad de Ciencias Económicas · 164 créditos",
+    sems: SEMS_ADMIN, agr: AGR_ADMIN,
+    store: "malla_administracion_unal", elecStore: "malla_administracion_elec",
+    meta: { C: 74, B: 57, L: 33 }, sem9fix: false, compact: true,
+    target: 164, libreMeta: 33,
+    foot: `Nombres, créditos y componentes de la malla de la Facultad de Ciencias Económicas (164 créditos: Fundamentación 57, Disciplinar 74,
+      Libre elección 33; las sumas cuadran). La malla <b>no trae flechas ni códigos</b> (salvo materias compartidas): los prerrequisitos
+      siguen la secuencia de la malla y <b>no se han verificado con estudiantes</b>. El semestre 9 es de libre elección. Inglés I–IV no se
+      incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  contaduria: {
+    nombre: "Contaduría Pública",
+    fac: "economicas", color: "#33ac9d", cm: "Acuerdo 001 de 2025 · 167 créditos", ver: false,
+    plan: "Acuerdos 030 de 2014, 111 de 2021 y 001 de 2025 · 167 créditos",
+    sems: SEMS_CONTADURIA, agr: AGR_CONTADURIA,
+    store: "malla_contaduria_unal", elecStore: "malla_contaduria_elec",
+    meta: { C: 77, B: 57, L: 33 }, sem9fix: false, compact: true,
+    target: 167, libreMeta: 33,
+    foot: `Nombres, créditos y componentes de la malla de la Facultad de Ciencias Económicas (167 créditos: Fundamentación 57, Disciplinar 77,
+      Libre elección 33; las sumas cuadran). La malla <b>no trae flechas</b>: los prerrequisitos siguen la secuencia de la malla y
+      <b>no se han verificado con estudiantes</b>. El semestre 9 es de libre elección; el 10 lleva la opción de grado. Inglés I–IV no se
+      incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
 };
 
