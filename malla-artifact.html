@@ -1123,6 +1123,308 @@ const AGR_ELECTRONICA = {
   tg:   ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
 };
 
+// ============================================================================================
+// Carreras de las demás facultades. Helper compacto: _m(id, nombre, créditos, componente,
+// agrupación, prerrequisitos, optativa?). Los correquisitos no se modelan (se cursan juntos).
+// ============================================================================================
+const _m = (id, n, c, comp, a, r = [], opt = false) => (opt ? {id, n, c, comp, a, r, opt:true} : {id, n, c, comp, a, r});
+
+// Química (Facultad de Ciencias) — malla publicada por la Facultad (plan Acuerdo 052 de 2014 y
+// modificaciones). La malla trae códigos, créditos y prerrequisitos pero NO marca el componente
+// de cada materia: la división Fundamentación / Disciplinar sale de las agrupaciones del PEP y
+// es aproximada. Los códigos 2029265 / 2029267 aparecen repetidos en el PDF: quedan con id propio
+// las materias "Química Estructural", "Optativa Estructura e Interacciones" y los laboratorios
+// sin código en el PDF.
+const SEMS_QUIMICA_C = [
+ {s:1, m:[
+   _m("2026364","Química Fundamental",3,"B","fq"),
+   _m("1000025","Laboratorio de Técnicas Básicas en Química",3,"B","fq"),
+   _m("1000009","Biología General",3,"B","fcc"),
+   _m("1000004","Cálculo Diferencial",4,"B","fcc"),
+   _m("2028061","Introducción a la Química",3,"B","fq"),
+ ]},
+ {s:2, m:[
+   _m("2029269","Análisis Químico",3,"C","qa",["2026364"]),
+   _m("2029270","Laboratorio de Análisis Químico",3,"C","qa",["1000025"]),
+   _m("1000003","Álgebra Lineal",3,"B","fcc"),
+   _m("1000005","Cálculo Integral",4,"B","fcc",["1000004"]),
+   _m("1000019","Fundamentos de Mecánica",4,"B","fcc"),
+ ]},
+ {s:3, m:[
+   _m("1000028","Principios de Química Inorgánica",3,"B","fq",["2026364"]),
+   _m("2016058","Átomos y Moléculas",3,"C","ei",["1000005"]),
+   _m("1000037","Fisicoquímica I",3,"C","qf",["2026364"]),
+   _m("2025338","Laboratorio de Fisicoquímica I",2,"C","qf"),
+   _m("1000017","Fundamentos de Electricidad y Magnetismo",4,"B","fcc",["1000019","1000004"]),
+   _m("1000012","Bioestadística Fundamental",3,"B","fcc"),
+ ]},
+ {s:4, m:[
+   _m("1000034","Química Orgánica I",3,"C","qo",["2026364"]),
+   _m("2015576","Fundamentos de Espectroscopía",2,"C","ei",["2016058"]),
+   _m("2029266","Laboratorio de Métodos Ópticos",2,"C","ei"),
+   _m("1000038","Fisicoquímica II",3,"C","qf",["1000037"]),
+   _m("2025339","Laboratorio de Fisicoquímica II",2,"C","qf",["2025338"]),
+   _m("OPT_FUND_QC","Optativa de Fundamentación",3,"B","of",[],true),
+ ]},
+ {s:5, m:[
+   _m("1000036","Química Orgánica II",3,"C","qo",["1000034"]),
+   _m("2015572","Espectroscopía Aplicada",2,"C","ei"),
+   _m("QC_ESTRUCT","Química Estructural",3,"C","ei",["1000028"]),
+   _m("OPT_QF_QC","Optativa de Química Física",3,"C","qf",["1000038"],true),
+   _m("2029265","Electroquímica Analítica",2,"C","qa",["2029269","2029270"]),
+   _m("2029267","Laboratorio de Electroquímica Analítica",2,"C","qa",["2029269","2029270"]),
+ ]},
+ {s:6, m:[
+   _m("1000035","Laboratorio de Química Orgánica I",3,"C","qo"),
+   _m("OPT_QO_QC","Optativa de Química Orgánica",3,"C","qo",["1000036"],true),
+   _m("2029268","Cromatografía",1,"C","qa",["2029270"]),
+   _m("OPT_QA_QC","Optativa de Química Analítica",3,"C","qa",[],true),
+ ]},
+ {s:7, m:[
+   _m("2015595","Principios de Química Industrial",3,"C","ap",["1000038"]),
+   _m("QC_LABQO2","Laboratorio de Química Orgánica II",4,"C","qo",["1000035","2015572"]),
+   _m("OPT_ESTR_QC","Optativa de Estructura e Interacciones",2,"C","ei",[],true),
+   _m("2015570","Bioquímica",3,"C","bq",["1000036"]),
+ ]},
+ {s:8, m:[
+   _m("OPT_APL1_QC","Optativa I Aplicada",2,"C","ap",[],true),
+   _m("OPT_APL2_QC","Optativa II Aplicada",2,"C","ap",[],true),
+   _m("2015585","Laboratorio de Bioquímica",4,"C","bq"),
+   _m("OPT_BQ_QC","Optativa de Bioquímica",3,"C","bq",["2015585"],true),
+ ]},
+ {s:9, m:[
+   _m("QC_LABINORG","Laboratorio de Química Inorgánica",4,"C","ei"),
+ ]},
+ {s:10, m:[
+   _m("2015281","Trabajo de Grado",8,"C","tg",[{comp:"B",min:40},{comp:"C",min:78}]),
+ ]},
+];
+const AGR_QUIMICA_C = {
+  fcc: ["#5aa9e6", "Fundamentos complementarios en Ciencias", "Fund. en Ciencias"],
+  fq:  ["#e07aa4", "Fundamentos en Química", "Fund. en Química"],
+  of:  ["#ac93da", "Optativas de Fundamentación", "Optativa Fund."],
+  qo:  ["#8ec44e", "Química Orgánica", "Q. Orgánica"],
+  bq:  ["#3fb277", "Bioquímica", "Bioquímica"],
+  ei:  ["#4fc7ea", "Estructura e Interacciones", "Estructura e Interacc."],
+  qf:  ["#e3b955", "Química Física", "Q. Física"],
+  qa:  ["#e8804f", "Química Analítica", "Q. Analítica"],
+  ap:  ["#9aa6b6", "Química Aplicada", "Q. Aplicada"],
+  tg:  ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Ciencias de la Computación (Facultad de Ciencias) — malla oficial, Acuerdo 487 de 2022.
+// Nombres, códigos, créditos, componentes y agrupaciones del PDF; prerrequisitos leídos de las
+// flechas del diagrama. 9 semestres. El PDF no da requisitos para el Trabajo de Grado.
+const SEMS_COMPUTACION = [
+ {s:1, m:[
+   _m("2015168","Fundamentos de Matemáticas",4,"B","mat"),
+   _m("2016377","Cálculo Diferencial en una Variable",4,"B","mat"),
+   _m("2026573","Introducción a las Ciencias de la Computación y a la Programación",3,"B","prog"),
+ ]},
+ {s:2, m:[
+   _m("2015181","Sistemas Numéricos",4,"B","mat",["2015168"]),
+   _m("2015556","Cálculo Integral en una Variable",4,"B","mat",["2016377"]),
+   _m("2015555","Álgebra Lineal Básica",4,"B","mat"),
+   _m("2016375","Programación Orientada a Objetos",3,"B","prog",["2026573"]),
+ ]},
+ {s:3, m:[
+   _m("2025819","Introducción a la Teoría de Conjuntos",4,"B","mat",["2015181"]),
+   _m("2015162","Cálculo Vectorial",4,"B","mat",["2015556","2015555"]),
+   _m("2015178","Probabilidad",4,"B","mat",["2015556"]),
+   _m("2016699","Estructuras de Datos",3,"B","prog",["2016375"]),
+ ]},
+ {s:4, m:[
+   _m("2015155","Introducción al Análisis Real",4,"B","mat",["2025819","2015162"]),
+   _m("2016342","Cálculo de Ecuaciones Diferenciales Ordinarias",4,"B","mat"),
+   _m("OPT_NAT_CC","Optativa de Ciencias Naturales y Estadística",3,"B","nat",[],true),
+   _m("2016696","Algoritmos",3,"C","alg",["2016699"]),
+ ]},
+ {s:5, m:[
+   _m("2026555","Álgebra Abstracta y Computacional",4,"C","alg",["2025819"]),
+   _m("OPT_MAT_CC1","Optativa de Matemáticas y Estructuras Discretas",4,"B","mat",[],true),
+   _m("OPT_APL_CC1","Optativa de Computación Aplicada",3,"C","apl",[],true),
+   _m("2015174","Introducción a la Teoría de la Computación",4,"C","alg",["2025819"]),
+   _m("2016698","Elementos de Computador",3,"C","so",["2026573"]),
+ ]},
+ {s:6, m:[
+   _m("OPT_MAT_CC2","Optativa de Matemáticas y Estructuras Discretas",4,"B","mat",[],true),
+   _m("OPT_APL_CC2","Optativa de Computación Aplicada",3,"C","apl",[],true),
+   _m("OPT_ALG_CC","Optativa de Algoritmos y Teoría de la Computación",3,"C","alg",[],true),
+   _m("2016707","Sistemas Operativos",3,"C","so",["2016698"]),
+ ]},
+ {s:7, m:[
+   _m("2019072","Análisis Numérico I",4,"C","cc",["2015155","2026573"]),
+   _m("OPT_SEG_CC1","Optativa de Seguridad de la Información y Codificación",4,"C","seg",[],true),
+ ]},
+ {s:8, m:[
+   _m("OPT_CC_CC","Optativa de Computación Científica",3,"C","cc",[],true),
+   _m("OPT_SEG_CC2","Optativa de Seguridad de la Información y Codificación",3,"C","seg",[],true),
+   _m("OPT_SO_CC","Optativa de Sistemas Operativos, de Cómputo y Compiladores",3,"C","so",[],true),
+ ]},
+ {s:9, m:[
+   _m("TG_CC","Trabajo de Grado",8,"C","tg"),
+ ]},
+];
+const AGR_COMPUTACION = {
+  mat:  ["#5aa9e6", "Matemáticas y Estructuras Discretas", "Matemáticas"],
+  nat:  ["#e3b955", "Ciencias Naturales y Estadística", "Cs. Naturales y Estad."],
+  prog: ["#8ec44e", "Programación y Estructuras de Datos", "Programación"],
+  alg:  ["#c56bd0", "Algoritmos y Teoría de la Computación", "Algoritmos y Teoría"],
+  so:   ["#4fc7ea", "Sistemas Operativos, de Cómputo y Compiladores", "Sist. Operativos"],
+  cc:   ["#e8804f", "Computación Científica", "Comp. Científica"],
+  seg:  ["#dc4c43", "Seguridad Informática y Codificación", "Seguridad y Codificación"],
+  apl:  ["#33ac9d", "Computación Aplicada", "Comp. Aplicada"],
+  tg:   ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Matemáticas (Facultad de Ciencias) — malla oficial, Acuerdos 028 de 2012 y 381 de 2019.
+// Nombres, códigos, créditos, componentes y agrupaciones del PDF; prerrequisitos leídos de las
+// flechas y letras del diagrama (una letra identifica la materia que la emite). Los correquisitos
+// (Mecánica Newtoniana, Programación y Métodos Numéricos, Análisis Vectorial) no se modelan.
+const SEMS_MATEMATICAS = [
+ {s:1, m:[
+   _m("2015168","Fundamentos de Matemáticas",4,"B","mat"),
+   _m("2016377","Cálculo Diferencial en una Variable",4,"B","mat"),
+   _m("OPT_GEO_M","Optativa de Geometría Básica",4,"B","geo",[],true),
+ ]},
+ {s:2, m:[
+   _m("2015555","Álgebra Lineal Básica",4,"B","mat"),
+   _m("2015556","Cálculo Integral en una Variable",4,"B","mat",["2016377"]),
+   _m("2015181","Sistemas Numéricos",4,"B","mat",["2015168"]),
+   _m("2015180","Programación y Métodos Numéricos",4,"B","apl"),
+ ]},
+ {s:3, m:[
+   _m("2025819","Introducción a la Teoría de Conjuntos",4,"B","mat",["2015168"]),
+   _m("2015162","Cálculo Vectorial",4,"B","mat",["2015556"]),
+   _m("2015176","Mecánica Newtoniana",4,"B","fis"),
+ ]},
+ {s:4, m:[
+   _m("2016342","Cálculo de Ecuaciones Diferenciales Ordinarias",4,"B","mat",["2015556"]),
+   _m("2015155","Introducción al Análisis Real",4,"C","ayt",["2015162","2025819"]),
+   _m("2015178","Probabilidad",4,"B","apl",["2015556"]),
+   _m("OPT_FIS_M","Optativa de Fundamentación en Física",4,"B","fis",[],true),
+ ]},
+ {s:5, m:[
+   _m("2015152","Grupos y Anillos",4,"C","alg",["2025819"]),
+   _m("2015153","Integración y Series",4,"C","ayt",["2015155"]),
+   _m("2015158","Topología General",4,"C","ayt",["2015155"]),
+   _m("2019072","Análisis Numérico 1",4,"C","apl",["2015155"]),
+ ]},
+ {s:6, m:[
+   _m("2015149","Álgebra Multilineal y Formas Canónicas",4,"C","alg",["2015152"]),
+   _m("2015151","Análisis Vectorial",4,"C","ayt",["2015153"]),
+   _m("2015156","Lógica Matemática",4,"C","alg",["2015152"]),
+ ]},
+ {s:7, m:[
+   _m("2015157","Teoría de Cuerpos",4,"C","alg",["2015152"]),
+   _m("2015159","Variable Compleja",4,"C","ayt",["2015155"]),
+   _m("OPT_D1_M","Optativa Disciplinar 1",4,"C","od",[],true),
+ ]},
+ {s:8, m:[
+   _m("OPT_D2_M","Optativa Disciplinar 2",4,"C","od",[],true),
+   _m("OPT_D3_M","Optativa Disciplinar 3",4,"C","od",[],true),
+ ]},
+ {s:9, m:[
+   _m("2015154","Trabajo de Grado",8,"C","tg",[{comp:"T",min:112}]),
+ ]},
+];
+const AGR_MATEMATICAS = {
+  mat: ["#5aa9e6", "Matemáticas", "Matemáticas"],
+  apl: ["#4fc7ea", "Matemática Aplicada", "Mat. Aplicada"],
+  fis: ["#e3b955", "Fundamentación en Física", "Fund. en Física"],
+  geo: ["#ac93da", "Geometría Básica", "Geometría Básica"],
+  ayt: ["#8ec44e", "Análisis y Topología", "Análisis y Topología"],
+  alg: ["#c56bd0", "Álgebra y Lógica", "Álgebra y Lógica"],
+  od:  ["#9aa6b6", "Optativas Disciplinares", "Optativas Disc."],
+  tg:  ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Física (Facultad de Ciencias) — malla oficial, Acuerdo 016 de 2012.
+// Nombres, códigos, créditos, componentes y agrupaciones del PDF; prerrequisitos leídos de las
+// flechas y letras del diagrama. Las optativas son cupos (el PDF lista las opciones aparte).
+// Los "60 / 80 créditos del plan" de la introducción a la investigación y del Trabajo de Grado
+// son cortes sobre los créditos totales.
+const SEMS_FISICA = [
+ {s:1, m:[
+   _m("2016650","Fundamentos de Física Experimental",3,"B","ffund"),
+   _m("2016651","Fundamentos de Física Teórica",3,"B","ffund"),
+   _m("2016377","Cálculo Diferencial en una Variable",4,"B","matb"),
+   _m("2016653","Taller de Matemáticas y Ciencias",3,"B","hum"),
+   _m("OPT_ALGLIN_F","Optativa de Matemáticas Básicas (Álgebra Lineal)",4,"B","matb",[],true),
+ ]},
+ {s:2, m:[
+   _m("2016678","Mediciones Mecánicas",3,"C","mec",["2016650"]),
+   _m("2015176","Mecánica Newtoniana",4,"C","mec",["2016377"]),
+   _m("2015556","Cálculo Integral en una Variable",4,"B","matb",["2016377"]),
+   _m("2015162","Cálculo Vectorial",4,"B","matb",["2015556"]),
+   _m("OPT_FORM1_F","Optativa de Formación Integral Humanística y en Ciencia y Tecnología",3,"B","hum",[],true),
+ ]},
+ {s:3, m:[
+   _m("2016680","Mediciones Electromagnéticas",3,"C","em",["2016650"]),
+   _m("2016657","Electricidad y Magnetismo",3,"C","em",["2015176","2015556","2015162"]),
+   _m("OPT_PROG_F","Optativa de Programación y Métodos Numéricos",3,"B","prog",[],true),
+   _m("OPT_EST_F","Optativa de Estadística Básica",3,"B","est",[],true),
+   _m("2016342","Cálculo de Ecuaciones Diferenciales Ordinarias",4,"B","matb",["2015556"]),
+ ]},
+ {s:4, m:[
+   _m("OPT_FORM2_F","Optativa de Formación Integral Humanística y en Ciencia y Tecnología",3,"B","hum",[],true),
+   _m("2016679","Mecánica Analítica I",3,"C","mec",["2015176","2016657"]),
+   _m("2016682","Oscilaciones y Ondas",3,"C","ond",["2015176"]),
+   _m("2016675","Matemáticas Especiales I para Física",3,"C","herr",["2016342"]),
+   _m("2016686","Relatividad",3,"C","fm",["2016657"]),
+ ]},
+ {s:5, m:[
+   _m("2016687","Experimentos en Física Moderna",3,"C","fm",["2016680","2016682"]),
+   _m("2016677","Mecánica Analítica II",3,"C","mec",["2016679"]),
+   _m("2016658","Electrodinámica I",3,"C","em",["2016657","2016675"]),
+   _m("2016676","Matemáticas Especiales II para Física",3,"C","herr",["2016675","2016342"]),
+   _m("OPT_ELEC_F","Optativa de Electrónica e Instrumentación",3,"C","elec",[],true),
+ ]},
+ {s:6, m:[
+   _m("2016693","Termodinámica - Módulo Experimental",2,"C","term",["2016680"]),
+   _m("2016691","Termodinámica - Módulo de Teoría",2,"C","term",["2016657"]),
+   _m("2016659","Electrodinámica II",3,"C","em",["2016658"]),
+   _m("2015554","Mecánica Cuántica I",4,"C","fm",["2016679","2016675","2016687"]),
+   _m("OPT_HERR_F","Optativa de Herramientas Matemáticas y Computacionales",3,"C","herr",[],true),
+ ]},
+ {s:7, m:[
+   _m("2016681","Mediciones en Óptica y Acústica",3,"C","ond",["2016682"]),
+   _m("2016690","Mecánica Estadística",3,"C","term",["2016691","2015554"]),
+   _m("2016665","Temas de Física Contemporánea",1,"C","apl",["2016687"]),
+   _m("2016688","Mecánica Cuántica II",3,"C","fm",["2015554"]),
+   _m("OPT_FLUO_F","Optativa de Fluidos y Óptica",3,"C","fluo",[],true),
+ ]},
+ {s:8, m:[
+   _m("OPT_APLFM_F","Optativa de Aplicaciones de Física Moderna",3,"C","apl",[],true),
+   _m("2016663","Introducción al Estado Sólido",3,"C","apl",["2016690"]),
+   _m("2016689","Introducción a la Física Subatómica",3,"C","apl",["2016688"]),
+ ]},
+ {s:9, m:[
+   _m("OPT_INV_F","Optativa de Introducción a la Investigación",3,"C","inv",[{comp:"T",min:60}],true),
+ ]},
+ {s:10, m:[
+   _m("2016694","Trabajo de Grado",8,"C","tg",[{comp:"T",min:80}]),
+ ]},
+];
+const AGR_FISICA = {
+  matb:  ["#5aa9e6", "Matemáticas Básicas", "Mat. Básicas"],
+  est:   ["#4fc7ea", "Estadística Básica", "Estadística"],
+  hum:   ["#ac93da", "Formación Integral Humanística y en Ciencia y Tecnología", "Formación Integral"],
+  ffund: ["#e3b955", "Física Fundamental", "Física Fundamental"],
+  prog:  ["#33ac9d", "Programación y Métodos Numéricos", "Prog. y Métodos Num."],
+  herr:  ["#c56bd0", "Herramientas Matemáticas y Computacionales", "Herram. Matemáticas"],
+  mec:   ["#e8804f", "Mecánica Clásica", "Mecánica Clásica"],
+  em:    ["#dc4c43", "Electromagnetismo", "Electromagnetismo"],
+  ond:   ["#8ec44e", "Ondas", "Ondas"],
+  elec:  ["#3fb277", "Electrónica e Instrumentación", "Electrónica e Instr."],
+  term:  ["#f0a24a", "Termodinámica y Física Estadística", "Termodinámica"],
+  fluo:  ["#7f8a9e", "Fluidos y Óptica", "Fluidos y Óptica"],
+  fm:    ["#6f9bd8", "Fundamentos de Física Moderna", "Física Moderna"],
+  apl:   ["#e07aa4", "Aplicaciones de Física Moderna", "Aplic. Física Moderna"],
+  inv:   ["#b0865f", "Introducción a la Investigación", "Intro. Investigación"],
+  tg:    ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -1238,6 +1540,59 @@ const MALLAS = {
       se reconstruyeron del diagrama y fueron verificados con estudiantes de la carrera. Cortes: <code>121</code> créditos totales
       (70% del programa) → Taller de Proyectos Inter-disciplinarios · <code>63</code> créditos del componente disciplinar (80%) →
       Trabajo de Grado. La Nivelación y la Lengua Extranjera no se incluyen. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "quimica-ciencias": {
+    nombre: "Química",
+    fac: "ciencias", color: "#e07aa4", cm: "Malla de la Facultad de Ciencias · 158 créditos", ver: false,
+    plan: "Facultad de Ciencias · 158 créditos (según la malla publicada)",
+    sems: SEMS_QUIMICA_C, agr: AGR_QUIMICA_C,
+    store: "malla_quimica-ciencias_unal", elecStore: "malla_quimica-ciencias_elec",
+    meta: { C: 86, B: 40, L: 32 }, sem9fix: false, compact: true,
+    target: 158, libreMeta: 32,
+    foot: `Nombres, códigos, créditos y prerrequisitos de la malla que publica la Facultad de Ciencias. Esa malla <b>no marca el
+      componente</b> de cada materia: la división Fundamentación / Disciplinar (B / C) sale de las agrupaciones del PEP y es
+      <b>aproximada</b>. La malla suma 158 créditos y el PEP habla de 160. Los correquisitos no se modelan (se cursan juntos).
+      Trabajo de Grado: 100% de Fundamentación y del Disciplinar obligatorio (aquí, 40 y 78 créditos). Malla <b>sin verificar</b>
+      con estudiantes; ante la duda, consulta el SIA. Herramienta no oficial.`,
+  },
+  computacion: {
+    nombre: "Ciencias de la Computación",
+    fac: "ciencias", color: "#5aa9e6", cm: "Acuerdo 487 de 2022 · 139 créditos", ver: false,
+    plan: "Acuerdo 487 de 2022 · 139 créditos",
+    sems: SEMS_COMPUTACION, agr: AGR_COMPUTACION,
+    store: "malla_computacion_unal", elecStore: "malla_computacion_elec",
+    meta: { C: 51, B: 60, L: 28 }, sem9fix: false, compact: true,
+    target: 139, libreMeta: 28,
+    foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 487 de 2022); los prerrequisitos se
+      leyeron de las flechas del diagrama y <b>no se han verificado con estudiantes</b>. El PDF no indica requisitos para el
+      Trabajo de Grado. El semestre 9 lleva el Trabajo de Grado y libre elección. La nivelación (Idioma I–IV) no se incluye.
+      Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  matematicas: {
+    nombre: "Matemáticas",
+    fac: "ciencias", color: "#4fc7ea", cm: "Acuerdos 028 de 2012 y 381 de 2019 · 140 créditos", ver: false,
+    plan: "Acuerdos 028 de 2012 y 381 de 2019 · 140 créditos",
+    sems: SEMS_MATEMATICAS, agr: AGR_MATEMATICAS,
+    store: "malla_matematicas_unal", elecStore: "malla_matematicas_elec",
+    meta: { C: 60, B: 52, L: 28 }, sem9fix: false, compact: true,
+    target: 140, libreMeta: 28,
+    foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (Acuerdos 028 de 2012 y 381 de 2019); los
+      prerrequisitos se leyeron de las flechas y letras del diagrama y <b>no se han verificado con estudiantes</b>. Los
+      correquisitos no se modelan. Corte: <code>112</code> créditos totales (80% de los créditos exigidos) → Trabajo de Grado.
+      La nivelación (Matemática básica, Lecto-escritura, Inglés I–IV) no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  fisica: {
+    nombre: "Física",
+    fac: "ciencias", color: "#e3b955", cm: "Acuerdo 016 de 2012 · 160 créditos", ver: false,
+    plan: "Acuerdo 016 de 2012 · 160 créditos",
+    sems: SEMS_FISICA, agr: AGR_FISICA,
+    store: "malla_fisica_unal", elecStore: "malla_fisica_elec",
+    meta: { C: 87, B: 41, L: 32 }, sem9fix: false, compact: true,
+    target: 160, libreMeta: 32,
+    foot: `Nombres, códigos, créditos, componentes y agrupaciones de la malla oficial (Acuerdo 016 de 2012); los prerrequisitos
+      se leyeron de las flechas y letras del diagrama y <b>no se han verificado con estudiantes</b>. Las optativas son cupos
+      (el PDF lista las opciones aparte). Cortes: <code>60</code> créditos totales → Introducción a la Investigación ·
+      <code>80</code> créditos totales → Trabajo de Grado. La nivelación no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
 };
 
