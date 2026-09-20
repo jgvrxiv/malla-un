@@ -99,6 +99,11 @@
   .tag{align-self:flex-start;font-family:var(--mono);font-size:.57rem;font-weight:700;letter-spacing:.12em;
     text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--dim)}
   .tag.live{color:var(--done);border-color:color-mix(in srgb,var(--done) 45%,transparent)}
+  .tag.unver{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent)}
+  /* encabezado de cada facultad en el inicio */
+  .fac-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:28px 0 11px;flex-wrap:wrap}
+  .fac-h h3{font-family:var(--disp);font-size:.98rem;font-weight:800;margin:0}
+  .fac-h span{font-family:var(--mono);font-size:.7rem;color:var(--dim)}
   /* las 9 tarjetas de carrera se achican para seguir cabiendo de a 3 por fila en el celular
      (va después de las reglas de arriba para ganarles la cascada con la misma especificidad) */
   @media (max-width:640px){
@@ -324,85 +329,8 @@
          y avance por componente, en una sola página. Todo se guarda en tu navegador.</p>
     </section>
 
-    <div class="sec-h">
-      <h2>Carreras</h2>
-      <span>9 disponibles · las 9 ingenierías de la Facultad</span>
-    </div>
-
-    <div class="cards">
-      <a class="carrera" href="#civil" style="--c:#8ec44e">
-        <span class="tag live">Disponible</span>
-        <span class="cn">Ingeniería Civil</span>
-        <span class="cm">Plan flexible 2015 · 180 créditos</span>
-        <span class="go">Abrir malla
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-        </span>
-      </a>
-      <a class="carrera" href="#quimica" style="--c:#e07aa4">
-        <span class="tag live">Disponible</span>
-        <span class="cn">Ingeniería Química</span>
-        <span class="cm">Plan flexible · 180 créditos</span>
-        <span class="go">Abrir malla
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-        </span>
-      </a>
-      <a class="carrera" href="#agricola" style="--c:#3fb277">
-        <span class="tag live">Disponible</span>
-        <span class="cn">Ingeniería Agrícola</span>
-        <span class="cm">Plan flexible · 180 créditos</span>
-        <span class="go">Abrir malla
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-        </span>
-      </a>
-      <a class="carrera" href="#industrial" style="--c:#e08a4e">
-        <span class="tag live">Disponible</span>
-        <span class="cn">Ingeniería Industrial</span>
-        <span class="cm">Acuerdo 024 de 2014 · 168 créditos</span>
-        <span class="go">Abrir malla
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-        </span>
-      </a>
-      <a class="carrera" href="#sistemas" style="--c:#5aa9e6">
-        <span class="tag live">Disponible</span>
-        <span class="cn">Ingeniería de Sistemas y Computación</span>
-        <span class="cm">Plan 2A74 · Acuerdo 033 de 2007 · 165 créditos</span>
-        <span class="go">Abrir malla
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-        </span>
-      </a>
-      <a class="carrera" href="#electrica" style="--c:#e3b955">
-        <span class="tag live">Disponible</span>
-        <span class="cn">Ingeniería Eléctrica</span>
-        <span class="cm">Plan de estudios 2544 · 167 créditos</span>
-        <span class="go">Abrir malla
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-        </span>
-      </a>
-      <a class="carrera" href="#mecatronica" style="--c:#9aa6b6">
-        <span class="tag live">Disponible</span>
-        <span class="cn">Ingeniería Mecatrónica</span>
-        <span class="cm">Acuerdo 18 de 2014 · 179 créditos</span>
-        <span class="go">Abrir malla
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-        </span>
-      </a>
-      <a class="carrera" href="#mecanica" style="--c:#dc4c43">
-        <span class="tag live">Disponible</span>
-        <span class="cn">Ingeniería Mecánica</span>
-        <span class="cm">Acuerdo 68 de 2018 · 180 créditos</span>
-        <span class="go">Abrir malla
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-        </span>
-      </a>
-      <a class="carrera" href="#electronica" style="--c:#ac93da">
-        <span class="tag live">Disponible</span>
-        <span class="cn">Ingeniería Electrónica</span>
-        <span class="cm">Plan de estudios 2545 · 172 créditos</span>
-        <span class="go">Abrir malla
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-        </span>
-      </a>
-    </div>
+    <!-- las tarjetas se generan desde MALLAS (renderInicio), agrupadas por facultad -->
+    <div id="carreras"></div>
 
     <div class="sec-h"><h2>Cómo funciona</h2></div>
     <div class="steps">
@@ -421,7 +349,7 @@
 
     <div class="site-foot">
       <span>Proyecto estudiantil independiente · no afiliado a la Universidad Nacional. Ante la duda, consulta el SIA.</span>
-      <span>Las 9 mallas están reconstruidas de los pensa oficiales y verificadas con estudiantes de cada carrera.</span>
+      <span id="foot-ver"></span>
     </div>
   </div>
 </div>
@@ -1199,6 +1127,7 @@ const AGR_ELECTRONICA = {
 const MALLAS = {
   civil: {
     nombre: "Ingeniería Civil",
+    fac: "ingenieria", color: "#8ec44e", cm: "Plan flexible 2015 · 180 créditos", ver: true,
     plan: "Plan flexible · 180 créditos · Acuerdo 26 de 2015",
     sems: SEMS_CIVIL, agr: AGR_CIVIL,
     store: "malla_civil_unal", elecStore: "malla_civil_elec",
@@ -1209,6 +1138,7 @@ const MALLAS = {
   },
   quimica: {
     nombre: "Ingeniería Química",
+    fac: "ingenieria", color: "#e07aa4", cm: "Plan flexible · 180 créditos", ver: true,
     plan: "Plan flexible · 180 créditos · Acuerdo 02 de 2013",
     sems: SEMS_QUIMICA, agr: AGR_QUIMICA,
     store: "malla_quimica_unal", elecStore: "malla_quimica_elec",
@@ -1220,6 +1150,7 @@ const MALLAS = {
   },
   agricola: {
     nombre: "Ingeniería Agrícola",
+    fac: "ingenieria", color: "#3fb277", cm: "Plan flexible · 180 créditos", ver: true,
     plan: "Plan flexible · 180 créditos · Acuerdo 30 de 2016",
     sems: SEMS_AGRICOLA, agr: AGR_AGRICOLA,
     store: "malla_agricola_unal", elecStore: "malla_agricola_elec",
@@ -1231,6 +1162,7 @@ const MALLAS = {
   },
   industrial: {
     nombre: "Ingeniería Industrial",
+    fac: "ingenieria", color: "#e08a4e", cm: "Acuerdo 024 de 2014 · 168 créditos", ver: true,
     plan: "Acuerdo 024 de 2014 · 168 créditos",
     sems: SEMS_INDUSTRIAL, agr: AGR_INDUSTRIAL,
     store: "malla_industrial_unal", elecStore: "malla_industrial_elec",
@@ -1242,6 +1174,7 @@ const MALLAS = {
   },
   sistemas: {
     nombre: "Ingeniería de Sistemas y Computación",
+    fac: "ingenieria", color: "#5aa9e6", cm: "Plan 2A74 · Acuerdo 033 de 2007 · 165 créditos", ver: true,
     plan: "Plan 2A74 · Acuerdo 033 de 2007 · 165 créditos",
     sems: SEMS_SISTEMAS, agr: AGR_SISTEMAS,
     store: "malla_sistemas_unal", elecStore: "malla_sistemas_elec",
@@ -1254,6 +1187,7 @@ const MALLAS = {
   },
   electrica: {
     nombre: "Ingeniería Eléctrica",
+    fac: "ingenieria", color: "#e3b955", cm: "Plan de estudios 2544 · 167 créditos", ver: true,
     plan: "Plan de estudios 2544 · 167 créditos",
     sems: SEMS_ELECTRICA, agr: AGR_ELECTRICA,
     store: "malla_electrica_unal", elecStore: "malla_electrica_elec",
@@ -1266,6 +1200,7 @@ const MALLAS = {
   },
   mecatronica: {
     nombre: "Ingeniería Mecatrónica",
+    fac: "ingenieria", color: "#9aa6b6", cm: "Acuerdo 18 de 2014 · 179 créditos", ver: true,
     plan: "Acuerdo 18 de 2014 · 179 créditos",
     sems: SEMS_MECATRONICA, agr: AGR_MECATRONICA,
     store: "malla_mecatronica_unal", elecStore: "malla_mecatronica_elec",
@@ -1279,6 +1214,7 @@ const MALLAS = {
   },
   mecanica: {
     nombre: "Ingeniería Mecánica",
+    fac: "ingenieria", color: "#dc4c43", cm: "Acuerdo 68 de 2018 · 180 créditos", ver: true,
     plan: "Acuerdo 68 de 2018 · 180 créditos",
     sems: SEMS_MECANICA, agr: AGR_MECANICA,
     store: "malla_mecanica_unal", elecStore: "malla_mecanica_elec",
@@ -1292,6 +1228,7 @@ const MALLAS = {
   },
   electronica: {
     nombre: "Ingeniería Electrónica",
+    fac: "ingenieria", color: "#ac93da", cm: "Plan de estudios 2545 · 172 créditos", ver: true,
     plan: "Plan de estudios 2545 · 172 créditos",
     sems: SEMS_ELECTRONICA, agr: AGR_ELECTRONICA,
     store: "malla_electronica_unal", elecStore: "malla_electronica_elec",
@@ -1303,6 +1240,44 @@ const MALLAS = {
       Trabajo de Grado. La Nivelación y la Lengua Extranjera no se incluyen. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
 };
+
+// facultades de la Sede Bogotá, en el orden en que aparecen en el inicio. Cada carrera de
+// MALLAS trae `fac` (clave de aquí), `color`, `cm` (renglón de la tarjeta) y `ver` (true = ya
+// verificada con estudiantes; false/ausente = reconstruida de la malla oficial, sin verificar).
+const FACULTADES = [
+  {k:"ingenieria", n:"Facultad de Ingeniería"},
+  {k:"ciencias",   n:"Facultad de Ciencias"},
+  {k:"economicas", n:"Facultad de Ciencias Económicas"},
+  {k:"medicina",   n:"Facultad de Medicina"},
+];
+
+// pinta el inicio: una sección por facultad, con su grilla fija de 3 columnas
+function renderInicio(){
+  const box = document.getElementById("carreras");
+  const keys = Object.keys(MALLAS);
+  const nver = keys.filter(k => MALLAS[k].ver).length;
+  const flecha = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>`;
+  let html = `<div class="sec-h"><h2>Carreras</h2><span>${keys.length} disponibles · ${nver} verificadas con estudiantes</span></div>`;
+  for(const f of FACULTADES){
+    const ks = keys.filter(k => MALLAS[k].fac === f.k);
+    if(!ks.length) continue;
+    html += `<div class="fac-h"><h3>${f.n}</h3><span>${ks.length} ${ks.length === 1 ? "carrera" : "carreras"}</span></div><div class="cards">` +
+      ks.map(k => {
+        const M = MALLAS[k];
+        return `<a class="carrera" href="#${k}" style="--c:${M.color || "#8891a5"}">
+          <span class="tag ${M.ver ? "live" : "unver"}">${M.ver ? "Verificada" : "Sin verificar"}</span>
+          <span class="cn">${M.nombre}</span>
+          <span class="cm">${M.cm || M.plan}</span>
+          <span class="go">Abrir malla ${flecha}</span>
+        </a>`;
+      }).join("") + `</div>`;
+  }
+  box.innerHTML = html;
+  const fv = document.getElementById("foot-ver");
+  if(fv) fv.textContent = nver === keys.length
+    ? `Las ${keys.length} mallas están reconstruidas de los pensa oficiales y verificadas con estudiantes de cada carrera.`
+    : `${nver} mallas verificadas con estudiantes de cada carrera; las otras ${keys.length - nver} están reconstruidas de los pensa oficiales y aún no se verifican (revisa sus prerrequisitos con el SIA).`;
+}
 
 // metas globales del plan activo (varían por carrera: Civil/Química/Agrícola 180/36, Sistemas
 // 165/33, Eléctrica 167/33, Industrial 168/34). setMalla() las reajusta al cambiar de carrera.
@@ -1571,5 +1546,6 @@ document.querySelectorAll("[data-go]").forEach(el=>{
   el.style.cursor = "pointer";
   el.addEventListener("click", ()=> { location.hash = el.dataset.go; });
 });
+renderInicio();
 route();
 </script>
