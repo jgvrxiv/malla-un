@@ -3370,6 +3370,66 @@ const AGR_ZOOTECNIA = {
   tg:   ["#93a0e6", "Trabajo de Grado y Práctica Integral", "TG y Práctica"],
 };
 
+// Biología (Facultad de Ciencias) — Acuerdo 133 de 2017 del Consejo de Facultad de Ciencias (con las
+// adiciones de los Acuerdos 436 de 2021, 525 de 2024 y 621 de 2025), 163 créditos. Códigos, créditos y
+// prerrequisitos del acuerdo; ubicación por semestre de la malla de la Facultad. Los correquisitos
+// (laboratorios, Ecología–Ciencias de la Tierra) no se modelan. Matemáticas Básicas es nivelación.
+const _bioDis = n => _m("BIO_DIS" + n, "Optativa Disciplinar", 4, "C", "dis", [{comp:"B", min:30}], true);
+const SEMS_BIOLOGIA = [
+ {s:1, m:[
+   _m("2017777","Ecología",4,"B","bio"),
+   _m("2017776","Ciencias de la Tierra",3,"B","tie"),
+   _m("1000024","Principios de Química",3,"B","qui"),
+   _m("1000025","Laboratorio Técnicas Básicas en Química",3,"B","qui"),
+ ]},
+ {s:2, m:[
+   _m("2015877","Biología de Plantas",4,"B","bio"),
+   _m("2017774","Biología Evolutiva",4,"B","bio"),
+   _m("1000030","Principios de Química Orgánica",3,"B","qui",["1000024"]),
+   _m("1000031","Laboratorio Principios de Química Orgánica",2,"B","qui",["1000024"]),
+ ]},
+ {s:3, m:[
+   _m("2017772","Biología Animal",4,"B","bio"),
+   _m("2017773","Biología de Microorganismos",4,"B","bio"),
+   _m("2023214","Principios de Bioquímica",3,"B","qui",["1000030"]),
+   _m("2017010","Laboratorio Principios de Bioquímica",2,"B","qui",["1000030"]),
+ ]},
+ {s:4, m:[
+   _m("2017775","Biología Molecular de la Célula",4,"B","bio",["2023214"]),
+   _m("2017778","Fundamentos de Investigación",2,"B","bio"),
+   _m("1000004","Cálculo Diferencial",4,"B","mat"),
+   _m("1000023","Mecánica y Ondas para Biociencias",4,"B","fis"),
+ ]},
+ {s:5, m:[
+   _m("2017779","Genética",4,"B","bio",["2017775"]),
+   _m("BIO_OPTF1","Optativa de Fundamentación",4,"B","fopt",[],true),
+   _bioDis(1),
+   _m("1000012","Bioestadística Fundamental",3,"B","mat"),
+ ]},
+ {s:6, m:[
+   _m("BIO_OPTF2","Optativa de Fundamentación",4,"B","fopt",[],true),
+   _bioDis(2), _bioDis(3), _bioDis(4),
+ ]},
+ {s:7, m:[ _bioDis(5), _bioDis(6), _bioDis(7), _bioDis(8) ]},
+ {s:8, m:[ _bioDis(9), _bioDis(10),
+   _m("BIO_DIS11","Optativa Disciplinar",3,"C","dis",[{comp:"B",min:30}],true),
+ ]},
+ {s:9, m:[ _bioDis(12), _bioDis(13), _bioDis(14) ]},
+ {s:10, m:[
+   _m("2023028","Trabajo de Grado",8,"C","tg",[{comp:"B",min:68},{comp:"C",min:44}]),
+ ]},
+];
+const AGR_BIOLOGIA = {
+  bio:  ["#6fae3a", "Biología", "Biología"],
+  mat:  ["#5aa9e6", "Matemática y Estadística", "Matemática y Est."],
+  qui:  ["#c56bd0", "Química", "Química"],
+  fis:  ["#9aa6bd", "Física", "Física"],
+  tie:  ["#b07a4a", "Ciencias de la Tierra", "Cs. de la Tierra"],
+  fopt: ["#e3b955", "Optativas de Fundamentación", "Optativa Fund."],
+  dis:  ["#33ac9d", "Asignaturas de Formación Disciplinar o Profesional", "Disciplinar"],
+  tg:   ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -3878,6 +3938,18 @@ const MALLAS = {
     foot: `Malla curricular de la Sede Bogotá (anexo 3 del PEP de Zootecnia; Resolución 064 de 2010 del Consejo de Facultad y modificaciones, 10 semestres): Fundamentación 37, Disciplinar 113 y
       Libre elección 36 (incluye las líneas de profundización). Prerrequisitos aproximados por secuencia (la malla no trae flechas legibles). <b>Sin verificar con estudiantes</b>.
       Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  biologia: {
+    nombre: "Biología",
+    fac: "ciencias", color: "#6fae3a", cm: "Acuerdo 133 de 2017 · 163 créditos", ver: false,
+    plan: "Acuerdo 133 de 2017 · 163 créditos",
+    sems: SEMS_BIOLOGIA, agr: AGR_BIOLOGIA,
+    store: "malla_biologia_unal", elecStore: "malla_biologia_elec",
+    meta: { C: 63, B: 68, L: 32 }, sem9fix: false, compact: true, target: 163, libreMeta: 32,
+    foot: `Códigos, créditos y prerrequisitos del Acuerdo 133 de 2017 del Consejo de Facultad de Ciencias (y sus adiciones de 2021–2025); semestres de la malla de la Facultad. Fundamentación 68
+      (60 obligatorios + 8 optativos), Disciplinar 63 (55 optativos + Trabajo de Grado 8) y Libre elección 32. Las optativas disciplinares van como cupos (13 de 4 cr y uno de 3; cada materia real
+      tiene sus propios prerrequisitos en el acuerdo). El Trabajo de Grado pide el 100 % de Fundamentación y 44 créditos disciplinares. Correquisitos, Matemáticas Básicas e Inglés no se incluyen.
+      <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
 };
 
