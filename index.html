@@ -2429,6 +2429,947 @@ const AGR_CIENCIAPOLITICA = {
   tg:   ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
 };
 
+// ===== Facultad de Ciencias Humanas =====
+
+// Trabajo Social — plan 2537 (Acuerdo 25 de 2012), 148 créditos. Malla del PEP (págs. 20–21 del PDF).
+const SEMS_TRABAJOSOCIAL = [
+ {s:1, m:[
+   _m("2017486","Historia del Trabajo Social",3,"C","tmt"),
+   _m("2017472","Ciencia Política",3,"B","cs"),
+   _m("2015271","Fundamentos de las Ciencias Sociales",3,"B","cs"),
+   _m("TS_OPT_F1","Optativa — Ciencias Sociales y Humanas",3,"B","cs",[],true),
+ ]},
+ {s:2, m:[
+   _m("2017481","Epistemología de la Investigación en Trabajo Social",3,"C","inv"),
+   _m("2017500","Problemas Sociales I",2,"C","ppd"),
+   _m("2015229","Colombia Contemporánea",3,"B","cs"),
+   _m("2017484","Fundamentos de Psicoanálisis",3,"B","cs"),
+ ]},
+ {s:3, m:[
+   _m("2017507","Teorías Contemporáneas en Trabajo Social",3,"C","tmt",["2017486"]),
+   _m("2017501","Problemas Sociales II",2,"C","ppd",["2017500"]),
+   _m("2017366","Fundamentos de Antropología",3,"B","cs"),
+   _m("2017477","Teoría Sociológica I",3,"B","cs"),
+   _m("2017913","Psicología Social",3,"B","cs"),
+ ]},
+ {s:4, m:[
+   _m("2017511","Trabajo Social Individual",3,"C","tmt",["2017507"]),
+   _m("2017509","Trabajo Social de Grupo",3,"C","tmt",["2017507"]),
+   _m("2017493","Políticas Sociales I",2,"C","ppd",["2017501"]),
+   _m("2017476","Historia del Siglo XX",3,"B","cs"),
+ ]},
+ {s:5, m:[
+   _m("2017510","Trabajo Social Familiar",3,"C","tmt",["2017511"]),
+   _m("2017508","Trabajo Social Comunitario",3,"C","tmt",["2017509"]),
+   _m("2017494","Políticas Sociales II",2,"C","ppd",["2017493"]),
+   _m("1000014","Estadística Social Fundamental",3,"B","inv"),
+   _m("TS_OPT_TM","Optativa — DD. HH. y Trabajo Social o Movimientos Sociales",3,"C","tmt",[],true),
+ ]},
+ {s:6, m:[
+   _m("2017479","Comunicación y Educación Popular",3,"C","tmt"),
+   _m("2017492","Planeación Social",3,"C","ppd"),
+   _m("TS_SEMAMB","Seminario Ambiental",3,"B","cs"),
+   _m("2015989","Métodos Cualitativos",3,"B","inv"),
+ ]},
+ {s:7, m:[
+   _m("2017487","Intervención Social",3,"C","tmt",["2017510","2017508"]),
+   _m("2017485","Gestión Social de Recursos",3,"C","ppd",["2017492"]),
+   _m("2017504","Proyectos de Desarrollo Social",3,"C","ppd",["2017492"]),
+   _m("TS_OPT_F2","Optativa — Ciencias Sociales y Humanas",3,"B","cs",[],true),
+   _m("TS_OPT_F3","Optativa — Ciencias Sociales y Humanas",3,"B","cs",[],true),
+ ]},
+ {s:8, m:[
+   _m("2017495","Práctica I",8,"C","prac",["2017487"]),
+   _m("TS_OPT_PR","Optativa — Procesos Familiares o Procesos Comunitarios",3,"C","prac",[],true),
+ ]},
+ {s:9, m:[
+   _m("2017496","Práctica II",8,"C","prac",["2017495"]),
+   _m("TS_OPT_INV","Optativa — Investigación sobre la Intervención o Laboratorio de Investigación",3,"C","inv",["2017481"],true),
+ ]},
+ {s:10, m:[
+   _m("2017520","Trabajo de Grado",8,"C","inv",["2017496"]),
+ ]},
+];
+const AGR_TRABAJOSOCIAL = {
+  cs:   ["#8fb56a", "Ciencias Sociales y Humanas y Teorías Contemporáneas", "Cs. Sociales y Humanas"],
+  tmt:  ["#e0c341", "Teorías y Metodologías de Trabajo Social", "Teorías y Metodologías"],
+  ppd:  ["#5aa9e6", "Políticas Públicas Sociales y Derechos Humanos", "Políticas y DD. HH."],
+  inv:  ["#c56bd0", "Investigación Social", "Investigación Social"],
+  prac: ["#dc6a4c", "Prácticas en Trabajo Social", "Prácticas"],
+};
+
+// Antropología — Acuerdo 108 de 2008 / Resolución 2443 de 2008, 122 créditos. Tablas 1–4 del PEP.
+const SEMS_ANTROPOLOGIA = [
+ {s:1, m:[
+   _m("ANT_FCS","Fundamentos de las Ciencias Sociales",3,"B","fsa"),
+   _m("ANT_COLC","Colombia Contemporánea",3,"B","fhc"),
+   _m("ANT_ECOEV","Ecología y Evolución",3,"B","farq"),
+ ]},
+ {s:2, m:[
+   _m("ANT_HSC","Historia Sociocultural de Colombia",3,"B","fhc"),
+   _m("ANT_FANT","Fundamentos de Antropología",4,"C","sa"),
+ ]},
+ {s:3, m:[
+   _m("ANT_HOMIN","Hominización",3,"C","arq",["ANT_ECOEV"]),
+   _m("ANT_PARQ1","Pensamiento Arqueológico I",3,"C","arq",["ANT_FANT"]),
+   _m("ANT_PANT1","Pensamiento Antropológico I",3,"C","soc",["ANT_FANT"]),
+ ]},
+ {s:4, m:[
+   _m("ANT_PARQ2","Pensamiento Arqueológico II",3,"C","arq",["ANT_PARQ1"]),
+   _m("ANT_AHIS1","Antropología Histórica I",3,"C","his",["ANT_FANT"]),
+   _m("ANT_PANT2","Pensamiento Antropológico II",3,"C","soc",["ANT_PANT1"]),
+   _m("ANT_ETNCOL","Etnología en Colombia",3,"C","soc",["ANT_FANT"]),
+ ]},
+ {s:5, m:[
+   _m("ANT_ARQAM","Arqueologías Americanas",3,"C","arq",["ANT_PARQ2"]),
+   _m("ANT_AHIS2","Antropología Histórica II",3,"C","his",["ANT_AHIS1"]),
+   _m("ANT_ILING","Introducción a la Antropología Lingüística",3,"C","lin",["ANT_FANT"]),
+   _m("ANT_ANTCOL","Antropología en Colombia",3,"C","soc",["ANT_ETNCOL"]),
+ ]},
+ {s:6, m:[
+   _m("ANT_TEC1","Técnicas de Investigación en Antropología I",3,"C","sa",["ANT_PANT2"]),
+   _m("ANT_ARQSOC","Arqueología y Sociedad",3,"C","arq",["ANT_ARQAM"]),
+   _m("ANT_ETNLING","Etnolingüística",3,"C","lin",["ANT_ILING"]),
+   _m("ANT_TSOC","Teoría Social",3,"C","soc",["ANT_PANT2"]),
+   _m("ANT_ETNREG","Etnología Regional",3,"C","soc",["ANT_ANTCOL"]),
+ ]},
+ {s:7, m:[
+   _m("ANT_SEMDEP","Seminario del Departamento",3,"C","sa",["ANT_TEC1"]),
+   _m("ANT_TEC2","Técnicas de Investigación en Antropología II",3,"C","sa",["ANT_TEC1"]),
+   _m("ANT_APLIC","Antropología Aplicada y del Desarrollo",3,"C","soc",["ANT_TSOC"]),
+ ]},
+ {s:8, m:[
+   _m("ANT_DISENO","Diseño de Proyecto",5,"C","tg",["ANT_TEC2"],true),
+ ]},
+ {s:9, m:[
+   _m("ANT_LAB","Laboratorio de Investigación",10,"C","tg",["ANT_DISENO"],true),
+   _m("ANT_TG","Trabajo de Grado",10,"C","tg",["ANT_DISENO"]),
+ ]},
+];
+const AGR_ANTROPOLOGIA = {
+  fsa:  ["#8891a5", "Fundamentación sin agrupación", "Fundamentación"],
+  fhc:  ["#e3b955", "Historia de Colombia", "Historia de Colombia"],
+  farq: ["#8ec44e", "Arqueología y Antropología Biológica (fund.)", "Arq. y A. Biológica (F)"],
+  sa:   ["#9aa6bd", "Disciplinar sin agrupación", "Disciplinar"],
+  arq:  ["#6fae3a", "Arqueología y Antropología Biológica", "Arq. y A. Biológica"],
+  his:  ["#f0a24a", "Antropología Histórica", "A. Histórica"],
+  lin:  ["#5aa9e6", "Antropología Lingüística", "A. Lingüística"],
+  soc:  ["#dc6a4c", "Antropología Social y Cultural", "A. Social y Cultural"],
+  tg:   ["#c56bd0", "Diseño de Proyecto, Laboratorio y Trabajo de Grado", "Proyecto y TG"],
+};
+
+// Psicología — 150 créditos (PEP, Figura 1). La malla va por agrupaciones, sin semestres: la
+// ubicación por semestre es una secuencia propuesta según los prerrequisitos.
+const SEMS_PSICOLOGIA = [
+ {s:1, m:[
+   _m("PSI_FUND","Fundamentos de Psicología",4,"B","asp"),
+   _m("PSI_EST","Estadística Social Fundamental",3,"B","sin"),
+   _m("PSI_EPCS","Epistemología de las Ciencias Sociales",3,"B","rcs"),
+   _m("PSI_BIO","Biología General",3,"B","rcn"),
+   _m("PSI_PSC","Problemática Social Colombiana",3,"B","ctx"),
+ ]},
+ {s:2, m:[
+   _m("PSI_BSC","Bases Socio-Culturales del Comportamiento Humano",3,"B","rcs"),
+   _m("PSI_EPCN","Epistemología de las Ciencias Naturales",3,"B","rcn"),
+   _m("PSI_BBC","Bases Biológicas del Comportamiento",3,"B","rcn",["PSI_BIO"]),
+   _m("PSI_OPT_CTX","Optativa — Contextualización Nacional",3,"B","ctx",["PSI_PSC"],true),
+   _m("PSI_EPPS","Epistemología de la Psicología",3,"C","hep",["PSI_FUND"]),
+ ]},
+ {s:3, m:[
+   _m("PSI_PCPS","Perspectivas Contemporáneas en Psicología Social",3,"C","ind",["PSI_FUND"]),
+   _m("PSI_DES","Psicología del Desarrollo",3,"C","des",["PSI_FUND"]),
+   _m("PSI_DIF","Psicología Diferencial",3,"C","dif",["PSI_FUND"]),
+   _m("PSI_OPT_HEP","Optativa — Aspectos Históricos y Epistemológicos",3,"C","hep",["PSI_FUND"],true),
+   _m("PSI_OPT_PRO1","Optativa I — Procesos Psicológicos",3,"C","pro",["PSI_FUND"],true),
+ ]},
+ {s:4, m:[
+   _m("PSI_PBPS","Procesos Básicos en Psicología Social",3,"C","ind",["PSI_FUND"]),
+   _m("PSI_ANOR","Psicología de lo Anormal",3,"C","dif",["PSI_FUND","PSI_BBC"]),
+   _m("PSI_CCP1","Construcción de Conocimiento Psicológico I",3,"C","met",["PSI_EST","PSI_EPPS"]),
+   _m("PSI_OPT_PRO2","Optativa II — Procesos Psicológicos",3,"C","pro",["PSI_FUND"],true),
+   _m("PSI_OPT_DES1","Optativa I — Desarrollo Psicológico",3,"C","des",["PSI_DES"],true),
+ ]},
+ {s:5, m:[
+   _m("PSI_CCP2","Construcción de Conocimiento Psicológico II",3,"C","met",["PSI_EST","PSI_EPPS"]),
+   _m("PSI_OPT_PRO3","Optativa III — Procesos Psicológicos",3,"C","pro",["PSI_FUND"],true),
+   _m("PSI_OPT_IND","Optativa — Individuo y Sociedad",3,"C","ind",["PSI_PBPS"],true),
+   _m("PSI_OPT_DES2","Optativa II — Desarrollo Psicológico",3,"C","des",["PSI_DES"],true),
+ ]},
+ {s:6, m:[
+   _m("PSI_PROF","Psicología Profesional",3,"C","prof",[{comp:"C",min:31},"PSI_DIF","PSI_ANOR"]),
+   _m("PSI_OPT_MET1","Optativa I — Métodos e Investigación",3,"C","met",["PSI_CCP1","PSI_CCP2"],true),
+   _m("PSI_OPT_MET2","Optativa II — Métodos e Investigación",3,"C","met",["PSI_CCP1","PSI_CCP2"],true),
+   _m("PSI_OPT_PRF1","Optativa I — Psicología Profesional",3,"C","prof",["PSI_PROF"],true),
+ ]},
+ {s:7, m:[
+   _m("PSI_EVAL","Evaluación Psicológica",3,"C","prof",["PSI_PROF"]),
+   _m("PSI_OPT_PRF2","Optativa II — Psicología Profesional",3,"C","prof",["PSI_PROF"],true),
+   _m("PSI_OPT_PRF3","Optativa III — Psicología Profesional",3,"C","prof",["PSI_PROF"],true),
+   _m("PSI_OPT_PRF4","Optativa IV — Psicología Profesional",3,"C","prof",["PSI_PROF"],true),
+ ]},
+ {s:8, m:[
+   _m("PSI_PRAC1","Práctica I",7,"C","prof",[{comp:"B",min:28},{comp:"C",min:66},{comp:"L",min:17}]),
+ ]},
+ {s:9, m:[
+   _m("PSI_PRAC2","Práctica II",7,"C","prof",["PSI_PRAC1"]),
+ ]},
+ {s:10, m:[
+   _m("PSI_TG","Trabajo de Grado",6,"C","met",["PSI_PRAC1"]),
+ ]},
+];
+const AGR_PSICOLOGIA = {
+  asp:  ["#f0b400", "Aspectos Psicológicos", "Aspectos Psicológicos"],
+  sin:  ["#8891a5", "Asignatura sin agrupación", "Sin agrupación"],
+  rcs:  ["#e3b955", "Relación Psicología–Ciencias Sociales", "Psic.–Cs. Sociales"],
+  rcn:  ["#8ec44e", "Relación Psicología–Ciencias Naturales", "Psic.–Cs. Naturales"],
+  ctx:  ["#f0a24a", "Contextualización Nacional", "Contextualización"],
+  hep:  ["#9aa6bd", "Aspectos Históricos y Epistemológicos de la Psicología", "Hist. y Epistemología"],
+  pro:  ["#5aa9e6", "Procesos Psicológicos", "Procesos"],
+  ind:  ["#33ac9d", "Individuo y Sociedad", "Individuo y Sociedad"],
+  des:  ["#c56bd0", "Desarrollo Psicológico", "Desarrollo"],
+  dif:  ["#e07aa4", "Diferencias Individuales", "Dif. Individuales"],
+  met:  ["#93a0e6", "Métodos e Investigación", "Métodos e Inv."],
+  prof: ["#dc4c43", "Psicología Profesional", "Profesional"],
+};
+
+// Historia — Acuerdo 243 de 2008, 121 créditos. Figura 1 del PEP.
+const SEMS_HISTORIA = [
+ {s:1, m:[
+   _m("HIS_INTRO","Introducción a la Historia",3,"B","fun"),
+   _m("HIS_COL1","Colombia I",3,"C","col"),
+   _m("HIS_AL1","Historia de América Latina (optativa)",3,"C","al",[],true),
+   _m("HIS_MU1","Historia Mundial (optativa)",3,"C","mun",[],true),
+ ]},
+ {s:2, m:[
+   _m("HIS_COL2","Colombia II",3,"C","col",["HIS_COL1"]),
+   _m("HIS_AL2","Historia de América Latina (optativa)",3,"C","al",[],true),
+   _m("HIS_MU2","Historia Mundial (optativa)",3,"C","mun",[],true),
+   _m("HIS_METH","Métodos Históricos",3,"C","met",["HIS_INTRO"]),
+ ]},
+ {s:3, m:[
+   _m("HIS_COL3","Colombia III",3,"C","col",["HIS_COL2"]),
+   _m("HIS_AL3","Historia de América Latina (optativa)",3,"C","al",[],true),
+   _m("HIS_MU3","Historia Mundial (optativa)",3,"C","mun",[],true),
+   _m("HIS_TECH","Técnicas Históricas (optativa)",3,"C","met",["HIS_METH"],true),
+ ]},
+ {s:4, m:[
+   _m("HIS_MCS","Métodos en Ciencias Sociales (optativa)",3,"B","fun",[],true),
+   _m("HIS_COL4","Colombia IV",3,"C","col",["HIS_COL3"]),
+   _m("HIS_AL4","Historia de América Latina (optativa)",3,"C","al",[],true),
+   _m("HIS_MU4","Historia Mundial (optativa)",3,"C","mun",[],true),
+ ]},
+ {s:5, m:[
+   _m("HIS_COL5","Colombia V",3,"C","col",["HIS_COL4"]),
+   _m("HIS_MU5","Historia Mundial (optativa)",3,"C","mun",[],true),
+   _m("HIS_CE1","Curso Especial (optativo)",3,"C","ce",[],true),
+   _m("HIS_ST1","Seminario Teórico (optativo)",3,"C","sem",[],true),
+ ]},
+ {s:6, m:[
+   _m("HIS_CE2","Curso Especial (optativo)",3,"C","ce",[],true),
+   _m("HIS_SH1","Seminario Historiográfico (optativo)",3,"C","sem",[],true),
+   _m("HIS_ST2","Seminario Teórico (optativo)",3,"C","sem",[],true),
+   _m("HIS_TPG","Taller Proyecto de Grado",3,"C","met",["HIS_METH"]),
+ ]},
+ {s:7, m:[
+   _m("HIS_CE3","Curso Especial (optativo)",3,"C","ce",[],true),
+   _m("HIS_SH2","Seminario Historiográfico (optativo)",3,"C","sem",[],true),
+   _m("HIS_ST3","Seminario Teórico (optativo)",3,"C","sem",[],true),
+   _m("HIS_TINV","Taller de Investigación (optativo)",3,"C","met",["HIS_TPG"],true),
+ ]},
+ {s:8, m:[
+   _m("HIS_CE4","Curso Especial (optativo)",3,"C","ce",[],true),
+   _m("HIS_TG","Trabajo de Grado",10,"C","met",["HIS_TPG"]),
+ ]},
+];
+const AGR_HISTORIA = {
+  fun: ["#e3b955", "Fundamentación", "Fundamentación"],
+  col: ["#dc6a4c", "Procesos Históricos — Colombia", "Colombia"],
+  al:  ["#f0a24a", "Procesos Históricos — América Latina", "América Latina"],
+  mun: ["#5aa9e6", "Procesos Históricos — Historia Mundial", "Historia Mundial"],
+  met: ["#c56bd0", "Métodos y Técnicas de Investigación", "Métodos y Técnicas"],
+  ce:  ["#8ec44e", "Cursos Especiales", "Cursos Especiales"],
+  sem: ["#33ac9d", "Seminarios Teóricos e Historiográficos", "Seminarios"],
+};
+
+// Sociología — 131 créditos (PEP, Gráfico 1 y tablas 1–2), 8 matrículas.
+const SEMS_SOCIOLOGIA = [
+ {s:1, m:[
+   _m("SOC_INTRO","Introducción a la Sociología",3,"B","fsin"),
+   _m("SOC_HC1","Optativa — Historia de Colombia",3,"B","hcol",[],true),
+   _m("SOC_SOFT","Software Aplicado a las Ciencias Sociales",3,"B","fsin"),
+   _m("SOC_ESM1","Optativa — Estructura de la Sociedad Moderna",3,"B","esm",[],true),
+ ]},
+ {s:2, m:[
+   _m("SOC_ADC","Análisis de Datos Cuantitativos",3,"B","fsin"),
+   _m("SOC_HC2","Optativa — Historia de Colombia",3,"B","hcol",[],true),
+   _m("SOC_DURK","Teoría Sociológica Durkheim",3,"C","teo",["SOC_INTRO"]),
+   _m("SOC_ESM2","Optativa — Estructura de la Sociedad Moderna",3,"B","esm",[],true),
+ ]},
+ {s:3, m:[
+   _m("SOC_DEMO","Demografía",3,"C","met",[{comp:"B",min:19}]),
+   _m("SOC_EYS","Optativa — Espacio y Sociedad",3,"B","eys",[],true),
+   _m("SOC_TEM1","Optativa — Sociologías Temáticas",3,"C","tem",[],true),
+   _m("SOC_MARX","Teoría Sociológica Marx",3,"C","teo",["SOC_INTRO"]),
+ ]},
+ {s:4, m:[
+   _m("SOC_MCUANT","Métodos Cuantitativos",3,"C","met",["SOC_ADC"]),
+   _m("SOC_TALL1","Taller 1: Documentación e Investigación",5,"C","met"),
+   _m("SOC_TEM2","Optativa — Sociologías Temáticas",3,"C","tem",[],true),
+   _m("SOC_WEBER","Teoría Sociológica Weber",3,"C","teo",["SOC_INTRO"]),
+ ]},
+ {s:5, m:[
+   _m("SOC_IND","Indicadores Sociales",3,"C","met",["SOC_MCUANT"]),
+   _m("SOC_ESP1","Optativa — Sociologías Especiales",3,"C","esp",[],true),
+   _m("SOC_TEM3","Optativa — Sociologías Temáticas",3,"C","tem",[],true),
+   _m("SOC_TEO1","Optativa — Teoría Sociológica",3,"C","teo",[],true),
+ ]},
+ {s:6, m:[
+   _m("SOC_MCUAL","Métodos Cualitativos",3,"C","met"),
+   _m("SOC_ESP2","Optativa — Sociologías Especiales",3,"C","esp",[],true),
+   _m("SOC_PSL","Pensamiento Sociológico Latinoamericano",3,"C","teo"),
+   _m("SOC_TEO2","Optativa — Teoría Sociológica",3,"C","teo",[],true),
+ ]},
+ {s:7, m:[
+   _m("SOC_OPTMET","Optativa — Métodos de Investigación",3,"C","met",[],true),
+   _m("SOC_ESP3","Optativa — Sociologías Especiales",3,"C","esp",[],true),
+   _m("SOC_TALL2","Taller 2: Proyecto de Investigación",8,"C","met",["SOC_TALL1","SOC_MCUAL"]),
+   _m("SOC_TEO3","Optativa — Teoría Sociológica",3,"C","teo",[],true),
+ ]},
+ {s:8, m:[
+   _m("SOC_TG","Trabajo de Grado",10,"C","met",["SOC_TALL2"]),
+ ]},
+];
+const AGR_SOCIOLOGIA = {
+  fsin: ["#6fae3a", "Fundamentación sin agrupación", "Fundamentación"],
+  hcol: ["#f0a24a", "Historia de Colombia", "Historia de Colombia"],
+  esm:  ["#3f9e5a", "Estructura de la Sociedad Moderna", "Sociedad Moderna"],
+  eys:  ["#33ac9d", "Espacio y Sociedad", "Espacio y Sociedad"],
+  teo:  ["#e8896a", "Teorías Sociológicas", "Teorías Sociológicas"],
+  met:  ["#2fa0de", "Metodología e Investigación", "Metodología"],
+  tem:  ["#c38fcb", "Sociologías Temáticas", "Soc. Temáticas"],
+  esp:  ["#e8a3b8", "Sociologías Especiales", "Soc. Especiales"],
+};
+
+// Lingüística — 123 créditos (PEP, tablas 2–3).
+const SEMS_LINGUISTICA = [
+ {s:1, m:[
+   _m("LIN_TALL1","Taller de Comprensión y Producción de Textos I",3,"B","cb"),
+   _m("LIN_LG","Lingüística General",3,"B","id"),
+   _m("LIN_TCOM","Teorías de la Comunicación",3,"B","id"),
+   _m("LIN_FON","Fonética",3,"C","fl"),
+ ]},
+ {s:2, m:[
+   _m("LIN_OPT_CB1","Optativa — Competencias Básicas",3,"B","cb",[],true),
+   _m("LIN_OPT_ID1","Optativa — Introducción Disciplinar",3,"B","id",[],true),
+   _m("LIN_FONOL","Fonología",3,"C","fl",["LIN_FON"]),
+   _m("LIN_OPT_FL1","Optativa — Fundamentos de Lingüística",3,"C","fl",["LIN_LG"],true),
+ ]},
+ {s:3, m:[
+   _m("LIN_MCUANT","Métodos Cuantitativos",3,"B","cb"),
+   _m("LIN_OPT_CB2","Optativa — Competencias Básicas",3,"B","cb",[],true),
+   _m("LIN_MORF","Morfología",3,"C","fl",["LIN_LG"]),
+   _m("LIN_SEM","Semántica",3,"C","fl",["LIN_LG"]),
+   _m("LIN_OPT_FL2","Optativa — Fundamentos de Lingüística",3,"C","fl",["LIN_LG"],true),
+ ]},
+ {s:4, m:[
+   _m("LIN_MCUAL","Métodos Cualitativos",3,"B","cb"),
+   _m("LIN_OPT_ID2","Optativa — Introducción Disciplinar",3,"B","id",[],true),
+   _m("LIN_SINT","Sintaxis",3,"C","fl",["LIN_MORF"]),
+   _m("LIN_PRAG","Pragmática",3,"C","fl",["LIN_SEM"]),
+   _m("LIN_OPT_COM1","Optativa — Comunicación",3,"C","com",["LIN_TCOM"],true),
+ ]},
+ {s:5, m:[
+   _m("LIN_OPT_FL3","Optativa — Fundamentos de Lingüística",3,"C","fl",["LIN_LG"],true),
+   _m("LIN_OPT_COM2","Optativa — Comunicación",3,"C","com",["LIN_TCOM"],true),
+   _m("LIN_OPT_INT1","Optativa — Interdisciplinas",3,"C","int",["LIN_LG"],true),
+   _m("LIN_OPT_INT2","Optativa — Interdisciplinas",3,"C","int",["LIN_LG"],true),
+ ]},
+ {s:6, m:[
+   _m("LIN_OPT_COM3","Optativa — Comunicación",3,"C","com",["LIN_TCOM"],true),
+   _m("LIN_OPT_INT3","Optativa — Interdisciplinas",3,"C","int",["LIN_LG"],true),
+   _m("LIN_STG1","Seminario de Trabajo de Grado I",3,"C","tg",["LIN_SINT","LIN_PRAG"]),
+ ]},
+ {s:7, m:[
+   _m("LIN_OPT_INT4","Optativa — Interdisciplinas",3,"C","int",["LIN_LG"],true),
+   _m("LIN_STG2","Seminario de Trabajo de Grado II",3,"C","tg",["LIN_STG1"]),
+   _m("LIN_OPT_TG1","Optativa — Investigación de Trabajo de Grado",3,"C","tg",[],true),
+ ]},
+ {s:8, m:[
+   _m("LIN_TG","Trabajo de Grado",12,"C","tg",["LIN_STG2"]),
+   _m("LIN_OPT_TG2","Optativa — Investigación de Trabajo de Grado",3,"C","tg",[],true),
+ ]},
+];
+const AGR_LINGUISTICA = {
+  cb:  ["#e3b955", "Competencias Básicas", "Competencias Básicas"],
+  id:  ["#f0a24a", "Introducción Disciplinar", "Intro. Disciplinar"],
+  fl:  ["#5aa9e6", "Fundamentos de Lingüística", "Fund. de Lingüística"],
+  int: ["#33ac9d", "Interdisciplinas", "Interdisciplinas"],
+  com: ["#c56bd0", "Comunicación", "Comunicación"],
+  tg:  ["#dc6a4c", "Investigación de Trabajo de Grado", "Investigación y TG"],
+};
+
+// Licenciatura en Español y Filología Clásica — 125 créditos (PEP, tablas 4–5).
+const SEMS_FILCLASICA = [
+ {s:1, m:[
+   _m("FCL_LG","Lingüística General",3,"B","fun"),
+   _m("FCL_ILIT","Introducción a la Literatura",3,"B","fun"),
+   _m("FCL_OPT_F","Optativa de Fundamentación",3,"B","fun",[],true),
+   _m("FCL_LAT1","Latín Básico I",4,"C","lc"),
+ ]},
+ {s:2, m:[
+   _m("FCL_LAT2","Latín Básico II",4,"C","lc",["FCL_LAT1"]),
+   _m("FCL_GR1","Griego Básico I",4,"C","lc"),
+   _m("FCL_OPT_FL1","Optativa — Fundamentos de Lingüística",3,"C","fl",["FCL_LG"],true),
+   _m("FCL_OPT_EC1","Optativa — Estudios Clásicos o Hispánicos",3,"C","ech",[],true),
+ ]},
+ {s:3, m:[
+   _m("FCL_IFC","Introducción a la Filología Clásica",3,"B","fun"),
+   _m("FCL_PLAT","Prosa Latina",3,"C","lc",["FCL_LAT2"]),
+   _m("FCL_GR2","Griego Básico II",4,"C","lc",["FCL_GR1"]),
+   _m("FCL_OPT_ED1","Optativa — Educación",3,"C","edu",[],true),
+   _m("FCL_OPT_FL2","Optativa — Fundamentos de Lingüística",3,"C","fl",["FCL_LG"],true),
+ ]},
+ {s:4, m:[
+   _m("FCL_PGR","Prosa Griega",3,"C","lc",["FCL_GR2"]),
+   _m("FCL_OPT_LC","Optativa — Lengua Clásica (Lírica)",3,"C","lc",["FCL_PLAT"],true),
+   _m("FCL_OPT_FL3","Optativa — Fundamentos de Lingüística",3,"C","fl",["FCL_LG"],true),
+   _m("FCL_OPT_ED2","Optativa — Educación",3,"C","edu",[],true),
+ ]},
+ {s:5, m:[
+   _m("FCL_OPT_FL4","Optativa — Fundamentos de Lingüística",3,"C","fl",["FCL_LG"],true),
+   _m("FCL_OPT_EC2","Optativa — Estudios Clásicos o Hispánicos",3,"C","ech",[],true),
+   _m("FCL_OPT_FL5","Optativa — Fundamentos de Lingüística",3,"C","fl",["FCL_LG"],true),
+   _m("FCL_OPT_ED3","Optativa — Educación",3,"C","edu",[],true),
+ ]},
+ {s:6, m:[
+   _m("FCL_OPT_EC3","Optativa — Estudios Clásicos o Hispánicos",3,"C","ech",[],true),
+   _m("FCL_PRAC","Práctica Docente",4,"C","edu",["FCL_OPT_ED1","FCL_OPT_ED2","FCL_OPT_ED3"]),
+   _m("FCL_STG1","Seminario de Trabajo de Grado I",4,"C","tg"),
+   _m("FCL_OPT_EC4","Optativa — Estudios Clásicos o Hispánicos",3,"C","ech",[],true),
+ ]},
+ {s:7, m:[
+   _m("FCL_STG2","Seminario de Trabajo de Grado II",4,"C","tg",["FCL_STG1"]),
+   _m("FCL_OPT_EC5","Optativa — Estudios Clásicos o Hispánicos",3,"C","ech",[],true),
+ ]},
+ {s:8, m:[
+   _m("FCL_TG","Trabajo de Grado",10,"C","tg",["FCL_STG2"]),
+ ]},
+];
+const AGR_FILCLASICA = {
+  fun: ["#e3b955", "Fundamentación", "Fundamentación"],
+  lc:  ["#c56bd0", "Lengua Clásica", "Lengua Clásica"],
+  fl:  ["#5aa9e6", "Fundamentos de Lingüística", "Fund. de Lingüística"],
+  ech: ["#dc6a4c", "Estudios Clásicos o Hispánicos", "Estudios Clás./Hisp."],
+  edu: ["#8ec44e", "Educación", "Educación"],
+  tg:  ["#93a0e6", "Investigación de Trabajo de Grado", "Investigación y TG"],
+};
+
+// Estudios Literarios — 119 créditos (PEP, tablas 1–2). El PEP no trae distribución por semestres:
+// la secuencia es propuesta.
+const SEMS_LITERARIOS = [
+ {s:1, m:[
+   _m("LIT_ILIT","Introducción a la Literatura",3,"B","fun"),
+   _m("LIT_ITEO","Introducción a la Teoría Literaria",3,"B","fun"),
+   _m("LIT_CLAS","Literatura Clásica Griega y Latina",3,"B","fun"),
+   _m("LIT_OPT_F","Optativa de Fundamentación (Ciencias Humanas)",3,"B","fun",[],true),
+ ]},
+ {s:2, m:[
+   _m("LIT_TEO1","Teorías Literarias I",3,"C","teo",["LIT_ITEO"]),
+   _m("LIT_COL1","Historia de la Literatura Colombiana I",3,"C","col",["LIT_ILIT"]),
+   _m("LIT_UNI1","Historia de la Literatura Universal I",3,"C","uni",["LIT_ILIT"]),
+   _m("LIT_LAT1","Historia de la Literatura Latinoamericana I",3,"C","lat",["LIT_ILIT"]),
+ ]},
+ {s:3, m:[
+   _m("LIT_TEO2","Teorías Literarias II",3,"C","teo",["LIT_TEO1"]),
+   _m("LIT_COL2","Historia de la Literatura Colombiana II",3,"C","col",["LIT_COL1"]),
+   _m("LIT_UNI2","Historia de la Literatura Universal II",3,"C","uni",["LIT_UNI1"]),
+   _m("LIT_LAT2","Historia de la Literatura Latinoamericana II",3,"C","lat",["LIT_LAT1"]),
+ ]},
+ {s:4, m:[
+   _m("LIT_COL3","Historia de la Literatura Colombiana III",3,"C","col",["LIT_COL2"]),
+   _m("LIT_UNI3","Historia de la Literatura Universal III",3,"C","uni",["LIT_UNI2"]),
+   _m("LIT_ESP1","Historia de la Literatura Española I",3,"C","esp",["LIT_ILIT"]),
+   _m("LIT_OPT1","Optativa Disciplinar",3,"C","opt",[],true),
+ ]},
+ {s:5, m:[
+   _m("LIT_ESP2","Historia de la Literatura Española II",3,"C","esp",["LIT_ESP1"]),
+   _m("LIT_MON1","Curso Monográfico de Autor",3,"C","mon",["LIT_TEO1"]),
+   _m("LIT_OPT2","Optativa Disciplinar",3,"C","opt",[],true),
+   _m("LIT_SEM1","Seminario de Profundización",4,"C","sem",["LIT_TEO2"]),
+ ]},
+ {s:6, m:[
+   _m("LIT_MON2","Curso Monográfico de Autor",3,"C","mon",["LIT_TEO1"]),
+   _m("LIT_OPT3","Optativa Disciplinar",3,"C","opt",[],true),
+   _m("LIT_SEM2","Seminario de Profundización",4,"C","sem",["LIT_TEO2"]),
+   _m("LIT_SEM3","Seminario de Profundización",4,"C","sem",["LIT_TEO2"]),
+ ]},
+ {s:7, m:[
+   _m("LIT_OPT4","Optativa Disciplinar",3,"C","opt",[],true),
+   _m("LIT_SEM4","Seminario de Profundización",4,"C","sem",["LIT_TEO2"]),
+   _m("LIT_SEM5","Seminario de Profundización",4,"C","sem",["LIT_TEO2"]),
+ ]},
+ {s:8, m:[
+   _m("LIT_OPT5","Optativa Disciplinar",3,"C","opt",[],true),
+   _m("LIT_TG","Trabajo de Grado",6,"C","sem",["LIT_SEM1"]),
+ ]},
+];
+const AGR_LITERARIOS = {
+  fun: ["#e3b955", "Fundamentación", "Fundamentación"],
+  teo: ["#c56bd0", "Teorías Literarias", "Teorías Literarias"],
+  col: ["#f0a24a", "Historia de la Literatura Colombiana", "Lit. Colombiana"],
+  lat: ["#8ec44e", "Historia de la Literatura Latinoamericana", "Lit. Latinoamericana"],
+  esp: ["#dc6a4c", "Historia de la Literatura Española", "Lit. Española"],
+  uni: ["#5aa9e6", "Historia de la Literatura Universal", "Lit. Universal"],
+  mon: ["#33ac9d", "Cursos Monográficos de Autor", "Monográficos"],
+  sem: ["#93a0e6", "Seminarios de Profundización y Trabajo de Grado", "Seminarios y TG"],
+  opt: ["#9aa6bd", "Optativas Disciplinares", "Optativas"],
+};
+
+// Licenciatura en Filología e Idiomas (Alemán / Francés / Inglés) — 140 créditos. Las tres tienen la
+// misma estructura en el PEP (tablas 4–13 y equivalentes); solo cambia la lengua. Sin semestres en el
+// PEP: la secuencia es propuesta según los prerrequisitos de las tablas.
+function semsFilologia(P, L, adj){ // P = prefijo de id, L = "Alemán", adj = "Alemana"
+  const id = s => P + "_" + s;
+  const lo = n => id("O" + n), le = n => id("E" + n);
+  return [
+   {s:1, m:[
+     _m(lo(1), L+" I — Comunicación Oral",4,"C","len"),
+     _m(le(1), L+" I — Comunicación Escrita",4,"C","len"),
+     _m(id("LG"),"Lingüística General",3,"B","ling"),
+     _m(id("ILIT"),"Introducción a la Literatura",3,"B","lit"),
+     _m(id("FEDU"),"Fundamentos de la Educación",2,"B","edu"),
+   ]},
+   {s:2, m:[
+     _m(lo(2), L+" II — Comunicación Oral",4,"C","len",[lo(1)]),
+     _m(le(2), L+" II — Comunicación Escrita",4,"C","len",[le(1)]),
+     _m(id("MORF"),"Morfosintaxis Española I",3,"B","ling",[id("LG")]),
+     _m(id("PSED"),"Psicología y Educación",3,"B","edu",[id("FEDU")]),
+     _m(id("METI"),"Metodología de la Investigación",3,"B","inv"),
+   ]},
+   {s:3, m:[
+     _m(lo(3), L+" III — Comunicación Oral",4,"C","len",[lo(2)]),
+     _m(le(3), L+" III — Comunicación Escrita",4,"C","len",[le(2)]),
+     _m(id("FONE"),"Fonética y Fonología "+adj,3,"C","len",[lo(2)]),
+     _m(id("SOCI"),"Sociolingüística",3,"B","ling",[id("LG")]),
+     _m(id("OPTF"),"Optativa de Fundamentación",3,"B","ling",[id("LG")],true),
+   ]},
+   {s:4, m:[
+     _m(lo(4), L+" IV — Comunicación Oral",4,"C","len",[lo(3)]),
+     _m(le(4), L+" IV — Comunicación Escrita",4,"C","len",[le(3)]),
+     _m(id("GRA1"),"Gramática "+adj+" I",3,"C","len",[le(3)]),
+     _m(id("HLEN"),"Historia de la Lengua "+adj,2,"B","ling",[lo(4),le(4)]),
+   ]},
+   {s:5, m:[
+     _m(lo(5), L+" V — Comunicación Oral",3,"C","len",[lo(4)]),
+     _m(le(5), L+" V — Comunicación Escrita",3,"C","len",[le(4)]),
+     _m(id("GRA2"),"Gramática "+adj+" II",3,"C","len",[id("GRA1")]),
+     _m(id("CIV1"),"Civilización "+adj+" I",3,"B","lit",[lo(4),le(4),id("ILIT")]),
+     _m(id("DID1"),"Didáctica "+adj+" I",3,"C","edu2",[id("PSED"),lo(4),le(4)]),
+   ]},
+   {s:6, m:[
+     _m(lo(6), L+" VI — Comunicación Oral",3,"C","len",[lo(5)]),
+     _m(le(6), L+" VI — Comunicación Escrita",3,"C","len",[le(5)]),
+     _m(id("LIT1"),"Literatura "+adj+" I",3,"B","lit",[lo(5),le(5),id("ILIT")]),
+     _m(id("TRA1"),"Traducción "+adj+" I",3,"B","len2",[le(5)]),
+     _m(id("DID2"),"Didáctica "+adj+" II",3,"C","edu2",[id("DID1")]),
+   ]},
+   {s:7, m:[
+     _m(id("SEM1"),"Seminario Monográfico I",2,"C","inv2",[id("METI")],true),
+     _m(id("OPTA"),"Optativa de Formación Avanzada",3,"C","adv",[id("LIT1")],true),
+     _m(id("PRAC"),"Práctica Docente del "+L,4,"C","edu2",[id("DID2"),lo(6),le(6)]),
+   ]},
+   {s:8, m:[
+     _m(id("SEM2"),"Seminario Monográfico II",2,"C","inv2",[id("SEM1")],true),
+     _m(id("TG"),"Trabajo de Grado",6,"C","inv2",[id("SEM1")]),
+   ]},
+  ];
+}
+const SEMS_FIL_ALEMAN = semsFilologia("FIA","Alemán","Alemana");
+const SEMS_FIL_FRANCES = semsFilologia("FIF","Francés","Francesa");
+const SEMS_FIL_INGLES = semsFilologia("FII","Inglés","Inglesa");
+const AGR_FILOLOGIA = {
+  ling: ["#e3b955", "Formación en Lingüística", "Lingüística"],
+  lit:  ["#f0a24a", "Estudios Literarios y Culturales", "Literatura y Cultura"],
+  edu:  ["#b6d56a", "Educación y Pedagogía (fundamentación)", "Educación (F)"],
+  inv:  ["#e8a3b8", "Investigación (fundamentación)", "Investigación (F)"],
+  len2: ["#8fc8ee", "Lengua Extranjera de Especialidad (fundamentación)", "Lengua (F)"],
+  len:  ["#3b82f6", "Formación en Lengua Extranjera de Especialidad", "Lengua Extranjera"],
+  edu2: ["#6fae3a", "Educación y Pedagogía", "Educación"],
+  inv2: ["#c56bd0", "Investigación y Trabajo de Grado", "Investigación y TG"],
+  adv:  ["#33ac9d", "Optativas de Formación Avanzada", "Formación Avanzada"],
+};
+
+// Filosofía — 122 créditos (plan de estudios del Departamento). Sin semestres oficiales: la secuencia
+// es propuesta. Prerrequisitos del plan: Lógica I → II → III; Preseminario → seminarios.
+const SEMS_FILOSOFIA = [
+ {s:1, m:[
+   _m("FIL_LOG1","Lógica I",4,"B","fun"),
+   _m("FIL_PROP","Propedéutica",4,"B","fun"),
+   _m("FIL_CFA","Curso de Filosofía Antigua (introducción)",3,"C","ant"),
+ ]},
+ {s:2, m:[
+   _m("FIL_LOG2","Lógica II",4,"B","fun",["FIL_LOG1"]),
+   _m("FIL_CFM","Curso de Filosofía Moderna (introducción)",3,"C","mod"),
+   _m("FIL_CFC","Curso de Filosofía Contemporánea (introducción)",3,"C","con"),
+ ]},
+ {s:3, m:[
+   _m("FIL_LOG3","Lógica III",4,"B","fun",["FIL_LOG2"]),
+   _m("FIL_PRES","Preseminario",4,"B","fun",["FIL_PROP"]),
+   _m("FIL_CFA2","Curso de Filosofía Antigua (optativo)",3,"C","ant",[],true),
+   _m("FIL_CT1","Curso Temático I (optativo)",3,"C","tem",[],true),
+ ]},
+ {s:4, m:[
+   _m("FIL_CFM2","Curso de Filosofía Moderna (optativo)",3,"C","mod",[],true),
+   _m("FIL_CFC2","Curso de Filosofía Contemporánea (optativo)",3,"C","con",[],true),
+   _m("FIL_SFA1","Seminario de Filosofía Antigua (optativo)",4,"C","ant",["FIL_PRES"],true),
+   _m("FIL_CT2","Curso Temático II (optativo)",3,"C","tem",[],true),
+ ]},
+ {s:5, m:[
+   _m("FIL_SFM1","Seminario de Filosofía Moderna (optativo)",4,"C","mod",["FIL_PRES"],true),
+   _m("FIL_SFC1","Seminario de Filosofía Contemporánea (optativo)",4,"C","con",["FIL_PRES"],true),
+   _m("FIL_CT3","Curso Temático III (optativo)",3,"C","tem",[],true),
+ ]},
+ {s:6, m:[
+   _m("FIL_SFA2","Seminario de Filosofía Antigua (optativo)",4,"C","ant",["FIL_PRES"],true),
+   _m("FIL_SFM2","Seminario de Filosofía Moderna (optativo)",4,"C","mod",["FIL_PRES"],true),
+   _m("FIL_ST1","Seminario Temático I (optativo)",4,"C","tem",["FIL_PRES"],true),
+ ]},
+ {s:7, m:[
+   _m("FIL_SFC2","Seminario de Filosofía Contemporánea (optativo)",4,"C","con",["FIL_PRES"],true),
+   _m("FIL_ST2","Seminario Temático II (optativo)",4,"C","tem",["FIL_PRES"],true),
+   _m("FIL_ST3","Seminario Temático III (optativo)",4,"C","tem",["FIL_PRES"],true),
+ ]},
+ {s:8, m:[
+   _m("FIL_ST4","Seminario Temático IV (optativo)",4,"C","tem",["FIL_PRES"],true),
+   _m("FIL_TG","Trabajo de Grado",8,"C","tg",["FIL_PRES"]),
+ ]},
+];
+const AGR_FILOSOFIA = {
+  fun: ["#e3b955", "Fundamentación", "Fundamentación"],
+  ant: ["#dc6a4c", "Filosofía Antigua", "F. Antigua"],
+  mod: ["#5aa9e6", "Filosofía Moderna", "F. Moderna"],
+  con: ["#c56bd0", "Filosofía Contemporánea", "F. Contemporánea"],
+  tem: ["#8ec44e", "Temático", "Temático"],
+  tg:  ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Geografía — Acuerdo 201 de 2020, 128 créditos. Semestres y créditos de la tabla "semáforo" del
+// Departamento de Geografía.
+const SEMS_GEOGRAFIA = [
+ {s:1, m:[
+   _m("GEOG_FIS","Geografía Física",4,"B","fun"),
+   _m("GEOG_ITC","Introducción al Trabajo Científico",3,"B","fun"),
+   _m("GEOG_HUM","Geografía Humana",4,"B","fun"),
+   _m("GEOG_CART","Cartografía General",4,"B","fun"),
+   _m("GEOG_FCS","Fundamentos de las Ciencias Sociales",3,"B","fun"),
+ ]},
+ {s:2, m:[
+   _m("GEOG_EST","Estadística para Geógrafos",3,"B","fun"),
+   _m("GEOG_TIG","Tecnologías de la Información Geográfica",4,"B","fun",["GEOG_CART"]),
+   _m("GEOG_MCUAL","Métodos Cualitativos",3,"B","fun"),
+   _m("GEOG_AFIN","Fundamentos de Disciplinas Afines",3,"B","afin"),
+ ]},
+ {s:3, m:[
+   _m("GEOG_FOTO","Fotointerpretación",3,"B","fun",["GEOG_CART"]),
+   _m("GEOG_COL","Geografía de Colombia",3,"B","fun",["GEOG_FIS","GEOG_HUM"]),
+   _m("GEOG_HPG","Historia del Pensamiento Geográfico",3,"C","dis",["GEOG_HUM"]),
+   _m("GEOG_OPT1","Optativa 1",3,"C","opt",[],true),
+ ]},
+ {s:4, m:[
+   _m("GEOG_TEO","Teoría de la Geografía Contemporánea",3,"C","dis",["GEOG_HPG"]),
+   _m("GEOG_OPT2","Optativa 2",3,"C","opt",[],true),
+   _m("GEOG_OPT3","Optativa 3",3,"C","opt",[],true),
+ ]},
+ {s:5, m:[
+   _m("GEOG_OPT4","Optativa 4",3,"C","opt",[],true),
+   _m("GEOG_OPT5","Optativa 5",3,"C","opt",[],true),
+   _m("GEOG_OPT6","Optativa 6",3,"C","opt",[],true),
+   _m("GEOG_OPT7","Optativa 7",3,"C","opt",[],true),
+ ]},
+ {s:6, m:[
+   _m("GEOG_LAB","Laboratorio de Investigación",3,"C","dis",["GEOG_TEO"]),
+   _m("GEOG_OPT8","Optativa 8",3,"C","opt",[],true),
+   _m("GEOG_OPT9","Optativa 9",3,"C","opt",[],true),
+   _m("GEOG_OPT10","Optativa 10",3,"C","opt",[],true),
+ ]},
+ {s:7, m:[
+   _m("GEOG_TCAMPO","Trabajo de Campo",6,"C","dis",["GEOG_LAB"]),
+   _m("GEOG_OPT11","Optativa 11",3,"C","opt",[],true),
+   _m("GEOG_OPT12","Optativa 12",3,"C","opt",[],true),
+ ]},
+ {s:8, m:[
+   _m("GEOG_TG","Trabajo de Grado",10,"C","dis",["GEOG_LAB"]),
+ ]},
+];
+const AGR_GEOGRAFIA = {
+  fun:  ["#e3b955", "Fundamentación Obligatoria", "Fundamentación"],
+  afin: ["#f0a24a", "Fundamentos de Disciplinas Afines", "Disciplinas Afines"],
+  dis:  ["#dc6a4c", "Formación Disciplinar o Profesional", "Disciplinar"],
+  opt:  ["#5aa9e6", "Optativas (Física, Humana, TIG, Dinámica Ambiental)", "Optativas"],
+};
+
+// ===== Facultad de Ciencias Agrarias =====
+// Ingeniería Agronómica — Acuerdo 032 de 2014 del Consejo de Facultad, 180 créditos (PEP, tablas 1–15).
+// El plan se modificó en 2022 (Acuerdo 04 de 2022) y esa versión no está publicada sin CAPTCHA.
+const SEMS_AGRONOMICA = [
+ {s:1, m:[
+   _m("AGR_CDIF","Cálculo Diferencial",4,"B","mat"),
+   _m("AGR_QB","Química Básica",3,"B","qui"),
+   _m("AGR_LQB","Laboratorio de Química Básica",2,"B","qui"),
+   _m("AGR_BPL","Biología de Plantas",4,"B","bio"),
+   _m("AGR_INTRO","Introducción a la Ingeniería Agronómica",3,"C","spc"),
+ ]},
+ {s:2, m:[
+   _m("AGR_CINT","Cálculo Integral",4,"B","mat",["AGR_CDIF"]),
+   _m("AGR_BQ","Bioquímica Básica",3,"B","qui",["AGR_QB"]),
+   _m("AGR_LBQ","Laboratorio de Bioquímica Básica",2,"B","qui",["AGR_QB","AGR_LQB"]),
+   _m("AGR_ECO","Fundamentos de Ecología",3,"B","bio"),
+   _m("AGR_BOT","Botánica Taxonómica",3,"B","bio",["AGR_BPL"]),
+   _m("AGR_SOCR","Sociología Rural",3,"C","eco",["AGR_INTRO"]),
+ ]},
+ {s:3, m:[
+   _m("AGR_MEC","Fundamentos de Mecánica",4,"B","fis",["AGR_CDIF"]),
+   _m("AGR_OPT_EST","Optativa — Probabilidad y Estadística o Bioestadística",3,"B","mat",[],true),
+   _m("AGR_BCM","Biología Celular y Molecular Básica",3,"B","bio",["AGR_BQ"]),
+   _m("AGR_GEN","Genética General",3,"B","bio"),
+   _m("AGR_MICRO","Microbiología",3,"B","bio"),
+   _m("AGR_ECOAG","Economía Agraria",3,"C","eco",["AGR_INTRO"]),
+ ]},
+ {s:4, m:[
+   _m("AGR_DEXP","Diseño de Experimentos",3,"B","mat",["AGR_OPT_EST"]),
+   _m("AGR_AGROC","Agroclimatología",3,"C","sin"),
+   _m("AGR_CSUE","Ciencia del Suelo",3,"C","sue",["AGR_LQB"]),
+   _m("AGR_OPT_GEO","Optativa — Geografía",3,"B","geo",[],true),
+   _m("AGR_GAE","Gestión Agroempresarial",3,"C","eco",["AGR_ECOAG"]),
+ ]},
+ {s:5, m:[
+   _m("AGR_FVB","Fisiología Vegetal Básica",4,"C","fis2",["AGR_BPL","AGR_BCM","AGR_DEXP"]),
+   _m("AGR_FITOP","Fitopatología",3,"C","fito",["AGR_MICRO","AGR_GEN","AGR_ECO","AGR_BOT"]),
+   _m("AGR_ENTO","Entomología",3,"C","fito",["AGR_GEN","AGR_ECO","AGR_BOT"]),
+   _m("AGR_FITOM","Fitomejoramiento",3,"C","mej",["AGR_GEN"]),
+ ]},
+ {s:6, m:[
+   _m("AGR_EDAF","Edafología",3,"C","sue",["AGR_CSUE","AGR_FVB"]),
+   _m("AGR_FPV","Fisiología de la Producción Vegetal",3,"C","fis2",["AGR_FVB"]),
+   _m("AGR_REPR","Reproducción y Multiplicación",3,"C","fis2",["AGR_FVB"]),
+   _m("AGR_MIP","Manejo Integrado de Plagas",3,"C","fito",["AGR_ENTO"]),
+   _m("AGR_MIE","Manejo Integrado de Enfermedades",3,"C","fito",["AGR_FITOP","AGR_FVB"]),
+ ]},
+ {s:7, m:[
+   _m("AGR_FERT","Manejo de la Fertilidad del Suelo",3,"C","sue",["AGR_EDAF","AGR_BQ"]),
+   _m("AGR_MECA","Mecanización Agrícola",3,"C","sue",["AGR_EDAF"]),
+   _m("AGR_RIEG","Riegos y Drenajes",3,"C","agu",["AGR_MEC","AGR_AGROC","AGR_EDAF"]),
+   _m("AGR_MIM","Manejo Integrado de Malezas",3,"C","fito",["AGR_FVB","AGR_GEN","AGR_ECO","AGR_BOT"]),
+   _m("AGR_POSC","Tecnología de la Poscosecha",2,"C","spc",["AGR_FVB","AGR_MICRO"]),
+ ]},
+ {s:8, m:[
+   _m("AGR_AGROE","Agroecosistemas y Sistemas de Producción",3,"C","spc",["AGR_ENTO","AGR_FITOP","AGR_FPV","AGR_EDAF"]),
+   _m("AGR_CIC1","Ciclo I: Formulación y Evaluación de Proyectos Productivos",3,"C","spc",["AGR_GAE","AGR_FERT","AGR_MIP","AGR_MIE","AGR_MIM","AGR_MECA"]),
+   _m("AGR_OPT_P1","Optativa — Producción de Cultivos",3,"C","spc",["AGR_FERT","AGR_MIP","AGR_MIE","AGR_MIM"],true),
+   _m("AGR_OPT_P2","Optativa — Producción de Cultivos",3,"C","spc",["AGR_FERT","AGR_MIP","AGR_MIE","AGR_MIM"],true),
+ ]},
+ {s:9, m:[
+   _m("AGR_CIC2","Ciclo II: Ejecución de un Proyecto Productivo",4,"C","spc",["AGR_CIC1"]),
+   _m("AGR_PRAC","Práctica Profesional",12,"C","prac",["AGR_MIP","AGR_MIM","AGR_MIE","AGR_FERT","AGR_MECA"]),
+ ]},
+ {s:10, m:[
+   _m("AGR_TG","Trabajo de Grado",6,"C","prac",[{comp:"C",min:76}]),
+ ]},
+];
+const AGR_AGRONOMICA = {
+  mat:  ["#5aa9e6", "Matemáticas, Probabilidad y Estadística", "Matemáticas"],
+  qui:  ["#c56bd0", "Química", "Química"],
+  fis:  ["#9aa6bd", "Física Mecánica", "Física"],
+  bio:  ["#8ec44e", "Biológicas", "Biológicas"],
+  geo:  ["#e3b955", "Geografía", "Geografía"],
+  sin:  ["#8891a5", "Asignaturas sin agrupación", "Sin agrupación"],
+  agu:  ["#33ac9d", "Aguas", "Aguas"],
+  eco:  ["#f0a24a", "Económicas y Administración", "Económicas"],
+  fito: ["#dc4c43", "Fitoprotección", "Fitoprotección"],
+  fis2: ["#6fae3a", "Fisiología Vegetal", "Fisiología Vegetal"],
+  sue:  ["#b07a4a", "Suelos", "Suelos"],
+  mej:  ["#e07aa4", "Mejoramiento Genético de Plantas", "Mejoramiento"],
+  spc:  ["#3f9e5a", "Sistema de Producción de Cultivos", "Producción de Cultivos"],
+  prac: ["#93a0e6", "Práctica Profesional y Trabajo de Grado", "Práctica y TG"],
+};
+
+// ===== Facultad de Medicina Veterinaria y de Zootecnia =====
+// Medicina Veterinaria — Acuerdo 59 de 2016 del CFMVZ, 209 créditos (PEP, figuras 1 y 2 y tablas 3–4).
+// La libre elección (41) incluye 15 de electivas, 6 de líneas de profundización y la Práctica Integrada (20).
+const SEMS_VETERINARIA = [
+ {s:1, m:[
+   _m("VET_ICV","Introducción a las Ciencias Veterinarias",2,"B","iv"),
+   _m("VET_BBSA","Bioética y Bienestar en la Salud Animal",3,"B","iv"),
+   _m("VET_QB","Química Básica",3,"B","qui"),
+   _m("VET_OPT_BIO","Biología optativa",3,"B","bio",[],true),
+ ]},
+ {s:2, m:[
+   _m("VET_HIST","Histología y Embriología",4,"B","mor"),
+   _m("VET_ANAT","Anatomía Comparada",5,"B","mor"),
+   _m("VET_BQ","Bioquímica Básica",3,"B","qui",["VET_QB"]),
+   _m("VET_BIOF","Biofísica",2,"B","mor"),
+ ]},
+ {s:3, m:[
+   _m("VET_BMA","Biología Molecular Avanzada",2,"B","bio",["VET_OPT_BIO"]),
+   _m("VET_FISIO","Fisiología",5,"B","mor",["VET_HIST","VET_ANAT","VET_BQ","VET_BIOF"]),
+   _m("VET_OPT_PR1","Optativa de Producción (Suelos y Plantas)",2,"C","prod",[],true),
+   _m("VET_INMU","Inmunología",2,"C","be",["VET_HIST"]),
+   _m("VET_BIOEST","Bioestadística Fundamental",3,"B","eg"),
+ ]},
+ {s:4, m:[
+   _m("VET_GEN","Genética",3,"B","eg",["VET_BMA"]),
+   _m("VET_VIRO","Virología",3,"C","be",["VET_INMU"]),
+   _m("VET_BACT","Bacteriología y Micología",3,"C","be",["VET_INMU"]),
+   _m("VET_PARA","Parasitología",4,"C","be",["VET_INMU"]),
+   _m("VET_NUTR","Nutrición",2,"C","prod",["VET_FISIO"]),
+ ]},
+ {s:5, m:[
+   _m("VET_SEMIO","Semiología",3,"C","pre",[{comp:"B",min:38}]),
+   _m("VET_FARM","Farmacología",4,"C","ft",["VET_FISIO"]),
+   _m("VET_SOCR","Sociedades Rurales",3,"C","soc"),
+   _m("VET_IMAG","Imagenología",1,"C","pre",["VET_ANAT"]),
+   _m("VET_MEC","Mecanismos de Enfermedad",3,"C","be",["VET_FISIO"]),
+ ]},
+ {s:6, m:[
+   _m("VET_CIR1","Cirugía I",4,"C","cir",["VET_SEMIO","VET_FARM"]),
+   _m("VET_PSIS","Patología Sistémica",4,"C","be",["VET_MEC"]),
+   _m("VET_PCLIN","Patología Clínica",4,"C","be",["VET_MEC"]),
+   _m("VET_POLAG","Política Agropecuaria",3,"C","soc"),
+   _m("VET_OPT_PR2","Optativa de Producción (Sistemas de Producción I)",2,"C","prod",["VET_NUTR"],true),
+ ]},
+ {s:7, m:[
+   _m("VET_CIR2","Cirugía II",2,"C","cir",["VET_CIR1"]),
+   _m("VET_EPI","Epidemiología",3,"C","esp",["VET_BIOEST"]),
+   _m("VET_AVIAR","Medicina Aviar",3,"C","pre",["VET_SEMIO","VET_PSIS"]),
+   _m("VET_PEEA","Planeación y Evaluación de Empresas",2,"C","soc"),
+   _m("VET_EXT","Extensión Rural",1,"C","soc",["VET_SOCR"]),
+   _m("VET_TOX","Toxicología",3,"C","ft",["VET_FARM"]),
+   _m("VET_TC1","Trabajo de Campo — Llanos Orientales",2,"C","tc",["VET_SEMIO"]),
+   _m("VET_OPT_PR3","Optativa de Producción (Sistemas de Producción II)",2,"C","prod",["VET_OPT_PR2"],true),
+ ]},
+ {s:8, m:[
+   _m("VET_MIRUM","Medicina Interna de Rumiantes",2,"C","pre",["VET_PSIS","VET_PCLIN"]),
+   _m("VET_MIPEQ","Medicina Interna de Pequeños",2,"C","pre",["VET_PSIS","VET_PCLIN"]),
+   _m("VET_SP","Salud Pública",4,"C","esp",["VET_EPI"]),
+   _m("VET_TER1","Teriogenología I",2,"C","pre",["VET_SEMIO"]),
+   _m("VET_HATO","Salud de Hato",3,"C","pre",["VET_EPI"]),
+ ]},
+ {s:9, m:[
+   _m("VET_MIEQ","Medicina Interna de Equinos",2,"C","pre",["VET_MIRUM"]),
+   _m("VET_MISIL","Medicina Interna de Silvestres",2,"C","pre",["VET_MIPEQ"]),
+   _m("VET_MIPOR","Medicina Interna de Porcinos",2,"C","pre",["VET_MIRUM"]),
+   _m("VET_TER2","Teriogenología II",2,"C","pre",["VET_TER1"]),
+ ]},
+ {s:10, m:[
+   _m("VET_CGA","Clínica de Grandes Animales",8,"C","cli",["VET_MIRUM","VET_MIEQ","VET_CIR2"]),
+   _m("VET_CPA","Clínica de Pequeños Animales",8,"C","cli",["VET_MIPEQ","VET_CIR2"]),
+   _m("VET_CREP","Clínica de la Reproducción",8,"C","cli",["VET_TER2"]),
+   _m("VET_ROT","Rotación por Laboratorios",8,"C","cli",["VET_PCLIN"]),
+   _m("VET_TC2","Trabajo de Campo — Costa Atlántica",2,"C","tc",["VET_HATO"]),
+ ]},
+ {s:11, m:[]},
+ {s:12, m:[
+   _m("VET_TG","Trabajo de Grado",10,"C","tg",[{comp:"C",min:88}]),
+ ]},
+];
+const AGR_VETERINARIA = {
+  iv:   ["#2aa6d0", "Introducción a la Veterinaria", "Intro. a la Veterinaria"],
+  qui:  ["#8a4a72", "Química", "Química"],
+  mor:  ["#c0392b", "Morfofisiología", "Morfofisiología"],
+  eg:   ["#7ab648", "Estadística y Genética", "Estadística y Genética"],
+  bio:  ["#3b4fd0", "Biología", "Biología"],
+  be:   ["#7f8a99", "Bases de la Enfermedad", "Bases de la Enfermedad"],
+  prod: ["#b5471f", "Producción", "Producción"],
+  soc:  ["#d4ac0d", "Socioeconómica", "Socioeconómica"],
+  cir:  ["#1f2a6b", "Cirugía", "Cirugía"],
+  ft:   ["#6a2c91", "Farmacología y Toxicología", "Farmacología"],
+  esp:  ["#1e6b3a", "Epidemiología y Salud Pública", "Epidemiología"],
+  tc:   ["#8fb0a8", "Trabajo de Campo", "Trabajo de Campo"],
+  pre:  ["#e0701f", "Preclínicas", "Preclínicas"],
+  cli:  ["#2e8b57", "Clínicas", "Clínicas"],
+  tg:   ["#34495e", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Zootecnia — Resolución 064 de 2010 del Consejo de Facultad y modificaciones, 186 créditos
+// (PEP, anexo 3: malla de la Sede Bogotá). Libre elección 36 (incluye las 2 líneas de profundización).
+const SEMS_ZOOTECNIA = [
+ {s:1, m:[
+   _m("ZOO_OPT_MAT","Optativa de Matemáticas",4,"B","fopt",[],true),
+   _m("ZOO_QB","Química Básica",3,"B","fun"),
+   _m("ZOO_OPT_BIO1","Optativa de Biología",3,"B","fopt",[],true),
+   _m("ZOO_INTRO","Introducción a la Zootecnia",4,"B","fun"),
+ ]},
+ {s:2, m:[
+   _m("ZOO_ANAT","Anatomía Animal",4,"C","afr"),
+   _m("ZOO_BQ","Bioquímica Básica",3,"B","fun",["ZOO_QB"]),
+   _m("ZOO_OPT_BIO2","Optativa de Biología",3,"B","fopt",[],true),
+   _m("ZOO_BIOF","Biofísica",3,"B","fun"),
+   _m("ZOO_SUE","Suelos",3,"C","agro"),
+ ]},
+ {s:3, m:[
+   _m("ZOO_FISIO","Fisiología Animal",4,"C","afr",["ZOO_ANAT","ZOO_BIOF","ZOO_BQ"]),
+   _m("ZOO_OPT_EST","Optativa de Estadística",3,"B","fopt",[],true),
+   _m("ZOO_MICRO","Microbiología General",4,"B","fun"),
+   _m("ZOO_FVEG","Fisiología Vegetal",3,"C","agro",["ZOO_SUE"]),
+ ]},
+ {s:4, m:[
+   _m("ZOO_AFR","Anatomía y Fisiología de la Reproducción",4,"C","afr",["ZOO_FISIO"]),
+   _m("ZOO_DEXP","Diseño Experimental",3,"B","fun",["ZOO_OPT_EST"]),
+   _m("ZOO_GEN","Genética Animal",4,"B","fun"),
+   _m("ZOO_NUT1","Nutrición y Alimentación 1",4,"C","nut",["ZOO_FISIO"]),
+   _m("ZOO_PAST","Pastos y Forrajes",3,"C","agro",["ZOO_FVEG"]),
+   _m("ZOO_OPT_ECO","Optativa de Economía",3,"C","gest",[],true),
+ ]},
+ {s:5, m:[
+   _m("ZOO_REPR","Reproducción Animal",3,"C","afr",["ZOO_AFR"]),
+   _m("ZOO_MEJ","Mejoramiento Animal",4,"C","gen",["ZOO_GEN"]),
+   _m("ZOO_NUT2","Nutrición y Alimentación 2",4,"C","nut",["ZOO_NUT1"]),
+   _m("ZOO_POL","Política Agropecuaria",3,"C","gest"),
+ ]},
+ {s:6, m:[
+   _m("ZOO_OPT_A1","Optativa de Área",3,"C","opt",[],true),
+   _m("ZOO_OPT_A2","Optativa de Área",3,"C","opt",[],true),
+   _m("ZOO_OPT_A3","Optativa de Área",3,"C","opt",[],true),
+   _m("ZOO_BIOE","Bioética y Bienestar Animal",3,"C","prod"),
+   _m("ZOO_GAMB","Gestión Ambiental",3,"C","prod"),
+ ]},
+ {s:7, m:[
+   _m("ZOO_BOV","Sistemas de Producción Bovina",4,"C","prod",["ZOO_NUT2","ZOO_REPR"]),
+   _m("ZOO_AVI","Sistemas de Producción Avícola",4,"C","prod",["ZOO_NUT2"]),
+   _m("ZOO_POR","Sistemas de Producción Porcina",4,"C","prod",["ZOO_NUT2","ZOO_REPR"]),
+   _m("ZOO_SPEC","Sistemas Pecuarios",3,"C","prod",["ZOO_MEJ"]),
+   _m("ZOO_BIOS","Bioseguridad y Trazabilidad",3,"C","prod"),
+ ]},
+ {s:8, m:[
+   _m("ZOO_ACU","Sistemas de Producción Acuícola",4,"C","prod",["ZOO_NUT2"]),
+   _m("ZOO_OPT_P1","Optativa de Producción",3,"C","prod",[],true),
+   _m("ZOO_OPT_P2","Optativa de Producción",3,"C","prod",[],true),
+   _m("ZOO_GEMP","Gestión de Empresas Agropecuarias",3,"C","gest",["ZOO_POL"]),
+ ]},
+ {s:9, m:[
+   _m("ZOO_CARN","Agroindustria de Productos Cárnicos",3,"C","post",["ZOO_BOV","ZOO_POR"]),
+   _m("ZOO_LACT","Agroindustria de Productos Lácteos",3,"C","post",["ZOO_BOV"]),
+   _m("ZOO_EXT","Extensión Rural",3,"C","gest",["ZOO_GEMP"]),
+   _m("ZOO_TG","Trabajo de Grado",6,"C","tg",[{comp:"C",min:80}]),
+ ]},
+ {s:10, m:[
+   _m("ZOO_PRAC","Práctica Integral",10,"C","tg",["ZOO_CARN","ZOO_LACT","ZOO_ACU"]),
+ ]},
+];
+const AGR_ZOOTECNIA = {
+  fun:  ["#f0b400", "Fundamentación", "Fundamentación"],
+  fopt: ["#f5e14a", "Optativas de Fundamentación", "Optativa Fund."],
+  afr:  ["#dc6a4c", "Anatomía, Fisiología y Reproducción", "Anat., Fisio. y Repr."],
+  gen:  ["#c56bd0", "Genética y Mejoramiento", "Genética y Mejoram."],
+  nut:  ["#8ec44e", "Nutrición y Alimentación", "Nutrición"],
+  agro: ["#3f9e5a", "Agrostología", "Agrostología"],
+  gest: ["#e3b955", "Gestión Empresarial", "Gestión Empresarial"],
+  prod: ["#5aa9e6", "Producción", "Producción"],
+  post: ["#33ac9d", "Post-producción", "Post-producción"],
+  opt:  ["#9aa6bd", "Optativas de Área", "Optativas de Área"],
+  tg:   ["#93a0e6", "Trabajo de Grado y Práctica Integral", "TG y Práctica"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -2769,6 +3710,175 @@ const MALLAS = {
       101 créditos (80 % del plan) para el Trabajo de Grado. El Inglés I–IV (12 cr) no se incluye. La malla del PEP es de 2008; <b>no se ha verificado con estudiantes</b>. Herramienta no oficial;
       ante la duda, consulta el SIA.`,
   },
+  "trabajo-social": {
+    nombre: "Trabajo Social",
+    fac: "humanas", color: "#e0c341", cm: "Plan 2537 · Acuerdo 25 de 2012 · 148 créditos", ver: false,
+    plan: "Plan 2537 · Acuerdo 25 de 2012 · 148 créditos",
+    sems: SEMS_TRABAJOSOCIAL, agr: AGR_TRABAJOSOCIAL,
+    store: "malla_trabajosocial_unal", elecStore: "malla_trabajosocial_elec",
+    meta: { C: 77, B: 42, L: 29 }, sem9fix: false, compact: true, target: 148, libreMeta: 29,
+    foot: `Códigos, créditos y semestres ("matrículas") de la malla del PEP de Trabajo Social (plan 2537, Acuerdo 25 de 2012): Fundamentación 42 (33 obligatorios + 9 optativos), Disciplinar 77 y Libre elección 29.
+      Las optativas alternativas (Procesos Familiares/Comunitarios, DD. HH./Movimientos Sociales, Investigación sobre la Intervención/Laboratorio) van como un cupo. La malla no trae flechas:
+      los <b>prerrequisitos son una reconstrucción por secuencia</b> y <b>no se han verificado con estudiantes</b>. Inglés no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  antropologia: {
+    nombre: "Antropología",
+    fac: "humanas", color: "#6fae3a", cm: "Acuerdo 108 de 2008 · 122 créditos", ver: false,
+    plan: "Acuerdo 108 de 2008 · 122 créditos",
+    sems: SEMS_ANTROPOLOGIA, agr: AGR_ANTROPOLOGIA,
+    store: "malla_antropologia_unal", elecStore: "malla_antropologia_elec",
+    meta: { C: 86, B: 12, L: 24 }, sem9fix: false, compact: true, target: 122, libreMeta: 24,
+    foot: `Asignaturas y semestres de la malla del PEP de Antropología y totales por agrupación del plan (Acuerdo 108 de 2008): Fundamentación 12, Disciplinar 86 y Libre elección 24.
+      El PEP no da el crédito de cada materia: se repartieron los totales de cada agrupación (casi todas de 3 cr; Fundamentos de Antropología 4, Diseño de Proyecto 5, Laboratorio 10, TG 10).
+      <b>Créditos por materia y prerrequisitos aproximados</b>, <b>sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  psicologia: {
+    nombre: "Psicología",
+    fac: "humanas", color: "#e07aa4", cm: "150 créditos", ver: false,
+    plan: "150 créditos",
+    sems: SEMS_PSICOLOGIA, agr: AGR_PSICOLOGIA,
+    store: "malla_psicologia_unal", elecStore: "malla_psicologia_elec",
+    meta: { C: 89, B: 28, L: 33 }, sem9fix: false, compact: true, target: 150, libreMeta: 33,
+    foot: `Asignaturas, créditos y prerrequisitos de la malla curricular del PEP de Psicología (Figura 1): Fundamentación 28, Disciplinar 89 (50 obligatorios + 39 optativos) y Libre elección 33.
+      La malla oficial va por agrupaciones y <b>no asigna semestres</b>: la ubicación por semestre es una secuencia propuesta. Práctica I pide 100 % de B, 74 % de C y 50 % de L; Psicología Profesional pide 35 % de C.
+      <b>Sin verificar con estudiantes</b>. Inglés no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  historia: {
+    nombre: "Historia",
+    fac: "humanas", color: "#f0a24a", cm: "Acuerdo 243 de 2008 · 121 créditos", ver: false,
+    plan: "Acuerdo 243 de 2008 · 121 créditos",
+    sems: SEMS_HISTORIA, agr: AGR_HISTORIA,
+    store: "malla_historia_unal", elecStore: "malla_historia_elec",
+    meta: { C: 91, B: 6, L: 24 }, sem9fix: false, compact: true, target: 121, libreMeta: 24,
+    foot: `Malla curricular del PEP de Historia (Acuerdo 243 de 2008, 8 semestres): Fundamentación 6, Disciplinar 91 (31 obligatorios + 60 optativos) y Libre elección 24.
+      Los cupos optativos (América Latina, Historia Mundial, Cursos Especiales, Seminarios) van en el semestre donde la malla los ubica. Prerrequisitos por secuencia,
+      <b>sin verificar con estudiantes</b>. Inglés no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  sociologia: {
+    nombre: "Sociología",
+    fac: "humanas", color: "#e8896a", cm: "131 créditos", ver: false,
+    plan: "131 créditos",
+    sems: SEMS_SOCIOLOGIA, agr: AGR_SOCIOLOGIA,
+    store: "malla_sociologia_unal", elecStore: "malla_sociologia_elec",
+    meta: { C: 77, B: 24, L: 30 }, sem9fix: false, compact: true, target: 131, libreMeta: 30,
+    foot: `Malla curricular y tablas de agrupaciones del PEP de Sociología (8 matrículas): Fundamentación 24, Disciplinar 77 y Libre elección 30. Los grupos optativos ("mínimo 6/9 créditos")
+      se partieron en cupos de 3 créditos. Prerrequisitos por secuencia, <b>sin verificar con estudiantes</b>. Inglés no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  linguistica: {
+    nombre: "Lingüística",
+    fac: "humanas", color: "#5aa9e6", cm: "123 créditos", ver: false,
+    plan: "123 créditos",
+    sems: SEMS_LINGUISTICA, agr: AGR_LINGUISTICA,
+    store: "malla_linguistica_unal", elecStore: "malla_linguistica_elec",
+    meta: { C: 72, B: 27, L: 24 }, sem9fix: false, compact: true, target: 123, libreMeta: 24,
+    foot: `Plan de estudios y malla del PEP de Lingüística (8 semestres): Fundamentación 27, Disciplinar 72 y Libre elección 24. Los créditos de los Seminarios de Trabajo de Grado (3+3) y del Trabajo de
+      Grado (12) se estimaron para cuadrar los 24 de su agrupación. Prerrequisitos por secuencia, <b>sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "filologia-clasica": {
+    nombre: "Español y Filología Clásica",
+    fac: "humanas", color: "#c56bd0", cm: "Licenciatura · 125 créditos", ver: false,
+    plan: "Licenciatura · 125 créditos",
+    sems: SEMS_FILCLASICA, agr: AGR_FILCLASICA,
+    store: "malla_filclasica_unal", elecStore: "malla_filclasica_elec",
+    meta: { C: 86, B: 12, L: 27 }, sem9fix: false, compact: true, target: 125, libreMeta: 27,
+    foot: `Plan de estudios (tablas 4–5) del PEP de la Licenciatura en Español y Filología Clásica: Fundamentación 12, Disciplinar 86 y Libre elección 27. Práctica Docente a 4 cr para cuadrar los 13 de
+      Educación. La Práctica Docente pide las tres optativas de Educación. <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "estudios-literarios": {
+    nombre: "Estudios Literarios",
+    fac: "humanas", color: "#93a0e6", cm: "119 créditos", ver: false,
+    plan: "119 créditos",
+    sems: SEMS_LITERARIOS, agr: AGR_LITERARIOS,
+    store: "malla_literarios_unal", elecStore: "malla_literarios_elec",
+    meta: { C: 83, B: 12, L: 24 }, sem9fix: false, compact: true, target: 119, libreMeta: 24,
+    foot: `Agrupaciones y créditos del PEP de Estudios Literarios: Fundamentación 12, Disciplinar 83 y Libre elección 24. El PEP <b>no trae la malla por semestres</b>: la distribución y los prerrequisitos
+      son una secuencia propuesta (los 20 créditos de Seminarios de Profundización se repartieron en 5 de 4). <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "filologia-aleman": {
+    nombre: "Filología e Idiomas: Alemán",
+    fac: "humanas", color: "#3b82f6", cm: "Licenciatura · 140 créditos", ver: false,
+    plan: "Licenciatura · 140 créditos",
+    sems: SEMS_FIL_ALEMAN, agr: AGR_FILOLOGIA,
+    store: "malla_filaleman_unal", elecStore: "malla_filaleman_elec",
+    meta: { C: 76, B: 34, L: 30 }, sem9fix: false, compact: true, target: 140, libreMeta: 30,
+    foot: `Asignaturas, créditos y prerrequisitos del PEP de la Licenciatura en Filología e Idiomas (énfasis Alemán): Fundamentación 34, Disciplinar 76 y Libre elección 30. El PEP no ubica las
+      materias por semestre: la secuencia es propuesta. <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "filologia-frances": {
+    nombre: "Filología e Idiomas: Francés",
+    fac: "humanas", color: "#3f78c8", cm: "Licenciatura · 140 créditos", ver: false,
+    plan: "Licenciatura · 140 créditos",
+    sems: SEMS_FIL_FRANCES, agr: AGR_FILOLOGIA,
+    store: "malla_filfrances_unal", elecStore: "malla_filfrances_elec",
+    meta: { C: 76, B: 34, L: 30 }, sem9fix: false, compact: true, target: 140, libreMeta: 30,
+    foot: `Asignaturas, créditos y prerrequisitos del PEP de la Licenciatura en Filología e Idiomas (énfasis Francés): Fundamentación 34, Disciplinar 76 y Libre elección 30. El PEP no ubica las
+      materias por semestre: la secuencia es propuesta. <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "filologia-ingles": {
+    nombre: "Filología e Idiomas: Inglés",
+    fac: "humanas", color: "#2f7fd0", cm: "Licenciatura · 140 créditos", ver: false,
+    plan: "Licenciatura · 140 créditos",
+    sems: SEMS_FIL_INGLES, agr: AGR_FILOLOGIA,
+    store: "malla_filingles_unal", elecStore: "malla_filingles_elec",
+    meta: { C: 76, B: 34, L: 30 }, sem9fix: false, compact: true, target: 140, libreMeta: 30,
+    foot: `Asignaturas, créditos y prerrequisitos del PEP de la Licenciatura en Filología e Idiomas (énfasis Inglés): Fundamentación 34, Disciplinar 76 y Libre elección 30. El PEP no ubica las
+      materias por semestre: la secuencia es propuesta. <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  filosofia: {
+    nombre: "Filosofía",
+    fac: "humanas", color: "#dc6a4c", cm: "122 créditos", ver: false,
+    plan: "122 créditos",
+    sems: SEMS_FILOSOFIA, agr: AGR_FILOSOFIA,
+    store: "malla_filosofia_unal", elecStore: "malla_filosofia_elec",
+    meta: { C: 75, B: 20, L: 27 }, sem9fix: false, compact: true, target: 122, libreMeta: 27,
+    foot: `Plan de estudios del Departamento de Filosofía: Fundamentación 20 (Lógica I–III, Preseminario, Propedéutica), Disciplinar 75 (Antigua 14, Moderna 14, Contemporánea 14, Temático 25,
+      Trabajo de Grado 8) y Libre elección 27. El plan no fija semestres: la secuencia es propuesta; los prerrequisitos de Lógica y de los seminarios (Preseminario) sí son del plan.
+      <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  geografia: {
+    nombre: "Geografía",
+    fac: "humanas", color: "#33ac9d", cm: "Acuerdo 201 de 2020 · 128 créditos", ver: false,
+    plan: "Acuerdo 201 de 2020 · 128 créditos",
+    sems: SEMS_GEOGRAFIA, agr: AGR_GEOGRAFIA,
+    store: "malla_geografia_unal", elecStore: "malla_geografia_elec",
+    meta: { C: 61, B: 37, L: 30 }, sem9fix: false, compact: true, target: 128, libreMeta: 30,
+    foot: `Semestres y créditos de la tabla "semáforo" del Departamento de Geografía (Acuerdo 201 de 2020, 8 semestres): Fundamentación 37, Disciplinar 61 (25 obligatorios + 12 optativas) y
+      Libre elección 30 (las electivas 1–10). El componente de cada materia se dedujo de las listas del Departamento. Prerrequisitos por secuencia, <b>sin verificar con estudiantes</b>.
+      Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  agronomica: {
+    nombre: "Ingeniería Agronómica",
+    fac: "agrarias", color: "#6fae3a", cm: "Acuerdo 032 de 2014 · 180 créditos", ver: false,
+    plan: "Acuerdo 032 de 2014 · 180 créditos",
+    sems: SEMS_AGRONOMICA, agr: AGR_AGRONOMICA,
+    store: "malla_agronomica_unal", elecStore: "malla_agronomica_elec",
+    meta: { C: 94, B: 50, L: 36 }, sem9fix: false, compact: true, target: 180, libreMeta: 36,
+    foot: `Asignaturas, créditos y prerrequisitos de las tablas del PEP de Ingeniería Agronómica (Acuerdo 032 de 2014 del Consejo de Facultad): Fundamentación 50, Disciplinar 94 y Libre elección 36.
+      <b>Ojo:</b> el plan se modificó en 2022 (Acuerdo 04 de 2022) y esa versión no se pudo consultar; el Trabajo de Grado pide 76 créditos disciplinares. La ubicación por semestre es una secuencia
+      propuesta. <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  veterinaria: {
+    nombre: "Medicina Veterinaria",
+    fac: "veterinaria", color: "#2e8b57", cm: "Acuerdo 59 de 2016 · 209 créditos", ver: false,
+    plan: "Acuerdo 59 de 2016 · 209 créditos",
+    sems: SEMS_VETERINARIA, agr: AGR_VETERINARIA,
+    store: "malla_veterinaria_unal", elecStore: "malla_veterinaria_elec",
+    meta: { C: 130, B: 38, L: 41 }, sem9fix: false, compact: true, target: 209, libreMeta: 41,
+    foot: `Malla curricular y créditos del PEP de Medicina Veterinaria (Acuerdo 59 de 2016 del CFMVZ, 12 semestres): Fundamentación 38, Disciplinar 130 y Libre elección 41 (15 de electivas, 6 de líneas de
+      profundización y los 20 de la Práctica Integrada del semestre 11, todo en el contador). Mecanismos de Enfermedad va a 3 cr para cuadrar los 23 de Bases de la Enfermedad. Prerrequisitos
+      aproximados a partir de las flechas; el TG pide 88 créditos disciplinares. <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  zootecnia: {
+    nombre: "Zootecnia",
+    fac: "veterinaria", color: "#b07a4a", cm: "Resolución 064 de 2010 · 186 créditos", ver: false,
+    plan: "Resolución 064 de 2010 · 186 créditos",
+    sems: SEMS_ZOOTECNIA, agr: AGR_ZOOTECNIA,
+    store: "malla_zootecnia_unal", elecStore: "malla_zootecnia_elec",
+    meta: { C: 113, B: 37, L: 36 }, sem9fix: false, compact: true, target: 186, libreMeta: 36,
+    foot: `Malla curricular de la Sede Bogotá (anexo 3 del PEP de Zootecnia; Resolución 064 de 2010 del Consejo de Facultad y modificaciones, 10 semestres): Fundamentación 37, Disciplinar 113 y
+      Libre elección 36 (incluye las líneas de profundización). Prerrequisitos aproximados por secuencia (la malla no trae flechas legibles). <b>Sin verificar con estudiantes</b>.
+      Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
 };
 
 // facultades de la Sede Bogotá, en el orden en que aparecen en el inicio. Cada carrera de
@@ -2782,6 +3892,9 @@ const FACULTADES = [
   {k:"enfermeria", n:"Facultad de Enfermería"},
   {k:"odontologia",n:"Facultad de Odontología"},
   {k:"derecho",    n:"Facultad de Derecho, Ciencias Políticas y Sociales"},
+  {k:"humanas",    n:"Facultad de Ciencias Humanas"},
+  {k:"agrarias",   n:"Facultad de Ciencias Agrarias"},
+  {k:"veterinaria",n:"Facultad de Medicina Veterinaria y de Zootecnia"},
 ];
 
 // pinta el inicio: una sección por facultad, con su grilla fija de 3 columnas

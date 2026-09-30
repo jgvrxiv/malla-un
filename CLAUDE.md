@@ -2,9 +2,9 @@
 
 App web de una sola página para seguir el avance en los pensa de la **Universidad Nacional de
 Colombia (Sede Bogotá)**. Empezó con **Ingeniería Civil** (plan flexible 180 créditos, Acuerdo 26
-de 2015) y hoy cubre **26 carreras**: las 9 ingenierías (Civil, Química, Agrícola, Industrial,
-Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica — verificadas con estudiantes) y 17 de las
-facultades de Ciencias, Ciencias Económicas, Medicina, Enfermería, Odontología y Derecho/Ciencias Políticas (reconstruidas de las mallas oficiales, **sin
+de 2015) y hoy cubre **42 carreras**: las 9 ingenierías (Civil, Química, Agrícola, Industrial,
+Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica — verificadas con estudiantes) y 33 de las
+facultades de Ciencias, Ciencias Económicas, Medicina, Enfermería, Odontología, Derecho/Ciencias Políticas, Ciencias Humanas, Ciencias Agrarias y Medicina Veterinaria y de Zootecnia (reconstruidas de las mallas oficiales, **sin
 verificar**). Se hace clic en una materia para aprobarla; se van desbloqueando las que dependen de
 ella. El progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.app.
 
@@ -124,11 +124,11 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   Análoga y Digital). Prerrequisitos reconstruidos del diagrama y **verificados con estudiantes de
   la carrera**.
 - **Inicio generado desde `MALLAS`** (`renderInicio()`): ya no hay tarjetas escritas a mano. La
-  constante `FACULTADES` (`ingenieria`, `ciencias`, `economicas`, `medicina`, `enfermeria`, `odontologia`, `derecho`) define las secciones y
+  constante `FACULTADES` (`ingenieria`, `ciencias`, `economicas`, `medicina`, `enfermeria`, `odontologia`, `derecho`, `humanas`, `agrarias`, `veterinaria`) define las secciones y
   su orden; cada entrada de `MALLAS` trae `fac`, `color`, `cm` (renglón de la tarjeta) y `ver`
   (`true` = verificada con estudiantes → etiqueta "Verificada"; `false` → "Sin verificar", ámbar).
   El contador y el pie (`#foot-ver`) se calculan solos. Cada facultad lleva su grilla fija de 3
-  columnas. Las 9 de Ingeniería son `ver:true`; las otras 17 son `ver:false`.
+  columnas. Las 9 de Ingeniería son `ver:true`; las otras 33 son `ver:false`.
 - **Facultades nuevas (Ciencias, Económicas, Medicina)** — datos con el helper `_m(id, nombre,
   créditos, comp, agr, prereqs, opt?)` y claves de `MALLAS` `quimica-ciencias`, `computacion`,
   `matematicas`, `fisica`, `geologia`, `farmacia`, `estadistica`, `economia`, `administracion`,
@@ -159,10 +159,11 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   - **Odontología** (180 cr, plan 2557, Acuerdo 05 de 2023): malla vigente en `odontologia.unal.edu.co/wp-content/uploads/2026/06/Malla-Pregrado-2.pdf` (las URL viejas de `/docs/pregrado/` dan 404). B 53 / C 91 (incluye 27 Clínicas) / L 36 (24 libre + 12 profundización, todo en el contador). Prerrequisitos leídos de las flechas numeradas (circulitos); TG con corte `{comp:"C",min:73}` (leyenda "#"). Se omitió una flecha ambigua (15 → Salud Pública). Nivelación fuera.
   - **Derecho** (180 cr, Acuerdo 048 de 2008): malla del PEP (pág. 13 del PDF), sin códigos ni flechas (ids `DER_*`); B 36 / C 108 / L 36. Prerrequisitos **inventados por secuencia** (I/II, penal, civil, procesal). Preparatorio Básico (0 cr) e Inglés fuera. Sem 9 = solo Consultorio II; sem 10 = TG.
   - **Ciencia Política** (126 cr, Acuerdo 098 de 2008; clave `ciencia-politica`, misma facultad que Derecho): malla del PEP `pep_2_29.pdf` (pág. 33). B 30 / C 66 (con TG) / L 30. Según el PEP solo hay dos prerrequisitos: 24 cr de B (80 %) para todo lo disciplinar y 101 cr totales (80 %) para el TG. Sem 7 = 100 % libre (`m:[]`, `.tg-libre`). La malla es de 2008; puede haber un plan más nuevo.
-  - **No agregadas todavía**: **Biología** (la malla no trae créditos por materia ni códigos y no hallé
-    otra fuente fiable), **Terapia Ocupacional** (el PEP solo trae las materias por agrupación, sin
-    semestres), Fisioterapia (no está en la oferta 2027-01), y las facultades de Artes, Ciencias Humanas,
-    Agrarias, Veterinaria, etc.
+  - **Ciencias Humanas** (13): `trabajo-social` (148), `antropologia` (122), `psicologia` (150), `historia` (121), `sociologia` (131), `linguistica` (123), `filologia-clasica` (125), `estudios-literarios` (119), `filologia-aleman`/`-frances`/`-ingles` (140, misma estructura generada con `semsFilologia()`), `filosofia` (122), `geografia` (128). Fuentes: PEP de `diracad…/PEP-<slug>.pdf` y `pregrado.unal.edu.co/docs/pep/pep_2_<n>.pdf` (Antropología 27, Sociología 26, Estudios Literarios 35, Filología e Idiomas 37, Historia 38, Español y Filología Clásica 44, Lingüística 46, Psicología 2); Filosofía del plan_de_estudios.pdf del Departamento; Geografía de la imagen `Semaforo.jpeg` del Departamento. Psicología, Estudios Literarios, Filología e Idiomas y Filosofía **no traen semestres**: la ubicación es propuesta. Antropología: créditos por materia repartidos de los totales por agrupación.
+  - **Ciencias Agrarias**: `agronomica` (180, Acuerdo 032 de 2014, PEP `pep_2_40.pdf`); el plan cambió con el Acuerdo 04 de 2022, no consultado.
+  - **Medicina Veterinaria y de Zootecnia**: `veterinaria` (209, 12 semestres; sem 11 = Práctica Integrada dentro de la libre, `m:[]`) y `zootecnia` (186, anexo 3 del PEP).
+  - **No agregadas todavía**: **Biología** (la malla de la Facultad no trae créditos por materia; el plan vigente está en legal.unal.edu.co **detrás de un CAPTCHA**), **Terapia Ocupacional** (el PEP solo trae las materias por agrupación, sin
+    semestres), Fisioterapia (no está en la oferta 2027-01), y la Facultad de Artes.
 - **Alturas de sem 9/10**: en carreras sin `sem9fix` (todas menos Civil) el `.tailgroup` lleva la
   clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a `flex:0 0 auto` (la clave de colores no
   queda con espacio sobrante). Civil conserva su ajuste fino. El apaño de Agrícola (celdas de
@@ -268,11 +269,10 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   tu carrera?" (los dos en `malla-artifact.html` / `index.html`).
 - **Nombre/marca**: hoy la marca es sólo "Malla" — el usuario aún no eligió nombre definitivo.
 - Las 9 ingenierías ya están **verificadas con estudiantes** (`ver:true`; así lo dice el pie de cada
-  una); las otras 17 (Ciencias, Económicas, Medicina, Enfermería, Odontología y Derecho/CP) están **sin verificar** (`ver:false`) — cuando
+  una); las otras 33 están **sin verificar** (`ver:false`) — cuando
   un estudiante confirme una, pasar su `ver` a `true` y reescribir su pie.
-- **Faltan por agregar** (pedido del usuario: todas las carreras de la Sede Bogotá): Biología,
-  Terapia Ocupacional y las demás facultades (Artes, Ciencias Humanas, Ciencias Agrarias,
-  Veterinaria y Zootecnia). Ver arriba por qué las primeras tres
+- **Faltan por agregar** (pedido del usuario: todas las carreras de la Sede Bogotá): Biología (necesita el acuerdo del plan),
+  Terapia Ocupacional y la Facultad de Artes. Ver arriba por qué las primeras tres
   quedaron pendientes.
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
 - ¿Modelar Prácticas / Electivas de Profundización con su corte de 108 / 126 créditos totales?
