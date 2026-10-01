@@ -4335,7 +4335,7 @@ const MALLAS = {
       son una secuencia propuesta (los 20 créditos de Seminarios de Profundización se repartieron en 5 de 4). <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   "filologia-aleman": {
-    nombre: "Filología e Idiomas: Alemán",
+    nombre: "Filología e Idiomas: Alemán", grupo: "filologia", planN: "Alemán",
     fac: "humanas", color: "#3b82f6", cm: "Licenciatura · 140 créditos", ver: false,
     plan: "Licenciatura · 140 créditos",
     sems: SEMS_FIL_ALEMAN, agr: AGR_FILOLOGIA,
@@ -4345,7 +4345,7 @@ const MALLAS = {
       materias por semestre: la secuencia es propuesta. <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   "filologia-frances": {
-    nombre: "Filología e Idiomas: Francés",
+    nombre: "Filología e Idiomas: Francés", grupo: "filologia", planN: "Francés",
     fac: "humanas", color: "#3f78c8", cm: "Licenciatura · 140 créditos", ver: false,
     plan: "Licenciatura · 140 créditos",
     sems: SEMS_FIL_FRANCES, agr: AGR_FILOLOGIA,
@@ -4355,7 +4355,7 @@ const MALLAS = {
       materias por semestre: la secuencia es propuesta. <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   "filologia-ingles": {
-    nombre: "Filología e Idiomas: Inglés",
+    nombre: "Filología e Idiomas: Inglés", grupo: "filologia", planN: "Inglés",
     fac: "humanas", color: "#2f7fd0", cm: "Licenciatura · 140 créditos", ver: false,
     plan: "Licenciatura · 140 créditos",
     sems: SEMS_FIL_INGLES, agr: AGR_FILOLOGIA,
@@ -4513,6 +4513,7 @@ const MALLAS = {
 // selector de plan dentro de la malla. Cada plan es una entrada de MALLAS con `grupo` y `planN`,
 // con su propio hash y su propio avance guardado.
 const GRUPOS = {
+  "filologia": { n: "Filología e Idiomas", et: "Lengua", cm: "Licenciatura · 3 lenguas · 140 créditos" },
   "musica": { n: "Música", et: "Énfasis", cm: "4 énfasis · 171 créditos" },
   "musica-instrumental": { n: "Música Instrumental", et: "Instrumento", cm: "5 planes por instrumento · 183 créditos" },
 };
