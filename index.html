@@ -3430,6 +3430,456 @@ const AGR_BIOLOGIA = {
   tg:   ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
 };
 
+// ===== Facultad de Artes =====
+const _ROM = ["I","II","III","IV","V","VI","VII","VIII"];
+// arma semestres a partir de series: [prefijo, nombre, créditos (número o lista), comp, agr, semestre inicial, cantidad, encadenar?]
+function semsDeSeries(nSems, series, sueltas){
+  const sems = Array.from({length:nSems}, (_, i) => ({s:i+1, m:[]}));
+  for(const [p, n, c, comp, a, s0, k, chain=true] of series){
+    for(let i=0;i<k;i++){
+      const cr = Array.isArray(c) ? c[i] : c;
+      sems[s0-1+i].m.push(_m(p+(i+1), k>1 ? n+" "+_ROM[i] : n, cr, comp, a, (chain && i>0) ? [p+i] : []));
+    }
+  }
+  for(const [s, mat] of sueltas) sems[s-1].m.push(mat);
+  return sems;
+}
+
+// Arquitectura — Resolución 072 de 2010 del Consejo de Facultad, 179 créditos (PEP, Figura 1 y tablas 1–11).
+const SEMS_ARQUITECTURA = [
+ {s:1, m:[
+   _m("ARQ_PROY1","Proyecto Arquitectónico I",5,"C","proy"),
+   _m("ARQ_REP1","Representación I",3,"B","rep"),
+   _m("ARQ_TEO1","Teoría de la Arquitectura I",2,"B","hyt"),
+   _m("ARQ_HIS1","Historia de la Arquitectura I",2,"B","hyt"),
+   _m("ARQ_FTEC","Fundamentos Tecnológicos de la Arquitectura",5,"B","tec"),
+   _m("ARQ_CIU1","La Ciudad y el Espacio Urbano",2,"B","ciu"),
+ ]},
+ {s:2, m:[
+   _m("ARQ_PROY2","Proyecto Arquitectónico II",5,"C","proy",["ARQ_PROY1"]),
+   _m("ARQ_REP2","Representación II",3,"C","rep",["ARQ_REP1"]),
+   _m("ARQ_TEO2","Teoría de la Arquitectura II",2,"C","hyt",["ARQ_TEO1"]),
+   _m("ARQ_HIS2","Historia de la Arquitectura II",3,"C","hyt",["ARQ_HIS1"]),
+   _m("ARQ_SPOR","Sistemas Portantes Arquitectónicos",3,"C","tec",["ARQ_FTEC"]),
+   _m("ARQ_CIU2","Orígenes del Urbanismo",2,"C","ciu",["ARQ_CIU1"]),
+ ]},
+ {s:3, m:[
+   _m("ARQ_PROY3","Proyecto Arquitectónico III",5,"C","proy",["ARQ_PROY2"]),
+   _m("ARQ_REP3","Representación III",2,"C","rep",["ARQ_REP2"]),
+   _m("ARQ_TEO3","Teoría de la Arquitectura III",2,"C","hyt",["ARQ_TEO2"]),
+   _m("ARQ_HIS3","Historia de la Arquitectura III",3,"C","hyt",["ARQ_HIS2"]),
+   _m("ARQ_CON1","Construcciones de Baja Complejidad",3,"C","tec",["ARQ_SPOR"]),
+   _m("ARQ_EST1","Estructuras de Baja Complejidad",3,"C","tec",["ARQ_SPOR"]),
+   _m("ARQ_CIU3","Urbanismo Contemporáneo",2,"C","ciu",["ARQ_CIU2"]),
+ ]},
+ {s:4, m:[
+   _m("ARQ_PV1","Proyecto Arquitectónico Vertical I (Actividad)",6,"C","proy",["ARQ_PROY3"],true),
+   _m("ARQ_REP4","Representación IV",2,"C","rep",["ARQ_REP3"]),
+   _m("ARQ_TEO4","Teoría de la Arquitectura IV",2,"C","hyt",["ARQ_TEO3"]),
+   _m("ARQ_HIS4","Historia de la Arquitectura IV",3,"C","hyt",["ARQ_HIS3"]),
+   _m("ARQ_CON2","Construcciones de Media Complejidad",3,"C","tec",["ARQ_CON1"]),
+   _m("ARQ_EST2","Estructuras de Media Complejidad",3,"C","tec",["ARQ_EST1"]),
+   _m("ARQ_CIU4","Urbanismo en Latinoamérica",2,"C","ciu",["ARQ_CIU3"]),
+ ]},
+ {s:5, m:[
+   _m("ARQ_PV2","Proyecto Arquitectónico Vertical II (Forma)",6,"C","proy",["ARQ_PROY3"],true),
+   _m("ARQ_CON3","Construcciones de Alta Complejidad",3,"C","tec",["ARQ_CON2"]),
+   _m("ARQ_EST3","Estructuras de Alta Complejidad",3,"C","tec",["ARQ_EST2"]),
+   _m("ARQ_CIU5","Proyecto Urbano",2,"C","ciu",["ARQ_CIU3"]),
+   _m("ARQ_OPT_CA1","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:6, m:[
+   _m("ARQ_PV3","Proyecto Arquitectónico Vertical III (Técnica)",6,"C","proy",["ARQ_PROY3"],true),
+   _m("ARQ_OPT_REP","Optativa — Representación",3,"C","rep",["ARQ_REP3"],true),
+   _m("ARQ_OPT_HYT","Optativa — Historia y Teoría",2,"C","hyt",["ARQ_TEO3"],true),
+   _m("ARQ_OPT_CIU","Optativa — Ciudad y Territorio",2,"C","ciu",["ARQ_CIU3"],true),
+   _m("ARQ_OPT_CA2","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:7, m:[
+   _m("ARQ_PV4","Proyecto Arquitectónico Vertical IV (Lugar)",6,"C","proy",["ARQ_PROY3"],true),
+   _m("ARQ_OPT_TEC","Optativa — Tecnología",3,"C","tec",["ARQ_CON3"],true),
+ ]},
+ {s:8, m:[
+   _m("ARQ_ENF1","Énfasis de Proyecto I",5,"C","enf",["ARQ_PV1","ARQ_PV2","ARQ_PV3","ARQ_PV4"],true),
+   _m("ARQ_PROT","Protocolo de Trabajo de Grado / Seminario I",2,"C","enf",["ARQ_PV1","ARQ_PV2","ARQ_PV3","ARQ_PV4"],true),
+ ]},
+ {s:9, m:[
+   _m("ARQ_ENF2","Énfasis de Proyecto II",5,"C","enf",["ARQ_ENF1"],true),
+   _m("ARQ_SEM","Seminario de Trabajo de Grado / Seminario II",2,"C","enf",["ARQ_PROT"],true),
+ ]},
+ {s:10, m:[
+   _m("ARQ_TG","Trabajo de Grado",10,"C","enf",["ARQ_ENF2","ARQ_SEM"]),
+ ]},
+];
+const AGR_ARQUITECTURA = {
+  rep:  ["#c0564f", "Representación", "Representación"],
+  proy: ["#e8873a", "Proyecto", "Proyecto"],
+  hyt:  ["#7ab648", "Historia y Teoría de la Arquitectura", "Historia y Teoría"],
+  tec:  ["#3a9bbf", "Tecnología", "Tecnología"],
+  ciu:  ["#4a5fa8", "Ciudad y Territorio", "Ciudad y Territorio"],
+  ctx:  ["#a79a55", "Fundamento en el Contexto de las Artes", "Contexto de las Artes"],
+  enf:  ["#f0a24a", "Énfasis de Investigación y Proyecto / Trabajo de Grado", "Énfasis y TG"],
+};
+
+// Diseño Gráfico — Acuerdo 224 de 2008 CA / Resolución 35 de 2010 CF, 148 créditos (plan del PEP).
+const SEMS_DISENOGRAFICO = [
+ {s:1, m:[
+   _m("DG_T1","Taller Forma y Estructura",5,"C","tal"),
+   _m("DG_ESQ","Esquemática Básica",2,"C","rep"),
+   _m("DG_EXP","Expresión Visual",2,"C","rep"),
+   _m("DG_FT1","Fundamentos Tecnológicos: Formatos y Medidas",2,"C","prod"),
+   _m("DG_H1","Historia del Diseño Gráfico: De la Imagen a la Palabra",3,"C","hyt"),
+   _m("DG_MIR","Teoría de la Mirada",3,"B","tim"),
+ ]},
+ {s:2, m:[
+   _m("DG_T2","Taller Signo y Letra",5,"C","tal",["DG_T1"]),
+   _m("DG_FIG","Figura Humana y Representación",3,"C","rep",["DG_ESQ"]),
+   _m("DG_FT2","Fundamentos Tecnológicos: Tipometría",3,"C","prod",["DG_FT1"]),
+   _m("DG_H2","Historia del Diseño Gráfico: De las Artes al Diseño",3,"C","hyt",["DG_H1"]),
+   _m("DG_PAL","Palabra e Imagen",3,"B","tim"),
+   _m("DG_FOT1","Fotografía I",3,"C","foto"),
+ ]},
+ {s:3, m:[
+   _m("DG_T3","Taller Tipografía, Composición y Diagramación",5,"C","tal",["DG_T2"]),
+   _m("DG_BOC","Bocetación e Ilustración",3,"C","rep",["DG_FIG"]),
+   _m("DG_FT3","Fundamentos Tecnológicos: Color y Producción",3,"C","prod",["DG_FT2"]),
+   _m("DG_H3","Historia del Diseño Gráfico: De los Ismos a los Medios",3,"C","hyt",["DG_H2"]),
+   _m("DG_EST","Estética y Teoría de la Imagen",3,"B","tim",["DG_MIR"]),
+   _m("DG_FOT2","Fotografía II",3,"C","foto",["DG_FOT1"]),
+ ]},
+ {s:4, m:[
+   _m("DG_T4","Taller Orientación y Diseño de Información",5,"C","tal",["DG_T3"]),
+   _m("DG_3D","Aplicaciones Gráficas Tridimensionales",3,"C","rep",["DG_BOC"]),
+   _m("DG_IMP","Producción en Medios Impresos",3,"C","prod",["DG_FT3"]),
+   _m("DG_H4","Historia del Diseño Gráfico: Contextos del Diseño en Colombia",3,"C","hyt",["DG_H3"]),
+   _m("DG_FOT3","Fotografía III",3,"C","foto",["DG_FOT2"]),
+   _m("DG_CTXO","Fundamento en el Contexto de las Artes (obligatoria)",3,"B","ctx"),
+ ]},
+ {s:5, m:[
+   _m("DG_T5","Taller Identidad e Imagen Coordinada",5,"C","tal",["DG_T3"]),
+   _m("DG_DIN","Imagen Dinámica",3,"C","rep",["DG_BOC"]),
+   _m("DG_DIG","Producción en Medios Digitales",3,"C","prod",["DG_FT3"]),
+   _m("DG_H5","Historia del Diseño Gráfico: Sociedad, Cultura y Diseño en Latinoamérica",3,"C","hyt",["DG_H3"]),
+   _m("DG_TCV1","Teorías de la Comunicación Visual I",3,"C","hyt",["DG_EST"]),
+   _m("DG_OPT_C1","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:6, m:[
+   _m("DG_TCV2","Teorías de la Comunicación Visual II",3,"C","hyt",["DG_EST"]),
+   _m("DG_SEM","Seminario de Investigación y Proyecto de Diseño",3,"B","tim",["DG_H1","DG_H2","DG_H3","DG_H4","DG_H5","DG_TCV1","DG_TCV2"]),
+   _m("DG_OPT_C2","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:7, m:[
+   _m("DG_ENF1","Taller de Énfasis I",3,"C","enf",["DG_T4","DG_T5"],true),
+ ]},
+ {s:8, m:[
+   _m("DG_ENF2","Taller de Énfasis II",3,"C","enf",["DG_ENF1"],true),
+ ]},
+ {s:9, m:[
+   _m("DG_TG","Trabajo de Grado",6,"C","enf",[{comp:"C",min:85}]),
+ ]},
+];
+const AGR_DISENOGRAFICO = {
+  tim:  ["#e3b955", "Teorías de la Imagen", "Teorías de la Imagen"],
+  ctx:  ["#a79a55", "Fundamento en el Contexto de las Artes", "Contexto de las Artes"],
+  tal:  ["#dc4c43", "Talleres de Diseño", "Talleres de Diseño"],
+  rep:  ["#f0a24a", "Medios de Representación", "Representación"],
+  foto: ["#9aa6bd", "Imagen Fotográfica", "Fotografía"],
+  prod: ["#33ac9d", "Medios de Producción", "Producción"],
+  hyt:  ["#5aa9e6", "Historia y Teoría del Diseño", "Historia y Teoría"],
+  enf:  ["#c56bd0", "Talleres de Énfasis y Trabajo de Grado", "Énfasis y TG"],
+};
+
+// Cine y Televisión — Resolución 208 de 2010 del Consejo de Facultad, 158 créditos (PEP). Sin semestres en
+// el PEP: secuencia propuesta (un taller por semestre con sus asignaturas de oficios).
+const _cineEnf = (n, r) => _m("CIN_ENF"+n, "Énfasis de Profundización", 2, "C", "enf", r, true);
+const SEMS_CINE = [
+ {s:1, m:[
+   _m("CIN_T1","Taller de Producción y Realización I",5,"C","tal"),
+   _m("CIN_NAR","Narrativa I",3,"B","fun"),
+   _m("CIN_HA1","Historia del Arte I",3,"B","fun"),
+   _m("CIN_FOT","Fotografía I",3,"C","ofi"),
+   _m("CIN_TH1","Teoría e Historia de Medios Audiovisuales I",3,"C","teo"),
+ ]},
+ {s:2, m:[
+   _m("CIN_T2","Taller de Producción y Realización II",5,"C","tal",["CIN_T1"]),
+   _m("CIN_DRA","Dramaturgia I",3,"B","fun",["CIN_NAR"]),
+   _m("CIN_HA2","Historia del Arte II",3,"B","fun",["CIN_HA1"]),
+   _m("CIN_CF1","Cinefotografía I",2,"C","ofi",["CIN_FOT"]),
+   _m("CIN_TAV","Tecnología del Audiovisual",2,"C","ofi"),
+   _m("CIN_MON1","Teoría y Práctica del Montaje I",2,"C","ofi"),
+   _m("CIN_TH2","Teoría e Historia de Medios Audiovisuales II",3,"C","teo",["CIN_TH1"]),
+ ]},
+ {s:3, m:[
+   _m("CIN_T3","Taller de Producción y Realización III",5,"C","tal",["CIN_T2"]),
+   _m("CIN_EST","Estética y Teoría de la Imagen",3,"B","fun"),
+   _m("CIN_CF2","Cinefotografía II",2,"C","ofi",["CIN_CF1"]),
+   _m("CIN_MON2","Teoría y Práctica del Montaje II",2,"C","ofi",["CIN_MON1"]),
+   _m("CIN_DA1","Dirección de Actores I",2,"C","ofi"),
+   _m("CIN_GF","Guion de Ficción",2,"C","ofi",["CIN_DRA"]),
+   _m("CIN_TH3","Teoría e Historia de Medios Audiovisuales III",3,"C","teo",["CIN_TH2"]),
+ ]},
+ {s:4, m:[
+   _m("CIN_T4","Taller de Producción y Realización IV",5,"C","tal",["CIN_T3"]),
+   _m("CIN_SON1","Sonido I (Sonido Directo)",2,"C","ofi"),
+   _m("CIN_DA2","Dirección de Actores II",2,"C","ofi",["CIN_DA1"]),
+   _m("CIN_GA","Guion Audiovisual",2,"C","ofi",["CIN_GF"]),
+   _m("CIN_TH4","Teoría e Historia de Medios Audiovisuales IV",3,"C","teo",["CIN_TH3"]),
+   _m("CIN_OPT_C1","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:5, m:[
+   _m("CIN_T5","Taller de Producción y Realización V",5,"C","tal",["CIN_T4"]),
+   _m("CIN_TTV","Tecnología de la Televisión",2,"C","ofi",["CIN_TAV"]),
+   _m("CIN_SON2","Sonido II (Postproducción Sonora)",2,"C","ofi",["CIN_SON1"]),
+   _m("CIN_ARTE","Dirección de Arte",2,"C","ofi"),
+   _m("CIN_TH5","Teoría e Historia de Medios Audiovisuales V",3,"C","teo",["CIN_TH4"]),
+   _m("CIN_OPT_C2","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:6, m:[
+   _m("CIN_MINV","Métodos de Investigación",3,"C","teo"),
+   _m("CIN_ETI","Ética y Cultura",3,"C","teo"),
+   _m("CIN_ATV","Análisis de la Televisión I",3,"C","teo"),
+   _m("CIN_OPT_C3","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:7, m:[
+   _m("CIN_SPG","Seminario Proyecto de Grado",3,"C","tg",["CIN_T5","CIN_MINV"]),
+   _cineEnf(1,["CIN_T5"]), _cineEnf(2,["CIN_T5"]), _cineEnf(3,["CIN_T5"]),
+ ]},
+ {s:8, m:[
+   _m("CIN_PG","Proyecto de Grado",3,"C","tg",["CIN_SPG"]),
+   _cineEnf(4,["CIN_ENF1"]), _cineEnf(5,["CIN_ENF2"]), _cineEnf(6,["CIN_ENF3"]),
+ ]},
+ {s:9, m:[
+   _m("CIN_TG","Trabajo de Grado",6,"C","tg",["CIN_PG"]),
+ ]},
+];
+const AGR_CINE = {
+  fun: ["#e3b955", "Fundamentación", "Fundamentación"],
+  ctx: ["#a79a55", "Fundamento en el Contexto de las Artes", "Contexto de las Artes"],
+  tal: ["#dc4c43", "Eje Taller de Producción y Realización", "Talleres"],
+  ofi: ["#5aa9e6", "Eje de Oficios y Medios de Expresión", "Oficios"],
+  teo: ["#8ec44e", "Eje de Teorías e Historias", "Teorías e Historias"],
+  enf: ["#c56bd0", "Eje de Énfasis de Profundización", "Énfasis"],
+  tg:  ["#93a0e6", "Eje de Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Artes Plásticas — 166 créditos (PEP, Gráfico 2). El PEP no da créditos por materia ni semestres:
+// se estimaron (materias de 3, talleres de 6) para cuadrar 102 obligatorios + 15 optativos.
+const SEMS_ARTESPLASTICAS = [
+ {s:1, m:[
+   _m("AP_TGRAM","Taller Gramática del Arte",3,"B","fun"),
+   _m("AP_DIB1","Dibujo I",3,"C","img"),
+   _m("AP_MAT","Materia y Procedimientos",3,"C","esp"),
+   _m("AP_IHIS","Introducción a la Historia del Arte",3,"C","hyt"),
+   _m("AP_ITEO","Introducción a la Teoría del Arte",3,"C","hyt"),
+ ]},
+ {s:2, m:[
+   _m("AP_TINT","Taller Introductorio",6,"C","tal",["AP_TGRAM"]),
+   _m("AP_DIB2","Dibujo II",3,"C","img",["AP_DIB1"]),
+   _m("AP_IPIN","Introducción a la Pintura",3,"C","img"),
+   _m("AP_IGRA","Introducción a la Gráfica",3,"C","img"),
+   _m("AP_HIS1","Historia del Arte I",3,"C","hyt",["AP_IHIS"]),
+   _m("AP_TEO1","Teoría del Arte I",3,"C","hyt",["AP_ITEO"]),
+ ]},
+ {s:3, m:[
+   _m("AP_TIMG","Taller Imagen",6,"C","tal",["AP_TINT"]),
+   _m("AP_DIB3","Dibujo III",3,"C","img",["AP_DIB2"]),
+   _m("AP_PINI","Pintura Intermedia",3,"C","img",["AP_IPIN"]),
+   _m("AP_PLG","Procesos del Lenguaje Gráfico",3,"C","img",["AP_IGRA"]),
+   _m("AP_HIS2","Historia del Arte II",3,"C","hyt",["AP_HIS1"]),
+   _m("AP_TEO2","Teoría del Arte II",3,"C","hyt",["AP_TEO1"]),
+ ]},
+ {s:4, m:[
+   _m("AP_TESP","Taller Espacio",6,"C","tal",["AP_TINT"]),
+   _m("AP_OBJ","El Objeto y su Disposición",3,"C","esp",["AP_MAT"]),
+   _m("AP_FOT1","Fotografía I",3,"C","img"),
+   _m("AP_PINA","Pintura Avanzada",3,"C","img",["AP_PINI"]),
+   _m("AP_EST","Estética y Teoría del Arte",3,"B","fun"),
+ ]},
+ {s:5, m:[
+   _m("AP_TTIE","Taller Tiempo",6,"C","tal",["AP_TINT"]),
+   _m("AP_ESTR","Estructuras",3,"C","esp",["AP_OBJ"]),
+   _m("AP_FOT2","Fotografía II",3,"C","img",["AP_FOT1"]),
+   _m("AP_MED","Arte Mediático",3,"C","tie"),
+   _m("AP_OPT_C1","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:6, m:[
+   _m("AP_OPT1","Optativa Disciplinar",3,"C","opt",[],true),
+   _m("AP_OPT2","Optativa Disciplinar",3,"C","opt",[],true),
+   _m("AP_OPT3","Optativa Disciplinar",3,"C","opt",[],true),
+   _m("AP_OPT_C2","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:7, m:[
+   _m("AP_OPT4","Optativa Disciplinar",3,"C","opt",[],true),
+   _m("AP_OPT5","Optativa Disciplinar",3,"C","opt",[],true),
+   _m("AP_GEST","Gestión Cultural y Empresarial de las Artes",3,"B","fun",["AP_HIS2","AP_TEO2","AP_TTIE","AP_TIMG","AP_TESP"]),
+ ]},
+ {s:8, m:[
+   _m("AP_PTG1","Proyecto Trabajo de Grado I",6,"C","tal",["AP_TIMG","AP_TESP","AP_TTIE"]),
+ ]},
+ {s:9, m:[
+   _m("AP_PTG2","Proyecto Trabajo de Grado II",6,"C","tal",["AP_PTG1"]),
+ ]},
+ {s:10, m:[
+   _m("AP_TG","Trabajo de Grado",6,"C","tal",["AP_PTG2"]),
+ ]},
+];
+const AGR_ARTESPLASTICAS = {
+  fun: ["#eda53a", "Fundamentación (Facultad)", "Fundamentación"],
+  ctx: ["#d6a514", "Fundamento en el Contexto de las Artes", "Contexto de las Artes"],
+  img: ["#7a4fa0", "Imagen", "Imagen"],
+  esp: ["#a02a72", "Espacio", "Espacio"],
+  tie: ["#c8102e", "Tiempo", "Tiempo"],
+  hyt: ["#2f4a9e", "Historia y Teoría", "Historia y Teoría"],
+  tal: ["#9aaec0", "Talleres y Trabajo de Grado", "Talleres y TG"],
+  opt: ["#2a8a84", "Materias Optativas", "Optativas"],
+};
+
+// Diseño Industrial — reforma 2009, 169 créditos (PEP, figuras 12–15). Los 42 créditos optativos del
+// componente disciplinar se repartieron (Comunicación I–VI, Observatorios de Diseño y 4 optativas de área).
+const SEMS_DISENOINDUSTRIAL = [
+ {s:1, m:[
+   _m("DI_FTEC","Fundamentos en Tecnología",3,"B","tec"),
+   _m("DI_LAB1","Laboratorio de Diseño I",4,"C","proy"),
+   _m("DI_ERG1","Ergonomía Física",3,"C","hum"),
+   _m("DI_IHT","Introducción a la Historia y Teoría del Diseño",3,"B","pen"),
+   _m("DI_COM1","Comunicación I",3,"C","com",[],true),
+ ]},
+ {s:2, m:[
+   _m("DI_TMAT","Tecnología de Materiales",3,"C","tec",["DI_FTEC"]),
+   _m("DI_LAB2","Laboratorio de Diseño II",4,"C","proy",["DI_LAB1"]),
+   _m("DI_ERG2","Ergonomía Cognitiva",3,"C","hum"),
+   _m("DI_HT1","Historia y Teoría I",3,"C","pen",["DI_IHT"]),
+   _m("DI_COM2","Comunicación II",3,"C","com",["DI_COM1"],true),
+ ]},
+ {s:3, m:[
+   _m("DI_TPM","Tecnología de Procesos de Manufactura",3,"C","tec",["DI_FTEC","DI_TMAT"]),
+   _m("DI_PSIS","Pensamiento Sistémico",2,"B","met"),
+   _m("DI_LAB3","Laboratorio de Diseño III",4,"C","proy",["DI_LAB2"]),
+   _m("DI_ERG3","Ergonomía Organizacional",3,"C","hum"),
+   _m("DI_HT2","Historia y Teoría II",3,"C","pen",["DI_HT1"]),
+   _m("DI_COM3","Comunicación III",3,"C","com",["DI_COM2"],true),
+ ]},
+ {s:4, m:[
+   _m("DI_PP1","Práctica Proyectual I",3,"C","proy",["DI_LAB1","DI_LAB2","DI_LAB3"]),
+   _m("DI_PP2","Práctica Proyectual II",3,"C","proy",["DI_LAB1","DI_LAB2","DI_LAB3"]),
+   _m("DI_OPT_TEC","Optativa — Tecnología",3,"C","tec",[],true),
+   _m("DI_OPT_HUM","Optativa — Humano",3,"C","hum",[],true),
+   _m("DI_HT3","Historia y Teoría III",3,"C","pen",["DI_HT2"]),
+   _m("DI_COM4","Comunicación IV",3,"C","com",["DI_COM3"],true),
+ ]},
+ {s:5, m:[
+   _m("DI_IND","Industrialización de Producto",3,"C","tec",["DI_TPM"]),
+   _m("DI_AMP","Análisis de Métodos Proyectuales",2,"C","met"),
+   _m("DI_PP3","Práctica Proyectual III",3,"C","proy",["DI_LAB1","DI_LAB2","DI_LAB3"]),
+   _m("DI_PP4","Práctica Proyectual IV",3,"C","proy",["DI_LAB1","DI_LAB2","DI_LAB3"]),
+   _m("DI_SOS","Diseño para la Sostenibilidad",3,"C","amb"),
+   _m("DI_HT4","Historia y Teoría IV",3,"C","pen",["DI_HT3"]),
+   _m("DI_COM5","Comunicación V",3,"C","com",["DI_COM4"],true),
+ ]},
+ {s:6, m:[
+   _m("DI_MERC","Diseño y Mercados",3,"C","tec",["DI_TPM"]),
+   _m("DI_PP5","Práctica Proyectual V",3,"C","proy",["DI_LAB1","DI_LAB2","DI_LAB3"]),
+   _m("DI_PP6","Práctica Proyectual VI",3,"C","proy",["DI_LAB1","DI_LAB2","DI_LAB3"]),
+   _m("DI_OPT_AMB","Optativa — Ambiente",3,"C","amb",[],true),
+   _m("DI_OPT_PEN","Optativa — Pensamiento",3,"C","pen",[],true),
+   _m("DI_COM6","Comunicación VI",3,"C","com",["DI_COM5"],true),
+ ]},
+ {s:7, m:[
+   _m("DI_GER","Gerencia de Proyectos de Diseño",3,"B","tec"),
+   _m("DI_OBS1","Observatorio de Diseño",4,"C","proy",["DI_PP1","DI_PP2","DI_PP3","DI_PP4","DI_PP5","DI_PP6"],true),
+   _m("DI_OPT_C1","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:8, m:[
+   _m("DI_OBS2","Observatorio de Diseño",4,"C","proy",["DI_PP1","DI_PP2","DI_PP3","DI_PP4","DI_PP5","DI_PP6"],true),
+   _m("DI_OPT_C2","Optativa — Contexto de las Artes",3,"B","ctx",[],true),
+ ]},
+ {s:9, m:[
+   _m("DI_OBS3","Observatorio de Diseño",4,"C","proy",["DI_PP1","DI_PP2","DI_PP3","DI_PP4","DI_PP5","DI_PP6"],true),
+   _m("DI_STG","Seminario de Trabajo de Grado",2,"C","met",["DI_AMP"]),
+ ]},
+ {s:10, m:[
+   _m("DI_TG","Trabajo de Grado",6,"C","proy",["DI_STG","DI_OBS1","DI_OBS2","DI_OBS3"]),
+ ]},
+];
+const AGR_DISENOINDUSTRIAL = {
+  tec:  ["#3fb5c0", "Tecnología (materiales, procesos y organización productiva)", "Tecnología"],
+  met:  ["#c94aa8", "Metodología e Investigación", "Metodología"],
+  proy: ["#e07aa4", "Proyecto", "Proyecto"],
+  amb:  ["#8ec44e", "Ambiente", "Ambiente"],
+  hum:  ["#f0a24a", "Humano (Ergonomía)", "Humano"],
+  pen:  ["#e3b955", "Pensamiento (Historia y Teoría)", "Pensamiento"],
+  com:  ["#dc6a4c", "Comunicación", "Comunicación"],
+  ctx:  ["#a79a55", "Fundamento en el Contexto de las Artes", "Contexto de las Artes"],
+};
+
+// Música — plan con énfasis en Dirección, 171 créditos (PEP, malla C.2.6.1).
+const SEMS_MUSICA = semsDeSeries(10, [
+  ["MUS_CORO","Coro Universitario",2,"C","prac",1,4],
+  ["MUS_PIANO","Piano Complementario",3,"C","piano",1,6],
+  ["MUS_FDIR","Fundamentación Dirección",3,"C","dir",3,2],
+  ["MUS_DIR","Dirección",4,"C","dir",5,4],
+  ["MUS_CDIR","Complementarias Dirección",3,"C","dir",5,4],
+  ["MUS_PMUS","Práctica Musical",2,"C","prac",5,2],
+  ["MUS_TEO","Teoría Musical",3,"B","teo",1,4],
+  ["MUS_GRAM","Gramática Avanzada",3,"B","gram",1,2],
+  ["MUS_HIS","Historia de la Música",2,"B","his",2,4],
+  ["MUS_CONT","Contrapunto",2,"B","teo",4,4],
+  ["MUS_TXX","Teoría Avanzada del Siglo XX",3,"B","teo",5,2],
+], [
+  [3, _m("MUS_PED","Principios de Pedagogía",2,"B","ped")],
+  [9, _m("MUS_STG","Seminario de Trabajo de Grado",3,"C","tg",["MUS_DIR4"])],
+  [9, _m("MUS_OPT_P","Optativas de Profesionalización",6,"C","opt",[],true)],
+  [9, _m("MUS_OPT_C","Optativas de Carrera",4,"B","opt",[],true)],
+  [9, _m("MUS_OPT_F","Optativas de Facultad (Contexto de las Artes)",6,"B","opt",[],true)],
+  [10, _m("MUS_TG","Trabajo de Grado",12,"C","tg",["MUS_STG"])],
+]);
+SEMS_MUSICA[2].m.find(x => x.id === "MUS_FDIR1").r = ["MUS_TEO2"];
+SEMS_MUSICA[4].m.find(x => x.id === "MUS_DIR1").r = ["MUS_FDIR2"];
+SEMS_MUSICA[4].m.find(x => x.id === "MUS_TXX1").r = ["MUS_TEO4"];
+SEMS_MUSICA[3].m.find(x => x.id === "MUS_CONT1").r = ["MUS_TEO2"];
+const AGR_MUSICA = {
+  dir:   ["#c39bd3", "Dirección", "Dirección"],
+  prac:  ["#22a6b3", "Coro y Práctica Musical", "Coro y Práctica"],
+  piano: ["#9fd3e6", "Piano Complementario", "Piano Complementario"],
+  teo:   ["#f2b98a", "Teoría Musical y Contrapunto", "Teoría y Contrapunto"],
+  gram:  ["#e87a7a", "Gramática Avanzada", "Gramática"],
+  his:   ["#ec8fc0", "Historia de la Música", "Historia de la Música"],
+  ped:   ["#3f9e5a", "Pedagogía", "Pedagogía"],
+  opt:   ["#f5c518", "Optativas", "Optativas"],
+  tg:    ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
+};
+
+// Música Instrumental — plan de cuerdas frotadas, percusión y vientos, 183 créditos (PEP, Ilustración 4).
+const SEMS_MUSICAINSTRUMENTAL = semsDeSeries(10, [
+  ["MI_INS","Instrumento",[6,6,6,6,6,7,7,7],"C","ins",1,8],
+  ["MI_ORQ","Orquesta – Banda",2,"C","orq",1,8],
+  ["MI_CORO","Coro Universitario",2,"C","orq",1,2],
+  ["MI_CAM","Música de Cámara",2,"C","cam",3,3],
+  ["MI_TEO","Teoría Musical",3,"B","teo",1,5],
+  ["MI_GRAM","Gramática Avanzada",3,"B","gram",1,2],
+  ["MI_HIS","Historia de la Música",2,"B","his",2,4],
+  ["MI_CONT","Contrapunto",2,"B","teo",4,2],
+], [
+  [6, _m("MI_PPED","Práctica Pedagógica",3,"B","ped")],
+  [9, _m("MI_PREP","Preparación Recital de Grado",9,"C","tg",["MI_INS8"])],
+  [9, _m("MI_OPT_P","Optativas de Profesionalización (Ensambles)",6,"C","opt",[],true)],
+  [9, _m("MI_OPT_C","Optativas de Carrera",4,"B","opt",[],true)],
+  [9, _m("MI_OPT_F","Optativas de Facultad (Contexto de las Artes)",6,"B","opt",[],true)],
+  [10, _m("MI_TG","Trabajo de Grado: Recital",9,"C","tg",["MI_PREP"])],
+]);
+SEMS_MUSICAINSTRUMENTAL[3].m.find(x => x.id === "MI_CONT1").r = ["MI_TEO2"];
+const AGR_MUSICAINSTRUMENTAL = {
+  ins:  ["#9b7fc0", "Instrumento (con clase colectiva)", "Instrumento"],
+  orq:  ["#22a6b3", "Orquesta – Banda y Coro", "Orquesta y Coro"],
+  cam:  ["#9fd3e6", "Música de Cámara", "Música de Cámara"],
+  teo:  ["#f2b98a", "Teoría Musical y Contrapunto", "Teoría y Contrapunto"],
+  gram: ["#e87a7a", "Gramática Avanzada", "Gramática"],
+  his:  ["#ec8fc0", "Historia de la Música", "Historia de la Música"],
+  ped:  ["#4a78c8", "Práctica Pedagógica", "Pedagogía"],
+  opt:  ["#f5c518", "Optativas", "Optativas"],
+  tg:   ["#8e6bbf", "Recital de Grado", "Recital de Grado"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -3951,6 +4401,82 @@ const MALLAS = {
       tiene sus propios prerrequisitos en el acuerdo). El Trabajo de Grado pide el 100 % de Fundamentación y 44 créditos disciplinares. Correquisitos, Matemáticas Básicas e Inglés no se incluyen.
       <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
+  arquitectura: {
+    nombre: "Arquitectura",
+    fac: "artes", color: "#e8873a", cm: "Resolución 072 de 2010 · 179 créditos", ver: false,
+    plan: "Resolución 072 de 2010 · 179 créditos",
+    sems: SEMS_ARQUITECTURA, agr: AGR_ARQUITECTURA,
+    store: "malla_arquitectura_unal", elecStore: "malla_arquitectura_elec",
+    meta: { C: 124, B: 20, L: 35 }, sem9fix: false, compact: true, target: 179, libreMeta: 35,
+    foot: `Malla curricular y tablas del PEP de Arquitectura (Resolución 072 de 2010 del Consejo de Facultad): Fundamentación 20, Disciplinar 124 (76 obligatorios + 48 optativos) y Libre elección 35.
+      Los proyectos verticales, el énfasis y sus seminarios son optativos (se elige tema o énfasis). La Tecnología de fundamentación (5 cr) se dejó como una sola materia. La malla va por áreas:
+      la <b>ubicación por semestre es propuesta</b>. Prerrequisitos de las tablas del PEP. <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "artes-plasticas": {
+    nombre: "Artes Plásticas",
+    fac: "artes", color: "#7a4fa0", cm: "166 créditos", ver: false,
+    plan: "166 créditos",
+    sems: SEMS_ARTESPLASTICAS, agr: AGR_ARTESPLASTICAS,
+    store: "malla_artesplasticas_unal", elecStore: "malla_artesplasticas_elec",
+    meta: { C: 117, B: 15, L: 34 }, sem9fix: false, compact: true, target: 166, libreMeta: 34,
+    foot: `Materias y prerrequisitos del plan de estudios del PEP de Artes Plásticas (Gráfico 2): Fundamentación 15, Disciplinar 117 (102 obligatorios + 15 optativos) y Libre elección 34.
+      El PEP <b>no trae los créditos de cada materia ni los semestres</b>: se estimaron (materias de 3 cr, talleres y proyectos de 6) para cuadrar los totales, y la secuencia es propuesta.
+      <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "cine-tv": {
+    nombre: "Cine y Televisión",
+    fac: "artes", color: "#dc4c43", cm: "Resolución 208 de 2010 · 158 créditos", ver: false,
+    plan: "Resolución 208 de 2010 · 158 créditos",
+    sems: SEMS_CINE, agr: AGR_CINE,
+    store: "malla_cine_unal", elecStore: "malla_cine_elec",
+    meta: { C: 102, B: 24, L: 32 }, sem9fix: false, compact: true, target: 158, libreMeta: 32,
+    foot: `Asignaturas y créditos del PEP de Cine y Televisión (Resolución 208 de 2010 del Consejo de Facultad): Fundamentación 24, Disciplinar 102 (talleres 25, oficios 29, teorías 24, énfasis 12,
+      trabajo de grado 12) y Libre elección 32. El PEP no fija semestres ni prerrequisitos: la <b>secuencia es propuesta</b> (un taller por semestre). <b>Sin verificar con estudiantes</b>.
+      Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "diseno-grafico": {
+    nombre: "Diseño Gráfico",
+    fac: "artes", color: "#33ac9d", cm: "Acuerdo 224 de 2008 · 148 créditos", ver: false,
+    plan: "Acuerdo 224 de 2008 · 148 créditos",
+    sems: SEMS_DISENOGRAFICO, agr: AGR_DISENOGRAFICO,
+    store: "malla_disenografico_unal", elecStore: "malla_disenografico_elec",
+    meta: { C: 97, B: 21, L: 30 }, sem9fix: false, compact: true, target: 148, libreMeta: 30,
+    foot: `Asignaturas, créditos y prerrequisitos del plan de estudios del PEP de Diseño Gráfico (Acuerdo 224 de 2008 y Resolución 35 de 2010): Fundamentación 21, Disciplinar 97 y Libre elección 30.
+      El Trabajo de Grado pide 85 créditos disciplinares. El plan no fija semestres: la <b>secuencia es propuesta</b>. <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "diseno-industrial": {
+    nombre: "Diseño Industrial",
+    fac: "artes", color: "#3fb5c0", cm: "Reforma 2009 · 169 créditos", ver: false,
+    plan: "Reforma 2009 · 169 créditos",
+    sems: SEMS_DISENOINDUSTRIAL, agr: AGR_DISENOINDUSTRIAL,
+    store: "malla_disenoindustrial_unal", elecStore: "malla_disenoindustrial_elec",
+    meta: { C: 118, B: 17, L: 34 }, sem9fix: false, compact: true, target: 169, libreMeta: 34,
+    foot: `Malla del PEP de Diseño Industrial (reforma 2009): Fundamentación 17, Disciplinar 118 (76 obligatorios + 42 optativos) y Libre elección 34. La malla del PEP es poco legible:
+      los <b>42 créditos optativos se repartieron de forma aproximada</b> (Comunicación I–VI, tres Observatorios de Diseño y cuatro optativas de área) y la ubicación por semestre es propuesta.
+      <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  musica: {
+    nombre: "Música (énfasis en Dirección)",
+    fac: "artes", color: "#c39bd3", cm: "Plan de Dirección · 171 créditos", ver: false,
+    plan: "Plan con énfasis en Dirección · 171 créditos",
+    sems: SEMS_MUSICA, agr: AGR_MUSICA,
+    store: "malla_musica_unal", elecStore: "malla_musica_elec",
+    meta: { C: 85, B: 52, L: 34 }, sem9fix: false, compact: true, target: 171, libreMeta: 34,
+    foot: `Malla curricular del PEP de Música para el <b>énfasis en Dirección</b>: Fundamentación 52, Disciplinar 85 y Libre elección 34. Los énfasis en Jazz, Pedagogía Instrumental y Composición
+      tienen su propio plan y <b>aún no están en la app</b>. El Seminario (3) y el Trabajo de Grado (12) se repartieron de los 15 créditos del grupo. Prerrequisitos por secuencia de niveles.
+      <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "musica-instrumental": {
+    nombre: "Música Instrumental",
+    fac: "artes", color: "#9b7fc0", cm: "Cuerdas, percusión y vientos · 183 créditos", ver: false,
+    plan: "Plan de cuerdas frotadas, percusión y vientos · 183 créditos",
+    sems: SEMS_MUSICAINSTRUMENTAL, agr: AGR_MUSICAINSTRUMENTAL,
+    store: "malla_musicainstrumental_unal", elecStore: "malla_musicainstrumental_elec",
+    meta: { C: 101, B: 46, L: 36 }, sem9fix: false, compact: true, target: 183, libreMeta: 36,
+    foot: `Malla curricular del PEP de Música Instrumental para el plan de <b>cuerdas frotadas, percusión y vientos</b>: Fundamentación 46, Disciplinar 101 y Libre elección 36. Arpa, canto, guitarra y
+      piano tienen su propio plan y <b>aún no están en la app</b>. Los 18 créditos del Recital de Grado se repartieron en Preparación (9) y Recital (9). Prerrequisitos por secuencia de niveles.
+      <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
 };
 
 // facultades de la Sede Bogotá, en el orden en que aparecen en el inicio. Cada carrera de
@@ -3967,6 +4493,7 @@ const FACULTADES = [
   {k:"humanas",    n:"Facultad de Ciencias Humanas"},
   {k:"agrarias",   n:"Facultad de Ciencias Agrarias"},
   {k:"veterinaria",n:"Facultad de Medicina Veterinaria y de Zootecnia"},
+  {k:"artes",      n:"Facultad de Artes"},
 ];
 
 // pinta el inicio: una sección por facultad, con su grilla fija de 3 columnas

@@ -2,8 +2,8 @@
 
 App web de una sola página para seguir el avance en los pensa de la **Universidad Nacional de
 Colombia (Sede Bogotá)**. Empezó con **Ingeniería Civil** (plan flexible 180 créditos, Acuerdo 26
-de 2015) y hoy cubre **43 carreras**: las 9 ingenierías (Civil, Química, Agrícola, Industrial,
-Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica — verificadas con estudiantes) y 34 de las
+de 2015) y hoy cubre **50 carreras**: las 9 ingenierías (Civil, Química, Agrícola, Industrial,
+Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica — verificadas con estudiantes) y 41 de las
 facultades de Ciencias, Ciencias Económicas, Medicina, Enfermería, Odontología, Derecho/Ciencias Políticas, Ciencias Humanas, Ciencias Agrarias y Medicina Veterinaria y de Zootecnia (reconstruidas de las mallas oficiales, **sin
 verificar**). Se hace clic en una materia para aprobarla; se van desbloqueando las que dependen de
 ella. El progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.app.
@@ -124,11 +124,11 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   Análoga y Digital). Prerrequisitos reconstruidos del diagrama y **verificados con estudiantes de
   la carrera**.
 - **Inicio generado desde `MALLAS`** (`renderInicio()`): ya no hay tarjetas escritas a mano. La
-  constante `FACULTADES` (`ingenieria`, `ciencias`, `economicas`, `medicina`, `enfermeria`, `odontologia`, `derecho`, `humanas`, `agrarias`, `veterinaria`) define las secciones y
+  constante `FACULTADES` (`ingenieria`, `ciencias`, `economicas`, `medicina`, `enfermeria`, `odontologia`, `derecho`, `humanas`, `agrarias`, `veterinaria`, `artes`) define las secciones y
   su orden; cada entrada de `MALLAS` trae `fac`, `color`, `cm` (renglón de la tarjeta) y `ver`
   (`true` = verificada con estudiantes → etiqueta "Verificada"; `false` → "Sin verificar", ámbar).
   El contador y el pie (`#foot-ver`) se calculan solos. Cada facultad lleva su grilla fija de 3
-  columnas. Las 9 de Ingeniería son `ver:true`; las otras 34 son `ver:false`.
+  columnas. Las 9 de Ingeniería son `ver:true`; las otras 41 son `ver:false`.
 - **Facultades nuevas (Ciencias, Económicas, Medicina)** — datos con el helper `_m(id, nombre,
   créditos, comp, agr, prereqs, opt?)` y claves de `MALLAS` `quimica-ciencias`, `computacion`,
   `matematicas`, `fisica`, `geologia`, `farmacia`, `estadistica`, `economia`, `administracion`,
@@ -163,8 +163,9 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   - **Ciencias Agrarias**: `agronomica` (180, Acuerdo 032 de 2014, PEP `pep_2_40.pdf`); el plan cambió con el Acuerdo 04 de 2022, no consultado.
   - **Medicina Veterinaria y de Zootecnia**: `veterinaria` (209, 12 semestres; sem 11 = Práctica Integrada dentro de la libre, `m:[]`) y `zootecnia` (186, anexo 3 del PEP).
   - **Biología** (`biologia`, 163): códigos, créditos y prerrequisitos del **Acuerdo 133 de 2017** del Consejo de Facultad de Ciencias (texto pegado por el usuario desde legal.unal.edu.co, que tiene CAPTCHA) + semestres de la malla de la Facultad; las 55 cr de optativas disciplinares van como 14 cupos; TG pide 68 B y 44 C.
+  - **Artes** (7): `arquitectura` (179, Res. 072 de 2010, PEP `pep_2_31`), `artes-plasticas` (166, `pep_2_47`; **créditos por materia estimados**: materias 3, talleres 6), `cine-tv` (158, `pep_2_36`), `diseno-grafico` (148, `pep_2_41`, con prerrequisitos reales), `diseno-industrial` (169, `pep_2_32`; reparto de los 42 cr optativos aproximado), `musica` (171, **solo el plan de énfasis en Dirección**; faltan Jazz, Pedagogía Instrumental y Composición, `pep_2_42` págs. 18+) y `musica-instrumental` (183, **solo cuerdas frotadas/percusión/vientos**; faltan arpa, canto, guitarra y piano, `pep_2_43` págs. 21–25). Las dos de Música se generan con `semsDeSeries()`. Casi todas sin semestres oficiales: secuencia propuesta.
   - **No agregadas todavía**: **Terapia Ocupacional** (el PEP solo trae las materias por agrupación, sin
-    semestres), Fisioterapia (no está en la oferta 2027-01), y la Facultad de Artes.
+    semestres), Fisioterapia (no está en la oferta 2027-01); en Artes faltan los otros planes de Música.
 - **Alturas de sem 9/10**: en carreras sin `sem9fix` (todas menos Civil) el `.tailgroup` lleva la
   clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a `flex:0 0 auto` (la clave de colores no
   queda con espacio sobrante). Civil conserva su ajuste fino. El apaño de Agrícola (celdas de
@@ -270,9 +271,9 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   tu carrera?" (los dos en `malla-artifact.html` / `index.html`).
 - **Nombre/marca**: hoy la marca es sólo "Malla" — el usuario aún no eligió nombre definitivo.
 - Las 9 ingenierías ya están **verificadas con estudiantes** (`ver:true`; así lo dice el pie de cada
-  una); las otras 34 están **sin verificar** (`ver:false`) — cuando
+  una); las otras 41 están **sin verificar** (`ver:false`) — cuando
   un estudiante confirme una, pasar su `ver` a `true` y reescribir su pie.
-- **Faltan por agregar** (pedido del usuario: todas las carreras de la Sede Bogotá): Terapia Ocupacional y la Facultad de Artes. Ver arriba por qué las primeras tres
+- **Faltan por agregar** (pedido del usuario: todas las carreras de la Sede Bogotá): Terapia Ocupacional, Fisioterapia y los otros planes de Música y Música Instrumental. Ver arriba por qué las primeras tres
   quedaron pendientes.
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
 - ¿Modelar Prácticas / Electivas de Profundización con su corte de 108 / 126 créditos totales?
