@@ -274,8 +274,7 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 - Las 9 ingenierías ya están **verificadas con estudiantes** (`ver:true`; así lo dice el pie de cada
   una); las otras 43 están **sin verificar** (`ver:false`) — cuando
   un estudiante confirme una, pasar su `ver` a `true` y reescribir su pie.
-- **Faltan por agregar** (pedido del usuario: todas las carreras de la Sede Bogotá): Terapia Ocupacional y Fisioterapia. Ver arriba por qué las primeras tres
-  quedaron pendientes.
+- **Carreras**: ya están todas las de pregrado de la Sede Bogotá (50). Queda mejorar la calidad: verificar con estudiantes y conseguir planes más recientes (Agronómica 2022, Derecho, Ciencia Política).
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
 - ¿Modelar Prácticas / Electivas de Profundización con su corte de 108 / 126 créditos totales?
 - Publicar (Netlify / GitHub Pages) — ya es la carpeta entera, no un archivo suelto.
