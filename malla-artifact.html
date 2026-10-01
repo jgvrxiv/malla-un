@@ -3910,6 +3910,171 @@ const AGR_MUSICAINSTRUMENTAL = {
   tg:   ["#8e6bbf", "Recital de Grado", "Recital de Grado"],
 };
 
+// Terapia Ocupacional (Facultad de Medicina) — Resolución 478 de 2010 del Consejo de Facultad, 155 créditos.
+// Códigos, créditos, agrupaciones y prerrequisitos de la resolución; la ubicación por semestre es propuesta
+// (la resolución no la trae). Porcentajes convertidos a créditos: 50 % de B = 19, 35 % de C = 30,
+// 50 % de C = 43, 40 % del plan = 62.
+const SEMS_TERAPIAOCUPACIONAL = [
+ {s:1, m:[
+   _m("2017962","Morfofisiología",3,"B","bio"),
+   _m("1000023","Mecánica y Ondas para Biociencias",4,"B","exa"),
+   _m("2017014","Ecología Ocupacional",2,"B","soc"),
+   _m("2017881","Fundamentos de Psicología",4,"B","soc",[],true),
+   _m("2017040","Fundamentos de Terapia Ocupacional",4,"C","fct"),
+ ]},
+ {s:2, m:[
+   _m("2017963","Neuromorfofisiología",4,"B","bio",["2017962"]),
+   _m("1000012","Bioestadística Fundamental",3,"B","exa"),
+   _m("2017022","Ocupación y Bienestar",1,"B","soc"),
+   _m("2017906","Psicología del Desarrollo",3,"B","soc",[],true),
+   _m("2017041","Macroteorías en Terapia Ocupacional",1,"C","fct",["2017040"]),
+   _m("2017044","Actividad Terapéutica",3,"C","fct",["2017040"]),
+   _m("2017027","Observatorio: Terapia Ocupacional e Interdisciplinariedad",2,"C","obs",["2017040"]),
+ ]},
+ {s:3, m:[
+   _m("2017034","Semiología Clínica",2,"B","bio",["2017963","2017962"]),
+   _m("2017033","Ocupación y Contexto Socio-político",1,"B","soc"),
+   _m("2017961","Fundamentos en Psiquiatría",2,"B","soc",["2017906"],true),
+   _m("2017025","Biomecánica Ocupacional",2,"C","fct",["1000023"]),
+   _m("2017042","Teorías en Terapia Ocupacional",2,"C","fct",["2017041"]),
+   _m("2017024","Procesos de Atención en Terapia Ocupacional",1,"C","fct",["2017027"]),
+   _m("2017023","Terapia Ocupacional y Discapacidad",1,"C","fct"),
+   _m("2017028","Observatorio: Ocupación, Sociedad y Cultura",3,"C","obs",["2017040"]),
+ ]},
+ {s:4, m:[
+   _m("2017026","Bioética",1,"B","soc"),
+   _m("TO_OPT_CSH1","Optativa — Ciencias Sociales y Humanas",3,"B","soc",[],true),
+   _m("2017043","Teorías Aplicadas en Terapia Ocupacional",2,"C","fct",["2017042","2017034"]),
+   _m("2017045","Autocuidado y Terapia Ocupacional",2,"C","fct",["2017044"]),
+   _m("2017015","Juego y Terapia Ocupacional",2,"C","fct",["2017044"]),
+   _m("TO_OPT_TEC","Optativa — Ocupación y Desarrollo Tecnológico o Diseño Universal e Inclusión",2,"C","fct",[],true),
+ ]},
+ {s:5, m:[
+   _m("TO_OPT_CSH2","Optativa — Ciencias Sociales y Humanas",3,"B","soc",[],true),
+   _m("2017016","Trabajo y Terapia Ocupacional",2,"C","fct",["2017044"]),
+   _m("2017017","Educación y Terapia Ocupacional",2,"C","fct",["2017044"]),
+   _m("2017019","Terapia Ocupacional y Aplicaciones Tecnológicas",3,"C","fct",["TO_OPT_TEC","2017025"]),
+   _m("2017029","Observatorio: Gestión Curricular",2,"C","obs",[{comp:"T",min:62}]),
+ ]},
+ {s:6, m:[
+   _m("2017020","Seminario de Investigación",2,"B","cien",[{comp:"B",min:19},{comp:"C",min:30}]),
+   _m("TO_SEMPROF","Seminario de Profundización (optativo)",2,"C","inv",["2017027","2017028","2017029"],true),
+ ]},
+ {s:7, m:[
+   _m("2017030","Práctica Profesional General",11,"C","prac",[{comp:"B",min:38},{comp:"C",min:43}]),
+   _m("2017021","Taller Trabajo de Grado",2,"C","inv",["2017020"]),
+ ]},
+ {s:8, m:[
+   _m("2017031","Práctica Profesional Integral",13,"C","prac",[{comp:"B",min:38},{comp:"C",min:43}]),
+   _m("TO_PROF","Profundización (optativa)",3,"C","inv",["TO_SEMPROF"],true),
+ ]},
+ {s:9, m:[
+   _m("TO_PRACAV","Práctica Profesional Avanzada (optativa)",13,"C","prac",["2017030"],true),
+ ]},
+ {s:10, m:[
+   _m("2017976","Trabajo de Grado",6,"C","inv",["2017021","2017020"]),
+ ]},
+];
+const AGR_TERAPIAOCUPACIONAL = {
+  exa:  ["#5aa9e6", "Ciencias Exactas y Naturales", "Cs. Exactas y Naturales"],
+  bio:  ["#8ec44e", "Ciencias Biológicas", "Cs. Biológicas"],
+  soc:  ["#e3b955", "Ciencias Sociales y Humanas", "Cs. Sociales y Humanas"],
+  cien: ["#9aa6bd", "Bases del Pensamiento Científico", "Pensamiento Científico"],
+  fct:  ["#33ac9d", "Fundamentación Científico Tecnológica", "Fund. Científico Tecn."],
+  obs:  ["#f0a24a", "Observatorios Sociales", "Observatorios"],
+  inv:  ["#c56bd0", "Investigación y Profundización", "Investigación y Prof."],
+  prac: ["#dc4c43", "Práctica Profesional", "Práctica Profesional"],
+};
+
+// Fisioterapia (Facultad de Medicina) — malla del Departamento del Movimiento Corporal Humano, 10 semestres.
+// Créditos, componentes (color de cada casilla) y semestres de la malla. La malla imprime 164 créditos, pero
+// las casillas suman 166 (el semestre VIII suma 19 y la malla dice 17): aquí se usan las casillas.
+const SEMS_FISIOTERAPIA = [
+ {s:1, m:[
+   _m("FIS_MORF","Morfología",3,"B","cb"),
+   _m("FIS_BIO","Biología General",3,"B","cb"),
+   _m("FIS_MEC","Mecánica y Ondas para Biociencias",4,"B","cb"),
+   _m("FIS_FPSI","Fundamentos de Psicología",4,"B","ch"),
+   _m("FIS_HIST","Historia, Transformaciones y Perspectiva de la Fisioterapia",1,"B","cym"),
+ ]},
+ {s:2, m:[
+   _m("FIS_FISG","Fisiología General",6,"B","cb",["FIS_MORF","FIS_BIO"]),
+   _m("FIS_QUIM","Química Básica",3,"B","cb"),
+   _m("FIS_NEUR","Neurofisiología",3,"B","cb",["FIS_MORF"]),
+   _m("FIS_FLU","Fluidos y Electromagnetismo para Biociencias",4,"B","cb",["FIS_MEC"]),
+   _m("FIS_TCM","Taller Cuerpo y Movimiento",2,"B","cym",["FIS_HIST"]),
+ ]},
+ {s:3, m:[
+   _m("FIS_FEJ","Fisiología del Ejercicio y la Actividad Física",2,"B","cb",["FIS_FISG"]),
+   _m("FIS_PAT","Patología",3,"B","ana",["FIS_FISG"]),
+   _m("FIS_ACM","Aprendizaje y Control Motor",2,"B","cym",["FIS_NEUR"]),
+   _m("FIS_BTEJ","Biomecánica de Tejidos",2,"B","ana",["FIS_MEC"]),
+   _m("FIS_PE1","Procesos Evaluativos I",2,"C","eva",["FIS_FISG"]),
+   _m("FIS_PSD","Psicología del Desarrollo",3,"B","ch",["FIS_FPSI"]),
+ ]},
+ {s:4, m:[
+   _m("FIS_MCIN","Modalidades Cinéticas: Principios Fundamentales",2,"C","mod",["FIS_FEJ"]),
+   _m("FIS_MFIS","Modalidades Físicas",2,"C","mod",["FIS_FLU"]),
+   _m("FIS_FAC","Principios de Facilitación del Movimiento",2,"C","pri",["FIS_ACM"]),
+   _m("FIS_BART","Biomecánica Articular y de Movimiento Complejo",2,"B","ana",["FIS_BTEJ"]),
+   _m("FIS_SP","Salud Pública",1,"B","sin"),
+   _m("FIS_MASO","Modalidades Cinéticas: Masoterapia",2,"C","mod",["FIS_MORF"]),
+ ]},
+ {s:5, m:[
+   _m("FIS_PKC","Pato-kinesiología Cardiopulmonar",2,"C","pri",["FIS_PAT","FIS_FEJ"]),
+   _m("FIS_PE2","Procesos Evaluativos II",2,"C","eva",["FIS_PE1"]),
+   _m("FIS_PKN","Pato-kinesiología Neurológica",2,"C","pri",["FIS_PAT","FIS_FAC"]),
+   _m("FIS_TREH","Tecnología en Rehabilitación",2,"C","mod",["FIS_BART"]),
+   _m("FIS_TPE","Taller de Prescripción de Ejercicio",2,"C","pri",["FIS_MCIN"]),
+   _m("FIS_PKO","Pato-kinesiología Osteomuscular y Tegumentario",2,"C","pri",["FIS_PAT","FIS_BART"]),
+   _m("FIS_ABVD","Actividades Básicas de la Vida Diaria",2,"C","mod"),
+ ]},
+ {s:6, m:[
+   _m("FIS_PR1","Práctica Académica: Actividad Física y Deporte",7,"C","prac",["FIS_TPE","FIS_PE2"]),
+   _m("FIS_FARM","Farmacología",1,"B","sin"),
+   _m("FIS_FADM","Fundamentos de Administración",1,"B","adm"),
+   _m("FIS_FTC","Fisioterapia en Trabajo y Comunidad",2,"C","pri",[],true),
+   _m("FIS_BEST","Bioestadística Fundamental",3,"B","inv"),
+ ]},
+ {s:7, m:[
+   _m("FIS_PR2","Práctica Académica: Salud, Trabajo y Comunidad",7,"C","prac",["FIS_PR1"]),
+   _m("FIS_OPTP","Optativa Profesional",4,"C","opt",[],true),
+   _m("FIS_PROY","Diseño, Gestión y Evaluación de Proyectos",2,"B","adm",["FIS_FADM"]),
+   _m("FIS_BIOE","Bioética y Legislación",2,"B","inv"),
+   _m("FIS_EPI","Epidemiología",1,"B","inv",["FIS_BEST"]),
+ ]},
+ {s:8, m:[
+   _m("FIS_PR3","Práctica Académica Clínica: Adultos",7,"C","prac",["FIS_PKC","FIS_PKN","FIS_PKO","FIS_PE2"]),
+   _m("FIS_OPR1","Optativa de Profundización I",2,"C","opt",[],true),
+   _m("FIS_PSIP","Psicopatología",2,"B","ch",["FIS_PSD"]),
+   _m("FIS_FINV","Fundamentos de Investigación Cualitativa y Cuantitativa",2,"B","inv",["FIS_BEST"]),
+ ]},
+ {s:9, m:[
+   _m("FIS_PR4","Práctica Académica Clínica: Niños",7,"C","prac",["FIS_PKC","FIS_PKN","FIS_PKO","FIS_PE2"]),
+   _m("FIS_OPR2","Optativa de Profundización II",2,"C","opt",[],true),
+   _m("FIS_STG","Seminario Trabajo de Grado",1,"C","tg",["FIS_FINV"]),
+ ]},
+ {s:10, m:[
+   _m("FIS_OPR3","Optativa de Profundización III",2,"C","opt",[],true),
+   _m("FIS_TG","Trabajo de Grado",6,"C","tg",["FIS_STG"]),
+ ]},
+];
+const AGR_FISIOTERAPIA = {
+  cb:   ["#e3b955", "Ciencias Básicas", "Ciencias Básicas"],
+  ch:   ["#f0a24a", "Ciencias Humanas", "Ciencias Humanas"],
+  cym:  ["#e07aa4", "Cuerpo y Movimiento", "Cuerpo y Movimiento"],
+  ana:  ["#8ec44e", "Análisis del Movimiento y sus Alteraciones", "Análisis del Movimiento"],
+  sin:  ["#8891a5", "Sin agrupación", "Sin agrupación"],
+  adm:  ["#b07a4a", "Administración en Salud", "Administración"],
+  inv:  ["#c56bd0", "Investigación", "Investigación"],
+  eva:  ["#5aa9e6", "Evaluación del Movimiento", "Evaluación"],
+  mod:  ["#33ac9d", "Modalidades de Interacción Fisioterapéuticas", "Modalidades"],
+  pri:  ["#3f78c8", "Principios de Interacción Fisioterapéutica", "Principios de Interacción"],
+  prac: ["#dc4c43", "Práctica Fisioterapéutica", "Práctica"],
+  opt:  ["#9aa6bd", "Optativas Profesionales y de Profundización", "Optativas"],
+  tg:   ["#93a0e6", "Investigación en Fisioterapia (Trabajo de Grado)", "Trabajo de Grado"],
+};
+
 // registro de carreras: cada una trae su pensum, su paleta de áreas y sus metas por componente
 const MALLAS = {
   civil: {
@@ -4506,6 +4671,29 @@ const MALLAS = {
     foot: `Malla curricular del PEP de Música Instrumental para el plan de <b>cuerdas frotadas, percusión y vientos</b>: Fundamentación 46, Disciplinar 101 y Libre elección 36. Cada instrumento tiene su propio
       plan (cámbialo arriba) y guarda su avance por separado. Los 18 créditos del Recital de Grado se repartieron en Preparación (9) y Recital (9). Prerrequisitos por secuencia de niveles.
       <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  "terapia-ocupacional": {
+    nombre: "Terapia Ocupacional",
+    fac: "medicina", color: "#f0a24a", cm: "Resolución 478 de 2010 · 155 créditos", ver: false,
+    plan: "Resolución 478 de 2010 · 155 créditos",
+    sems: SEMS_TERAPIAOCUPACIONAL, agr: AGR_TERAPIAOCUPACIONAL,
+    store: "malla_terapiaocupacional_unal", elecStore: "malla_terapiaocupacional_elec",
+    meta: { C: 86, B: 38, L: 31 }, sem9fix: false, compact: true, target: 155, libreMeta: 31,
+    foot: `Códigos, créditos, agrupaciones y prerrequisitos de la Resolución 478 de 2010 del Consejo de la Facultad de Medicina: Fundamentación 38 (23 obligatorios + 15 optativos), Disciplinar 86
+      (66 + 20) y Libre elección 31. La resolución <b>no trae distribución por semestres</b>: la ubicación es propuesta. Los requisitos por porcentaje se pasaron a créditos (prácticas: 38 de
+      Fundamentación y 43 disciplinares; Seminario de Investigación: 19 y 30; Observatorio de Gestión Curricular: 62 del plan). <b>Sin verificar con estudiantes</b>. Inglés no se incluye.
+      Herramienta no oficial; ante la duda, consulta el SIA.`,
+  },
+  fisioterapia: {
+    nombre: "Fisioterapia",
+    fac: "medicina", color: "#3f78c8", cm: "Malla del programa · 166 créditos", ver: false,
+    plan: "Malla del programa · 166 créditos",
+    sems: SEMS_FISIOTERAPIA, agr: AGR_FISIOTERAPIA,
+    store: "malla_fisioterapia_unal", elecStore: "malla_fisioterapia_elec",
+    meta: { C: 71, B: 62, L: 33 }, sem9fix: false, compact: true, target: 166, libreMeta: 33,
+    foot: `Créditos, componentes y semestres de la malla del programa de Fisioterapia (Departamento del Movimiento Corporal Humano). <b>Ojo:</b> la malla imprime 164 créditos en total, pero sus
+      casillas suman 166 (el semestre VIII suma 19 y la malla dice 17); aquí se usan las casillas: Fundamentación 62, Disciplinar 71 y Libre elección 33. La malla no trae códigos ni flechas:
+      los <b>prerrequisitos son una reconstrucción por secuencia</b>, <b>sin verificar con estudiantes</b>. Inglés no se incluye. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
 };
 

@@ -2,8 +2,8 @@
 
 App web de una sola página para seguir el avance en los pensa de la **Universidad Nacional de
 Colombia (Sede Bogotá)**. Empezó con **Ingeniería Civil** (plan flexible 180 créditos, Acuerdo 26
-de 2015) y hoy cubre **48 carreras** (58 planes de estudio): las 9 ingenierías (Civil, Química, Agrícola, Industrial,
-Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica — verificadas con estudiantes) y 41 de las
+de 2015) y hoy cubre **50 carreras** (60 planes de estudio): las 9 ingenierías (Civil, Química, Agrícola, Industrial,
+Sistemas, Eléctrica, Mecatrónica, Mecánica y Electrónica — verificadas con estudiantes) y 43 de las
 facultades de Ciencias, Ciencias Económicas, Medicina, Enfermería, Odontología, Derecho/Ciencias Políticas, Ciencias Humanas, Ciencias Agrarias y Medicina Veterinaria y de Zootecnia (reconstruidas de las mallas oficiales, **sin
 verificar**). Se hace clic en una materia para aprobarla; se van desbloqueando las que dependen de
 ella. El progreso se guarda en `localStorage`. Inspirada en https://mallaiq.netlify.app.
@@ -128,7 +128,7 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   su orden; cada entrada de `MALLAS` trae `fac`, `color`, `cm` (renglón de la tarjeta) y `ver`
   (`true` = verificada con estudiantes → etiqueta "Verificada"; `false` → "Sin verificar", ámbar).
   El contador y el pie (`#foot-ver`) se calculan solos. Cada facultad lleva su grilla fija de 3
-  columnas. Las 9 de Ingeniería son `ver:true`; las otras 41 son `ver:false`.
+  columnas. Las 9 de Ingeniería son `ver:true`; las otras 43 son `ver:false`.
 - **Facultades nuevas (Ciencias, Económicas, Medicina)** — datos con el helper `_m(id, nombre,
   créditos, comp, agr, prereqs, opt?)` y claves de `MALLAS` `quimica-ciencias`, `computacion`,
   `matematicas`, `fisica`, `geologia`, `farmacia`, `estadistica`, `economia`, `administracion`,
@@ -165,8 +165,8 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   - **Biología** (`biologia`, 163): códigos, créditos y prerrequisitos del **Acuerdo 133 de 2017** del Consejo de Facultad de Ciencias (texto pegado por el usuario desde legal.unal.edu.co, que tiene CAPTCHA) + semestres de la malla de la Facultad; las 55 cr de optativas disciplinares van como 14 cupos; TG pide 68 B y 44 C.
   - **Artes** (7): `arquitectura` (179, Res. 072 de 2010, PEP `pep_2_31`), `artes-plasticas` (166, `pep_2_47`; **créditos por materia estimados**: materias 3, talleres 6), `cine-tv` (158, `pep_2_36`), `diseno-grafico` (148, `pep_2_41`, con prerrequisitos reales), `diseno-industrial` (169, `pep_2_32`; reparto de los 42 cr optativos aproximado), `musica` (171, `pep_2_42` págs. 18–21) y `musica-instrumental` (183, `pep_2_43` págs. 21–25). Las dos de Música se generan con `semsDeSeries()`. Casi todas sin semestres oficiales: secuencia propuesta.
   - **Carreras con varios planes (`GRUPOS`)**: Música (4 énfasis: `musica` Dirección, `musica-jazz`, `musica-pedagogia`, `musica-composicion`) y Música Instrumental (5: `musica-instrumental` cuerdas/percusión/vientos, `musica-arpa`, `musica-canto`, `musica-guitarra`, `musica-piano`). Cada plan es una entrada de `MALLAS` con `grupo` y `planN` (hash y `store` propios); las derivadas se crean con `_plan()` después del registro, y los datos con `semsMusica()` / `semsInstrumental()`. El inicio muestra **una tarjeta por grupo** (`renderInicio` filtra al primer plan y enlaza a `planPreferido()`, el último usado: `localStorage["malla_plan_<grupo>"]`), y la malla muestra el selector `#m-planes` (píldoras `.planes`), oculto en carreras sin grupo. El contador "N disponibles" cuenta carreras, no planes. **Filología e Idiomas** también es un grupo (`filologia`: Alemán, Francés, Inglés; conserva sus hashes y `store` de antes).
-  - **No agregadas todavía**: **Terapia Ocupacional** (el PEP solo trae las materias por agrupación, sin
-    semestres), Fisioterapia (no está en la oferta 2027-01).
+  - **Terapia Ocupacional** (`terapia-ocupacional`, 155; Medicina): Resolución 478 de 2010 del Consejo de Facultad (PDF que pasó el usuario): códigos, créditos y prerrequisitos reales; porcentajes pasados a créditos (19 B / 30 C / 43 C / 62 T); **sin semestres en la fuente** (propuestos). **Fisioterapia** (`fisioterapia`, 166; Medicina): malla del programa (PDF del usuario); la malla imprime 164 pero las casillas suman 166 (sem VIII 19 vs 17) → se usan las casillas (B 62 / C 71 / L 33); prerrequisitos por secuencia.
+  - Con esto están **todas las carreras de pregrado de la Sede Bogotá**.
 - **Alturas de sem 9/10**: en carreras sin `sem9fix` (todas menos Civil) el `.tailgroup` lleva la
   clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a `flex:0 0 auto` (la clave de colores no
   queda con espacio sobrante). Civil conserva su ajuste fino. El apaño de Agrícola (celdas de
@@ -272,7 +272,7 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   tu carrera?" (los dos en `malla-artifact.html` / `index.html`).
 - **Nombre/marca**: hoy la marca es sólo "Malla" — el usuario aún no eligió nombre definitivo.
 - Las 9 ingenierías ya están **verificadas con estudiantes** (`ver:true`; así lo dice el pie de cada
-  una); las otras 41 están **sin verificar** (`ver:false`) — cuando
+  una); las otras 43 están **sin verificar** (`ver:false`) — cuando
   un estudiante confirme una, pasar su `ver` a `true` y reescribir su pie.
 - **Faltan por agregar** (pedido del usuario: todas las carreras de la Sede Bogotá): Terapia Ocupacional y Fisioterapia. Ver arriba por qué las primeras tres
   quedaron pendientes.
