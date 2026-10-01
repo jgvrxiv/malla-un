@@ -4745,6 +4745,23 @@ const FACULTADES = [
   {k:"artes",      n:"Facultad de Artes"},
 ];
 
+// todas las tarjetas del inicio al mismo alto (el de la más alta), en todas las facultades
+function igualarTarjetas(){
+  const cs = [...document.querySelectorAll("#carreras .carrera")];
+  cs.forEach(c => c.style.minHeight = "");
+  const max = Math.max(0, ...cs.map(c => c.getBoundingClientRect().height));
+  if(max > 0) cs.forEach(c => c.style.minHeight = Math.ceil(max) + "px");
+}
+// se recalcula cuando cambia el ancho de la grilla (giro de pantalla, cambio de ventana)
+if(window.ResizeObserver){
+  let anchoPrev = 0;
+  new ResizeObserver(es => {
+    const w = Math.round(es[0].contentRect.width);
+    if(w !== anchoPrev){ anchoPrev = w; igualarTarjetas(); }
+  }).observe(document.getElementById("carreras"));
+} else window.addEventListener("resize", igualarTarjetas);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(igualarTarjetas);
+
 // pinta el inicio: una sección por facultad, con su grilla fija de 3 columnas
 function renderInicio(){
   const box = document.getElementById("carreras");
@@ -4770,6 +4787,7 @@ function renderInicio(){
       }).join("") + `</div>`;
   }
   box.innerHTML = html;
+  igualarTarjetas();
   const fv = document.getElementById("foot-ver");
   if(fv) fv.textContent = nver === keys.length
     ? `Las ${keys.length} mallas están reconstruidas de los pensa oficiales y verificadas con estudiantes de cada carrera.`

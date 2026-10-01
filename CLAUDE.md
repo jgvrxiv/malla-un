@@ -127,7 +127,7 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   constante `FACULTADES` (`ingenieria`, `ciencias`, `economicas`, `medicina`, `enfermeria`, `odontologia`, `derecho`, `humanas`, `agrarias`, `veterinaria`, `artes`) define las secciones y
   su orden; cada entrada de `MALLAS` trae `fac`, `color`, `cm` (renglón de la tarjeta) y `ver`
   (`true` = verificada con estudiantes → etiqueta "Verificada"; `false` → "Sin verificar", ámbar).
-  El contador y el pie (`#foot-ver`) se calculan solos. Cada facultad lleva su grilla fija de 3
+  El contador y el pie (`#foot-ver`) se calculan solos. Dentro de cada facultad va primero la carrera homónima (Medicina, Medicina Veterinaria, Derecho). **Todas las tarjetas miden lo mismo**: `igualarTarjetas()` les pone como `min-height` el alto de la más alta (se recalcula con un `ResizeObserver` sobre `#carreras` y al cargar las fuentes). Cada facultad lleva su grilla fija de 3
   columnas. Las 9 de Ingeniería son `ver:true`; las otras 43 son `ver:false`.
 - **Facultades nuevas (Ciencias, Económicas, Medicina)** — datos con el helper `_m(id, nombre,
   créditos, comp, agr, prereqs, opt?)` y claves de `MALLAS` `quimica-ciencias`, `computacion`,
