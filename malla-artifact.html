@@ -4754,6 +4754,9 @@ function renderInicio(){
   let html = `<div class="sec-h"><h2>Carreras</h2><span>${keys.length} disponibles · ${nver} verificadas con estudiantes</span></div>`;
   for(const f of FACULTADES){
     const ks = keys.filter(k => MALLAS[k].fac === f.k);
+    // la carrera que da nombre a la facultad (Medicina, Medicina Veterinaria, Derecho…) va de primera
+    const homonima = k => f.n.replace("Facultad de ", "").startsWith(MALLAS[k].nombre) ? 0 : 1;
+    ks.sort((x, y) => homonima(x) - homonima(y));
     if(!ks.length) continue;
     html += `<div class="fac-h"><h3>${f.n}</h3><span>${ks.length} ${ks.length === 1 ? "carrera" : "carreras"}</span></div><div class="cards">` +
       ks.map(k => {
