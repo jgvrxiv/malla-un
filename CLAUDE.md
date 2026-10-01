@@ -266,6 +266,14 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
   - Sin fondo cuadriculado (solo un glow suave arriba). Tipografía: **Montserrat** (una sola
     familia para todo; el usuario descartó Inter/Archivo por "olor a IA").
 
+## UX agregada (2026-10-01)
+
+- **Inicio**: buscador `#q` (`filtrarCarreras()`, compara sin tildes contra `data-q` = carrera + planes + facultad) y bloque **Continuar** (`#continuar`, última malla abierta: `localStorage["malla_ultima"]`, avance con `avanceDe(key)` sin cargar la carrera).
+- **Malla**: `render()` ahora es un envoltorio de `pintar()` (el render de antes): calcula `DEPS` (quién depende de quién), conserva el `scrollLeft` de `.rail` y llama `actualizarRail()`. Si la malla no cabe a lo ancho aparecen los saltos `#semnav` ("Ir al semestre") y un desvanecido en el borde (`.rail.mas-der` / `.mas-izq`).
+- **Clic en una bloqueada**: `explicar()` muestra en el aviso `#toast` qué falta y hace pulsar (`.m.falta`) los prerrequisitos pendientes. **Señalar una materia** (cursor/teclado) marca con `.m.abre` las que abre, y el tooltip agrega "Abre: …".
+- **Deshacer**: `toast(msg, deshacer)`; sale al desmarcar en cascada (2+ materias) y al Reiniciar.
+- **Imprimir / guardar PDF** (`#btnPrint` → `window.print()`; en `beforeprint` pasa a tema claro y pone `zoom` a `#view-malla` para que quepa en hoja horizontal; **no probado en impresión real**) y **Copiar enlace** (`#btnShare`).
+
 ## Pendiente
 
 - **Placeholders por reemplazar**: URL del botón "Invítame un café" y el `mailto:` de "¿falta

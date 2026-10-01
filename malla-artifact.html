@@ -167,6 +167,54 @@
     padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);transition:.15s}
   .planes a:hover{color:var(--text);border-color:var(--dim)}
   .planes a.on{color:var(--bg);background:var(--text);border-color:var(--text)}
+  /* acciones de la malla (imprimir / copiar enlace) */
+  .acts{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .act{font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--dim);cursor:pointer;
+    padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:transparent;transition:.15s}
+  .act:hover{color:var(--text);border-color:var(--dim)}
+  /* saltos por semestre: solo aparecen cuando la malla no cabe a lo ancho */
+  .semnav{display:flex;align-items:center;gap:6px;max-width:1320px;margin:0 auto;padding:0 4px;overflow-x:auto;scrollbar-width:none}
+  .semnav::-webkit-scrollbar{display:none}
+  .semnav .sn-et{font-family:var(--mono);font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-right:2px;white-space:nowrap}
+  .semnav button{flex:none;min-width:30px;height:28px;padding:0 8px;border-radius:8px;border:1px solid var(--line);background:var(--surface2);
+    color:var(--dim);font-family:var(--mono);font-size:.72rem;font-weight:700;cursor:pointer}
+  .semnav button:hover{color:var(--text);border-color:var(--dim)}
+  /* desvanecido en el borde hacia donde hay más semestres */
+  .rail.mas-der{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 44px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 44px),transparent)}
+  .rail.mas-izq{-webkit-mask-image:linear-gradient(90deg,transparent,#000 44px);mask-image:linear-gradient(90deg,transparent,#000 44px)}
+  .rail.mas-izq.mas-der{-webkit-mask-image:linear-gradient(90deg,transparent,#000 44px,#000 calc(100% - 44px),transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 44px,#000 calc(100% - 44px),transparent)}
+  /* resaltados: materias que abre la que señalas / prerrequisitos que faltan */
+  .m.abre{outline:2px dashed var(--accent);outline-offset:2px;filter:none;opacity:1}
+  .m.falta{outline:3px solid var(--warn);outline-offset:2px;filter:none;opacity:1;animation:pulso .7s ease-in-out 3}
+  @keyframes pulso{50%{outline-offset:6px}}
+  .tip .ab{display:block;margin-top:4px;color:#9fc3ff}
+  /* aviso inferior (qué falta / deshacer) */
+  #toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:200;display:flex;align-items:center;gap:12px;
+    max-width:min(560px,calc(100vw - 24px));background:var(--text);color:var(--bg);border-radius:12px;padding:11px 14px;
+    font-size:.8rem;line-height:1.35;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  #toast button{flex:none;font:inherit;font-weight:800;color:inherit;background:transparent;border:1px solid currentColor;
+    border-radius:8px;padding:5px 10px;cursor:pointer}
+  /* inicio: continuar + buscador */
+  .cont{max-width:340px}
+  .cont .cbar{display:block;height:7px;border-radius:99px;background:color-mix(in srgb,var(--text) 14%,transparent);overflow:hidden}
+  .cont .cbar i{display:block;height:100%;border-radius:99px;background:var(--done)}
+  .buscar{position:relative;margin:30px 0 0}
+  .buscar svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--dim);pointer-events:none}
+  .buscar input{width:100%;font:inherit;font-size:.95rem;color:var(--text);background:var(--surface);border:1px solid var(--line);
+    border-radius:12px;padding:12px 14px 12px 42px;outline:none}
+  .buscar input:focus{border-color:var(--accent)}
+  .buscar input::placeholder{color:var(--dim)}
+  #q-vacio{color:var(--dim);font-size:.9rem;margin:22px 2px}
+  @media print{
+    @page{size:landscape;margin:8mm}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body{background:#fff!important;padding:0!important}
+    .topbar,.legend,.acts,.semnav,.planes,#toast,.tip,#view-inicio{display:none!important}
+    header{box-shadow:none;margin-bottom:6px}
+    .rail{overflow:visible!important;-webkit-mask-image:none!important;mask-image:none!important;padding-top:6px}
+    .m.locked{opacity:.8}
+  }
   .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;padding:11px 13px;background:var(--surface2);
     border:1px solid var(--line);border-radius:10px}
   .legend span{display:flex;align-items:center;gap:7px;font-size:.71rem;color:var(--dim)}
@@ -337,7 +385,13 @@
     </section>
 
     <!-- las tarjetas se generan desde MALLAS (renderInicio), agrupadas por facultad -->
+    <div id="continuar"></div>
+    <div class="buscar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <input id="q" type="search" placeholder="Busca tu carrera o facultad…" aria-label="Buscar carrera" autocomplete="off">
+    </div>
     <div id="carreras"></div>
+    <p id="q-vacio" hidden>No hay ninguna carrera con ese nombre. Prueba con otra palabra.</p>
 
     <div class="sec-h"><h2>Cómo funciona</h2></div>
     <div class="steps">
@@ -378,13 +432,20 @@
       <span><i class="sw" style="border-color:var(--done);border-width:2px"></i>Aprobada&nbsp;✓</span>
       <span style="color:var(--dim)">— el fondo de cada celda es su área (ver clave abajo)</span>
     </div>
+    <div class="acts">
+      <button class="act" id="btnPrint" type="button">Imprimir / guardar PDF</button>
+      <button class="act" id="btnShare" type="button">Copiar enlace</button>
+    </div>
   </header>
 
+  <div class="semnav" id="semnav" hidden></div>
   <div class="rail" id="rail"></div>
 
   <footer id="m-foot"></footer>
 </div>
 </div>
+
+<div id="toast" role="status" aria-live="polite" hidden></div>
 
 <script>
 // a = agrupación (color, según la malla oficial). r: AND de ids + cortes {comp,min}
@@ -4745,6 +4806,47 @@ const FACULTADES = [
   {k:"artes",      n:"Facultad de Artes"},
 ];
 
+// texto sin tildes ni mayúsculas, para buscar
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+// créditos aprobados de una carrera leídos del navegador, sin cargarla
+function avanceDe(key){
+  const M = MALLAS[key]; let ids = [], el = 0;
+  try{ ids = JSON.parse(localStorage.getItem(M.store) || "[]") || []; }catch(e){}
+  try{ const v = JSON.parse(localStorage.getItem(M.elecStore) || "0"); el = Array.isArray(v) ? v.reduce((s, x) => s + (+x || 0), 0) : (+v || 0); }catch(e){}
+  const set = new Set(ids);
+  const cr = M.sems.reduce((s, sem) => s + sem.m.reduce((t, m) => t + (set.has(m.id) ? m.c : 0), 0), 0) + el;
+  const total = M.target || 180;
+  return { cr, total, pct: Math.min(100, cr / total * 100) };
+}
+// "Continuar": la última malla que se abrió en este navegador, con su avance
+function pintarContinuar(flecha){
+  const box = document.getElementById("continuar");
+  let k = null; try{ k = localStorage.getItem("malla_ultima"); }catch(e){}
+  const M = MALLAS[k];
+  if(!M){ box.innerHTML = ""; return; }
+  const a = avanceDe(k);
+  box.innerHTML = `<div class="sec-h"><h2>Continuar</h2></div>
+    <a class="carrera cont" href="#${k}" style="--c:${M.color || "#8891a5"}">
+      <span class="cn">${M.nombre}</span>
+      <span class="cm">${a.cr} / ${a.total} créditos · ${a.pct.toFixed(0)} %</span>
+      <span class="cbar"><i style="width:${a.pct}%"></i></span>
+      <span class="go">Seguir donde ibas ${flecha}</span>
+    </a>`;
+}
+// buscador del inicio: filtra tarjetas por carrera, plan o facultad
+function filtrarCarreras(){
+  const q = norm(document.getElementById("q").value.trim());
+  let n = 0;
+  document.querySelectorAll("#carreras .cards").forEach(g => {
+    let vis = 0;
+    g.querySelectorAll(".carrera").forEach(c => { const ok = !q || c.dataset.q.includes(q); c.hidden = !ok; if(ok) vis++; });
+    g.hidden = !vis; g.previousElementSibling.hidden = !vis; n += vis;
+  });
+  document.getElementById("q-vacio").hidden = n > 0;
+  igualarTarjetas();
+}
+document.getElementById("q").addEventListener("input", filtrarCarreras);
+
 // todas las tarjetas del inicio al mismo alto (el de la más alta), en todas las facultades
 function igualarTarjetas(){
   const cs = [...document.querySelectorAll("#carreras .carrera")];
@@ -4778,7 +4880,7 @@ function renderInicio(){
     html += `<div class="fac-h"><h3>${f.n}</h3><span>${ks.length} ${ks.length === 1 ? "carrera" : "carreras"}</span></div><div class="cards">` +
       ks.map(k => {
         const M = MALLAS[k], G = GRUPOS[M.grupo];
-        return `<a class="carrera" href="#${G ? planPreferido(M.grupo) : k}" style="--c:${M.color || "#8891a5"}">
+        return `<a class="carrera" href="#${G ? planPreferido(M.grupo) : k}" data-q="${norm((G ? G.n + " " + planesDe(M.grupo).map(p => MALLAS[p].planN).join(" ") : M.nombre) + " " + f.n)}" style="--c:${M.color || "#8891a5"}">
           <span class="tag ${M.ver ? "live" : "unver"}">${M.ver ? "Verificada" : "Sin verificar"}</span>
           <span class="cn">${G ? G.n : M.nombre}</span>
           <span class="cm">${G ? G.cm : (M.cm || M.plan)}</span>
@@ -4787,7 +4889,8 @@ function renderInicio(){
       }).join("") + `</div>`;
   }
   box.innerHTML = html;
-  igualarTarjetas();
+  pintarContinuar(flecha);
+  filtrarCarreras();
   const fv = document.getElementById("foot-ver");
   if(fv) fv.textContent = nver === keys.length
     ? `Las ${keys.length} mallas están reconstruidas de los pensa oficiales y verificadas con estudiantes de cada carrera.`
@@ -4874,10 +4977,44 @@ function cascade(){
   }
 }
 
+// aviso inferior; con `deshacer` muestra el botón para revertir la última acción
+let toastT = 0;
+function toast(msg, deshacer){
+  const t = document.getElementById("toast");
+  clearTimeout(toastT);
+  if(!msg){ t.hidden = true; return; }
+  t.textContent = msg;
+  if(deshacer){
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = "Deshacer";
+    b.onclick = () => { deshacer(); toast(); };
+    t.appendChild(b);
+  }
+  t.hidden = false;
+  toastT = setTimeout(() => { t.hidden = true; }, deshacer ? 9000 : 6000);
+}
+const celda = id => document.querySelector('#rail .m[data-id="' + id + '"]');
+// materia bloqueada: dice qué falta y señala en la malla los prerrequisitos pendientes
+function explicar(m, p){
+  toast("Para «" + m.n + "» te falta: " + p.miss.join(" · "));
+  const els = m.r.filter(r => typeof r === "string" && !approved.includes(r)).map(celda).filter(Boolean);
+  els.forEach(e => { e.classList.add("falta"); setTimeout(() => e.classList.remove("falta"), 2400); });
+  if(els[0]) els[0].scrollIntoView({behavior:"smooth", inline:"center", block:"nearest"});
+}
+
 function toggle(id){
   const m = ALL[id];
-  if(approved.includes(id)){ approved = approved.filter(x=>x!==id); cascade(); }
-  else { if(progress(m).st !== "ready") return; approved.push(id); }
+  if(approved.includes(id)){
+    const prev = [...approved];
+    approved = approved.filter(x=>x!==id); cascade();
+    save(); render();
+    const n = prev.length - approved.length;
+    if(n > 1) toast("Se desmarcaron " + n + " materias: " + (n - 1) + " dependían de «" + m.n + "».", () => { approved = prev; save(); render(); });
+    return;
+  }
+  const p = progress(m);
+  if(p.st !== "ready"){ explicar(m, p); return; }
+  approved.push(id);
   save(); render();
 }
 
@@ -4896,11 +5033,13 @@ function card(m){
   el.style.setProperty("--agr", ag[0]);
   el.setAttribute("aria-pressed", done ? "true" : "false");
   el.onclick = ()=>toggle(m.id);
+  el.dataset.id = m.id;
+  const abre = (DEPS[m.id] || []).map(x => x.n);
   const codeTitle = /^\d{7}$/.test(m.id) ? `${ag[1]} · ${m.id}` : ag[1];
   el.innerHTML = `<span class="nm">${m.n}</span>
     <span class="agrn" title="${codeTitle}">${ag[2]}</span>
     <span class="meta"><span>${m.c} créd.</span><span class="comp">${m.comp}</span></span>
-    <span class="tip">${tip}</span>`;
+    <span class="tip">${tip}${abre.length ? `<span class="ab">Abre: ${abre.slice(0, 4).join(" · ")}${abre.length > 4 ? " y " + (abre.length - 4) + " más" : ""}</span>` : ""}</span>`;
   return el;
 }
 
@@ -4942,7 +5081,50 @@ function agrkeyEl(){
   return k;
 }
 
+// materias que dependen directamente de cada una (para "Abre: …" y el resaltado)
+let DEPS = {};
+// render() conserva el desplazamiento lateral de la malla y actualiza los saltos por semestre
 function render(){
+  DEPS = {};
+  for(const id in ALL) for(const r of ALL[id].r) if(typeof r === "string") (DEPS[r] = DEPS[r] || []).push(ALL[id]);
+  const rail = document.getElementById("rail");
+  const x = rail.scrollLeft;
+  pintar();
+  rail.scrollLeft = x;
+  actualizarRail(true);
+}
+function actualizarRail(rehacer){
+  const rail = document.getElementById("rail"), nav = document.getElementById("semnav");
+  const desborda = rail.scrollWidth > rail.clientWidth + 4;
+  nav.hidden = !desborda;
+  if(rehacer && desborda){
+    nav.innerHTML = '<span class="sn-et">Ir al semestre</span>';
+    rail.querySelectorAll(".col").forEach((col, i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = SEMS[i] ? SEMS[i].s : i + 1;
+      b.onclick = () => col.scrollIntoView({behavior:"smooth", inline:"start", block:"nearest"});
+      nav.appendChild(b);
+    });
+  }
+  rail.classList.toggle("mas-izq", desborda && rail.scrollLeft > 4);
+  rail.classList.toggle("mas-der", desborda && rail.scrollLeft + rail.clientWidth < rail.scrollWidth - 4);
+}
+{
+  const rail = document.getElementById("rail");
+  rail.addEventListener("scroll", () => actualizarRail(false), {passive:true});
+  window.addEventListener("resize", () => actualizarRail(true));
+  // al señalar una materia (cursor o teclado) se marcan las que abre
+  const marcar = (e, on) => {
+    const el = e.target.closest && e.target.closest(".m[data-id]");
+    if(!el) return;
+    (DEPS[el.dataset.id] || []).forEach(d => { const c = celda(d.id); if(c) c.classList.toggle("abre", on); });
+  };
+  rail.addEventListener("mouseover", e => marcar(e, true));
+  rail.addEventListener("mouseout", e => marcar(e, false));
+  rail.addEventListener("focusin", e => marcar(e, true));
+  rail.addEventListener("focusout", e => marcar(e, false));
+}
+function pintar(){
   syncTop();
   const rail = document.getElementById("rail");
   rail.innerHTML = "";
@@ -5031,7 +5213,29 @@ resetBtn.addEventListener("click", ()=>{
     return;
   }
   armed = 0; resetBtn.textContent = "Reiniciar"; resetBtn.style.color = ""; resetBtn.style.borderColor = "";
+  const prev = [...approved], prevElec = elec;
   approved = []; elec = 0; save(); saveElec(); render();
+  if(prev.length || prevElec) toast("Avance reiniciado.", () => { approved = prev; elec = prevElec; save(); saveElec(); render(); });
+});
+
+// ---- imprimir / guardar PDF y copiar enlace ----
+let temaAntes = null;
+window.addEventListener("beforeprint", () => {
+  // se imprime en tema claro y encogida para que quepan todos los semestres en una hoja horizontal
+  temaAntes = document.documentElement.classList.contains("theme-light");
+  document.documentElement.classList.add("theme-light");
+  const vm = document.getElementById("view-malla"), rail = document.getElementById("rail");
+  if(!vm.hidden) vm.style.zoom = Math.min(1, 1040 / (rail.scrollWidth + 16));
+});
+window.addEventListener("afterprint", () => {
+  document.getElementById("view-malla").style.zoom = "";
+  if(temaAntes === false) document.documentElement.classList.remove("theme-light");
+});
+document.getElementById("btnPrint").addEventListener("click", () => window.print());
+document.getElementById("btnShare").addEventListener("click", async () => {
+  const url = location.href;
+  try{ await navigator.clipboard.writeText(url); toast("Enlace copiado. Quien lo abra verá esta malla (tu avance no se comparte)."); }
+  catch(e){ toast("Copia este enlace: " + url); }
 });
 
 // ---- router de vistas (#inicio / #civil / #quimica / …) ----
@@ -5046,6 +5250,8 @@ function route(){
   resetBtn.hidden = !M;
   if(M){
     setMalla(key);
+    try{ localStorage.setItem("malla_ultima", key); }catch(e){}
+    toast();
     const G = GRUPOS[M.grupo];
     document.getElementById("m-h1").textContent = "Malla curricular — " + (G ? G.n : M.nombre);
     const pl = document.getElementById("m-planes");
