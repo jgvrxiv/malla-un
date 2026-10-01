@@ -163,9 +163,10 @@ ajusta `document.title` y hace scroll arriba. El logo de la barra apunta a `#ini
   - **Ciencias Agrarias**: `agronomica` (180, Acuerdo 032 de 2014, PEP `pep_2_40.pdf`); el plan cambió con el Acuerdo 04 de 2022, no consultado.
   - **Medicina Veterinaria y de Zootecnia**: `veterinaria` (209, 12 semestres; sem 11 = Práctica Integrada dentro de la libre, `m:[]`) y `zootecnia` (186, anexo 3 del PEP).
   - **Biología** (`biologia`, 163): códigos, créditos y prerrequisitos del **Acuerdo 133 de 2017** del Consejo de Facultad de Ciencias (texto pegado por el usuario desde legal.unal.edu.co, que tiene CAPTCHA) + semestres de la malla de la Facultad; las 55 cr de optativas disciplinares van como 14 cupos; TG pide 68 B y 44 C.
-  - **Artes** (7): `arquitectura` (179, Res. 072 de 2010, PEP `pep_2_31`), `artes-plasticas` (166, `pep_2_47`; **créditos por materia estimados**: materias 3, talleres 6), `cine-tv` (158, `pep_2_36`), `diseno-grafico` (148, `pep_2_41`, con prerrequisitos reales), `diseno-industrial` (169, `pep_2_32`; reparto de los 42 cr optativos aproximado), `musica` (171, **solo el plan de énfasis en Dirección**; faltan Jazz, Pedagogía Instrumental y Composición, `pep_2_42` págs. 18+) y `musica-instrumental` (183, **solo cuerdas frotadas/percusión/vientos**; faltan arpa, canto, guitarra y piano, `pep_2_43` págs. 21–25). Las dos de Música se generan con `semsDeSeries()`. Casi todas sin semestres oficiales: secuencia propuesta.
+  - **Artes** (7): `arquitectura` (179, Res. 072 de 2010, PEP `pep_2_31`), `artes-plasticas` (166, `pep_2_47`; **créditos por materia estimados**: materias 3, talleres 6), `cine-tv` (158, `pep_2_36`), `diseno-grafico` (148, `pep_2_41`, con prerrequisitos reales), `diseno-industrial` (169, `pep_2_32`; reparto de los 42 cr optativos aproximado), `musica` (171, `pep_2_42` págs. 18–21) y `musica-instrumental` (183, `pep_2_43` págs. 21–25). Las dos de Música se generan con `semsDeSeries()`. Casi todas sin semestres oficiales: secuencia propuesta.
+  - **Carreras con varios planes (`GRUPOS`)**: Música (4 énfasis: `musica` Dirección, `musica-jazz`, `musica-pedagogia`, `musica-composicion`) y Música Instrumental (5: `musica-instrumental` cuerdas/percusión/vientos, `musica-arpa`, `musica-canto`, `musica-guitarra`, `musica-piano`). Cada plan es una entrada de `MALLAS` con `grupo` y `planN` (hash y `store` propios); las derivadas se crean con `_plan()` después del registro, y los datos con `semsMusica()` / `semsInstrumental()`. El inicio muestra **una tarjeta por grupo** (`renderInicio` filtra al primer plan y enlaza a `planPreferido()`, el último usado: `localStorage["malla_plan_<grupo>"]`), y la malla muestra el selector `#m-planes` (píldoras `.planes`), oculto en carreras sin grupo. El contador "N disponibles" cuenta carreras, no planes. Filología e Idiomas (3 tarjetas) podría pasarse a este mecanismo.
   - **No agregadas todavía**: **Terapia Ocupacional** (el PEP solo trae las materias por agrupación, sin
-    semestres), Fisioterapia (no está en la oferta 2027-01); en Artes faltan los otros planes de Música.
+    semestres), Fisioterapia (no está en la oferta 2027-01).
 - **Alturas de sem 9/10**: en carreras sin `sem9fix` (todas menos Civil) el `.tailgroup` lleva la
   clase `.tg-fill` → `.tailcols` crece y `.agrkey` pasa a `flex:0 0 auto` (la clave de colores no
   queda con espacio sobrante). Civil conserva su ajuste fino. El apaño de Agrícola (celdas de
@@ -273,7 +274,7 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 - Las 9 ingenierías ya están **verificadas con estudiantes** (`ver:true`; así lo dice el pie de cada
   una); las otras 41 están **sin verificar** (`ver:false`) — cuando
   un estudiante confirme una, pasar su `ver` a `true` y reescribir su pie.
-- **Faltan por agregar** (pedido del usuario: todas las carreras de la Sede Bogotá): Terapia Ocupacional, Fisioterapia y los otros planes de Música y Música Instrumental. Ver arriba por qué las primeras tres
+- **Faltan por agregar** (pedido del usuario: todas las carreras de la Sede Bogotá): Terapia Ocupacional y Fisioterapia. Ver arriba por qué las primeras tres
   quedaron pendientes.
 - Confirmar créditos exactos de un par de materias si el usuario nota algo raro.
 - ¿Modelar Prácticas / Electivas de Profundización con su corte de 108 / 126 créditos totales?

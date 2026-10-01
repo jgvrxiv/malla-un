@@ -160,6 +160,13 @@
     transition:width .55s cubic-bezier(.4,0,.2,1)}
   #pct{font-family:var(--mono);font-size:.76rem;color:var(--dim);font-variant-numeric:tabular-nums}
 
+  .planes{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:13px}
+  .planes[hidden]{display:none}
+  .planes .pl-et{font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-right:3px}
+  .planes a{font-family:var(--mono);font-size:.74rem;font-weight:600;text-decoration:none;color:var(--dim);
+    padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);transition:.15s}
+  .planes a:hover{color:var(--text);border-color:var(--dim)}
+  .planes a.on{color:var(--bg);background:var(--text);border-color:var(--text)}
   .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;padding:11px 13px;background:var(--surface2);
     border:1px solid var(--line);border-radius:10px}
   .legend span{display:flex;align-items:center;gap:7px;font-size:.71rem;color:var(--dim)}
@@ -360,6 +367,7 @@
     <div class="eyebrow">Universidad Nacional de Colombia · Sede Bogotá</div>
     <h1 id="m-h1">Malla curricular</h1>
     <div class="sub" id="m-sub"></div>
+    <div class="planes" id="m-planes" hidden></div>
     <div class="stats" id="stats"></div>
     <div class="pcont"><div class="pbar" id="pbar"></div></div>
     <div id="pct">0.0% completado</div>
@@ -3812,33 +3820,40 @@ const AGR_DISENOINDUSTRIAL = {
   ctx:  ["#a79a55", "Fundamento en el Contexto de las Artes", "Contexto de las Artes"],
 };
 
-// Música — plan con énfasis en Dirección, 171 créditos (PEP, malla C.2.6.1).
-const SEMS_MUSICA = semsDeSeries(10, [
-  ["MUS_CORO","Coro Universitario",2,"C","prac",1,4],
-  ["MUS_PIANO","Piano Complementario",3,"C","piano",1,6],
-  ["MUS_FDIR","Fundamentación Dirección",3,"C","dir",3,2],
-  ["MUS_DIR","Dirección",4,"C","dir",5,4],
-  ["MUS_CDIR","Complementarias Dirección",3,"C","dir",5,4],
-  ["MUS_PMUS","Práctica Musical",2,"C","prac",5,2],
-  ["MUS_TEO","Teoría Musical",3,"B","teo",1,4],
-  ["MUS_GRAM","Gramática Avanzada",3,"B","gram",1,2],
-  ["MUS_HIS","Historia de la Música",2,"B","his",2,4],
-  ["MUS_CONT","Contrapunto",2,"B","teo",4,4],
-  ["MUS_TXX","Teoría Avanzada del Siglo XX",3,"B","teo",5,2],
-], [
-  [3, _m("MUS_PED","Principios de Pedagogía",2,"B","ped")],
-  [9, _m("MUS_STG","Seminario de Trabajo de Grado",3,"C","tg",["MUS_DIR4"])],
-  [9, _m("MUS_OPT_P","Optativas de Profesionalización",6,"C","opt",[],true)],
-  [9, _m("MUS_OPT_C","Optativas de Carrera",4,"B","opt",[],true)],
-  [9, _m("MUS_OPT_F","Optativas de Facultad (Contexto de las Artes)",6,"B","opt",[],true)],
-  [10, _m("MUS_TG","Trabajo de Grado",12,"C","tg",["MUS_STG"])],
-]);
-SEMS_MUSICA[2].m.find(x => x.id === "MUS_FDIR1").r = ["MUS_TEO2"];
-SEMS_MUSICA[4].m.find(x => x.id === "MUS_DIR1").r = ["MUS_FDIR2"];
-SEMS_MUSICA[4].m.find(x => x.id === "MUS_TXX1").r = ["MUS_TEO4"];
-SEMS_MUSICA[3].m.find(x => x.id === "MUS_CONT1").r = ["MUS_TEO2"];
+// Música — 171 créditos (PEP, mallas C.2.6.1–C.2.6.4). Los cuatro énfasis comparten estructura: solo
+// cambian tres grupos de asignaturas (fundamentación del énfasis, eje principal y complementarias).
+function semsMusica(fund, princ, compl, piano = "Piano Complementario"){
+  const s = semsDeSeries(10, [
+    ["MUS_CORO","Coro Universitario",2,"C","prac",1,4],
+    ["MUS_PIANO",piano,3,"C","piano",1,6],
+    ["MUS_FDIR",fund,3,"C","dir",3,2],
+    ["MUS_DIR",princ,4,"C","dir",5,4],
+    ["MUS_CDIR",compl,3,"C","dir",5,4],
+    ["MUS_PMUS","Práctica Musical",2,"C","prac",5,2],
+    ["MUS_TEO","Teoría Musical",3,"B","teo",1,4],
+    ["MUS_GRAM","Gramática Avanzada",3,"B","gram",1,2],
+    ["MUS_HIS","Historia de la Música",2,"B","his",2,4],
+    ["MUS_CONT","Contrapunto",2,"B","teo",4,4],
+    ["MUS_TXX","Teoría Avanzada del Siglo XX",3,"B","teo",5,2],
+  ], [
+    [3, _m("MUS_PED","Principios de Pedagogía",2,"B","ped")],
+    [9, _m("MUS_STG","Seminario de Trabajo de Grado",3,"C","tg",["MUS_DIR4"])],
+    [9, _m("MUS_OPT_P","Optativas de Profesionalización",6,"C","opt",[],true)],
+    [9, _m("MUS_OPT_C","Optativas de Carrera",4,"B","opt",[],true)],
+    [9, _m("MUS_OPT_F","Optativas de Facultad (Contexto de las Artes)",6,"B","opt",[],true)],
+    [10, _m("MUS_TG","Trabajo de Grado",12,"C","tg",["MUS_STG"])],
+  ]);
+  const set = (id, r) => { for(const sem of s) for(const x of sem.m) if(x.id === id) x.r = r; };
+  set("MUS_FDIR1", ["MUS_TEO2"]); set("MUS_DIR1", ["MUS_FDIR2"]);
+  set("MUS_TXX1", ["MUS_TEO4"]); set("MUS_CONT1", ["MUS_TEO2"]);
+  return s;
+}
+const SEMS_MUSICA = semsMusica("Fundamentación Dirección", "Dirección", "Complementarias Dirección");
+const SEMS_MUSICA_JAZZ = semsMusica("Fundamentación Jazz", "Seminario Jazz", "Ensamble de Jazz");
+const SEMS_MUSICA_PED = semsMusica("Fundamentación (Investigación en Educación)", "Laboratorio Pedagogía Instrumental", "Complementarias", "Piano Complementario o Instrumento");
+const SEMS_MUSICA_COMP = semsMusica("Taller de Composición", "Composición", "Orquestación");
 const AGR_MUSICA = {
-  dir:   ["#c39bd3", "Dirección", "Dirección"],
+  dir:   ["#c39bd3", "Asignaturas del énfasis", "Énfasis"],
   prac:  ["#22a6b3", "Coro y Práctica Musical", "Coro y Práctica"],
   piano: ["#9fd3e6", "Piano Complementario", "Piano Complementario"],
   teo:   ["#f2b98a", "Teoría Musical y Contrapunto", "Teoría y Contrapunto"],
@@ -3849,28 +3864,43 @@ const AGR_MUSICA = {
   tg:    ["#93a0e6", "Trabajo de Grado", "Trabajo de Grado"],
 };
 
-// Música Instrumental — plan de cuerdas frotadas, percusión y vientos, 183 créditos (PEP, Ilustración 4).
-const SEMS_MUSICAINSTRUMENTAL = semsDeSeries(10, [
-  ["MI_INS","Instrumento",[6,6,6,6,6,7,7,7],"C","ins",1,8],
-  ["MI_ORQ","Orquesta – Banda",2,"C","orq",1,8],
-  ["MI_CORO","Coro Universitario",2,"C","orq",1,2],
-  ["MI_CAM","Música de Cámara",2,"C","cam",3,3],
-  ["MI_TEO","Teoría Musical",3,"B","teo",1,5],
-  ["MI_GRAM","Gramática Avanzada",3,"B","gram",1,2],
-  ["MI_HIS","Historia de la Música",2,"B","his",2,4],
-  ["MI_CONT","Contrapunto",2,"B","teo",4,2],
-], [
-  [6, _m("MI_PPED","Práctica Pedagógica",3,"B","ped")],
-  [9, _m("MI_PREP","Preparación Recital de Grado",9,"C","tg",["MI_INS8"])],
-  [9, _m("MI_OPT_P","Optativas de Profesionalización (Ensambles)",6,"C","opt",[],true)],
-  [9, _m("MI_OPT_C","Optativas de Carrera",4,"B","opt",[],true)],
-  [9, _m("MI_OPT_F","Optativas de Facultad (Contexto de las Artes)",6,"B","opt",[],true)],
-  [10, _m("MI_TG","Trabajo de Grado: Recital",9,"C","tg",["MI_PREP"])],
+// Música Instrumental — 183 créditos (PEP, ilustraciones 1–5). Cada instrumento tiene su plan: comparten
+// el instrumento (51), el recital (18) y la fundamentación (46); cambian las prácticas de conjunto.
+function semsInstrumental(ins, propias, sueltas = []){
+  const s = semsDeSeries(10, [
+    ["MI_INS",ins,[6,6,6,6,6,7,7,7],"C","ins",1,8],
+    ...propias,
+    ["MI_TEO","Teoría Musical",3,"B","teo",1,5],
+    ["MI_GRAM","Gramática Avanzada",3,"B","gram",1,2],
+    ["MI_HIS","Historia de la Música",2,"B","his",2,4],
+    ["MI_CONT","Contrapunto",2,"B","teo",4,2],
+  ], [
+    ...sueltas,
+    [6, _m("MI_PPED","Práctica Pedagógica",3,"B","ped")],
+    [9, _m("MI_PREP","Preparación Recital de Grado",9,"C","tg",["MI_INS8"])],
+    [9, _m("MI_OPT_P","Optativas de Profesionalización (Ensambles)",6,"C","opt",[],true)],
+    [9, _m("MI_OPT_C","Optativas de Carrera",4,"B","opt",[],true)],
+    [9, _m("MI_OPT_F","Optativas de Facultad (Contexto de las Artes)",6,"B","opt",[],true)],
+    [10, _m("MI_TG","Trabajo de Grado: Recital",9,"C","tg",["MI_PREP"])],
+  ]);
+  for(const sem of s) for(const x of sem.m) if(x.id === "MI_CONT1") x.r = ["MI_TEO2"];
+  return s;
+}
+const _miCoro2 = ["MI_CORO","Coro Universitario",2,"C","orq",1,2];
+const _miCam3 = ["MI_CAM","Música de Cámara",2,"C","cam",3,3];
+const SEMS_MUSICAINSTRUMENTAL = semsInstrumental("Instrumento", [["MI_ORQ","Orquesta – Banda",2,"C","orq",1,8], _miCoro2, _miCam3]);
+const SEMS_MI_ARPA = semsInstrumental("Arpa", [_miCoro2, ["MI_ORQ","Prácticas en Conjuntos",2,"C","orq",3,6], ["MI_CAM","Música de Cámara",2,"C","cam",3,5]]);
+const SEMS_MI_CANTO = semsInstrumental("Canto", [["MI_CORO","Coro Universitario",2,"C","orq",1,6], _miCam3,
+  ["MI_ESC","Arte Escénico",1,"C","esc",7,2], ["MI_OPE","Taller de Ópera",1,"C","esc",7,2]], [
+  [1, _m("MI_FON","Fonética de Lengua Extranjera",2,"C","esc")],
+  [2, _m("MI_DIC","Dicción de Lengua Extranjera",2,"C","esc",["MI_FON"])],
 ]);
-SEMS_MUSICAINSTRUMENTAL[3].m.find(x => x.id === "MI_CONT1").r = ["MI_TEO2"];
+const SEMS_MI_GUITARRA = semsInstrumental("Guitarra", [_miCoro2, ["MI_ORQ","Orquesta de Guitarras",2,"C","orq",3,8], _miCam3]);
+const SEMS_MI_PIANO = semsInstrumental("Piano", [_miCoro2, ["MI_ORQ","Acompañamiento",[2,2,3,3,3,3],"C","orq",3,6], _miCam3]);
 const AGR_MUSICAINSTRUMENTAL = {
   ins:  ["#9b7fc0", "Instrumento (con clase colectiva)", "Instrumento"],
-  orq:  ["#22a6b3", "Orquesta – Banda y Coro", "Orquesta y Coro"],
+  orq:  ["#22a6b3", "Prácticas de conjunto y Coro", "Conjuntos y Coro"],
+  esc:  ["#7ab648", "Fonética, Arte Escénico y Ópera", "Escena y Dicción"],
   cam:  ["#9fd3e6", "Música de Cámara", "Música de Cámara"],
   teo:  ["#f2b98a", "Teoría Musical y Contrapunto", "Teoría y Contrapunto"],
   gram: ["#e87a7a", "Gramática Avanzada", "Gramática"],
@@ -4456,28 +4486,58 @@ const MALLAS = {
       <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   musica: {
-    nombre: "Música (énfasis en Dirección)",
+    nombre: "Música — Dirección", grupo: "musica", planN: "Dirección",
     fac: "artes", color: "#c39bd3", cm: "Plan de Dirección · 171 créditos", ver: false,
     plan: "Plan con énfasis en Dirección · 171 créditos",
     sems: SEMS_MUSICA, agr: AGR_MUSICA,
     store: "malla_musica_unal", elecStore: "malla_musica_elec",
     meta: { C: 85, B: 52, L: 34 }, sem9fix: false, compact: true, target: 171, libreMeta: 34,
-    foot: `Malla curricular del PEP de Música para el <b>énfasis en Dirección</b>: Fundamentación 52, Disciplinar 85 y Libre elección 34. Los énfasis en Jazz, Pedagogía Instrumental y Composición
-      tienen su propio plan y <b>aún no están en la app</b>. El Seminario (3) y el Trabajo de Grado (12) se repartieron de los 15 créditos del grupo. Prerrequisitos por secuencia de niveles.
+    foot: `Malla curricular del PEP de Música para el <b>énfasis en Dirección</b>: Fundamentación 52, Disciplinar 85 y Libre elección 34. Cada énfasis tiene su propio plan
+      (cámbialo arriba) y guarda su avance por separado. El Seminario (3) y el Trabajo de Grado (12) se repartieron de los 15 créditos del grupo. Prerrequisitos por secuencia de niveles.
       <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
   "musica-instrumental": {
-    nombre: "Música Instrumental",
+    nombre: "Música Instrumental — Cuerdas, percusión y vientos", grupo: "musica-instrumental", planN: "Cuerdas, percusión y vientos",
     fac: "artes", color: "#9b7fc0", cm: "Cuerdas, percusión y vientos · 183 créditos", ver: false,
     plan: "Plan de cuerdas frotadas, percusión y vientos · 183 créditos",
     sems: SEMS_MUSICAINSTRUMENTAL, agr: AGR_MUSICAINSTRUMENTAL,
     store: "malla_musicainstrumental_unal", elecStore: "malla_musicainstrumental_elec",
     meta: { C: 101, B: 46, L: 36 }, sem9fix: false, compact: true, target: 183, libreMeta: 36,
-    foot: `Malla curricular del PEP de Música Instrumental para el plan de <b>cuerdas frotadas, percusión y vientos</b>: Fundamentación 46, Disciplinar 101 y Libre elección 36. Arpa, canto, guitarra y
-      piano tienen su propio plan y <b>aún no están en la app</b>. Los 18 créditos del Recital de Grado se repartieron en Preparación (9) y Recital (9). Prerrequisitos por secuencia de niveles.
+    foot: `Malla curricular del PEP de Música Instrumental para el plan de <b>cuerdas frotadas, percusión y vientos</b>: Fundamentación 46, Disciplinar 101 y Libre elección 36. Cada instrumento tiene su propio
+      plan (cámbialo arriba) y guarda su avance por separado. Los 18 créditos del Recital de Grado se repartieron en Preparación (9) y Recital (9). Prerrequisitos por secuencia de niveles.
       <b>Sin verificar con estudiantes</b>. Herramienta no oficial; ante la duda, consulta el SIA.`,
   },
 };
+
+// carreras con varios planes de estudio (énfasis o instrumento): una sola tarjeta en el inicio y un
+// selector de plan dentro de la malla. Cada plan es una entrada de MALLAS con `grupo` y `planN`,
+// con su propio hash y su propio avance guardado.
+const GRUPOS = {
+  "musica": { n: "Música", et: "Énfasis", cm: "4 énfasis · 171 créditos" },
+  "musica-instrumental": { n: "Música Instrumental", et: "Instrumento", cm: "5 planes por instrumento · 183 créditos" },
+};
+function _plan(base, key, planN, sems, slug){
+  const B = MALLAS[base], G = GRUPOS[B.grupo];
+  MALLAS[key] = Object.assign({}, B, {
+    nombre: G.n + " — " + planN, planN, sems,
+    plan: (B.grupo === "musica" ? "Plan con énfasis en " : "Plan de ") + planN + " · " + B.target + " créditos",
+    store: "malla_" + slug + "_unal", elecStore: "malla_" + slug + "_elec",
+    foot: B.foot.replace(/<b>[^<]*<\/b>/, "<b>" + (B.grupo === "musica" ? "énfasis en " : "") + planN + "</b>"),
+  });
+}
+_plan("musica", "musica-jazz", "Jazz", SEMS_MUSICA_JAZZ, "musicajazz");
+_plan("musica", "musica-pedagogia", "Pedagogía Instrumental", SEMS_MUSICA_PED, "musicaped");
+_plan("musica", "musica-composicion", "Composición", SEMS_MUSICA_COMP, "musicacomp");
+_plan("musica-instrumental", "musica-arpa", "Arpa", SEMS_MI_ARPA, "miarpa");
+_plan("musica-instrumental", "musica-canto", "Canto", SEMS_MI_CANTO, "micanto");
+_plan("musica-instrumental", "musica-guitarra", "Guitarra", SEMS_MI_GUITARRA, "miguitarra");
+_plan("musica-instrumental", "musica-piano", "Piano", SEMS_MI_PIANO, "mipiano");
+const planesDe = g => Object.keys(MALLAS).filter(k => MALLAS[k].grupo === g);
+// plan que abre la tarjeta del grupo: el último que se usó en este navegador, o el primero
+function planPreferido(g){
+  let k = null; try{ k = localStorage.getItem("malla_plan_" + g); }catch(e){}
+  return (k && MALLAS[k] && MALLAS[k].grupo === g) ? k : planesDe(g)[0];
+}
 
 // facultades de la Sede Bogotá, en el orden en que aparecen en el inicio. Cada carrera de
 // MALLAS trae `fac` (clave de aquí), `color`, `cm` (renglón de la tarjeta) y `ver` (true = ya
@@ -4499,7 +4559,7 @@ const FACULTADES = [
 // pinta el inicio: una sección por facultad, con su grilla fija de 3 columnas
 function renderInicio(){
   const box = document.getElementById("carreras");
-  const keys = Object.keys(MALLAS);
+  const keys = Object.keys(MALLAS).filter(k => !MALLAS[k].grupo || planesDe(MALLAS[k].grupo)[0] === k);
   const nver = keys.filter(k => MALLAS[k].ver).length;
   const flecha = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>`;
   let html = `<div class="sec-h"><h2>Carreras</h2><span>${keys.length} disponibles · ${nver} verificadas con estudiantes</span></div>`;
@@ -4508,11 +4568,11 @@ function renderInicio(){
     if(!ks.length) continue;
     html += `<div class="fac-h"><h3>${f.n}</h3><span>${ks.length} ${ks.length === 1 ? "carrera" : "carreras"}</span></div><div class="cards">` +
       ks.map(k => {
-        const M = MALLAS[k];
-        return `<a class="carrera" href="#${k}" style="--c:${M.color || "#8891a5"}">
+        const M = MALLAS[k], G = GRUPOS[M.grupo];
+        return `<a class="carrera" href="#${G ? planPreferido(M.grupo) : k}" style="--c:${M.color || "#8891a5"}">
           <span class="tag ${M.ver ? "live" : "unver"}">${M.ver ? "Verificada" : "Sin verificar"}</span>
-          <span class="cn">${M.nombre}</span>
-          <span class="cm">${M.cm || M.plan}</span>
+          <span class="cn">${G ? G.n : M.nombre}</span>
+          <span class="cm">${G ? G.cm : (M.cm || M.plan)}</span>
           <span class="go">Abrir malla ${flecha}</span>
         </a>`;
       }).join("") + `</div>`;
@@ -4776,13 +4836,22 @@ function route(){
   resetBtn.hidden = !M;
   if(M){
     setMalla(key);
-    document.getElementById("m-h1").textContent = "Malla curricular — " + M.nombre;
+    const G = GRUPOS[M.grupo];
+    document.getElementById("m-h1").textContent = "Malla curricular — " + (G ? G.n : M.nombre);
+    const pl = document.getElementById("m-planes");
+    pl.hidden = !G;
+    if(G){
+      try{ localStorage.setItem("malla_plan_" + M.grupo, key); }catch(e){}
+      pl.innerHTML = `<span class="pl-et">${G.et}</span>` + planesDe(M.grupo).map(k =>
+        `<a href="#${k}"${k === key ? ' class="on" aria-current="true"' : ""}>${MALLAS[k].planN}</a>`).join("");
+    }
     document.getElementById("m-sub").textContent = M.plan + ". Tu avance se guarda en este navegador.";
     document.getElementById("m-foot").innerHTML = M.foot;
     document.title = "Malla " + M.nombre + " — UNAL";
     render();
   } else {
     document.title = "Malla — pensums de la Universidad Nacional";
+    renderInicio();
   }
   window.scrollTo(0, 0);
 }
