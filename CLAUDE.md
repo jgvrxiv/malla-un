@@ -276,8 +276,8 @@ No hay OR. Si alguna vez hace falta, cambiar `progress()` / `reqMet()`.
 
 ## Pendiente
 
-- **Placeholders por reemplazar**: URL del botón "Invítame un café" y el `mailto:` de "¿falta
-  tu carrera?" (los dos en `malla-artifact.html` / `index.html`).
+- **Placeholders ocultos**: el botón "Invítame un café" y el bloque "¿Falta tu carrera?" llevan `hidden` hasta tener la URL de donaciones y un correo real (quitar el atributo al ponerlos).
+- **Publicado**: repositorio público https://github.com/jgvrxiv/malla-un (rama `main`; los commits usan el correo noreply de GitHub) y sitio https://malla-un.netlify.app, que se publica solo con cada push a `main` (cada publicación gasta créditos del plan gratuito de Netlify).
 - **Nombre/marca**: hoy la marca es sólo "Malla" — el usuario aún no eligió nombre definitivo.
 - Las 9 ingenierías ya están **verificadas con estudiantes** (`ver:true`; así lo dice el pie de cada
   una); las otras 43 están **sin verificar** (`ver:false`) — cuando
