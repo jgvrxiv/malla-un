@@ -5251,6 +5251,8 @@ function route(){
   resetBtn.hidden = !M;
   if(M){
     setMalla(key);
+    if(key !== route.prev) document.getElementById("rail").scrollLeft = 0;   // carrera nueva: empieza en el semestre 1
+    route.prev = key;
     try{ localStorage.setItem("malla_ultima", key); }catch(e){}
     toast();
     const G = GRUPOS[M.grupo];
